@@ -17,12 +17,7 @@ ALLDEPS=" \
   soprano \
   akonadi \
   attica \
-  qjson \
-  sip \
-  PyQt \
-  QScintilla \
-  phonon-gstreamer \
-  libbluedevil \
+  shared-desktop-ontologies \
   "
 
 # Allow for specification of individual packages to be built:

@@ -12,6 +12,9 @@ kdevelop
 #quanta
 wicd-kde
 networkmanagement
+libmm-qt
+libnm-qt
+plasma-nm
 skanlite
 kio-mtp
 libktorrent

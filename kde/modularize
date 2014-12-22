@@ -66,7 +66,10 @@ rocs
 step
 
 # kdeadmin
-kdeadmin
+kcron
+ksystemlog
+kuser
+#kdeadmin
 
 # kdeartwork
 kdeartwork
@@ -115,7 +118,15 @@ kmix
 kscd
 
 # kdenetwork
-kdenetwork
+kdenetwork-filesharing
+kdenetwork-strigi-analyzers
+kdnssd
+kget
+kopete
+kppp
+krdc
+krfb
+#kdenetwork
 
 # kdeutils
 ark
@@ -190,10 +201,27 @@ kdepimlibs
 kdeplasma-addons
 
 # kdesdk
-kdesdk
+cervisia
+dolphin-plugins
+kapptemplate
+kcachegrind
+kde-dev-scripts
+kde-dev-utils
+kdesdk-kioslaves
+kdesdk-strigi-analyzers
+kdesdk-thumbnailers
+kompare
+lokalize
+okteta
+poxml
+umbrello
+#kdesdk
 
 # kdetoys
-kdetoys
+amor
+kteatime
+ktux
+#kdetoys
 
 # oxygen-icons
 oxygen-icons
@@ -217,6 +245,9 @@ kdevelop
 #quanta
 wicd-kde
 networkmanagement
+libmm-qt
+libnm-qt
+plasma-nm
 skanlite
 kio-mtp
 libktorrent

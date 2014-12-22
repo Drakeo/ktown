@@ -1,34 +1,30 @@
-KDE4.10
+KDE4.11
 =======
 
-This is the KDE Software Compilation 4.10.5 for Slackware 14.0.
-Now that Slackware-current has an official set of KDE 4.10.x packages,
-provided by Patrick Volkerding, I am offering my own packages for
-Slackware 14.0 - so that users of this stable release can enjoy the
-KDE upgrade as well.
-This is the last incremental release in the 4.10 series, which probably
-means that this is the last version of KDE4 that I will be compiling for
-Slackware 14.  If Pat decides to upgrade to KDE 4.11 in Slackware-current,
-then there will be a KDE 4.11 for Slackware 14 as well.
+This is the KDE Software Compilation 4.11.5 for Slackware 14.1 (and -current).
+These packages will not work on Slackware 14.0. 
 
-The upgrade from Slackware 14's own 4.8.5 will be trivial.  I added eleven
-updated dependencies (PyQt, QScintilla, akonadi, attica, libbluedevil,
-phonon-gstreamer, qt, shared-desktop-ontologies, sip, soprano and virtuoso-ose)
-and added a new one: qjson.
-None of these dependencies were updated since my KDE 4.10.4 package set.
+Notable enhancements in the 4.11 release cycle are: more widespread use of
+Qt-Quick in Plasma Workspaces, faster Nepomuk indexing, Kontact improvements,
+OpenGL improvements in KWin (and a start of support for Wayland).
 
-I updated several 'extragear' packages compared to Slackware 14: bluedevil,
-calligra, kdevelop, kdevplatform, ktorrent, kwebkitpart, libktorrent,
-networkmanagement, oxygen-gtk2, skanlite.  Four extragear packages are all new:
-libkscreen, kscreen, oxygen-gtk3 and kio-mtp.
-Compared to my previous KDE 4.10.4 package set, I updated libkscreen, kscreen,
-oxygen-gtk2 and oxygen-gtk3.
+The upgrade from Slackware 14.1's own 4.10.5 will be trivial.
+Only four packages outside KDE (the 'deps') need an update: akonadi, attica,
+shared-desktop-ontologies and soprano.
 
-Four KDE packages have been removed since the KDE 4.8.5 of Slackware 14:
-* kdegames has been split up into smaller individual packages since 4.10.1.
-* kdemultimedia has been split up into smaller individual packages since 4.9.x.
-* ksecrets has been removed completely since the 4.9.x series.
-* printer-applet has been replaced with print-manager since 4.10.x.
+Four KDE packages have been removed since the KDE 4.10.5 of Slackware 14.1:
+* kdeadmin, kdetoys, kdesdk and kdenetwork have been split up into smaller
+  individual packages since 4.10.5.
+
+I added a few experimental packages which are the future replacement of the
+networkmanagement widget.  These packages are:
+libmm-qt, libnm-qt and plasma-nm.  I am using these instead of the old
+networkmanagement, without any issues.
+
+I also provide a recompiled version of the calligra package which is part of
+Slackware 14.1.  This rebuild was needed because of some updated libraries
+in KDE 4.11 which break calligra-words.  You can still use Slackware's own
+language packs for calligra.
 
 NOTE:
 About the language packs (KDEI) - for Slackware 32-bit as well as 64-bit:
@@ -39,10 +35,10 @@ About the language packs (KDEI) - for Slackware 32-bit as well as 64-bit:
 
 NOTE:
 If you decide to install these packages on top of a fresh installation of
-  Slackware 14 and have excluded all packages in the 'KDE' package series
+  Slackware 14.1 and have excluded all packages in the 'KDE' package series
   during installation, you will be missing several add-on packages, some of
   these are essential to the proper functioning of KDE!
-  If you excluded the complete Slackware 14 'KDE' series, then you will
+  If you excluded the complete Slackware 14.1 'KDE' series, then you will
   have to install the following essential packages at a a minimum:
     * polkit-kde-agent-1
     * polkit-kde-kcmodules-1
@@ -55,14 +51,14 @@ If you decide to install these packages on top of a fresh installation of
     * wicd-kde
 
 NOTE:
-Sources and scripts have been separated from the packages in my 'ktown
+Sources and scripts have been separated from the packages in my 'ktown'
   repository starting with KDE 4.9-rc1.  If you want the sources for
-  4.10.5, run the following command to download them:
+  4.11.5, run the following command to download them:
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/4.10.5 .
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/4.11.5 .
 
 Then if you want to compile the KDE packages on your computer, run:
-  # cd 4.10.5/kde
+  # cd 4.11.5/kde
   # ./KDE.SlackBuild
 
 Wait a long time, and you will find the new packages in /tmp/kde-build .
@@ -72,33 +68,34 @@ But if all you want is the packages I created, then you can skip all of that.
 
 -------------------------------------------------------------------------------
 
-In order to install or upgrade to KDE 4.10.5, follow these steps:
+In order to install or upgrade to KDE 4.11.5, follow these steps:
 
 Make sure you are not running KDE or even X !  If you are running an X session,
 log out first, and if you are in runlevel 4 (graphical login) you first have to
 go back to runlevel 3 (console) by typing "init 3".
 
 To make it easy for you, here is a one-line command that downloads the whole
-4.10.5 directory (excluding the sources), with 32-bit and 64-bit packages
+4.11.5 directory (excluding the sources), with 32-bit and 64-bit packages
 (and be careful of the 'dot' at the end of that command, it is part of the
 commandline !!):
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/14.0/4.10.5 .
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/14.1/4.11.5 .
 
 Or else, if you want to download packages for just one of the two supported
 architectures, you would run one of the following commands instead (note that
 there is a dot at the end of these commands!).
+
 If you want only the 64-bit packages:
-  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/14.0/4.10.5 .
+  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/14.1/4.11.5 .
 If you want only the 32-bit packages:
-  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/14.0/4.10.5 .
+  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/14.1/4.11.5 .
 
-Assuming you just downloaded the bits you want from the directory tree "4.10.5",
-you must now change your current directory to where you found this README
-(which is the directory called '4.10.5').  If you used one of the above
-"rsync" commands then you can simply do:
+Assuming you just downloaded the bits you want from the directory tree
+"4.11.5", you must now change your current directory to where you found this
+README (which is the directory called '4.11.5').  If you used one of the
+above "rsync" commands then you can simply do:
 
-  # cd 4.10.5
+  # cd 4.11.5
 
 From within this directory, you run the following commands as root (note that
 some of the old KDE package names are obsoleted now, they have been split up,
@@ -107,18 +104,18 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
   # upgradepkg --reinstall --install-new x86/kde/*.t?z
-  # removepkg kdegames
-  # removepkg kdemultimedia
-  # removepkg ksecrets
-  # removepkg printer-applet
+  # removepkg kdeadmin
+  # removepkg kdenetwork
+  # removepkg kdesdk
+  # removepkg kdetoys
 
   On Slackware 64-bit:
   # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
   # upgradepkg --reinstall --install-new x86_64/kde/*.t?z
-  # removepkg kdegames
-  # removepkg kdemultimedia
-  # removepkg ksecrets
-  # removepkg printer-applet
+  # removepkg kdeadmin
+  # removepkg kdenetwork
+  # removepkg kdesdk
+  # removepkg kdetoys
 
   If you already have one or more non-english language packs installed:
   # upgradepkg x86_64/kdei/*.t?z
@@ -138,5 +135,5 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                       Eric Hameleers - alien at slackware dot com - 02jul2013
+                     Eric Hameleers / alien at slackware dot com / 06-jan-2014
 

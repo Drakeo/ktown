@@ -6,7 +6,9 @@ zcat $CWD/patch/kdelibs/kdelibs.docbook.patch.gz | patch -p1 --verbose || { touc
 # export SOLID_UPNP=1
 zcat $CWD/patch/kdelibs/kdelibs.upnp_conditional.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
-## Fix plasma crash noticed exiting KDE, or quitting Amarok:
-# Fixed in KDE 4.10.4:
-#zcat $CWD/patch/kdelibs/changeset_r9323adac35d40da69e3cb18504340e984c4afd05.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Revert 3 patches which (although they probably follow the FDo spec better),
+# cause incorrect icon overrides:
+zcat $CWD/patch/kdelibs/return-not-break.-copy-paste-error.patch.gz | patch -R -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+zcat $CWD/patch/kdelibs/coding-style-fixes.patch.gz | patch -R -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+zcat $CWD/patch/kdelibs/return-application-icons-properly.patch.gz | patch -R -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
