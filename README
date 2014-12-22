@@ -1,22 +1,26 @@
-KDE4.8
+KDE4.9
 ======
 
-This is the KDE Software Compilation 4.8.4 for Slackware-current.
-It is an incremental update to the version 4.8.2 which is part of
-Slackware-current.
+This is the KDE Software Compilation 4.9.5 for Slackware 14 and later.
 
-You have to run Slackware-current in order to use these packages! There has
-been an incompatible update of the "glibc" package since the release of
-Slackware 13.37.
+You have to run Slackware 14 in order to use these packages!
 
-For backwards compatibility, I will keep packages for KDE 4.6.5 available
-in my repository as well.  Those work fine on Slackware 13.37 as well as
--current. KDE 4.6.5 will give you a very stable desktop.
+The upgrade from Slackware's own 4.8.5 will be trivial.  I added five
+updated dependencies (akonadi, qt, soprano, shared-desktop-ontologies and
+virtuoso-ose).
+
+I updated several 'extragear' packages compared to Slackware 14: kdevelop,
+kdevplatform, oxygen-gtk2, and two are all new, oxygen-gtk3 and kio-mtp.
+
+Two KDE packages have been removed since the KDE 4.8.5 of Slackware 14:
+* kdemultimedia has been split up into several smaller individual packages.
+* ksecrets has been removed completely in the 4.9.x series.
 
 NOTE:
-* Possible issue when rebuilding these packages on 13.37: the new kwin seems
-  to require at least mesa-7.10 and this is not installed by default.
+* Possible issue when rebuilding these packages on 13.37: the new kwin
+  requires at least mesa-7.10 and this is not installed by default.
   Slackware 13.37 has mesa-7.10.2 in the /testing directory though.  Use that.
+  It looks like KDE 4.9.x is the last series which will actually build on 13.37.
 
 NOTE:
 About the language packs (KDEI) - for Slackware 32-bit as well as 64-bit:
@@ -25,27 +29,42 @@ About the language packs (KDEI) - for Slackware 32-bit as well as 64-bit:
   directory name fool you, the language packs are useable on both platforms.
   translations/localizations.
 
+NOTE:
+Sources and scripts have been separated from the packages in my 'ktown
+  repository starting with KDE 4.9-rc1.  If you want the sources for
+  4.9.5, run the following command to download them:
+
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/4.9.5 .
+
+  But if all you want is the packages then you can skip the above command.
+
 -------------------------------------------------------------------------------
 
-Below are the steps you need to take to install or upgrade to KDE 4.8.4.
+In order to install or upgrade to KDE 4.9.5, follow these steps:
 
 Make sure you are not running KDE or even X !  If you are running an X session,
 log out first, and if you are in runlevel 4 (graphical login) you first have to
 go back to runlevel 3 (console) by typing "init 3".
 
 To make it easy for you, here is a one-line command that downloads the whole
-4.8.4 directory together with all the sources, and 32-bit and 64-bit packages
+4.9.5 directory (excluding the sources), with 32-bit and 64-bit packages
 (and be careful of the 'dot' at the end of that command, it is part of the
 commandline !!):
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/4.8.4 .
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/14.0/4.9.5 .
 
-OK.  Assuming you just downloaded the complete directory tree "4.8.4" and
-everything below, you now change your current directory to where you found
-this README (which is the directory called '4.8.4').  If you used the
-above "rsync" command then that would mean a simple:
+Or else, if you want to download packages for just one of the two supported
+architectures, you would run one of the following commands instead.
+If you want only the 64-bit packages:
+  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/14.0/4.9.5 .
+If you want only the 32-bit packages:
+  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/14.0/4.9.5 .
 
-  # cd 4.8.4
+OK.  Assuming you just downloaded the bits you want from directory tree "4.9.5" and below that, you now change your current directory to where you found
+this README (which is the directory called '4.9.5').  If you used one of the
+above "rsync" commands then that would mean a simple:
+
+  # cd 4.9.5
 
 From within this directory, you run the following commands as root.  Note that
 some of the old KDE package names are obsoleted too, they have been split up,
@@ -54,10 +73,14 @@ renamed or integrated:
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
   # upgradepkg --reinstall --install-new x86/kde/*.t?z
+  # removepkg kdemultimedia
+  # removepkg ksecrets
 
   On Slackware 64-bit:
   # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
   # upgradepkg --reinstall --install-new x86_64/kde/*.t?z
+  # removepkg kdemultimedia
+  # removepkg ksecrets
 
   If you already have one or more non-english language packs installed:
   # upgradepkg x86_64/kdei/*.t?z
@@ -71,11 +94,11 @@ renamed or integrated:
   the upgradepkg commands.  Compare them to their originals and decide
   if you need to use them.
   # find /etc/ -name "*.new"
-  A graphical tool for processing these "*.new" files is slackpkg:
+  A graphical (ncrses) tool for processing these "*.new" files is slackpkg:
   # slackpkg new-config
 
 Then reboot your system.
 
 ===============================================================================
-Eric Hameleers - alien at slackware dot com - 07jun2012
+Eric Hameleers - alien at slackware dot com - 02jan2013
 

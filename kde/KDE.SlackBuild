@@ -245,6 +245,8 @@ build_mod_pkg () {
       # Run cmake, using custom cmake script if needed:
       if [ -r $CWD/cmake/${PKGNAME} ]; then
         . $CWD/cmake/${PKGNAME}
+      elif [ -r $CWD/cmake/${kde_module} ]; then
+        . $CWD/cmake/${kde_module}
       else
         # This is the default configure script:
         . $CWD/cmake/cmake
@@ -417,6 +419,8 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 # Same goes for kdelibs (at least during KDE 4.8.x) kdeutils:ksecrets needs
 #   kdelibs and then kdelibs needs a rebuild to pick up ksecretservice
 #   (this will no longer be required in KDE 4.9).
+# And kde-baseapps is rebuilt after kdewebdev because it can then pickup
+#   libtidy and enable the Konqueror validators plugin to validate HTML.
 KDEMODS=" \
   kdelibs \
   kdepimlibs \
@@ -440,6 +444,7 @@ KDEMODS=" \
   kdepim-runtime \
   kdeedu \
   kdewebdev \
+  kdebase:kde-baseapps \
   kdeplasma-addons \
   polkit-kde \
   extragear \
