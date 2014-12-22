@@ -14,11 +14,15 @@ TMP=${TMP:-/tmp}
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
+  libssh \
   soprano \
   akonadi \
   attica \
   shared-desktop-ontologies \
   LibRaw \
+  eigen3 \
+  qt-gstreamer \
+  xapian-core \
   "
 
 # Allow for specification of individual packages to be built:

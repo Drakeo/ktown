@@ -49,4 +49,3 @@ mv $PKG/etc/kde/dbus-1 $PKG/etc/
 
 # This is fubar:
 rm -f $PKG/usr/share/icons/hicolor/index.theme
-

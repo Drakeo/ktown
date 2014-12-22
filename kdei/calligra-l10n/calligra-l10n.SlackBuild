@@ -36,7 +36,7 @@ if [ ! -r ./languages ]; then
   done
 fi
 
-[ -z $VERSION ] && export VERSION=2.8.1
+[ -z $VERSION ] && export VERSION=2.8.5
 [ -z $ARCH ] && export ARCH=noarch
 [ -z $BUILD ] && export BUILD=1
 

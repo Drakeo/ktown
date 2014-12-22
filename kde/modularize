@@ -29,8 +29,11 @@ kmag
 kdelibs
 
 # kdebase:
+baloo
+baloo-widgets
 nepomuk-core
 nepomuk-widgets
+kfilemetadata
 kde-baseapps
 kactivities
 konsole
@@ -43,6 +46,7 @@ kde-base-artwork
 # kdeedu:
 libkdeedu
 analitza
+artikulate
 blinken
 cantor
 kalgebra
@@ -55,6 +59,7 @@ kig
 kiten
 klettres
 kmplot
+kqtquickcharts
 kstars
 ktouch
 kturtle
