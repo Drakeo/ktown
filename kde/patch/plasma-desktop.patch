@@ -1,0 +1,5 @@
+# Fix errors in translation strings for bs and sr:
+#zcat $CWD/patch/plasma-desktop/plasma-desktop-4.99.0_kfontinst_po.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Forgotten includes:
+zcat $CWD/patch/plasma-desktop/plasma-desktop_kdelibs4support.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

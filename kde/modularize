@@ -125,7 +125,6 @@ kscd
 # kdenetwork
 kdenetwork-filesharing
 kdenetwork-strigi-analyzers
-#kdnssd
 zeroconf-ioslave
 kget
 kopete
@@ -267,4 +266,105 @@ libkscreen
 kscreen
 partitionmanager
 kdeconnect-kde
+
+# frameworks
+# Tier 1, depends on Qt5, system libraries:
+attica-framework
+extra-cmake-modules
+kitemmodels
+kitemviews
+kplotting
+threadweaver
+kcodecs
+kguiaddons
+kidletime
+kwidgetsaddons
+sonnet
+kconfig
+kwindowsystem
+solid
+kglobalaccel
+karchive
+kdbusaddons
+kcoreaddons
+kjs
+kimageformats
+ki18n
+# Tier 2, depends on Tier 1, Qt5, system libraries:
+kauth
+kcrash
+kjobwidgets
+kcompletion
+kdoctools
+kdnssd
+kconfigwidgets
+kservice
+kiconthemes
+knotifications
+kunitconversion
+kpty
+# Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
+kwallet
+kemoticons
+kdesu
+ktextwidgets
+kxmlgui
+kbookmarks
+kcmutils
+kio
+kdesignerplugin
+knewstuff
+kparts
+kdeclarative
+kinit
+kded
+knotifyconfig
+#kprintutils
+kjsembed
+kross
+kmediaplayer
+kdewebkit
+ktexteditor
+#kfileaudiopreview
+kactivities-framework
+plasma-framework
+krunner
+# Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
+kapidox
+frameworkintegration
+kdelibs4support
+khtml
+
+# plasma
+kfilemetadata5
+kdepimlibs-framework
+baloo5
+breeze
+kde-cli-tools
+khelpcenter
+kinfocenter
+kio-extras
+libksysguard
+ksysguard
+kwin
+kwrited
+libkscreen2
+milou
+oxygen
+oxygen-fonts
+systemsettings
+plasma-desktop
+plasma-workspace
+libmm-qt5
+libnm-qt5
+plasma5-nm
+powerdevil
+khotkeys
+kmenuedit
+
+# plasma-extra
+sddm-qt5
+sddm-kcm
+sddm-theme-breeze
+kscreen2
 

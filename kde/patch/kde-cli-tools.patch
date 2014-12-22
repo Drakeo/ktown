@@ -1,0 +1,6 @@
+# Remove CONFIG argument from find_package(KF5);
+# This is no longer wanted, since ECM has a FindKF5 module. 
+#zcat $CWD/patch/kde-cli-tools/kde-cli-tools_ecm.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Adjust for the change in KAboutData:
+#zcat $CWD/patch/kde-cli-tools/kde-cli-tools_kaboutdata.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

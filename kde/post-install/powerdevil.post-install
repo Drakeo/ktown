@@ -1,0 +1,4 @@
+# Move the polkit dbus configuration files to the proper place:
+mkdir -p $PKG/etc
+mv $PKG/opt/kf5//etc/dbus-1 $PKG/etc/
+

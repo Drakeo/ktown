@@ -1,0 +1,61 @@
+# --------------------------------------------------------------------------
+# Information you should read when testing KDE Frameworks 5 (KF5):
+# 
+# http://community.kde.org/Frameworks/Building#Runtime_setup
+# http://community.kde.org/Plasma/InstallingNext
+# 
+# --------------------------------------------------------------------------
+
+# Runtime setup
+
+# Automatically determine the architecture we're building on:
+MARCH=$( uname -m )
+if [ -z "$ARCH" ]; then
+  case "$MARCH" in
+    i?86)    export ARCH=i486 ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *)       export ARCH=$MARCH ;;
+  esac
+fi
+
+case "$ARCH" in
+  x86_64)    LIBDIRSUFFIX="64" ;;
+  *)         LIBDIRSUFFIX="" ;;
+esac
+
+# To use your new KF5 install prefix (let's call it $KF5) :
+
+export KF5=/opt/kf5
+export QTDIR=/usr/lib$LIBDIRSUFFIX/qt5
+export XDG_DATA_DIRS=$KF5/share:$XDG_DATA_DIRS:/usr/share
+export XDG_CONFIG_DIRS=$KF5/etc/xdg:$XDG_CONFIG_DIRS:/etc/xdg
+export PATH=$KF5/bin:$QTDIR/bin:$PATH
+export QT_PLUGIN_PATH=$KF5/lib$LIBDIRSUFFIX/qt5/plugins:$QTDIR/plugins:$QT_PLUGIN_PATH
+export QML2_IMPORT_PATH=$KF5/lib$LIBDIRSUFFIX/qt5/qml:$QTDIR/qml
+export QML_IMPORT_PATH=$QML2_IMPORT_PATH
+export KDE_SESSION_VERSION=5
+export KDE_FULL_SESSION=true
+
+# Note that LD_LIBRARY_PATH isn't set. You shouldn't set it,
+# the builtin rpath works magic instead, and if you set it you'll have issues
+# when running tools that use uninstalled libs while building frameworks
+# (e.g. meinproc, kconfig_compiler...)
+
+# To use separate user settings for KF5:
+export XDG_DATA_HOME=$HOME/.local5
+export XDG_CONFIG_HOME=$HOME/.config5
+export XDG_CACHE_HOME=$HOME/.cache5
+
+# To be able to compile other stuff on top of KF5:
+export CMAKE_PREFIX_PATH=$KF5:$CMAKE_PREFIX_PATH
+
+# To get more information out of qDebug statements
+# (i.e. make it more like kDebug) :
+#export QT_MESSAGE_PATTERN='%{appname}(%{pid})/%{category} %{function}: %{message}'
+# or even better, to get colors:
+c=`echo -e "\033"`
+export QT_MESSAGE_PATTERN="%{appname}(%{pid})/(%{category}) $c[31m%{if-debug}$c[34m%{endif}%{function}$c[0m: %{message}"
+unset c
+
+# Then run "kwin --replace" and "plasmashell".
+

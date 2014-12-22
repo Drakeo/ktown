@@ -1,3 +1,0 @@
-# Add missing include. Fixed just before go-live of 4.14.1.
-#zcat $CWD/patch/smokekde/smokekde_akonadi_header.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-

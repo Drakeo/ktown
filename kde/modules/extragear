@@ -27,4 +27,9 @@ libkscreen
 kscreen
 partitionmanager
 kdeconnect-kde
+sddm-qt5
+sddm-theme-breeze
+kscreen2
+libmm-qt5
+libnm-qt5
 

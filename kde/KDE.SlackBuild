@@ -26,8 +26,13 @@
 # To build only a single package, specify both the group name
 # and the name of the package, like:
 #   ./KDE.SlackBuild kdeedu:marble
+# To build multiple packages in a module, separate the package names with comma:
 #   ./KDE.SlackBuild kdebindings:perlqt,perlkde
+# To build a package *and* all the remaining packages following it
+# in the modules file, end the package name with a comma:
+#   ./KDE.SlackBuild plasma:kio-extras,kwin,
 
+# ----------------------------------------------------------------------------
 
 CLEANUP=${CLEANUP:-"yes"} # clean up build directory after successful build.
 PRECHECK=${PRECHECK:-"no"} # don't let the script check the available sources.
@@ -62,6 +67,25 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 
 # Set up a few useful functions:
+
+extract_archive() {
+  # Find the archive first:
+  local src_archive=$(find $CWD/src -name ${1})
+  if [ $(tar -tf $src_archive |grep -o '^[^/]\+' |sort -u |wc -l) -eq 1 ];
+  then
+    # Archive contains one toplevel directory, good. Make sure that
+    # this directory ends up as '$(pkgbase $1)':
+    tar -xf $src_archive || return 1
+    local topdir="$(tar -tf $src_archive |grep -o '^[^/]\+' |sort -u)"
+    if [ "${topdir}" != "$(pkgbase $1)" ]; then
+      mv ${topdir} $(pkgbase $1)
+    fi
+  else
+    # No toplevel directory found, so we create one first:
+    mkdir -p $(pkgbase $1)
+    tar -C $(pkgbase $1) -xf $src_archive || return 1
+  fi
+}
 
 fix_perms() {
   target_dir=$1
@@ -127,6 +151,8 @@ precheck() {
   for SRCFILE in $(find $CWD/src -name "*.tar.?z*") ; do
     if cat modules/* |grep "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev)$ ; then
       echo "Source file '$(basename $SRCFILE)' is commented out in 'modules' !"
+    elif cat package-blacklist |grep -v "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev)$ ; then
+      echo "Source file '$(basename $SRCFILE)' is on the package-blacklist !"
     elif ! cat modules/* |grep -v "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev) ; then
       echo "Source file '$(basename $SRCFILE)' is not mentioned in 'modules' !"
       RETVAL=1
@@ -183,12 +209,22 @@ build_mod_pkg () {
   rm -rf $PKG
   mkdir -p $PKG
   ( for PKGNAME in $(cat $kde_module |grep -v "^$" |grep -v "^#") ; do
+      if grep -wq "^$PKGNAME" ${CWD}/package-blacklist ; then
+        continue
+      fi
       # Find the full source filename - yeah ugly, but I had two goals:
       # 1- source tarball can be in a random subdirectory of src/
       # 2- differentiate between e.g. 'kdepim' and 'kdepim-runtime'
-      kde_src=$(basename $(find $CWD/src -name "$PKGNAME-*.tar.?z*" |grep -E "$PKGNAME-[^-]+.tar.*$|$PKGNAME-[0-9].+.tar.*$") 2>/dev/null)
+      if [ -f $CWD/pkgsrc/$PKGNAME ]; then
+        PKGSRC=$(basename $(cat $CWD/pkgsrc/$PKGNAME))
+        PKGLOC=$(dirname $(cat $CWD/pkgsrc/$PKGNAME))
+      else
+        PKGSRC=$PKGNAME
+        PKGLOC=""
+      fi
+      kde_src=$(basename $(find $CWD/src/$PKGLOC -name "$PKGSRC-*.tar.?z*" |grep -E "$PKGSRC-[^-]+.tar.*$|$PKGSRC-[0-9].+.tar.*$") 2>/dev/null)
       if [ "x$kde_src" = "x" ]; then
-        echo "** Did not find '$PKGNAME' in src"
+        echo "** Did not find '$PKGSRC' in src"
         continue
       fi
       # Reset $PKGARCH to its initial value:
@@ -197,9 +233,6 @@ build_mod_pkg () {
       if grep -wq "^$PKGNAME" ${CWD}/noarch ; then
         PKGARCH=noarch
       fi 
-      if grep -wq "^$PKGNAME" ${CWD}/package-blacklist ; then
-        continue
-      fi
       cd $SLACK_KDE_BUILD_DIR/${kde_module}
       # If $kde_pkg is set, we only want to build one package:
       if [ ! -z "$kde_pkg" ]; then
@@ -227,7 +260,7 @@ build_mod_pkg () {
       MODULAR_PACKAGE_VERSION=$(echo $kde_src | rev | cut -f 3- -d . | cut -f 1 -d - | rev)
 
       rm -rf $(pkgbase $kde_src)
-      tar xf $(find $CWD/src -name ${kde_src}) || exit 1
+      extract_archive $kde_src || exit 1
       cd $(pkgbase $kde_src) || exit 1
 
       fix_perms
@@ -242,18 +275,20 @@ build_mod_pkg () {
         . $CWD/pre-install/${PKGNAME}.pre-install
       fi
 
-      # Run cmake, using custom cmake script if needed:
-      if [ -r $CWD/cmake/${PKGNAME} ]; then
-        . $CWD/cmake/${PKGNAME}
-      elif [ -r $CWD/cmake/${kde_module} ]; then
-        . $CWD/cmake/${kde_module}
-      else
-        # This is the default configure script:
-        . $CWD/cmake/cmake
-      fi
+      if ! grep -wq "^$PKGNAME$" ${CWD}/nomake ; then
+        # Run cmake, using custom cmake script if needed:
+        if [ -r $CWD/cmake/${PKGNAME} ]; then
+          . $CWD/cmake/${PKGNAME}
+        elif [ -r $CWD/cmake/${kde_module} ]; then
+          . $CWD/cmake/${kde_module}
+        else
+          # This is the default configure script:
+          . $CWD/cmake/cmake
+        fi
 
-      make $NUMJOBS || make || exit 1
-      make install DESTDIR=$PKG || exit 1
+        make $NUMJOBS || make || exit 1
+        make install DESTDIR=$PKG || exit 1
+      fi
 
       # Back to source toplevel builddir, since cmake may have run in a subdir:
       cd $SLACK_KDE_BUILD_DIR/${kde_module}/$(pkgbase $kde_src)
@@ -427,10 +462,19 @@ deterministic_build() {
     KDE_MOD=$(echo "$ENTRY": | cut -f1 -d:)
     KDE_PKGS=$(echo "$ENTRY": | cut -f2 -d:)
     if [ -z "$KDE_PKGS" ]; then
+      echo "** SlackBuild building '$KDE_MOD'"
       build_mod_pkg $KDE_MOD
       let RET=$RET+$?
     else
+      if [ "${KDE_PKGS: -1}" = "," ]; then
+        # Last character is a ','. Expand the list with all subsequent packages.
+        START_PKG=$(echo $KDE_PKGS |rev |cut -d, -f2 |rev)
+        MOD_LIST=$(cat modules/$KDE_MOD |grep -v "^#" |grep -v "^$" |tr '\n' ',')
+        KDE_PKGS="${KDE_PKGS}${MOD_LIST/#?*,${START_PKG},/}"
+        echo "** SlackBuild expanding '$ENTRY' to '$KDE_MOD:$KDE_PKGS'"
+      fi
       for KDE_PKG in $(echo $KDE_PKGS |tr ',' ' ') ; do
+        echo "** SlackBuild building '$KDE_MOD:$KDE_PKG'"
         build_mod_pkg $KDE_MOD $KDE_PKG
         let RET=$RET+$?
       done
@@ -457,42 +501,41 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 
 # Yes, we know kde-workspace is built twice.  kdebase needs the
 #   plasma bits from it, and then we build it again for good measure...
-# Same goes for kdelibs (at least during KDE 4.8.x) kdeutils:ksecrets needs
-#   kdelibs and then kdelibs needs a rebuild to pick up ksecretservice
-#   (this will no longer be required in KDE 4.9).
 # And kde-baseapps is rebuilt after kdewebdev because it can then pickup
 #   libtidy and enable the Konqueror validators plugin to validate HTML.
 KDEMODS=" \
-  kdelibs \
-  kdebase:nepomuk-core \
-  kdepimlibs \
-  kdebase \
-  kdesdk \
-  extragear:libkscreen \
-  kdegraphics \
-  kdebindings \
-  kdebase:kde-workspace \
-  kdeaccessibility \
-  kdeutils \
-  kdelibs \
-  kdemultimedia \
-  extragear:libktorrent \
-  kdenetwork \
-  oxygen-icons \
-  kdeadmin \
-  kdeartwork \
-  kdegames \
-  kdetoys \
-  kdepim \
-  kdepim-runtime \
-  kdenetwork:kopete \
-  kdeedu \
-  kdewebdev \
-  kdebase:kde-baseapps \
-  kdeplasma-addons \
-  polkit-kde \
-  extragear \
+  frameworks \
+  plasma \
+  plasma-extra \
   "
+  #kdebase:nepomuk-core \
+  #kdepimlibs \
+  #kdebase \
+  #kdesdk \
+  #extragear:libkscreen \
+  #kdegraphics \
+  #kdebindings \
+  #kdebase:kde-workspace \
+  #kdeaccessibility \
+  #kdeutils \
+  #kdemultimedia \
+  #extragear:libktorrent \
+  #kdenetwork \
+  #oxygen-icons \
+  #kdeadmin \
+  #kdeartwork \
+  #kdegames \
+  #kdetoys \
+  #kdepim \
+  #kdepim-runtime \
+  #kdenetwork:kopete \
+  #kdeedu \
+  #kdewebdev \
+  #kdebase:kde-baseapps \
+  #kdeplasma-addons \
+  #polkit-kde \
+  #extragear \
+  #"
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

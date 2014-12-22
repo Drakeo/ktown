@@ -1,0 +1,4 @@
+# Make FindGettext compatible with the one provided by CMake:
+# Fixed in 5.1.0.
+#zcat $CWD/patch/kdelibs4support/update-FindGettext.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

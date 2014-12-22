@@ -16,25 +16,23 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 ALLDEPS=" \
   soprano \
   akonadi \
-  attica \
   shared-desktop-ontologies \
-  virtuoso-ose \
-  qt \
-  qjson \
-  sip \
-  PyQt \
-  phonon-gstreamer \
   LibRaw \
   eigen3 \
-  orc \
-  gstreamer1 \
-  gst1-plugins-base \
-  gst1-plugins-good \
-  qt-gstreamer1 \
   xapian-core \
-  libfakekey \
+  OpenAL \
+  harfbuzz \
+  qt5 \
+  phonon \
+  phonon-gstreamer \
+  qt-gstreamer \
+  strigi \
+  libssh \
+  akonadi-qt5 \
+  libdbusmenu-qt5 \
+  polkit-qt5-1 \
+  poppler \
   "
-  #qt-gstreamer \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

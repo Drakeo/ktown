@@ -1,0 +1,41 @@
+
+# Use ck-launch-session in runlevel 3,
+# to start and attach a ConsoleKit session to the X session:
+mkdir -p $PKG/etc/X11/xinit
+cat $CWD/post-install/plasma-workspace/xinit/xinitrc.plasma \
+  | sed -e "s/@LIBDIRSUFFIX@/$LIBDIRSUFFIX/g" \
+  > $PKG/etc/X11/xinit/xinitrc.plasma
+chmod 0755 $PKG/etc/X11/xinit/xinitrc.plasma
+
+# Fix a path in the startkde script:
+sed -e 's,/opt/kf5/lib64/libexec/kf5/start_kdeinit_wrapper,/usr/lib64/libexec/kf5/start_kdeinit_wrapper,' -i $PKG/opt/kf5/bin/startkde
+
+# Allow other login managers to show KDE Plasma2 desktop sessions:
+mkdir -p $PKG/usr/share/xsessions
+cat $CWD/post-install/plasma-workspace/xsession/kde5-plasma.desktop \
+  | sed -e "s,@PREFIX@,/opt/kf5,g" \
+  >  $PKG/usr/share/xsessions/kde5-plasma.desktop
+cat $CWD/post-install/plasma-workspace/xsession/kde5-plasma-safe.desktop \
+  | sed -e "s,@PREFIX@,/opt/kf5,g" \
+  >  $PKG/usr/share/xsessions/kde5-plasma-safe.desktop
+mkdir -p $PKG/opt/kf5/bin
+cat $CWD/post-install/plasma-workspace/xsession/kde5init \
+  | sed -e "s,@PREFIX@,/opt/kf5,g" \
+        -e "s,@LIBDIRSUFFIX@,$LIBDIRSUFFIX,g" \
+  >  $PKG/opt/kf5/bin/kde5init
+chmod 755 $PKG/opt/kf5/bin/kde5init
+
+# What is "plugins/plugins"?
+mv $PKG/opt/kf5/lib64/qt5/plugins/{plugins,}/phonon_platform
+rmdir $PKG/opt/kf5/lib64/qt5/plugins/plugins
+
+# Move the polkit dbus configuration files to the proper place:
+mkdir -p $PKG/etc
+mv $PKG/opt/kf5//etc/dbus-1 $PKG/etc/
+
+# Create a utility symlink - required on x86 but not on x86_64 ???
+ln -s /usr/lib${LIBDIRSUFFIX}/libexec/kf5 $PKG/opt/kf5/lib${LIBDIRSUFFIX}/libexec/
+
+# For shadow, this file needs to be setuid root just like the KDE4 version:
+chmod +s $PKG/opt/kf5/lib$LIBDIRSUFFIX/libexec/kcheckpass
+

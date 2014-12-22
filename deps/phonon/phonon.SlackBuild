@@ -25,7 +25,7 @@
 
 
 PKGNAM=phonon
-VERSION=${VERSION:-4.8.2}
+VERSION=${VERSION:-4.7.2}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -94,27 +94,24 @@ cd build
   make install DESTDIR=$PKG || exit 1
 cd -
 
-# Conditional build of Qt5 support:
-if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
-  mkdir build-qt5
-  cd build-qt5
-    cmake \
-      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DMAN_INSTALL_DIR=/usr/man \
-      -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-      -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT:BOOL=ON \
-      -DPHONON_QT_PLUGIN_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX/qt/plugins/designer \
-      -DWITH_QZeitgeist=BOOL:OFF \
-      -DWITH_PulseAudio=BOOL:OFF \
-      -DPHONON_BUILD_PHONON4QT5=ON \
-      -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt5 \
-      ..
-    make $NUMJOBS || make || exit 1
-    make install DESTDIR=$PKG || exit 1
-  cd -
-fi
+mkdir build-qt5
+cd build-qt5
+  cmake \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT:BOOL=ON \
+    -DPHONON_QT_PLUGIN_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX/qt/plugins/designer \
+    -DWITH_QZeitgeist=BOOL:OFF \
+    -DWITH_PulseAudio=BOOL:OFF \
+    -DPHONON_BUILD_PHONON4QT5=ON \
+    -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt5 \
+    ..
+  make $NUMJOBS || make || exit 1
+  make install DESTDIR=$PKG || exit 1
+cd -
 
 # PyQT won't find the header files otherwise:
 sed -i -e 's#{includedir}$#& -I\${includedir}/phonon#' $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/phonon.pc

@@ -1,0 +1,9 @@
+rm -rf polkit-qt5-1
+git clone git://anongit.kde.org/polkit-qt-1 polkit-qt5-1
+curhash=$( cd polkit-qt5-1 && git log --pretty=format:'%h' -n 1 )
+pkgver=${curhash}_$(date +%Y%m%d)git
+( cd polkit-qt5-1 && rm -rf .git* )
+mv polkit-qt5-1 polkit-qt5-1-$pkgver
+tar cf polkit-qt5-1-$pkgver.tar polkit-qt5-1-$pkgver
+xz -9 polkit-qt5-1-$pkgver.tar
+

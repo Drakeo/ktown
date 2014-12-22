@@ -1,0 +1,11 @@
+# Remove PAM related stuff:
+rm -rf $PKG/etc/pam.d
+
+## Set the KDE4 theme 'elarun' as default, it gives the user more options:
+#sed -i -e "s/^CurrentTheme.*/CurrentTheme=elarun/" $PKG/etc/sddm.conf 
+# Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
+sed -i -e "s/^CurrentTheme.*/CurrentTheme=breeze/" $PKG/etc/sddm.conf 
+
+# Do not clobber existing configuration files:
+mv $PKG/etc/sddm.conf{,.new}
+

@@ -1,0 +1,17 @@
+# Switch the two booleans USE_QT4 and USE_QT5 to build a Qt4 version instead.
+
+mkdir -p build
+cd build
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DUSE_QT4:BOOL=FALSE \
+    -DUSE_QT5:BOOL=TRUE \
+    -DENABLE_JOURNALD:BOOL=OFF \
+    ..
+

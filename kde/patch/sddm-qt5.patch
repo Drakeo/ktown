@@ -1,0 +1,6 @@
+# Add missing consolekit support
+# (brings back the switch_user/shutdown/reboot functionality in KDE):
+zcat $CWD/patch/sddm-qt5/sddm_consolekit.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix a compilation error on passwd backend:
+#zcat $CWD/patch/sddm-qt5/sddm_auth.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

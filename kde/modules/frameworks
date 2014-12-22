@@ -1,0 +1,67 @@
+# KDE Frameworks.
+# Tier 1, depends on Qt5, system libraries:
+extra-cmake-modules
+attica-framework
+kitemmodels
+kitemviews
+kplotting
+threadweaver
+kcodecs
+kguiaddons
+kidletime
+kwidgetsaddons
+sonnet
+kconfig
+kwindowsystem
+solid
+kglobalaccel
+karchive
+kdbusaddons
+kcoreaddons
+kjs
+kimageformats
+ki18n
+# Tier 2, depends on Tier 1, Qt5, system libraries:
+kauth
+kcrash
+kjobwidgets
+kcompletion
+kdoctools
+kdnssd
+kconfigwidgets
+kservice
+kiconthemes
+knotifications
+kunitconversion
+kpty
+# Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
+kwallet
+kemoticons
+kdesu
+ktextwidgets
+kxmlgui
+kbookmarks
+kcmutils
+kio
+kdesignerplugin
+knewstuff
+kparts
+kdeclarative
+kinit
+kded
+knotifyconfig
+#kprintutils
+kjsembed
+kross
+kmediaplayer
+kdewebkit
+ktexteditor
+#kfileaudiopreview
+kactivities-framework
+plasma-framework
+krunner
+# Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
+kapidox
+frameworkintegration
+kdelibs4support
+khtml
