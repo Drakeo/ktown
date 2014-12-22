@@ -6,7 +6,7 @@
 # leave one space after the ':'.
 
             |-----handy-ruler------------------------------------------------------|
-libkmahjongg: libkmahjongg (library loading and rendering of Mahjongg tilesets)
+libkmahjongg: libkmahjongg (library for rendering of Mahjongg tilesets)
 libkmahjongg:
 libkmahjongg: libkmahjongg is a library used by several KDE games for loading
 libkmahjongg: and rendering of Mahjongg tilesets.

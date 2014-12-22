@@ -1,20 +1,12 @@
 # Slackware ships a different version of XML DTDs:
 zcat $CWD/patch/kdelibs/kdelibs.docbook.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
-# Fix for CVE-2011-3365 (not needed for KDE >= 4.7.2):
-#cat $CWD/patch/kdelibs/kdelibs.kssl.CVE-2011-3365.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
-# Fix a bug introduced in kdelibs-4.7.2 which was intended as a fix but
-# prevents any query which does NOT use wide unicode characters to fail:
-#cat $CWD/patch/kdelibs/kdelibs.nepomuk.unicode.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
-# Fix a bug introduced in kdelibs-4.9.4 which was not detected until right
-# after release. This breaks opening of .odt and other zip-based files
-# in external applications:
-#cat $CWD/patch/kdelibs/kdelibs.mimetypecheck.BUG311214.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
 # Make uPnP support depend on the environment variable SOLID_UPNP,
 # e.g. by creating an /etc/profile.d/upnp.sh file with the following contents:
 # export SOLID_UPNP=1
-cat $CWD/patch/kdelibs/kdelibs.upnp_conditional.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+zcat $CWD/patch/kdelibs/kdelibs.upnp_conditional.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+## Fix plasma crash noticed exiting KDE, or quitting Amarok:
+# Fixed in KDE 4.10.4:
+#zcat $CWD/patch/kdelibs/changeset_r9323adac35d40da69e3cb18504340e984c4afd05.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

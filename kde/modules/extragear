@@ -9,7 +9,7 @@ kdevplatform
 kdevelop-pg-qt
 kdevelop
 #kdevelop-php
-quanta
+#quanta
 wicd-kde
 networkmanagement
 skanlite
@@ -18,4 +18,5 @@ libktorrent
 ktorrent
 amarok
 calligra
-
+libkscreen
+kscreen

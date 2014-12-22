@@ -1,4 +1,0 @@
-# Fix startup when no config file is defined (BUG:291923)
-# Only for KDE 4.8.0 pre-built:
-#cat $CWD/patch/kgpg/kgpg-4.8.0.noconfigfile.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-

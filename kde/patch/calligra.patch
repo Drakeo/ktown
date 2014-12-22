@@ -1,7 +1,0 @@
-# Required patch for a successful compilation with gcc 4.7:
-# (still required for calligra-2.3.92)
-cat $CWD/patch/calligra/calligra-2.3.87_gcc47.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
-# Patch for "corrupted document", side-effect of compiling calligra-2.4.0 with gcc-4.7.0:
-zcat $CWD/patch/calligra/calligra.git.6e4d171dfa5bad07e06277ef8e36d8a6a00005db.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-

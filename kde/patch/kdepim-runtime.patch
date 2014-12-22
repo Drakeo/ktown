@@ -1,7 +1,0 @@
-# Fix a bug in kdepim-runtime 4.7.1 which can cause an email to be permanently
-# lost when downloading from a POP3 account into a maildir-style mailbox:
-#cat $CWD/patch/kdepim-runtime/0001-Ignore-items-with-empty-remote-ids-here.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
-# Address bug 283467, fixed in KDE 4.7.3:
-#cat $CWD/patch/kdepim-runtime/kdepim-runtime/Kmail-has-duplicated-folders-after-migration-from-previous-version_bug-283467.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-

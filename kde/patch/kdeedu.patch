@@ -1,4 +1,0 @@
-# Fix some severe bugs for Marble 1.3.0 in combination with Qt 4.8.0:
-#cat $CWD/patch/kdeedu/marble130_qt480_colorfix.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-#cat $CWD/patch/kdeedu/marble130_qt480_qcolor.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-
