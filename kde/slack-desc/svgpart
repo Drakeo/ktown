@@ -8,12 +8,12 @@
        |-----handy-ruler------------------------------------------------------|
 svgpart: svgpart (SVG plugin for KDE)
 svgpart:
-svgpart: KPart for viewing SVVG files in KDE.
-svgpart:
-svgpart:
-svgpart:
-svgpart:
-svgpart:
+svgpart: KPart for viewing SVG files in KDE.
 svgpart:
 svgpart: For more information, visit:  http://www.kde.org
+svgpart:
+svgpart:
+svgpart:
+svgpart:
+svgpart:
 svgpart:

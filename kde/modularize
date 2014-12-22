@@ -1,15 +1,26 @@
 # If a package is listed here, it will be built apart from the
 # usual "grab bag" package that's made from each source directory.
 
+# kdeaccessibility
+jovie
+kaccessible
+kmag
+kmouth
+kmousetool
+
 # kdebase:
+kde-baseapps
+kactivities
 konsole
 kate
 kde-wallpapers
 kde-workspace
 kde-runtime
+kde-base-artwork
 
 # kdeedu:
 libkdeedu
+analitza
 blinken
 cantor
 kalgebra
@@ -46,7 +57,9 @@ kruler
 ksaneplugin
 ksnapshot
 svgpart
-mobipocket
+kdegraphics-mobipocket
+kdegraphics-strigi-analyzer
+kdegraphics-thumbnailers
 
 # kdebindings
 smokegen
@@ -60,19 +73,20 @@ pykde4
 kross-interpreters
 
 # kdeutils
-#ark
-#filelight
-#kcalk
-#kcharselect
-#kdiskfree
-#kfloppy
-#kgpg
-#printer-applet
-#kremotecontrol
-#ktimer
-#kwallet
-#superkaramba
-#sweeper
+ark
+filelight
+kcalc
+kcharselect
+kdf
+kfloppy
+kgpg
+printer-applet
+kremotecontrol
+ktimer
+kwallet
+superkaramba
+sweeper
+ksecrets
 
 # kdepim
 kdepim-runtime
@@ -87,13 +101,17 @@ k3b
 kaudiocreator
 kplayer
 kwebkitpart
-oxygen-gtk
+oxygen-gtk2
 kdevplatform
+kdevelop-pg-qt
 kdevelop
+#kdevelop-php
 quanta
 wicd-kde
 networkmanagement
 skanlite
+libktorrent
 ktorrent
 amarok
+calligra
 

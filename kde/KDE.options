@@ -3,16 +3,18 @@
 # usually has a different version number), or by setting your own
 # environment variables.
 
-[ -z $VERSION ] && export VERSION=4.7.4
+[ -z $VERSION ] && export VERSION=4.8.4
 [ -z $BUILD ] && export BUILD=1
 
 # Automatically determine the architecture we're building on:
+MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$( uname -m )" in
-    i?86) export ARCH=i486 ;;
-    arm*) export ARCH=arm ;;
+  case "$MARCH" in
+    i?86)    export ARCH=i486 ;;
+    armv7hl) export ARCH=$MARCH ;;
+    arm*)    export ARCH=arm ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-       *) export ARCH=$( uname -m ) ;;
+    *)       export ARCH=$MARCH ;;
   esac
 fi
 
@@ -34,6 +36,9 @@ if [ -z "$SLKCFLAGS" ]; then
     export LIBDIRSUFFIX=""
   elif [ "$ARCH" = "armel" ]; then
     export SLKCFLAGS="-O2 -march=armv4t"
+    export LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "armv7hl" ]; then
+    export SLKCFLAGS="-O2 -march=armv7-a -mfpu=vfpv3-d16"
     export LIBDIRSUFFIX=""
   else
     export SLKCFLAGS="-O2"

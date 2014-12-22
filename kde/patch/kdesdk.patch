@@ -1,0 +1,4 @@
+# Fix permissions of find-gui-text.sh script:
+# Fixed just in time before release of KDE 4.8.2:
+#cat $CWD/patch/kdesdk/kdesdk-4.8.2_scriptperms.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

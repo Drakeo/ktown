@@ -8,12 +8,12 @@
               |-----handy-ruler------------------------------------------------------|
 printer-applet: printer-applet (printer applet)
 printer-applet:
-printer-applet: Printer Applet is a system tray utility that shows current
-printer-applet: print jobs, shows printer warnings and errors.
+printer-applet: Printer Applet is a system tray utility that shows current print
+printer-applet: jobs, printer warnings, and errors.
+printer-applet:
+printer-applet: Homepage:  http://utils.kde.org/projects/printer-applet
 printer-applet:
 printer-applet:
 printer-applet:
 printer-applet:
-printer-applet:
-printer-applet: printer-applet's home:  http://utils.kde.org/projects/printer-applet
 printer-applet:

@@ -1,0 +1,58 @@
+commit 7e4953c54752dca8a10ad29adf2e225a96f8669a
+Author: Montel Laurent <montel@kde.org>
+Date:   Mon Mar 5 21:59:44 2012 +0100
+
+    Fix Bug 258551 - KMailCVT leaks lots of memory when importing maildir
+    
+    Akonadi::ItemCreateJob was never delete during importing so memory used increase a lot.
+    (for example during importing 2 Go it takes 2.5Go virtual memory before, after my fix it takes just 400Mo)
+    Too bad that it's will not in 4.8.1
+    FIXED-IN: 4.8.2
+    BUG: 258551
+    (cherry picked from commit eafff41025775a8a2c15cd3f26233bd8d50cb277)
+    
+    If we can't update kdepim source please add this patch to your source please.
+    
+    CCMAIL: kde-packager@kde.org
+
+diff --git a/kmailcvt/filters.cxx b/kmailcvt/filters.cxx
+index 8579534..7ffb005 100644
+--- a/kmailcvt/filters.cxx
++++ b/kmailcvt/filters.cxx
+@@ -169,11 +169,13 @@ bool Filter::addAkonadiMessage( FilterInfo* info, const Akonadi::Collection &col
+   }
+   item.setPayload<KMime::Message::Ptr>( message );
+   Akonadi::ItemCreateJob* job = new Akonadi::ItemCreateJob( item, collection );
++  job->setAutoDelete( false );
+   if( !job->exec() ) {
+     info->alert( i18n( "<b>Error:</b> Could not add message to folder %1. Reason: %2",
+ 		       collection.name(), job->errorString() ) );
+     return false;
+   }
++  delete job;
+   return true;
+ }
+ 
+
+commit d5933dd8913e9a57ef0b6a7f732d6a10d08f82ae
+Author: Montel Laurent <montel@kde.org>
+Date:   Tue Mar 6 08:42:31 2012 +0100
+
+    Fix mem leak
+    
+    CCMAIL: mueller@kde.org
+    CCMAIL: kde-packager@kde.org
+    (cherry picked from commit 8de439bc0c39a511cfb69d5e5b111b2a5de72ccb)
+
+diff --git a/kmailcvt/filters.cxx b/kmailcvt/filters.cxx
+index 7ffb005..c3878da 100644
+--- a/kmailcvt/filters.cxx
++++ b/kmailcvt/filters.cxx
+@@ -173,6 +173,7 @@ bool Filter::addAkonadiMessage( FilterInfo* info, const Akonadi::Collection &col
+   if( !job->exec() ) {
+     info->alert( i18n( "<b>Error:</b> Could not add message to folder %1. Reason: %2",
+ 		       collection.name(), job->errorString() ) );
++    delete job;
+     return false;
+   }
+   delete job;

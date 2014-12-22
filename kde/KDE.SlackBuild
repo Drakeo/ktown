@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright 2011  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2011, 2012  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -23,7 +23,7 @@
 
 # To build only a single package group, specify it as $1, like:
 #   ./KDE.SlackBuild kdeedu
-# To build only a single package, specify both the source directory
+# To build only a single package, specify both the group name
 # and the name of the package, like:
 #   ./KDE.SlackBuild kdeedu:marble
 #   ./KDE.SlackBuild kdebindings:perlqt,perlkde
@@ -125,7 +125,9 @@ precheck() {
   RETVAL=0
 
   for SRCFILE in $(find $CWD/src -name "*.tar.?z*") ; do
-    if ! cat modules/* |grep -v "^#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev) ; then
+    if cat modules/* |grep "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev)$ ; then
+      echo "Source file '$(basename $SRCFILE)' is commented out in 'modules' !"
+    elif ! cat modules/* |grep -v "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev) ; then
       echo "Source file '$(basename $SRCFILE)' is not mentioned in 'modules' !"
       RETVAL=1
     fi
@@ -133,7 +135,7 @@ precheck() {
 
   for MODULE in $(cat $CWD/modules/* | grep -v "^#") ; do
     #if [ -z "$(find $CWD/src -name ${MODULE}-*)" ] ; then
-    if [ -z "$(find $CWD/src -name $MODULE-*.tar.* |grep -E "$MODULE-[^-]+.tar.*$")" ] ; then
+    if [ -z "$(find $CWD/src -name $MODULE-*.tar.* |grep -E "$MODULE-[^-]+.tar.*$|$MODULE-[0-9].+.tar.*$")" ] ; then
       echo "Module '$MODULE' does not have a matching source tarball !"
       if [ "$CHECKOUT" = "yes" -o "$CHECKOUT" = "YES" ]; then
         echo "Checking out KDE component at branch '$VERSION'."
@@ -184,7 +186,7 @@ build_mod_pkg () {
       # Find the full source filename - yeah ugly, but I had two goals:
       # 1- source tarball can be in a random subdirectory of src/
       # 2- differentiate between e.g. 'kdepim' and 'kdepim-runtime'
-      kde_src=$(basename $(find $CWD/src -name "$PKGNAME-*.tar.?z*" |grep -E "$PKGNAME-[^-]+.tar.*$") 2>/dev/null)
+      kde_src=$(basename $(find $CWD/src -name "$PKGNAME-*.tar.?z*" |grep -E "$PKGNAME-[^-]+.tar.*$|$PKGNAME-[0-9].+.tar.*$") 2>/dev/null)
       if [ "x$kde_src" = "x" ]; then
         echo "** Did not find '$PKGNAME' in src"
         continue
@@ -313,7 +315,7 @@ build_mod_pkg () {
         if [ -r $CWD/makepkg/${PKGNAME} ]; then
           BUILD=$MODBUILD . $CWD/makepkg/${PKGNAME}
         else
-          /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-${MODULAR_PACKAGE_VERSION}-${PKGARCH}-${MODBUILD}.txz
+          /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-$(echo $MODULAR_PACKAGE_VERSION |tr - _)-${PKGARCH}-${MODBUILD}.txz
         fi
         # We will continue with the fresh packages installed:
         upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-${MODULAR_PACKAGE_VERSION}-${PKGARCH}-${MODBUILD}.txz
@@ -365,7 +367,7 @@ build_mod_pkg () {
     if [ -r $CWD/makepkg/${kde_module} ]; then
       BUILD=$SRCDIRBUILD . $CWD/makepkg/${kde_module}
     else
-      /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-${VERSION}-${PKGARCH}-${SRCDIRBUILD}.txz
+      /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-$(echo $VERSION |tr - _)-${PKGARCH}-${SRCDIRBUILD}.txz
     fi
     # We will continue with the fresh packages installed:
     upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-${VERSION}-${PKGARCH}-${SRCDIRBUILD}.txz
@@ -412,6 +414,9 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 
 # Yes, we know kde-workspace is built twice.  kdebase needs the
 #   plasma bits from it, and then we build it again for good measure...
+# Same goes for kdelibs (at least during KDE 4.8.x) kdeutils:ksecrets needs
+#   kdelibs and then kdelibs needs a rebuild to pick up ksecretservice
+#   (this will no longer be required in KDE 4.9).
 KDEMODS=" \
   kdelibs \
   kdepimlibs \
@@ -422,7 +427,9 @@ KDEMODS=" \
   kdebase:kde-workspace \
   kdeaccessibility \
   kdeutils \
+  kdelibs \
   kdemultimedia \
+  extragear:libktorrent \
   kdenetwork \
   oxygen-icons \
   kdeadmin \
@@ -435,6 +442,7 @@ KDEMODS=" \
   kdewebdev \
   kdeplasma-addons \
   polkit-kde \
+  extragear \
   "
 
 # Allow for specification of individual packages to be built:
@@ -448,8 +456,6 @@ fi
 # sources, module definitions and slack-desc are complete and matching:
 if [ "$PRECHECK" = "yes" -o "$PRECHECK" = "YES" ]; then
   precheck
-  echo "Sleeping for 10 seconds; press Ctrl-C if you want to abort compilation."
-  sleep 10
 fi
 
 # And finally, start working!

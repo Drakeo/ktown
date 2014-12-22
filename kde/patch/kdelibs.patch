@@ -8,6 +8,12 @@ zcat $CWD/patch/kdelibs/kdelibs.docbook.patch.gz | patch -p1 --verbose || { touc
 # prevents any query which does NOT use wide unicode characters to fail:
 #cat $CWD/patch/kdelibs/kdelibs.nepomuk.unicode.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
-# Fix broken number entry (fixed in KDE >= 4.7.5)
-cat $CWD/patch/kdelibs/kdelibs.klocale.numberfix.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Make uPnP support depend on the environment variable SOLID_UPNP,
+# e.g. by creating an /etc/profile.d/upnp.sh file with the following contents:
+# export SOLID_UPNP=1
+cat $CWD/patch/kdelibs/kdelibs.upnp_conditional.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix fstab support in solid (last-minute patch for KDE 4.8.4 which _just_
+# made it into the official tarball):
+#cat $CWD/patch/kdelibs/kdelibs.fstab.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

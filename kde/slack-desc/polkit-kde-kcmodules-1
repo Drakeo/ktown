@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                       |-----handy-ruler-----------------------------------------------------|
-polkit-kde-kcmodules-1: polkit-kde-kcmodules (KDE polkit kcmodules)
+polkit-kde-kcmodules-1: polkit-kde-kcmodules-1 (KDE polkit kcmodules)
 polkit-kde-kcmodules-1:
 polkit-kde-kcmodules-1: This package contains the kcm_polkit modules for KDE.
 polkit-kde-kcmodules-1:

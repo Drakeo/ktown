@@ -1,0 +1,4 @@
+# Fix crash whenever a 7zip archive is opened.
+# Only for KDE 4.8.0 pre-built:
+#cat $CWD/patch/ark/ark-4.8.0_7zip_crash.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

@@ -4,3 +4,8 @@ cat $CWD/patch/kdepim/kdepim-4.5.85-install-headers.patch | patch -p1 --verbose 
 # Fix a memleak in kdepim 4.7.1 (fixed just too late to be included in the
 # 4.7.1 tarball)
 #cat $CWD/patch/kdepim/kdepim-4.7.1_memleak.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix a memleak in kdepim 4.8.1
+# (it got included in the tarball _just_ before the release)
+#cat $CWD/patch/kdepim/kdepim-4.8.1_bug_258551.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

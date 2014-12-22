@@ -3,6 +3,7 @@ libkexiv2
 libkdcraw
 libksane
 okular
+kdegraphics-mobipocket
 kdegraphics-strigi-analyzer
 kdegraphics-thumbnailers
 gwenview
@@ -13,5 +14,4 @@ kolourpaint
 kruler
 ksaneplugin
 ksnapshot
-mobipocket
 svgpart

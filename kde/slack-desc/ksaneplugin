@@ -8,12 +8,12 @@
            |-----handy-ruler------------------------------------------------------|
 ksaneplugin: ksaneplugin (scanning plugin using libksane)
 ksaneplugin:
-ksaneplugin: This is a KScan plugin that implements the scanning through
-ksaneplugin: libksane.
-ksaneplugin:
-ksaneplugin:
-ksaneplugin:
-ksaneplugin:
+ksaneplugin: This is a KScan plugin that implements the scanning through libksane.
 ksaneplugin:
 ksaneplugin: For more information, visit:  http://www.kde.org
+ksaneplugin:
+ksaneplugin:
+ksaneplugin:
+ksaneplugin:
+ksaneplugin:
 ksaneplugin:

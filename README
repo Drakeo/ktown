@@ -1,52 +1,21 @@
-KDE4.7
+KDE4.8
 ======
 
-This is the KDE Software Compilation 4.7.4 for Slackware-current.  It is the
-last increment in the 4.7 series before we move on to 4.8.
+This is the KDE Software Compilation 4.8.4 for Slackware-current.
+It is an incremental update to the version 4.8.2 which is part of
+Slackware-current.
 
-An obvious change compared to Slackware's KDE releases before 4.7.x is the
-modularization of KDE into more and smaller components.
-There used to be 23 source tarballs for KDE's core, which resulted into 23
-binary packages, but the core of KDE 4.7.x is distributed as 71 source
-tarballs, resulting in 67 Slackware packages!  Future releases (4.8 and
-onwards) will see even more fragmentation.
-The KDE SlackBuild script has been extensively rewritten (in the spirit of
-the modular X.org SlackBuild script) to allow for a modular build of KDE in
-Slackware.  You as the enduser of these packages will have more control over
-what to install or leave out if your primary interest lies with KDE's
-applications, not with the desktop environment. 
+You have to run Slackware-current in order to use these packages! There has
+been an incompatible update of the "glibc" package since the release of
+Slackware 13.37.
 
-KDE4 no longer uses HAL, starting with KDE 4.6.0.  And since the version of
-X.Org found in Slackware 13.37 does not use HAL either (likewise for
-XFCE 4.8.x), adding KDE 4.7.x and XFCE 4.8.x to Slackware in future will be a
-big step towards removal of HAL altogether.  HAL is no longer maintained by
-its developer, and has been superceded by udisks.
-
-My set of KDE SC 4.7.4 packages replaces the older version of KDE (4.5.5)
-which comes with Slackware.  There are several packages in the "deps"
-directory that you need as well; you will find updates to original Slackware
-packages as well as completely new packages (grantlee, herqq, libatasmart,
-libbluedevil, libssh, phonon-gstreamer, phonon-xine, sg3-utils, udisks and
-upower are new packages for instance).  Upgrading/installing these "deps"
-packages is required for the proper functioning of KDE 4.7.4.
-
-There are some applications I added to the KDE 4.7 collection that are new
-to Slackware as well.  They are no 'dependencies' so technically you do not
-have to install them, but bluedevil (a bluetooth manager), kplayer (a mplayer
-front-end), quanta (the web development environment) and wicd-kde (an applet
-for managing WICD) are very much worth your while.
-
-You have to run Slackware-current in order to use these KDE packages.
-Due to an incompatible glibc upgrade in Slackware-current (to version 2.14.1)
-these packages will not work with Slackware 13.37.
-
-For backwards compatibility, I will keep the packages for KDE 4.6.5 available
-in my repository as well.  They work fine on Slackware 13.37 as well as
+For backwards compatibility, I will keep packages for KDE 4.6.5 available
+in my repository as well.  Those work fine on Slackware 13.37 as well as
 -current. KDE 4.6.5 will give you a very stable desktop.
 
 NOTE:
-* Possible issue with using thes packages on 13.37: the new kwin seems to
-  require at least mesa-7.10 and this is not installed by default.
+* Possible issue when rebuilding these packages on 13.37: the new kwin seems
+  to require at least mesa-7.10 and this is not installed by default.
   Slackware 13.37 has mesa-7.10.2 in the /testing directory though.  Use that.
 
 NOTE:
@@ -54,87 +23,29 @@ About the language packs (KDEI) - for Slackware 32-bit as well as 64-bit:
 * KDE localizations (language packs) are available in "x86_64/kdei". You only
   need one package (for your own language).  Don't let the "x86_64" in the
   directory name fool you, the language packs are useable on both platforms.
-* Like in Slackware's own KDEI 4.5.5 packages, I have merged the language files
-  of kdepim-4.4.10 into the KDEI packages, so that you can use the PIM apps
-  like kmail in your own language if you decide to keep Slackware's version of
-  kdepim and kdepim-runtime.
-* If you decide to install kdepim/kdepim-runtime 4.7.4, you will find that
-  these packages include their own translations/localizations.
-
-NOTE:
-About PIM (kdepim and kdepim-runtime) packages:
-* The PIM software release versions are finally synchronized with the versions
-  of KDE SC again (since the release of 4.7.0).  Not everybody is happy with
-  this new version so you may want to stick with 4.4.10.
-
-NOTE:
-I have added "unstable" development versions of the kdevelop and kdevplatform
-packages.  They are required if you want to try out Quanta Plus (the Web
-Development Environment) which I added as well.  Bleeding edge == no guarantees
-about their useability!  But I would like your feedback.
-
-NOTE:
-Slackware's own polkit-kde-1 package must be removed before you start using
-KDE 4.7.4 !
-Its functionality was split out into two new packages: polkit-kde-agent-1 and
-polkit-kde-kcmodules-1, both of which you can find in my 'kde' directory.
-
-NOTE:
-I have moved the two packages "polkit-qt-1" and "libktorrent" from the "kde"
-to the "deps" directory since these packages are not really tied to KDE and
-should be seen as a dependency like all the other packages inside "deps".
-For instance, having libktorrent already available when compiling "kdenetwork"
-will enhance Kget with torrent download capability.
-
-NOTE:
-I have added a directory "test", containing a small set of packages which
-you can optionally install if you want to try out NetworkManager instead of
-WICD as your graphical network connection manager.
-Please read http://alien.slackbook.org/blog/integrating-networkmanager-into-kde-while-keeping-the-gnome-out/ for more information about integrating NM into KDE.
-If you want to start Networkmanager at boot instead of WICD, then replace the
-following lines in '/etc/rc.d/rc.M'
-  # Start wicd:
-  if [ -x /etc/rc.d/rc.wicd ]; then
-    sh /etc/rc.d/rc.wicd start
-  fi
-with these lines:
-  # Start wicd or NetworkManager:
-  if [ -x /etc/rc.d/rc.wicd ]; then
-    sh /etc/rc.d/rc.wicd start
-  elif [ -x /etc/rc.d/rc.networkmanager ]; then
-    sh /etc/rc.d/rc.networkmanager start
-  fi
-This way, you can choose which of the two network managers you want to use by
-making their startup script executable (or not).
-If you decide you want to try NM but do not want to remove WICD just yet,
-you will notice that the WICD client keeps starting nevertheless.  You can
-prevent this from happening if you add a line containing "NotShowIn=KDE" (do
-not include the "") to the following two files:
-  * /etc/xdg/autostart/wicd-tray.desktop
-  * /usr/share/autostart/wicd-tray.desktop
-I am still sticking with NM 0.8 but I will probably switch to NM 0.9 when I
-start building packages for KDE 4.8.  Ongoing development in KDE's
-networkmanagement module is focusing on compatibility with NM 0.9.
+  translations/localizations.
 
 -------------------------------------------------------------------------------
 
-Below are the steps you need to take to install or upgrade to KDE 4.7.4.
+Below are the steps you need to take to install or upgrade to KDE 4.8.4.
 
-Make sure you are not running KDE or even X!  If you are running an X session,
+Make sure you are not running KDE or even X !  If you are running an X session,
 log out first, and if you are in runlevel 4 (graphical login) you first have to
 go back to runlevel 3 (console) by typing "init 3".
 
-To make it easy for you, here is  an easy one-line command that downloads the
-whole 4.7.R3directory with all the sources, and 32bit and 64bit packages:
+To make it easy for you, here is a one-line command that downloads the whole
+4.8.4 directory together with all the sources, and 32-bit and 64-bit packages
+(and be careful of the 'dot' at the end of that command, it is part of the
+commandline !!):
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/4.7.4 .
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/4.8.4 .
 
-Assuming you downloaded the complete directory tree "4.7.4" with everything
-below, you change your current directory to where you found this README
-(which is the directory called '4.7.4').  If you used the above "rsync" command
-then that would mean a simple:
+OK.  Assuming you just downloaded the complete directory tree "4.8.4" and
+everything below, you now change your current directory to where you found
+this README (which is the directory called '4.8.4').  If you used the
+above "rsync" command then that would mean a simple:
 
-  # cd 4.7.4
+  # cd 4.8.4
 
 From within this directory, you run the following commands as root.  Note that
 some of the old KDE package names are obsoleted too, they have been split up,
@@ -143,22 +54,10 @@ renamed or integrated:
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
   # upgradepkg --reinstall --install-new x86/kde/*.t?z
-  # removepkg polkit-kde-1
-  # removepkg kdebase-runtime
-  # removepkg kdebase-workspace
-  # removepkg kdebindings
-  # removepkg kdeedu
-  # removepkg konq-plugins
 
   On Slackware 64-bit:
   # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
   # upgradepkg --reinstall --install-new x86_64/kde/*.t?z
-  # removepkg polkit-kde-1
-  # removepkg kdebase-runtime
-  # removepkg kdebase-workspace
-  # removepkg kdebindings
-  # removepkg kdeedu
-  # removepkg konq-plugins
 
   If you already have one or more non-english language packs installed:
   # upgradepkg x86_64/kdei/*.t?z
@@ -178,5 +77,5 @@ renamed or integrated:
 Then reboot your system.
 
 ===============================================================================
-Eric Hameleers - alien at slackware dot com - 06dec2011
+Eric Hameleers - alien at slackware dot com - 07jun2012
 
