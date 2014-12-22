@@ -1,0 +1,11 @@
+--- CMakeLists.txt	2010-01-26 23:10:58.000000000 +0600
++++ CMakeLists.txt.kio	2010-11-03 19:54:53.422101408 +0600
+@@ -54,7 +54,7 @@ kde4_add_kcfg_files(kaudiocreator_SRCS p
+ 
+ kde4_add_executable(kaudiocreator ${kaudiocreator_SRCS})
+ 
+-target_link_libraries(kaudiocreator ${KDE4_KUTILS_LIBS} ${KDE4_KNOTIFYCONFIG_LIBS} ${KDEMULTIMEDIA_LIBRARIES} ${TAGLIB_LIBRARIES} ${DISCID_LIBRARIES})
++target_link_libraries(kaudiocreator ${KDE4_PHONON_LIBRARY} ${KDE4_SOLID_LIBRARY} ${KDE4_KIO_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KNOTIFYCONFIG_LIBS} ${KDEMULTIMEDIA_LIBRARIES} ${TAGLIB_LIBRARIES} ${DISCID_LIBRARIES})
+ 
+ install(TARGETS kaudiocreator  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+ 
