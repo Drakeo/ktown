@@ -18,6 +18,7 @@ ALLDEPS=" \
   akonadi \
   attica \
   shared-desktop-ontologies \
+  LibRaw \
   "
 
 # Allow for specification of individual packages to be built:

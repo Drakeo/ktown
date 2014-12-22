@@ -24,6 +24,7 @@ ALLDEPS=" \
   sip \
   PyQt \
   phonon-gstreamer \
+  LibRaw \
   "
 
 # Allow for specification of individual packages to be built:

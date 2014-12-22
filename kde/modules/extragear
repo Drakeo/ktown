@@ -8,7 +8,9 @@ oxygen-gtk3
 kdevplatform
 kdevelop-pg-qt
 kdevelop
-#kdevelop-php
+kdev-python
+kdevelop-php
+kdevelop-php-docs
 #quanta
 wicd-kde
 networkmanagement
@@ -23,3 +25,6 @@ amarok
 calligra
 libkscreen
 kscreen
+partitionmanager
+kdeconnect-kde
+

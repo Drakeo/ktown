@@ -120,7 +120,8 @@ kscd
 # kdenetwork
 kdenetwork-filesharing
 kdenetwork-strigi-analyzers
-kdnssd
+#kdnssd
+zeroconf-ioslave
 kget
 kopete
 kppp
@@ -140,7 +141,7 @@ kgpg
 print-manager
 kremotecontrol
 ktimer
-kwallet
+kwalletmanager
 superkaramba
 sweeper
 
@@ -210,6 +211,7 @@ kde-dev-utils
 kdesdk-kioslaves
 kdesdk-strigi-analyzers
 kdesdk-thumbnailers
+libkomparediff2
 kompare
 lokalize
 okteta
@@ -241,7 +243,9 @@ oxygen-gtk3
 kdevplatform
 kdevelop-pg-qt
 kdevelop
-#kdevelop-php
+kdev-python
+kdevelop-php
+kdevelop-php-docs
 #quanta
 wicd-kde
 networkmanagement
@@ -256,3 +260,6 @@ amarok
 calligra
 libkscreen
 kscreen
+partitionmanager
+kdeconnect-kde
+
