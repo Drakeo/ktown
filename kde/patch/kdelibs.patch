@@ -1,0 +1,13 @@
+# Slackware ships a different version of XML DTDs:
+zcat $CWD/patch/kdelibs/kdelibs.docbook.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix for CVE-2011-3365 (not needed for KDE >= 4.7.2):
+#cat $CWD/patch/kdelibs/kdelibs.kssl.CVE-2011-3365.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix a bug introduced in kdelibs-4.7.2 which was intended as a fix but
+# prevents any query which does NOT use wide unicode characters to fail:
+#cat $CWD/patch/kdelibs/kdelibs.nepomuk.unicode.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix broken number entry (fixed in KDE >= 4.7.5)
+cat $CWD/patch/kdelibs/kdelibs.klocale.numberfix.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

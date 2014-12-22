@@ -1,0 +1,99 @@
+# If a package is listed here, it will be built apart from the
+# usual "grab bag" package that's made from each source directory.
+
+# kdebase:
+konsole
+kate
+kde-wallpapers
+kde-workspace
+kde-runtime
+
+# kdeedu:
+libkdeedu
+blinken
+cantor
+kalgebra
+kalzium
+kanagram
+kbruch
+kgeography
+khangman
+kig
+kiten
+klettres
+kmplot
+kstars
+ktouch
+kturtle
+kwordquiz
+marble
+parley
+rocs
+step
+
+# kdegraphics:
+libkipi
+libkexiv2
+libkdcraw
+libksane
+okular
+gwenview
+kamera
+kcolorchooser
+kgamma
+kolourpaint
+kruler
+ksaneplugin
+ksnapshot
+svgpart
+mobipocket
+
+# kdebindings
+smokegen
+smokeqt
+qtruby
+perlqt
+smokekde
+korundum
+perlkde
+pykde4
+kross-interpreters
+
+# kdeutils
+#ark
+#filelight
+#kcalk
+#kcharselect
+#kdiskfree
+#kfloppy
+#kgpg
+#printer-applet
+#kremotecontrol
+#ktimer
+#kwallet
+#superkaramba
+#sweeper
+
+# kdepim
+kdepim-runtime
+
+# polkit-kde
+polkit-kde-agent-1
+polkit-kde-kcmodules-1
+
+# extragear
+bluedevil
+k3b
+kaudiocreator
+kplayer
+kwebkitpart
+oxygen-gtk
+kdevplatform
+kdevelop
+quanta
+wicd-kde
+networkmanagement
+skanlite
+ktorrent
+amarok
+

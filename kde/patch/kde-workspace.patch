@@ -1,0 +1,9 @@
+# Increase the timeout to accomodate slow-to-initialize video chipset drivers:
+zcat $CWD/patch/kde-workspace/kdebase-workspace.kdm.server.timeout.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+## Patch for the shutdown issue with KDE 4.6.2 (in Linux, only "halt"
+## understands the '-p' parameter):
+#sed -i -e 's/shutdown -p now/shutdown -h -P now/' kdm/config.def
+
+# Fix a long-standing performance issue (since 4.0) in kwin (not needed for KDE >= 4.7.2):
+#zcat $CWD/patch/kde-workspace/kdebase-workspace.kwin.effects.performance.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

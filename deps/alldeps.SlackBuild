@@ -12,23 +12,38 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   virtuoso-ose \
+  qt \
+  polkit-qt-1 \
   sip \
   PyQt \
   QScintilla \
+  clucene \
+  raptor2 \
+  rasqal \
+  redland \
   libatasmart \
   sg3_utils \
   udisks \
   upower \
+  shared-desktop-ontologies \
   system-config-printer \
   ebook-tools \
+  herqq \
   hunspell \
   libdbusmenu-qt \
+  phonon \
+  phonon-gstreamer \
+  phonon-xine \
   soprano \
   akonadi \
   attica \
   grantlee \
   libssh \
   libbluedevil \
+  libmsn \
+  libktorrent \
+  strigi \
+  polkit-qt-1 \
   "
 
 # Allow for specification of individual packages to be built:

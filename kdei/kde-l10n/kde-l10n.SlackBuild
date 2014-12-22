@@ -35,9 +35,9 @@ if [ ! -r ./languages ]; then
   done
 fi
 
-[ -z $VERSION ] && export VERSION=4.6.5
+[ -z $VERSION ] && export VERSION=4.7.4
 [ -z $ARCH ] && export ARCH=noarch
-[ -z $BUILD ] && export BUILD=2
+[ -z $BUILD ] && export BUILD=1
 
 # Use this as CFLAGS and CXXFLAGS:
 if [ -z "$SLKCFLAGS" ]; then

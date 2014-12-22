@@ -1,0 +1,9 @@
+if [ ! -r /usr/lib${LIBDIRSUFFIX}/mysql/libmysqld.a ]; then
+  cat << EOF
+ERROR:  missing /usr/lib${LIBDIRSUFFIX}/mysql/libmysqld.a
+        please use mysql-embedded.build in source/ap/mysql/
+        to build and install this, and then try again.
+EOF
+  touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ;
+fi
+

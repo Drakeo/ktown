@@ -11,8 +11,10 @@
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
-  libssh \
-  akonadi \
+  soprano \
+  attica \
+  libmsn \
+  libktorrent \
   "
 
 # Allow for specification of individual packages to be built:
