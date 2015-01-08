@@ -18,254 +18,12 @@
 # easiest way to accomplish that is just to move this file out of the
 # way and replace it with an empty one before building.
 
-# kdeaccessibility
-jovie
-kaccessible
-kmouth
-kmousetool
-kmag
-
-# kdelibs:
-kdelibs
-
-# kdebase:
-baloo
-baloo-widgets
-nepomuk-core
-nepomuk-widgets
-kfilemetadata
-kde-baseapps
-kactivities
-konsole
-kate
-kde-wallpapers
-kde-workspace
-kde-runtime
-kde-base-artwork
-
-# kdeedu:
-libkdeedu
-analitza
-artikulate
-blinken
-cantor
-kalgebra
-kalzium
-kanagram
-kbruch
-kgeography
-khangman
-kig
-kiten
-klettres
-kmplot
-kqtquickcharts
-kstars
-ktouch
-kturtle
-kwordquiz
-marble
-parley
-pairs
-rocs
-step
-
-# kdeadmin
-kcron
-ksystemlog
-kuser
-#kdeadmin
-
-# kdeartwork
-kdeartwork
-
-# kdegraphics:
-libkipi
-libkexiv2
-libkdcraw
-libksane
-okular
-kdegraphics-mobipocket
-kdegraphics-strigi-analyzer
-kdegraphics-thumbnailers
-gwenview
-kamera
-kcolorchooser
-kgamma
-kolourpaint
-kruler
-ksaneplugin
-ksnapshot
-svgpart
-
-# kdebindings
-smokegen
-smokeqt
-qtruby
-perlqt
-smokekde
-korundum
-perlkde
-pykde4
-kross-interpreters
-kimono
-qyoto
-
-# kdemultimedia
-libkcddb
-libkcompactdisc
-audiocd-kio
-dragon
-ffmpegthumbs
-mplayerthumbs
-juk
-kmix
-kscd
-
-# kdenetwork
-kdenetwork-filesharing
-kdenetwork-strigi-analyzers
-zeroconf-ioslave
-kget
-kopete
-kppp
-krdc
-krfb
-#kdenetwork
-
-# kdeutils
-ark
-filelight
-kcalc
-kcharselect
-kdf
-kfloppy
-kgpg
-#printer-applet
-print-manager
-kremotecontrol
-ktimer
-kwalletmanager
-superkaramba
-sweeper
-
-# kdegames
-libkdegames
-libkmahjongg
-klickety
-ksudoku
-ksquares
-kpat
-klines
-ksnakeduel
-kollision
-kshisen
-kblocks
-lskat
-kreversi
-bovo
-kajongg
-granatier
-kmines
-kiriki
-kigo
-bomber
-kolf
-kdiamond
-kbounce
-konquest
-kapman
-knavalbattle
-killbots
-kubrick
-kgoldrunner
-knetwalk
-kbreakout
-ksirk
-kfourinline
-picmi
-kblackbox
-palapeli
-katomic
-ktuberling
-kjumpingcube
-kmahjongg
-kspaceduel
-
-# kdewebdev
-kdewebdev
-
-# kdepim
-kdepim
-kdepim-runtime
-
-# kdepimlibs
-kdepimlibs
-
-# kdeplasma-addons
-kdeplasma-addons
-
-# kdesdk
-cervisia
-dolphin-plugins
-kapptemplate
-kcachegrind
-kde-dev-scripts
-kde-dev-utils
-kdesdk-kioslaves
-kdesdk-strigi-analyzers
-kdesdk-thumbnailers
-libkomparediff2
-kompare
-lokalize
-okteta
-poxml
-umbrello
-#kdesdk
-
-# kdetoys
-amor
-kteatime
-ktux
-#kdetoys
-
-# oxygen-icons
-oxygen-icons
+#
+# The Frameworks 5, Plasma 5 and Applications:
+#
 
 # polkit-kde
-polkit-kde-agent-1
-polkit-kde-kcmodules-1
-
-# extragear
-bluedevil
-k3b
-kaudiocreator
-kplayer
-kwebkitpart
-oxygen-gtk2
-oxygen-gtk3
-kdevplatform
-kdevelop-pg-qt
-kdevelop
-kdev-python
-kdevelop-php
-kdevelop-php-docs
-#quanta
-wicd-kde
-networkmanagement
-libmm-qt
-libnm-qt
-plasma-nm
-skanlite
-kio-mtp
-libktorrent
-ktorrent
-amarok
-calligra
-libkscreen
-kscreen
-partitionmanager
-kdeconnect-kde
+polkit-kde-framework
 
 # frameworks
 # Tier 1, depends on Qt5, system libraries:
@@ -290,6 +48,8 @@ kcoreaddons
 kjs
 kimageformats
 ki18n
+networkmanager-qt
+kpackage
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
@@ -355,6 +115,8 @@ oxygen-fonts
 systemsettings
 plasma-desktop
 plasma-workspace
+kdeplasma-addons
+plasma-workspace-wallpapers
 libmm-qt5
 libnm-qt5
 plasma5-nm
@@ -367,4 +129,54 @@ sddm-qt5
 sddm-kcm
 sddm-theme-breeze
 kscreen2
+kdeconnect-framework
+
+#
+# The old KDE 4 stuff which has not been migrated yet. or is still needed
+# by un-migrated applications:
+#
+
+# kdelibs:
+kdelibs
+
+# kdebase:
+baloo
+baloo-widgets
+nepomuk-core
+nepomuk-widgets
+kfilemetadata
+kde-baseapps
+kactivities
+konsole
+kate
+kde-wallpapers
+kde-workspace
+kde-runtime
+kde-base-artwork
+
+# kdebindings
+smokegen
+smokeqt
+qtruby
+perlqt
+smokekde
+korundum
+perlkde
+pykde4
+kross-interpreters
+kimono
+qyoto
+
+# kdepim
+kdepim
+kdepim-runtime
+
+# kdepimlibs
+kdepimlibs
+
+# kdeplasma-addons
+#kdeplasma-addons
+
+# extragear
+calligra
 

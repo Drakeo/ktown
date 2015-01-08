@@ -1,0 +1,88 @@
+--- plasma-desktop-20140602git/kcms/kfontinst/lib/CMakeLists.txt.orig	2014-06-03 16:08:19.294297273 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/lib/CMakeLists.txt	2014-06-03 16:09:12.420293700 +0200
+@@ -15,6 +15,6 @@
+ set_target_properties(kfontinst PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 5 )
+ 
+ add_library(kfontinstui SHARED ${kfontinstui_LIB_SRCS})
+-target_link_libraries(kfontinstui Qt5::X11Extras KF5::KIOCore KF5::KIOWidgets ${FREETYPE_LIBRARIES} ${FONTCONFIG_LIBRARIES} ${X11_X11_LIB} ${X11_Xft_LIB} kfontinst )
++target_link_libraries(kfontinstui Qt5::X11Extras KF5::KIOCore KF5::KIOWidgets KF5::KDELibs4Support  XCB::XCB XCB::IMAGE ${FREETYPE_LIBRARIES} ${FONTCONFIG_LIBRARIES} ${X11_X11_LIB} ${X11_Xft_LIB} kfontinst )
+ set_target_properties(kfontinstui PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION 5 )
+ install(TARGETS kfontinst kfontinstui ${INSTALL_TARGETS_DEFAULT_ARGS} )
+--- plasma-desktop-20140602git/kcms/kfontinst/dbus/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/dbus/CMakeLists.txt	2014-06-03 17:17:01.382378586 +0200
+@@ -14,11 +14,11 @@
+ 
+ set_target_properties(fontinst_bin PROPERTIES OUTPUT_NAME fontinst)
+ target_link_libraries(fontinst_bin 
+-                      Qt5::DBus Qt5::Xml ${FONTCONFIG_LIBRARIES} kfontinst)
++                      Qt5::DBus Qt5::Xml Qt5::X11Extras KF5::KDELibs4Support XCB::XCB XCB::IMAGE ${FONTCONFIG_LIBRARIES} kfontinst)
+ 
+ set_target_properties(fontinst_helper PROPERTIES OUTPUT_NAME fontinst_helper)
+ target_link_libraries(fontinst_helper 
+-                      Qt5::DBus Qt5::Xml ${FONTCONFIG_LIBRARIES} kfontinst)
++                      Qt5::DBus Qt5::Xml Qt5::X11Extras KF5::KDELibs4Support XCB::XCB XCB::IMAGE ${FONTCONFIG_LIBRARIES} kfontinst)
+ 
+ install(TARGETS fontinst_bin DESTINATION ${LIBEXEC_INSTALL_DIR} )
+ install(TARGETS fontinst_helper DESTINATION ${LIBEXEC_INSTALL_DIR} )
+--- plasma-desktop-20140602git/kcms/kfontinst/kcmfontinst/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/kcmfontinst/CMakeLists.txt	2014-06-03 19:19:00.376164975 +0200
+@@ -10,6 +10,7 @@
+ add_library(kcm_fontinst MODULE ${kcm_fontinst_PART_SRCS})
+ 
+ target_link_libraries(kcm_fontinst
++    Qt5::X11Extras
+     KF5::Archive
+     KF5::KCMUtils
+     KF5::Su
+--- plasma-desktop-20140602git/kcms/kfontinst/apps/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/apps/CMakeLists.txt	2014-06-03 19:27:47.209175028 +0200
+@@ -31,6 +31,7 @@
+ )
+ target_link_libraries(kfontprint_bin
+     Qt5::PrintSupport
++    Qt5::X11Extras
+     KF5::IconThemes
+     KF5::KDELibs4Support
+     ${X11_X11_LIB}
+@@ -38,7 +39,7 @@
+     kfontinstui
+     kfontinst
+ )
+-target_link_libraries(kfontview_bin KF5::Parts KF5::XmlGui kfontinstui kfontinst )
++target_link_libraries(kfontview_bin KF5::Parts KF5::XmlGui KF5::KDELibs4Support kfontinstui kfontinst )
+ 
+ install(TARGETS kfontinst_bin ${INSTALL_TARGETS_DEFAULT_ARGS} )
+ install(TARGETS kfontprint_bin DESTINATION ${LIBEXEC_INSTALL_DIR} )
+--- plasma-desktop-20140602git/kcms/kfontinst/kio/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/kio/CMakeLists.txt	2014-06-03 19:31:34.379189708 +0200
+@@ -5,7 +5,7 @@
+ set(kio_fonts_PART_SRCS FontInstInterface.cpp KioFonts.cpp ${libkfontinstdbusiface_SRCS})
+ # qt5_add_dbus_interface(kio_fonts_PART_SRCS ../dbus/org.kde.fontinst.xml FontinstIface)
+ add_library(kio_fonts MODULE ${kio_fonts_PART_SRCS} ${KFI_FONTINST_AUTH_SRC} )
+-target_link_libraries(kio_fonts Qt5::DBus Qt5::X11Extras Qt5::Xml KF5::Archive KF5::KIOCore KF5::KIOWidgets kfontinst )
++target_link_libraries(kio_fonts Qt5::DBus Qt5::X11Extras Qt5::Xml KF5::Archive KF5::KIOCore KF5::KIOWidgets KF5::KDELibs4Support kfontinst )
+ install(TARGETS kio_fonts  DESTINATION ${PLUGIN_INSTALL_DIR} )
+ install( FILES fonts.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqsidebartng/virtual_folders/services )
+ install( FILES fonts.protocol  DESTINATION  ${SERVICES_INSTALL_DIR} )
+--- plasma-desktop-20140602git/kcms/kfontinst/thumbnail/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/thumbnail/CMakeLists.txt	2014-06-03 19:34:23.357198688 +0200
+@@ -7,7 +7,7 @@
+ 
+ add_library(fontthumbnail MODULE ${fontthumbnail_PART_SRCS})
+ 
+-target_link_libraries(fontthumbnail KF5::Archive KF5::KIOCore KF5::KIOWidgets kfontinstui kfontinst )
++target_link_libraries(fontthumbnail KF5::Archive KF5::KIOCore KF5::KIOWidgets KF5::KDELibs4Support kfontinstui kfontinst )
+ 
+ install(TARGETS fontthumbnail  DESTINATION ${PLUGIN_INSTALL_DIR} )
+ install( FILES fontthumbnail.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
+--- plasma-desktop-20140602git/kcms/kfontinst/viewpart/CMakeLists.txt.orig	2014-06-02 13:47:27.000000000 +0200
++++ plasma-desktop-20140602git/kcms/kfontinst/viewpart/CMakeLists.txt	2014-06-03 19:42:35.590219674 +0200
+@@ -8,7 +8,7 @@
+ 
+ add_library(kfontviewpart MODULE ${kfontviewpart_PART_SRCS})
+ 
+-target_link_libraries(kfontviewpart KF5::Archive KF5::Parts KF5::XmlGui ${FONTCONFIG_LIBRARIES} kfontinstui kfontinst )
++target_link_libraries(kfontviewpart KF5::Archive KF5::Parts KF5::XmlGui KF5::KDELibs4Support ${FONTCONFIG_LIBRARIES} kfontinstui kfontinst )
+ 
+ install(TARGETS kfontviewpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
+ install( FILES kfontviewpart.rc DESTINATION  ${DATA_INSTALL_DIR}/kfontinst )

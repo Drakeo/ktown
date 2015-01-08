@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright 2011, 2012, 2014  Eric Hameleers, Eindhoven, NL
+# Copyright 2011, 2012, 2014, 2015  Eric Hameleers, Eindhoven, NL
 # Copyright 2011, 2012  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -25,7 +25,7 @@
 
 PKGNAM=phonon-gstreamer
 SRCNAM=phonon-backend-gstreamer
-VERSION=${VERSION:-$(echo $SRCNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d- | rev)}
+VERSION=${VERSION:-4.8.2}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:" -j7 "}
@@ -95,23 +95,26 @@ cd build
   make DESTDIR=$PKG install
 cd -
 
-mkdir -p build-qt5
-cd build-qt5
-  cmake \
-    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DMAN_INSTALL_DIR=/usr/man \
-    -DSYSCONF_INSTALL_DIR=/etc \
-    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    -DPHONON_BUILD_PHONON4QT5=ON \
-    ..
-  make $NUMJOBS
-  make DESTDIR=$PKG install
-cd -
+# Conditional build of Qt5 support:
+if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
+  mkdir -p build-qt5
+  cd build-qt5
+    cmake \
+      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DMAN_INSTALL_DIR=/usr/man \
+      -DSYSCONF_INSTALL_DIR=/etc \
+      -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+      -DPHONON_BUILD_PHONON4QT5=ON \
+      ..
+    make $NUMJOBS
+    make DESTDIR=$PKG install
+  cd -
+fi
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION

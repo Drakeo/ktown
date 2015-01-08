@@ -1,0 +1,11 @@
+--- kde-cli-tools-20140602git/CMakeLists.txt.orig	2014-06-02 13:45:49.000000000 +0200
++++ kde-cli-tools-20140602git/CMakeLists.txt	2014-06-02 23:45:22.337682384 +0200
+@@ -21,7 +21,7 @@
+     Test
+ )
+ 
+-find_package(KF5 CONFIG REQUIRED COMPONENTS
++find_package(KF5 REQUIRED COMPONENTS
+     Config
+     Init
+     KCMUtils

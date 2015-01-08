@@ -1,0 +1,69 @@
+From: Andreas Hartmetz <ahartmetz@gmail.com>
+Date: Wed, 14 May 2014 02:36:57 +0000
+Subject: Adapt to changes in KAboutData.
+X-Git-Url: http://quickgit.kde.org/?p=baloo.git&a=commitdiff&h=46e3ea7828c8066e75bec87ba0a19d5ef3bd700a
+---
+Adapt to changes in KAboutData.
+---
+
+
+--- a/src/file/kcm/kcm.cpp
++++ b/src/file/kcm/kcm.cpp
+@@ -58,8 +58,8 @@
+     : KCModule(parent, args)
+ {
+     KAboutData* about = new KAboutData(
+-        "kcm_baloofile", "kcm_baloofile", i18n("Configure Desktop Search"),
+-        "0.1", QString(), KAboutData::License_GPL,
++        "kcm_baloofile", i18n("Configure Desktop Search"),
++        "0.1", QString(), KAboutLicense::GPL,
+         i18n("Copyright 2007-2010 Sebastian Trüg"));
+     about->addAuthor(i18n("Sebastian Trüg"), QString(), "trueg@kde.org");
+     about->addAuthor(i18n("Vishesh Handa"), QString(), "vhanda@kde.org");
+
+--- a/src/file/main.cpp
++++ b/src/file/main.cpp
+@@ -44,9 +44,9 @@
+     lowerSchedulingPriority();
+     lowerPriority();
+ 
+-    KAboutData aboutData("baloo_file", "baloo_file", i18n("Baloo File"), "0.1",
++    KAboutData aboutData("baloo_file", i18n("Baloo File"), "0.1",
+                          i18n("An application to handle file metadata"),
+-                         KAboutData::License_LGPL_V2);
++                         KAboutLicense::LGPL_V2);
+     aboutData.addAuthor(i18n("Vishesh Handa"), i18n("Maintainer"), "me@vhanda.in", "http://vhanda.in");
+ 
+     KAboutData::setApplicationData(aboutData);
+
+--- a/src/tools/baloosearch/main.cpp
++++ b/src/tools/baloosearch/main.cpp
+@@ -55,11 +55,10 @@
+ int main(int argc, char* argv[])
+ {
+     KAboutData aboutData("baloosearch",
+-                         "baloosearch",
+                          i18n("Baloo Search"),
+                          "0.1",
+                          i18n("Baloo Search - A debugging tool"),
+-                         KAboutData::License_GPL,
++                         KAboutLicense::GPL,
+                          i18n("(c) 2013, Vishesh Handa"));
+     aboutData.addAuthor(i18n("Vishesh Handa"), i18n("Maintainer"), "me@vhanda.in");
+ 
+
+--- a/src/tools/balooshow/main.cpp
++++ b/src/tools/balooshow/main.cpp
+@@ -46,11 +46,10 @@
+ int main(int argc, char* argv[])
+ {
+     KAboutData aboutData("balooshow",
+-                         "balooshow",
+                          i18n("Baloo Show"),
+                          "0.1",
+                          i18n("The Baloo data Viewer - A debugging tool"),
+-                         KAboutData::License_GPL,
++                         KAboutLicense::GPL,
+                          i18n("(c) 2012, Vishesh Handa"));
+     aboutData.addAuthor(i18n("Vishesh Handa"), i18n("Maintainer"), "me@vhanda.in");
+ 

@@ -1,2 +1,2 @@
 # SDDM changed its location for the themes:
-#zcat $CWD/patch/sddm-theme-breeze/sddm-theme-breeze_path.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/sddm-theme-breeze/sddm-theme-breeze_path.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

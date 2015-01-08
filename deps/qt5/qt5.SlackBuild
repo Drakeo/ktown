@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -36,28 +36,29 @@
 # Alternate method (we don't use this):
 # wget http://qt.gitorious.org/qt/kde-qt/archive-tarball/4.6.2-patched
 #
-# Modifications 2010, 2011, 2012, 2013, 2014  Eric Hameleers, Eindhoven, NL
+# Modifications 2010, 2011, 2012, 2013, 2014, 2015  Eric Hameleers, Eindhoven, NL
 # qt 4.7.3, 4.7.4, 4.8.0, 4.8.1, 4.8.2, 4.8.4, are built from original nokia sources.
 #
 # Modifications for qt 5.2.0 2013 by Michael James, AU
 # Modifications for qt 5.2.1 2014 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.3.1 2014 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.4.0 2015 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=$(ls qt-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)
+VERSION=${VERSION:-5.4.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i486 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7lh ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
 fi
 
 if [ "$ARCH" = "i486" ]; then
@@ -111,11 +112,14 @@ find . \
  -exec chmod 644 {} \;
 
 # Fix path to mysql header:
-zcat $CWD/patches/qt5.mysql.h.diff.gz | patch -p1 --verbose || exit 1
+cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
+
+# Forcibly disable pulseaudio in qtwebengine:
+cat $CWD/patches/qt5.pulseaudio.diff | patch -p1 --verbose || exit 1
 
 # Install path fix for libplatformplugin.so:
 # See https://bugs.webkit.org/show_bug.cgi?id=117077
-zcat $CWD/patches/platformplugin-install-path-fix.patch.gz | patch -p1 --verbose || exit 1
+cat $CWD/patches/platformplugin-install-path-fix.patch | patch -p1 --verbose || exit 1
 
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
@@ -139,7 +143,6 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -archdatadir /usr/lib${LIBDIRSUFFIX}/qt5 \
   -docdir /usr/doc/qt5-$VERSION \
   -examplesdir /usr/doc/qt5-$VERSION/examples \
-  -system-harfbuzz \
   -system-libpng \
   -system-libjpeg \
   -system-pcre \
@@ -148,20 +151,24 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -plugin-sql-mysql \
   -plugin-sql-sqlite \
   -accessibility \
+  -alsa \
   -dbus \
   -glib \
   -icu \
   -openssl \
   -optimized-qmake \
   -qpa xcb \
+  -qt-harfbuzz \
   -reduce-relocations \
   -verbose \
   -xcb \
   -nomake examples \
   -nomake tests \
+  -no-pulseaudio \
   -no-separate-debug-info \
   -no-strip \
-  -no-pch
+  -no-use-gold-linker \
+  -no-pch \
   # No-precompiled-headers is ccache-friendly.
   
 # Sometimes a failure happens when parallelizing make.  Try again if make fails,
@@ -250,17 +257,6 @@ Terminal=false
 Encoding=UTF-8
 Type=Application
 Categories=Qt;Development;
-EOF
-cat <<EOF > $PKG/usr/share/applications/qt5-config.desktop
-[Desktop Entry]
-Name=Qt5 Config 
-Comment=Configure Qt5 behavior, styles, fonts
-Exec=qtconfig-qt5 -qt=5
-Icon=qt5-logo
-Terminal=false
-Encoding=UTF-8
-Type=Application
-Categories=Qt;Settings;
 EOF
 cat <<EOF > $PKG/usr/share/applications/qt5-qdbusviewer.desktop
 [Desktop Entry]

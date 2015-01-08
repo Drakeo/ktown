@@ -22,7 +22,7 @@
 
 
 PKGNAM=poppler
-VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+VERSION=${VERSION:-0.24.3}
 BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-" -j7 "}
@@ -82,7 +82,7 @@ tar xvf $CWD/${PKGNAM}-$VERSION.tar.?z* || exit 1
 cd ${PKGNAM}-$VERSION || exit 1
 
 # Properly detect Qt5:
-zcat $CWD/poppler.mocversiongrep.patch.gz | patch -p1 --verbose || exit 1
+cat $CWD/poppler.mocversiongrep.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \

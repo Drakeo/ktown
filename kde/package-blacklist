@@ -7,3 +7,5 @@
 kimono
 qyoto
 
+# We need to support Wayland first.
+kwayland

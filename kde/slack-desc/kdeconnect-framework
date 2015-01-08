@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+                    |-----handy-ruler------------------------------------------------------|
+kdeconnect-framework: kdeconnect-framework (Integrate Android with the Plasma Desktop)
+kdeconnect-framework:
+kdeconnect-framework: KDE Connect is a module to connect KDE with your smartphone.
+kdeconnect-framework: Prominent features are: clipboard share, notifications sync, 
+kdeconnect-framework: multimedia remote control over secured network connections.
+kdeconnect-framework: Please note you will need to install KDE Connect on Android
+kdeconnect-framework: for this app to work:
+kdeconnect-framework: https://play.google.com/store/apps/details?id=org.kde.kdeconnect-framework_tp
+kdeconnect-framework:
+kdeconnect-framework: See also:
+kdeconnect-framework:  http://albertvaka.wordpress.com/2013/08/05/introducing-framework-connect/

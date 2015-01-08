@@ -1,0 +1,10 @@
+diff -uar sddm-theme-breeze-20140601.orig/CMakeLists.txt sddm-theme-breeze-20140601/CMakeLists.txt
+--- sddm-theme-breeze-20140601.orig/CMakeLists.txt	2014-06-01 05:19:59.000000000 +0200
++++ sddm-theme-breeze-20140601/CMakeLists.txt	2014-09-15 14:08:36.883149093 +0200
+@@ -3,5 +3,5 @@
+ message("This cmake file does some weird stuff for the neon ISO")
+ message("unless you are Rohan or Harold turn back now and revert this commit")
+ 
+-INSTALL(DIRECTORY breeze DESTINATION ${CMAKE_INSTALL_PREFIX}/share/apps/sddm/themes/)
++INSTALL(DIRECTORY breeze DESTINATION ${CMAKE_INSTALL_PREFIX}/share/sddm/themes/)
+ INSTALL(FILES plasmarc DESTINATION /var/lib/sddm/.config)

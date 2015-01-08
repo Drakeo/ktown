@@ -15,17 +15,32 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   cmake \
+  extra-cmake-modules \
+  strigi \
+  soprano \
+  akonadi \
+  attica \
+  shared-desktop-ontologies \
+  LibRaw \
+  eigen3 \
+  orc \
   OpenAL \
   harfbuzz \
+  poppler \
+  xapian-core \
+  libfakekey \
+  gstreamer1 \
+  gst1-plugins-base \
+  gst1-plugins-good \
   qt5 \
-  phonon \
-  qt5-gstreamer \
-  phonon-gstreamer \
-  strigi \
+  qca-qt5 \
   akonadi-qt5 \
   libdbusmenu-qt5 \
+  qt-gstreamer \
+  qt-gstreamer1 \
+  phonon \
+  phonon-gstreamer \
   polkit-qt5-1 \
-  poppler \
   "
 
 # Allow for specification of individual packages to be built:

@@ -18,8 +18,10 @@ oxygen-fonts
 systemsettings
 plasma-workspace
 plasma-desktop
+kdeplasma-addons
+plasma-workspace-wallpapers
 libmm-qt5
-libnm-qt5
+#libnm-qt5
 plasma5-nm
 powerdevil
 khotkeys

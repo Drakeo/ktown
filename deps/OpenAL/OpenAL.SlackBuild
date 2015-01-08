@@ -1,5 +1,6 @@
 #!/bin/sh
-# Copyright 2012, 2013, 2014  Eric Hameleers, Eindhoven, NL
+# Copyright 2014  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2012, 2013, 2014, 2015  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -24,7 +25,7 @@
 
 PKGNAM=OpenAL
 SRCNAM=openal-soft
-VERSION=${VERSION:-1.15.1}
+VERSION=${VERSION:-1.16.0}
 BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:" -j4 "}
 
@@ -89,8 +90,8 @@ cd build
     -DSYSCONF_INSTALL_DIR=/etc \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     ..
-   make $NUMJOBS || make || exit 1
-   make install DESTDIR=$PKG || exit 1
+  make $NUMJOBS || make || exit 1
+  make install DESTDIR=$PKG || exit 1
 cd -
 
 # Add an example configuration file:
@@ -99,7 +100,7 @@ install -m0644 alsoftrc.sample $PKG/etc/openal/alsoft.conf.sample
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
-cp -a COPYING $PKG/usr/doc/$PKGNAM-$VERSION || true
+cp -a COPYING README env-vars.txt hrtf.txt $PKG/usr/doc/$PKGNAM-$VERSION || true
 chown -R root:root $PKG/usr/doc/$PKGNAM-$VERSION
 find $PKG/usr/doc -type f -exec chmod 644 {} \;
 
@@ -114,5 +115,4 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 # Build the package:
 cd $PKG
 /sbin/makepkg --linkadd y --chown n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
-
 

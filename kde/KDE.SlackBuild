@@ -149,27 +149,50 @@ precheck() {
   RETVAL=0
 
   for SRCFILE in $(find $CWD/src -name "*.tar.?z*") ; do
-    if cat modules/* |grep "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev)$ ; then
-      echo "Source file '$(basename $SRCFILE)' is commented out in 'modules' !"
-    elif cat package-blacklist |grep -v "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev)$ ; then
-      echo "Source file '$(basename $SRCFILE)' is on the package-blacklist !"
-    elif ! cat modules/* |grep -v "^ *#" |grep -wq $(echo $(basename $SRCFILE) | rev | cut -f2- -d- | rev) ; then
-      echo "Source file '$(basename $SRCFILE)' is not mentioned in 'modules' !"
+    # Check if the source tarball is mentioned in pkgsrc/
+    # meaning its package will get a different name:
+    PKGSRC=$(echo $SRCFILE |rev |cut -f2- -d- |cut -f1,2 -d/ |rev)
+    PKGBASE=$(basename $(grep -lw $PKGSRC $CWD/pkgsrc/*) 2>/dev/null)
+    if [ -z "$PKGBASE" ]; then
+      PKGBASE=$(echo $(basename $SRCFILE) |rev |cut -f2- -d- |rev)
+    fi
+    # We now have the package base name and we can start looking:
+    PKGTGT=$(grep -w ${PKGBASE}$ modules/*)
+    if [ -n "$(echo $PKGTGT |cut -d: -f2- |grep "^ *#")" ]; then
+      echo "Source file '$(basename $SRCFILE)' is commented out: ($PKGTGT) !"
+    elif cat package-blacklist |grep -v "^ *#" |grep -wq ${PKGBASE}$ ; then
+      echo "Source file '$(basename $SRCFILE)' is on the package-blacklist ($PKGBASE) !"
+    elif ! cat modules/* |grep -v "^ *#" |grep -wq ${PKGBASE} ; then
+      echo "Source file '$(basename $SRCFILE)' is not mentioned in 'modules' ($PKGBASE) !"
       RETVAL=1
     fi
   done
 
-  for MODULE in $(cat $CWD/modules/* | grep -v "^#") ; do
-    #if [ -z "$(find $CWD/src -name ${MODULE}-*)" ] ; then
-    if [ -z "$(find $CWD/src -name $MODULE-*.tar.* |grep -E "$MODULE-[^-]+.tar.*$|$MODULE-[0-9].+.tar.*$")" ] ; then
-      echo "Module '$MODULE' does not have a matching source tarball !"
+  # Do we have duplicate package names?
+  PKGDUP="$(cat $CWD/modules/* |grep -v "^ *#" |grep -v "^$" |sort |uniq -d)"
+  if [ -n "$PKGDUP" ] ; then
+    echo "Multiply-defined package names: '$(echo $PKGDUP)'"
+    RETVAL=1
+  fi
+
+  for MODULE in $(cat $CWD/modules/* | grep -v "^ *#") ; do
+    # First find out if the pkg source is different from the actual pkg name:
+    if [ -f $CWD/pkgsrc/$MODULE ]; then
+      MODREF=$(cat $CWD/pkgsrc/$MODULE)
+      MODSRC="$(find $CWD/src -path $CWD/src/$MODREF-*.tar.* |grep -E "$MODREF-[^-]+.tar.*$|$MODREF-[0-9].+.tar.*$")"
+    else
+      MODREF=$MODULE
+      MODSRC="$(find $CWD/src -name $MODULE-*.tar.* |grep -E "$MODULE-[^-]+.tar.*$|$MODULE-[0-9].+.tar.*$")"
+    fi
+    if [ -z "$MODSRC" ] ; then
+      echo "Module '$MODULE' does not have a matching source tarball ($MODREF)!"
       if [ "$CHECKOUT" = "yes" -o "$CHECKOUT" = "YES" ]; then
         echo "Checking out KDE component at branch '$VERSION'."
-        git archive --format=tar --prefix {$MODULE}-${VERSION}/ --remote ${KDEGITURI}/${MODULE}.git v${VERSION} | xz -c > $CWD/src/${MODULE}-${VERSION}.tar.xz
+        git archive --format=tar --prefix {$(basename $MODREF)}-${VERSION}/ --remote ${KDEGITURI}/$(basename ${MODREF}).git v${VERSION} | xz -c > $CWD/src/${MODREF}-${VERSION}.tar.xz
         RETVAL=$?
         if [ $RETVAL -ne 0 ]; then
-          echo "Error while checking out '$MODULE' !"
-          mv $CWD/src/${MODULE}-${VERSION}.tar.xz $CWD/src/${MODULE}-${VERSION}.tar.xz.failed
+          echo "Error while checking out '$MODULE' ($MODREF) !"
+          mv $CWD/src/${MODREF}-${VERSION}.tar.xz $CWD/src/${MODREF}-${VERSION}.tar.xz.failed
         fi
       else
         RETVAL=1
@@ -184,9 +207,10 @@ precheck() {
   done
 
   if [ $RETVAL -eq 0 ]; then
-    echo "Check complete, build starts in 5 seconds"
+    echo "Check complete, build starts in 5 seconds.."
     sleep 5
   else
+    echo "Precheck failed with error code '$RETVAL'."
     exit 1
   fi
 }
@@ -504,38 +528,20 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 # And kde-baseapps is rebuilt after kdewebdev because it can then pickup
 #   libtidy and enable the Konqueror validators plugin to validate HTML.
 KDEMODS=" \
+  kdelibs \
+  kdebase:nepomuk-core \
+  kdepimlibs \
+  kdebase \
+  kdebindings
+  kdebase:kde-workspace \
+  kdepim \
+  extragear \
   frameworks \
   plasma \
   plasma-extra \
+  polkit-kde \
+  applications \
   "
-  #kdebase:nepomuk-core \
-  #kdepimlibs \
-  #kdebase \
-  #kdesdk \
-  #extragear:libkscreen \
-  #kdegraphics \
-  #kdebindings \
-  #kdebase:kde-workspace \
-  #kdeaccessibility \
-  #kdeutils \
-  #kdemultimedia \
-  #extragear:libktorrent \
-  #kdenetwork \
-  #oxygen-icons \
-  #kdeadmin \
-  #kdeartwork \
-  #kdegames \
-  #kdetoys \
-  #kdepim \
-  #kdepim-runtime \
-  #kdenetwork:kopete \
-  #kdeedu \
-  #kdewebdev \
-  #kdebase:kde-baseapps \
-  #kdeplasma-addons \
-  #polkit-kde \
-  #extragear \
-  #"
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

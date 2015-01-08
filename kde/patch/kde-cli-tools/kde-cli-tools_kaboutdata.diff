@@ -1,0 +1,59 @@
+diff -uar kde-cli-tools-20140602git.orig/kdesu/kdesu.cpp kde-cli-tools-20140602git/kdesu/kdesu.cpp
+--- kde-cli-tools-20140602git.orig/kdesu/kdesu.cpp	2014-06-02 13:45:49.000000000 +0200
++++ kde-cli-tools-20140602git/kdesu/kdesu.cpp	2014-06-03 00:41:16.998697492 +0200
+@@ -81,9 +81,9 @@
+     if (duser.isEmpty())
+         duser = "root";
+ 
+-    KAboutData aboutData("kdesu", 0, i18n("KDE su"),
++    KAboutData aboutData("kdesu", i18n("KDE su"),
+             Version, i18n("Runs a program with elevated privileges."),
+-            KAboutData::License_Artistic,
++            KAboutLicense::Artistic,
+             i18n("Copyright (c) 1998-2000 Geert Jansen, Pietro Iglio"));
+     aboutData.addAuthor(i18n("Geert Jansen"), i18n("Maintainer"),
+             "jansen@kde.org", "http://www.stack.nl/~geertj/");
+diff -uar kde-cli-tools-20140602git.orig/kioclient/kioclient.cpp kde-cli-tools-20140602git/kioclient/kioclient.cpp
+--- kde-cli-tools-20140602git.orig/kioclient/kioclient.cpp	2014-06-02 13:45:49.000000000 +0200
++++ kde-cli-tools-20140602git/kioclient/kioclient.cpp	2014-06-03 00:41:50.446696159 +0200
+@@ -133,7 +133,7 @@
+   QString programName = i18n("KIO Client");
+   QString description = i18n("Command-line tool for network-transparent operations");
+   QString version = "2.0";
+-  KAboutData data(appName, appName, programName, version, description, KAboutData::License_LGPL_V2);
++  KAboutData data(appName, programName, version, description, KAboutLicense::LGPL_V2);
+ 
+   QCommandLineParser parser;
+   parser.addOption(QCommandLineOption("noninteractive", i18n("Non-interactive use: no message boxes. If you don't want a"
+diff -uar kde-cli-tools-20140602git.orig/kreadconfig/kreadconfig.cpp kde-cli-tools-20140602git/kreadconfig/kreadconfig.cpp
+--- kde-cli-tools-20140602git.orig/kreadconfig/kreadconfig.cpp	2014-06-02 13:45:49.000000000 +0200
++++ kde-cli-tools-20140602git/kreadconfig/kreadconfig.cpp	2014-06-03 00:40:33.820702023 +0200
+@@ -53,10 +53,10 @@
+ int main(int argc, char **argv)
+ {
+ 	QCoreApplication app(argc, argv);
+-	KAboutData aboutData("kreadconfig", 0, i18n("KReadConfig"),
++	KAboutData aboutData("kreadconfig", i18n("KReadConfig"),
+ 		"1.0.1",
+ 		i18n("Read KConfig entries - for use in shell scripts"),
+-		KAboutData::License_GPL,
++		KAboutLicense::GPL,
+ 		i18n("(c) 2001 Red Hat, Inc."));
+ 	aboutData.addAuthor(i18n("Bernhard Rosenkraenzer"), QString(), "bero@redhat.com");
+ 
+diff -uar kde-cli-tools-20140602git.orig/kreadconfig/kwriteconfig.cpp kde-cli-tools-20140602git/kreadconfig/kwriteconfig.cpp
+--- kde-cli-tools-20140602git.orig/kreadconfig/kwriteconfig.cpp	2014-06-02 13:45:49.000000000 +0200
++++ kde-cli-tools-20140602git/kreadconfig/kwriteconfig.cpp	2014-06-03 00:39:54.811701204 +0200
+@@ -31,10 +31,10 @@
+ int main(int argc, char **argv)
+ {
+ 	QCoreApplication app(argc, argv);
+-	KAboutData aboutData("kwriteconfig", 0, i18n("KWriteConfig"),
++	KAboutData aboutData("kwriteconfig", i18n("KWriteConfig"),
+ 		"1.0.0",
+ 		i18n("Write KConfig entries - for use in shell scripts"),
+-		KAboutData::License_GPL,
++		KAboutLicense::GPL,
+ 		i18n("(c) 2001 Red Hat, Inc. & Luís Pedro Coelho"));
+ 	aboutData.addAuthor("Luís Pedro Coelho", QString(), "luis_pedro@netcabo.pt");
+ 	aboutData.addAuthor("Bernhard Rosenkraenzer", i18n("Wrote kreadconfig on which this is based"), "bero@redhat.com");

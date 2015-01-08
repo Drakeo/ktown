@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2013, 2014  Patrick J. Volkerding, Sebeka, Minnesota, USA
+# Copyright 2013, 2014, 2015  Patrick J. Volkerding, Sebeka, Minnesota, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -21,7 +21,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=harfbuzz
-VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+VERSION=${VERSION:-0.9.37}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
@@ -69,7 +69,7 @@ cd $PKGNAM-$VERSION || exit 1
 
 # Apply a patch (borrowed from debian) which 'unbreaks' the ABI breakage
 # caused by moving the ICU functionality into a separate backend library.
-zcat $CWD/harfbuzz_unbreak_abi.patch.gz | patch -p1 --verbose || exit 1
+cat $CWD/harfbuzz_unbreak_abi.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \

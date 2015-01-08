@@ -21,25 +21,24 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2012, 2014 by Eric Hameleers <alien at slackware.com> for ARM port.
+# Modified 2012, 2014, 2015 by Eric Hameleers <alien at slackware.com> for ARM port.
 
 
 PKGNAM=strigi
 VERSION=${VERSION:-0.7.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i486 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7lh ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
 fi
 
 if [ "$ARCH" = "i486" ]; then
@@ -70,13 +69,13 @@ rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
 cd $PKGNAM-$VERSION || exit 1
 
-#zcat $CWD/strigi-fix-ftbfs-with-gcc-4.7.diff.gz |patch -p1 --verbose || exit 1
+#cat $CWD/strigi-fix-ftbfs-with-gcc-4.7.diff |patch -p1 --verbose || exit 1
 
 # Fix a linker DSO error:
-zcat $CWD/strigi-fix-missing-lucene-lib.diff.gz |patch -p1 --verbose || exit 1
+cat $CWD/strigi-fix-missing-lucene-lib.diff |patch -p1 --verbose || exit 1
 
 # Fix indexing of jpegs with 'wrong' isoSpeedRatings:
-zcat $CWD/strigi-fix-jpeg-isospeedratings.diff.gz |patch -p1 --verbose || exit 1
+cat $CWD/strigi-fix-jpeg-isospeedratings.diff |patch -p1 --verbose || exit 1
 
 # Fix a bug with gcc 4.8:
 sed -i -e "s/BufferedStream :/STREAMS_EXPORT &/" libstreams/include/strigi/bufferedstream.h

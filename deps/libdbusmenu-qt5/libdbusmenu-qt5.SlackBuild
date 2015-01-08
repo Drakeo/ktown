@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2010, 2011, 2012, 2014  Eric Hameleers, Eindhoven, The Netherlands
+# Copyright 2010, 2011, 2012, 2014, 2015  Eric Hameleers, Eindhoven, The Netherlands
 # Copyright 2010, 2011, 2012  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 
@@ -30,7 +30,7 @@
 # grep dbusmenu_qt_VERSION dbusmenu-qt/CMakeLists.txt
 
 PKGNAM=libdbusmenu-qt5
-VERSION=${VERSION:-$(echo $PKGNAM-*.tar.?z* | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+VERSION=${VERSION:-r267_20140619}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
