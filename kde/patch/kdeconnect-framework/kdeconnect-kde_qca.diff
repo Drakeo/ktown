@@ -1,0 +1,11 @@
+--- kdeconnect-kde-408533f_20141209git/CMakeLists.txt.orig	2014-12-09 22:27:16.000000000 +0100
++++ kdeconnect-kde-408533f_20141209git/CMakeLists.txt	2015-01-09 15:05:31.575681125 +0100
+@@ -7,7 +7,7 @@
+ 
+ find_package(Qt5 5.2 REQUIRED COMPONENTS Quick Test)
+ find_package(KF5 REQUIRED COMPONENTS I18n KIO Notifications ConfigWidgets DBusAddons KCMUtils IconThemes)
+-find_package(Qca REQUIRED)
++find_package(Qca-qt5 REQUIRED)
+ 
+ include(KDEInstallDirs)
+ include(KDECompilerSettings)

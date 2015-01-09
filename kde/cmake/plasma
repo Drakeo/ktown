@@ -1,6 +1,3 @@
-# Makes the build fail:
-#export XDG_DATA_DIRS="/opt/kf5/share:$XDG_DATA_DIRS"
-
 mkdir build
 cd build
   cmake \
@@ -20,5 +17,6 @@ cd build
     -DQML_INSTALL_DIR=lib$LIBDIRSUFFIX/qt5/qml \
     -DBUILD_TESTING=OFF \
     -DHAVE_SHADOW=TRUE \
+    -DQca-qt5_DIR=/usr/lib${LIBDIRSUFFIX}/cmake/Qca \
     ..
 
