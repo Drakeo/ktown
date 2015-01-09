@@ -22,13 +22,13 @@ kjs
 kimageformats
 ki18n
 networkmanager-qt
-kpackage
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
 kjobwidgets
 kcompletion
 kdoctools
+kpackage
 kdnssd
 kconfigwidgets
 kservice
