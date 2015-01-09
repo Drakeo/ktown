@@ -41,6 +41,7 @@ ALLDEPS=" \
   phonon \
   phonon-gstreamer \
   polkit-qt5-1 \
+  libepoxy \
   "
 
 # Allow for specification of individual packages to be built:

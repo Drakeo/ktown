@@ -13,3 +13,43 @@ config() {
 
 config etc/sddm.conf.new
 
+# Create the daemon account and homedirectory otherwise SDDM won't start:
+sddmuid=64
+sddmgid=64
+sddmhome=/var/lib/sddm
+
+if ! chroot . getent group sddm > /dev/null; then
+  chroot . groupadd -g $sddmgid sddm
+  res=$?
+  if [ $res -ne 0 ]; then
+cat <<EOT
+A group with GID $sddmgid already exists!
+You'll have add a 'sddm' group manually.  Run this command (as root):
+  groupadd -g GID sddm
+and select a free value for GID that is below 500 (check /etc/group)"
+Then, run an "upgradepkg --reinstall" of this sddm-qt5 package so that it can run the rest of the install script.
+EOT
+  fi
+fi
+if ! chroot . getent passwd sddm > /dev/null; then
+  useradd -c "SDDM Daemon Owner" -d $sddmhome -u $sddmuid \
+    -g sddm -s /bin/false sddm
+  res=$?
+  if [ $res -ne 0 ]; then
+    cat <<EOT
+Could not create 'sddm' user account.
+Does an account with UID $sddmuid already exist?
+You'll have add a 'sddm' user manually.  Run these commands (as root):
+  useradd -c "SDDM Daemon Owner" -d $sddmhome -u UID -g sddm -s /bin/false sddm
+  passwd -l sddm
+and select a free value for UID that is below 500 (check /etc/passwd)
+Then, run an "upgradepkg --reinstall" of this sddm-qt5 package so that it can run the rest of the install script.
+EOT
+  else
+    chroot . passwd -l sddm > /dev/null
+  fi
+fi
+
+mkdir -p $sddmhome
+chown -R sddm:sddm $sddmhome > /dev/null
+
