@@ -131,6 +131,178 @@ sddm-theme-breeze
 kscreen2
 kdeconnect-framework
 
+# applications
+# old kdebase:
+kde-baseapps
+kde-wallpapers
+kde-workspace
+kde-runtime
+kde-base-artwork
+# Old kdesdk:
+cervisia
+dolphin-plugins
+kcachegrind
+kde-dev-scripts
+kde-dev-utils
+kdesdk-kioslaves
+kdesdk-strigi-analyzers
+kdesdk-thumbnailers
+libkomparediff2
+kompare
+lokalize
+poxml
+umbrello
+# The old kdegraphics:
+libkipi
+libkexiv2
+libkdcraw
+libksane
+kdegraphics-mobipocket
+kdegraphics-strigi-analyzer
+okular
+kdegraphics-thumbnailers
+kamera
+kcolorchooser
+kgamma
+kolourpaint
+kruler
+ksaneplugin
+ksnapshot
+svgpart
+libkface
+# The old kdeaccessibility:
+#jovie
+kaccessible
+kmouth
+kmousetool
+kmag
+# The old kdeutils:
+ark
+filelight
+kcalc
+kcharselect
+kdf
+kfloppy
+kgpg
+print-manager
+kremotecontrol
+ktimer
+kwalletmanager
+superkaramba
+sweeper
+# The old kdemultimedia:
+libkcddb
+libkcompactdisc
+audiocd-kio
+dragon
+#ffmpegthumbs
+mplayerthumbs
+juk
+kmix
+#kscd
+# The oxygen icon set:
+oxygen-icons
+# The kdenetwork:
+kdenetwork-filesharing
+kdenetwork-strigi-analyzers
+zeroconf-ioslave
+kget
+kopete
+kppp
+krdc
+krfb
+# kdeadmin:
+kcron
+ksystemlog
+kuser
+# kdeartwork:
+kdeartwork
+# kdegames:
+libkdegames
+libkmahjongg
+klickety
+ksudoku
+ksquares
+kpat
+klines
+ksnakeduel
+kollision
+kshisen
+kblocks
+lskat
+kreversi
+bovo
+kajongg
+granatier
+kmines
+kiriki
+kigo
+bomber
+kolf
+kdiamond
+kbounce
+konquest
+kapman
+knavalbattle
+killbots
+kubrick
+kgoldrunner
+knetwalk
+kbreakout
+ksirk
+kfourinline
+picmi
+kblackbox
+palapeli
+katomic
+ktuberling
+kjumpingcube
+kmahjongg
+kspaceduel
+# kdetoys:
+amor
+kteatime
+ktux
+# kdeedu:
+libkdeedu
+kdeedu-data
+artikulate
+blinken
+cantor
+kalzium
+kbruch
+kgeography
+kiten
+klettres
+kmplot
+kstars
+kqtquickcharts
+ktouch
+kturtle
+kwordquiz
+marble
+pairs
+rocs
+step
+# kdewebdev:
+kdewebdev
+
+#
+# Ported to KF5:
+kate
+konsole
+analitza
+gwenview
+kalgebra
+kanagram
+khangman
+kig
+parley
+kapptemplate
+okteta
+libkeduvocdocument
+
+
 #
 # The old KDE 4 stuff which has not been migrated yet. or is still needed
 # by un-migrated applications:
@@ -145,14 +317,8 @@ baloo-widgets
 nepomuk-core
 nepomuk-widgets
 kfilemetadata
-kde-baseapps
 kactivities
-konsole
-kate
-kde-wallpapers
 kde-workspace
-kde-runtime
-kde-base-artwork
 
 # kdebindings
 smokegen

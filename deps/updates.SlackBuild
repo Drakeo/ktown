@@ -34,7 +34,6 @@ ALLDEPS=" \
   gst1-plugins-good \
   qt5 \
   qca-qt5 \
-  akonadi-qt5 \
   libdbusmenu-qt5 \
   qt-gstreamer \
   qt-gstreamer1 \
@@ -43,6 +42,8 @@ ALLDEPS=" \
   polkit-qt5-1 \
   libepoxy \
   "
+  # needed only by future kdepimlibs-framework
+  #akonadi-qt5 \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

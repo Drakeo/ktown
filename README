@@ -2,7 +2,10 @@ KDE 5_1501
 ==========
 
 This is going to be KDE 5 for Slackware-current, composed of Frameworks 5.6.0,
-Plasma 5.1.2 and Applications 14.12.0.
+Plasma 5.1.2 and Applications 14.12.1.
+
+Compared to Applications 14.12.0, the Applications 14.12.1 adds LTS releases of
+kdelibs, kdepimlibs, kdepim-runtime, kdepim and kde-workspace.
 
 Note that there is still a lot of KDE 4 stuff in here, which is necessary to
 support all the Applications that have not yet been ported to KDE Frameworks 5.
@@ -15,17 +18,35 @@ Preliminary build procedure (not verified 100% yet):
 - build all the deps using "updates.SlackBuild" script in the "deps/" directory
   - note that extra-cmake-modules is required here as well as when building the
     frameworks, so I just copied it from frameworks to deps.
+  - I removed akonadi-qt5 from the built deps because it won't be used until
+    there is a kdepimlibs-framework, and currently it causes kdepimlibs-4.14
+    to pick up Qt5 dependencies making its build fail
 - logoff/login to activate Qt5 profile script.
-- removepkg akonadi-qt5 or else kdepimlibs-4.14.3 picks up Qt5 dependencies and
-  its compilation will fail as a result
 - build all the KDE 4 stuff in the "kde/" directory, using "./KDE.SlackBuild kde
 libs kdebase:nepomuk-core kdepimlibs kdebase kdebindings kdebase:kde-workspace k
 depim extragear"
-- installpkg akonadi-qt5
+- check that everything built correctly
 - build the remaining KDE 5 stuff in the "kde/" directory, using "./KDE.SlackBui
 ld frameworks plasma plasma-extra polkit-kde applications"
+- check that everything built correctly
 - build kdei
 
+BUILD LOG FOR PLASMA-EXTRA:
+
+TODO: sddm-qt5 (no longer adds an /etc/sddm.conf so we need to generate one in its doinst.sh)
+
+BUILD LOG FOR APPLICATIONS:
+
+TODO: kdoctools (needs a fix for its CMake search for path to "/usr/share/xml/docbook/xml-dtd-4.5/docbookx.dtd", which causes a build error in kde-dev-scripts later on)
+TODO: kde-dev-scripts (needs a fixed "/usr/share/kf5/kdoctools/customization/dtd/kdex.dtd" in kdoctools)
+SKIP: libkface (needs opencv, so this will get skipped due to my reservations with it)
+DONE: kdeartwork (missed kde-workspace, will be fixed in the next iteration)
+DONE: kdewebdev (seems like tidy added the KDE.SlackBuild parameter to the path of its header file)
+DONE: kalgebra (needs patch to link properly to ncurses)
+DONE: kanagram (needed libkeduvocdocument, was missing due to build order issue)
+DONE: khangman (needed libkeduvocdocument, was missing due to build order issue)
+DONE: parley (needed libkeduvocdocument, was missing due to build order issue)
+
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 09-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 11-jan-2015
 

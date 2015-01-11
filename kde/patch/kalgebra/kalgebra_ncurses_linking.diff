@@ -1,0 +1,85 @@
+# Se:
+# https://git.reviewboard.kde.org/r/118959/diff/1/?expand=1
+# ---------------------------------------------------------------------------
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 09e216f..b7d6370 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,8 +9,16 @@ include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES})
+ #Checking whether we can compile calgebra
+ include(CheckIncludeFiles)
+ macro_optional_find_package(Readline)
++macro_optional_find_package(Ncurses)
+ macro_bool_to_01(READLINE_FOUND HAVE_READLINE)
++macro_bool_to_01(NCURSES_FOUND HAVE_NCURSES)
++if(READLINE_FOUND AND NCURSES_FOUND)
++       set(CONSOLE_SUPPORTED TRUE)
++else(READLINE_FOUND AND NCURSES_FOUND)
++       set(CONSOLE_SUPPORTED FALSE)
++endif(READLINE_FOUND AND NCURSES_FOUND)
+ macro_log_feature(READLINE_FOUND "GNU Readline" "Allows KAlgebra to provide a console interface." "http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html" FALSE "" "")
++macro_log_feature(READLINE_FOUND "NCurses" "Allows KAlgebra to provide a console interface." "http://www.gnu.org/software/ncurses/" FALSE "" "")
+ 
+ macro_optional_find_package(OpenGL)
+ macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
+@@ -25,9 +33,9 @@ set(ANALITZA_LIB_SOVERSION "5")
+ add_subdirectory(analitza)
+ add_subdirectory(analitzaplot)
+ add_subdirectory(analitzagui)
+-if(HAVE_READLINE)
++if(CONSOLE_SUPPORTED)
+ 	add_subdirectory(calgebra)
+-endif(HAVE_READLINE)
++endif(CONSOLE_SUPPORTED)
+ 
+ macro_display_feature_log()
+ 
+diff --git a/calgebra/CMakeLists.txt b/calgebra/CMakeLists.txt
+index 1cbb06b..9428c1d 100644
+--- a/calgebra/CMakeLists.txt
++++ b/calgebra/CMakeLists.txt
+@@ -1,11 +1,23 @@
+-include_directories(${READLINE_INCLUDE_DIR})
++include(CheckFunctionExists)
++include(CMakePushCheckState)
++
++include_directories(${READLINE_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS})
++
++# check if we have recent version of Readline
++cmake_push_check_state(RESET)
++set(CMAKE_REQUIRED_LIBRARIES ${READLINE_LIBRARY} ${NCURSES_LIBRARY})
++check_function_exists(free_history_entry HAVE_FREE_HISTORY_ENTRY)
++cmake_pop_check_state()
++if(HAVE_FREE_HISTORY_ENTRY)
++	add_definitions(-DHAVE_FREE_HISTORY_ENTRY)
++endif()
+ 
+ set(calgebra_SRCS
+ 	main.cpp
+ )
+ 
+ kde4_add_executable(calgebra ${calgebra_SRCS})
+-target_link_libraries(calgebra ${QT_QTCORE_LIBRARY} ${READLINE_LIBRARY} analitza)
++target_link_libraries(calgebra ${QT_QTCORE_LIBRARY} ${READLINE_LIBRARY} ${NCURSES_LIBRARY} analitza)
+ 
+ install(TARGETS calgebra ${INSTALL_TARGETS_DEFAULT_ARGS})
+ 
+diff --git a/calgebra/main.cpp b/calgebra/main.cpp
+index fa045ed..ddb5ab0 100644
+--- a/calgebra/main.cpp
++++ b/calgebra/main.cpp
+@@ -151,8 +151,12 @@ int main(int argc, char *argv[])
+ 	
+ 	for(int i=0; i<history_get_history_state()->length; i++) {
+ 		HIST_ENTRY *he = remove_history(i);
+-// 		free(he->line);
++#ifdef HAVE_FREE_HISTORY_ENTRY
+ 		free_history_entry(he);
++#else
++		free(he->line);
++		free(he);
++#endif
+ 	}
+ 	qDebug("\nExit.");
+ 	return 0;
+

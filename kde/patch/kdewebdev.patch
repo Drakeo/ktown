@@ -1,5 +1,6 @@
 # Make it find tidy:
 cat $CWD/patch/kdewebdev/include-tidy.patch \
-  | sed -e "s#/tmp/package-kdewebdev#${SLACK_KDE_BUILD_DIR}/${module}/package-kdewebdev#" \
+  | sed -e "s#/tmp/package-kdewebdev#${SLACK_KDE_BUILD_DIR}/$(echo ${module} |cut -f1 -d:)/package-kdewebdev#" \
   | patch -p0 --verbose \
   || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
