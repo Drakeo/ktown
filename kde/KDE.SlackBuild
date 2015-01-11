@@ -178,21 +178,22 @@ precheck() {
   for MODULE in $(cat $CWD/modules/* | grep -v "^ *#") ; do
     # First find out if the pkg source is different from the actual pkg name:
     if [ -f $CWD/pkgsrc/$MODULE ]; then
-      MODREF=$(cat $CWD/pkgsrc/$MODULE)
-      MODSRC="$(find $CWD/src -path $CWD/src/$MODREF-*.tar.* |grep -E "$MODREF-[^-]+.tar.*$|$MODREF-[0-9].+.tar.*$")"
+      MODBASE=$(basename $(cat $CWD/pkgsrc/$MODULE))
+      MODLOC=$(dirname $(cat $CWD/pkgsrc/$MODULE))
     else
-      MODREF=$MODULE
-      MODSRC="$(find $CWD/src -name $MODULE-*.tar.* |grep -E "$MODULE-[^-]+.tar.*$|$MODULE-[0-9].+.tar.*$")"
+      MODBASE=$MODULE
+      MODLOC=""
     fi
+    MODSRC="$(find $CWD/src/$MODLOC -name $MODBASE-*.tar.* |grep -E "$MODBASE-[^-]+.tar.*$|$MODBASE-[0-9].+.tar.*$")"
     if [ -z "$MODSRC" ] ; then
-      echo "Module '$MODULE' does not have a matching source tarball ($MODREF)!"
+      echo "Module '$MODULE' does not have a matching source tarball ($MODLOC/$MODBASE)!"
       if [ "$CHECKOUT" = "yes" -o "$CHECKOUT" = "YES" ]; then
         echo "Checking out KDE component at branch '$VERSION'."
-        git archive --format=tar --prefix {$(basename $MODREF)}-${VERSION}/ --remote ${KDEGITURI}/$(basename ${MODREF}).git v${VERSION} | xz -c > $CWD/src/${MODREF}-${VERSION}.tar.xz
+        git archive --format=tar --prefix ${MODBASE}-${VERSION}/ --remote ${KDEGITURI}/${MODBASE}.git v${VERSION} | xz -c > $CWD/src/${MODLOC}/${MODBASE}-${VERSION}.tar.xz
         RETVAL=$?
         if [ $RETVAL -ne 0 ]; then
-          echo "Error while checking out '$MODULE' ($MODREF) !"
-          mv $CWD/src/${MODREF}-${VERSION}.tar.xz $CWD/src/${MODREF}-${VERSION}.tar.xz.failed
+          echo "Error while checking out '$MODULE' ($MODLOC/$MODBASE) !"
+          mv $CWD/src/$MODLOC/${MODBASE}-${VERSION}.tar.xz $CWD/src/$MODLOC/${MODBASE}-${VERSION}.tar.xz.failed
         fi
       else
         RETVAL=1
