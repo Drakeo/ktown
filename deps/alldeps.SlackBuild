@@ -48,6 +48,7 @@ ALLDEPS=" \
   polkit-qt5-1 \
   poppler \
   libepoxy \
+  exiv2 \
   "
 
 # Allow for specification of individual packages to be built:

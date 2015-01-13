@@ -41,6 +41,7 @@ ALLDEPS=" \
   phonon-gstreamer \
   polkit-qt5-1 \
   libepoxy \
+  exiv2 \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \
