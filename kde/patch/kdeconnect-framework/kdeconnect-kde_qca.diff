@@ -1,5 +1,6 @@
---- kdeconnect-kde-408533f_20141209git/CMakeLists.txt.orig	2014-12-09 22:27:16.000000000 +0100
-+++ kdeconnect-kde-408533f_20141209git/CMakeLists.txt	2015-01-09 15:05:31.575681125 +0100
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/CMakeLists.txt kdeconnect-kde-c7c1974_20150111git/CMakeLists.txt
+--- kdeconnect-kde-c7c1974_20150111git.orig/CMakeLists.txt	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/CMakeLists.txt	2015-01-13 19:35:36.186346803 +0100
 @@ -7,7 +7,7 @@
  
  find_package(Qt5 5.2 REQUIRED COMPONENTS Quick Test)
@@ -9,3 +10,63 @@
  
  include(KDEInstallDirs)
  include(KDECompilerSettings)
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/core/backends/devicelink.h kdeconnect-kde-c7c1974_20150111git/core/backends/devicelink.h
+--- kdeconnect-kde-c7c1974_20150111git.orig/core/backends/devicelink.h	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/core/backends/devicelink.h	2015-01-13 19:37:54.472349672 +0100
+@@ -22,7 +22,7 @@
+ #define DEVICELINK_H
+ 
+ #include <QObject>
+-#include <QtCrypto>
++#include <QtCrypto/QtCrypto>
+ 
+ #include "../networkpackage.h"
+ 
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/core/daemon.cpp kdeconnect-kde-c7c1974_20150111git/core/daemon.cpp
+--- kdeconnect-kde-c7c1974_20150111git.orig/core/daemon.cpp	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/core/daemon.cpp	2015-01-13 19:36:20.832347218 +0100
+@@ -27,7 +27,7 @@
+ #include <QDBusConnection>
+ #include <QNetworkSession>
+ #include <QNetworkConfigurationManager>
+-#include <QtCrypto>
++#include <QtCrypto/QtCrypto>
+ #include <QStandardPaths>
+ #include <QNetworkAccessManager>
+ 
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/core/device.h kdeconnect-kde-c7c1974_20150111git/core/device.h
+--- kdeconnect-kde-c7c1974_20150111git.orig/core/device.h	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/core/device.h	2015-01-13 19:36:48.824345985 +0100
+@@ -27,7 +27,7 @@
+ #include <QSet>
+ #include <QSslKey>
+ #include <QTimer>
+-#include <QtCrypto>
++#include <QtCrypto/QtCrypto>
+ 
+ #include "networkpackage.h"
+ 
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/core/networkpackage.cpp kdeconnect-kde-c7c1974_20150111git/core/networkpackage.cpp
+--- kdeconnect-kde-c7c1974_20150111git.orig/core/networkpackage.cpp	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/core/networkpackage.cpp	2015-01-13 19:37:33.492347812 +0100
+@@ -32,7 +32,7 @@
+ #include <QSslKey>
+ #include <QDateTime>
+ #include <qjsondocument.h>
+-#include <QtCrypto>
++#include <QtCrypto/QtCrypto>
+ #include <QDebug>
+ 
+ #include "dbushelper.h"
+diff -uar kdeconnect-kde-c7c1974_20150111git.orig/core/networkpackage.h kdeconnect-kde-c7c1974_20150111git/core/networkpackage.h
+--- kdeconnect-kde-c7c1974_20150111git.orig/core/networkpackage.h	2015-01-11 05:14:01.000000000 +0100
++++ kdeconnect-kde-c7c1974_20150111git/core/networkpackage.h	2015-01-13 19:35:36.224346806 +0100
+@@ -28,7 +28,7 @@
+ #include <QVariant>
+ #include <QStringList>
+ #include <QIODevice>
+-#include <QtCrypto>
++#include <QtCrypto/QtCrypto>
+ #include <QSharedPointer>
+ #include <QUrl>
+ 

@@ -1,20 +1,3 @@
 # Remove PAM related stuff:
 rm -rf $PKG/etc/pam.d
 
-## Set the KDE4 theme 'elarun' as default, it gives the user more options:
-#sed -i -e "s/^CurrentTheme.*/CurrentTheme=elarun/" $PKG/etc/sddm.conf 
-# Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
-sed -i -e "s/^CurrentTheme.*/CurrentTheme=breeze/" $PKG/etc/sddm.conf 
-
-# SDDM follows the systemd convention of starting the first graphical session
-# on tty1.  We prefer the old convention where tty1 through tty6
-# are reserved for text consoles:
-cat <<EOT >> $PKG//etc/sddm.conf
-
-[XDisplay]
-MinimumVT=7
-EOT
-
-# Do not clobber existing configuration files:
-mv $PKG/etc/sddm.conf{,.new}
-

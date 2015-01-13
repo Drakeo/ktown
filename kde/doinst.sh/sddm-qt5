@@ -11,8 +11,6 @@ config() {
   # Otherwise, we leave the .new copy for the admin to consider...
 }
 
-config etc/sddm.conf.new
-
 # Create the daemon account and homedirectory otherwise SDDM won't start:
 sddmuid=64
 sddmgid=64
@@ -52,4 +50,24 @@ fi
 
 mkdir -p $sddmhome
 chown -R sddm:sddm $sddmhome > /dev/null
+
+# Generate a new configuration file if it does not exist:
+chroot . sddm --example-config > /etc/sddm.conf.new
+
+# Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
+sed -i -e "s/^CurrentTheme.*/CurrentTheme=breeze/" etc/sddm.conf.new
+
+# SDDM follows the systemd convention of starting the first graphical session
+# on tty1.  We prefer the old convention where tty1 through tty6
+# are reserved for text consoles:
+cat <<EOT >> etc/sddm.conf.new
+
+[XDisplay]
+MinimumVT=7
+EOT
+
+# Move over the new confguration file if needed:
+if [ -f etc/sddm.conf.new ]; then
+  config etc/sddm.conf.new
+fi
 
