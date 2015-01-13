@@ -2,4 +2,4 @@
 #cat $CWD/patch/plasma-desktop/plasma-desktop-4.99.0_kfontinst_po.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 # Forgotten includes:
-cat $CWD/patch/plasma-desktop/plasma-desktop_kdelibs4support.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/plasma-desktop/plasma-desktop_kdelibs4support.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }

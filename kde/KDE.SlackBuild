@@ -524,9 +524,7 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 SLACK_KDE_BUILD_DIR=$TMP/kde-build
 mkdir -p $SLACK_KDE_BUILD_DIR
 
-# Yes, we know kde-workspace is built twice.  kdebase needs the
-#   plasma bits from it, and then we build it again for good measure...
-# And kde-baseapps is rebuilt after kdewebdev because it can then pickup
+# kde-baseapps is rebuilt after kdewebdev because it can then pickup
 #   libtidy and enable the Konqueror validators plugin to validate HTML.
 KDEMODS=" \
   kdelibs \
@@ -534,7 +532,6 @@ KDEMODS=" \
   kdepimlibs \
   kdebase \
   kdebindings
-  kdebase:kde-workspace \
   kdepim \
   extragear \
   frameworks \
