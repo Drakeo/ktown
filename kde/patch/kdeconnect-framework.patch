@@ -1,3 +1,4 @@
+# We now use Qca-qt5, not Qca.
 # Change the lines with #include <QtCrypto> to #include <QtCrypto/QtCrypto> :
 cat $CWD/patch/kdeconnect-framework/kdeconnect-kde_qca.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

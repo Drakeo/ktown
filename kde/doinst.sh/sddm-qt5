@@ -55,7 +55,7 @@ chown -R sddm:sddm $sddmhome > /dev/null
 chroot . sddm --example-config > /etc/sddm.conf.new
 
 # Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
-sed -i -e "s/^CurrentTheme.*/CurrentTheme=breeze/" etc/sddm.conf.new
+sed -i -e "/\[Theme\]/,/^\[/s/^Current.*/Current=breeze/" etc/sddm.conf.new
 
 # SDDM follows the systemd convention of starting the first graphical session
 # on tty1.  We prefer the old convention where tty1 through tty6
