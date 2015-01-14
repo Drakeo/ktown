@@ -22,8 +22,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=eigen3
-VERSION=3.1.2
-SRCVER="eigen-5097c01bcdc4"
+VERSION=3.2.3
+SRCVER="eigen-36fd1ba04c12"
 BUILD=${BUILD:-2}
 
 # Automatically determine the architecture we're building on:
@@ -63,8 +63,8 @@ rm -rf $PKG
 mkdir -p $PKG $TMP
 cd $TMP
 rm -rf eigen-$SRCVER
-tar xvf $CWD/eigen-$VERSION.tar.bz2
-cd eigen-$SRCVER
+tar xvf $CWD/eigen-$VERSION.tar.bz2 || exit 1
+cd eigen-$SRCVER || exit 1
 chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
