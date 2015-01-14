@@ -14,7 +14,9 @@ The Applications 15.04 (march 2015) release should offer a lot more KF5 ports.
 Preliminary build procedure (not verified 100% yet):
 ----------------------------------------------------
 
-- (crude) get rid of Slackware's KDE: removepkg /var/log/packages/*-4.10.5-*
+- (crude) get rid of Slackware's KDE:
+  # removepkg /var/log/packages/*-4.10.5-*
+  # removepkg libscreen
 - build all the deps using "updates.SlackBuild" script in the "deps/" directory
   - note that extra-cmake-modules is required here as well as when building the
     frameworks, so I just copied it from frameworks to deps.
@@ -31,14 +33,23 @@ ld frameworks plasma plasma-extra polkit-kde applications"
 - check that everything built correctly
 - build kdei
 
+BUILD LOG FOR PLASMA:
+
+Need to recompile everything making sure that Qt4 is not picked up by accident,
+or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid
+of the start-time error:
+Failed to load platform plugin "xcb". Available platforms are:
+linuxfb minimal offscreen xcb
+Aborted
+
 BUILD LOG FOR PLASMA-EXTRA:
 
-TODO: sddm-qt5 (no longer adds an /etc/sddm.conf so we need to generate one in its doinst.sh)
+DONE: sddm-qt5 (no longer adds an /etc/sddm.conf so we need to generate one in its doinst.sh)
 
 BUILD LOG FOR APPLICATIONS:
 
-TODO: kdoctools (needs a fix for its CMake search for path to "/usr/share/xml/docbook/xml-dtd-4.5/docbookx.dtd", which causes a build error in kde-dev-scripts later on)
-TODO: kde-dev-scripts (needs a fixed "/usr/share/kf5/kdoctools/customization/dtd/kdex.dtd" in kdoctools)
+DONE: kdoctools (needs a fix for its CMake search for path to "/usr/share/xml/docbook/xml-dtd-4.5/docbookx.dtd", which causes a build error in kde-dev-scripts later on)
+DONE: kde-dev-scripts (needs a fixed "/usr/share/kf5/kdoctools/customization/dtd/kdex.dtd" in kdoctools)
 SKIP: libkface (needs opencv, so this will get skipped due to my reservations with it)
 DONE: kdeartwork (missed kde-workspace, will be fixed in the next iteration)
 DONE: kdewebdev (seems like tidy added the KDE.SlackBuild parameter to the path of its header file)
@@ -46,7 +57,10 @@ DONE: kalgebra (needs patch to link properly to ncurses)
 DONE: kanagram (needed libkeduvocdocument, was missing due to build order issue)
 DONE: khangman (needed libkeduvocdocument, was missing due to build order issue)
 DONE: parley (needed libkeduvocdocument, was missing due to build order issue)
+DONE: okular (needed libkscreen removed)
+DONE: kalgebra (needed a refreshed curses patch)
+SKIP: step (don't understand where the compilation error comes from)
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 11-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 14-jan-2015
 
