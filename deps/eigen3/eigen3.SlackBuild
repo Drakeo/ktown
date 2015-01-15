@@ -24,7 +24,7 @@
 PKGNAM=eigen3
 VERSION=3.2.3
 SRCVER="eigen-36fd1ba04c12"
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
 MARCH=$( uname -m )
