@@ -2,7 +2,7 @@
 # old kdebase:
 kde-baseapps
 kde-wallpapers
-kde-workspace
+#kde-workspace
 kde-runtime
 kde-base-artwork
 # Old kdesdk:

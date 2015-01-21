@@ -6,6 +6,8 @@ Plasma 5.1.2 and Applications 14.12.1.
 
 Compared to Applications 14.12.0, the Applications 14.12.1 adds LTS releases of
 kdelibs, kdepimlibs, kdepim-runtime, kdepim and kde-workspace.
+I am going to skip kde-workspace because its contents largely collide with
+the plasma-workspace and we want to have a Plasma Workspace.
 
 Note that there is still a lot of KDE 4 stuff in here, which is necessary to
 support all the Applications that have not yet been ported to KDE Frameworks 5.
@@ -16,7 +18,7 @@ Preliminary build procedure (not verified 100% yet):
 
 - (crude) get rid of Slackware's KDE:
   # removepkg /var/log/packages/*-4.10.5-*
-  # removepkg libscreen
+  # removepkg libkscreen
 - build all the deps using "updates.SlackBuild" script in the "deps/" directory
   - note that extra-cmake-modules is required here as well as when building the
     frameworks, so I just copied it from frameworks to deps.
@@ -24,24 +26,27 @@ Preliminary build procedure (not verified 100% yet):
     there is a kdepimlibs-framework, and currently it causes kdepimlibs-4.14
     to pick up Qt5 dependencies making its build fail
 - logoff/login to activate Qt5 profile script.
-- build all the KDE 4 stuff in the "kde/" directory, using "./KDE.SlackBuild kde
-libs kdebase:nepomuk-core kdepimlibs kdebase kdebindings kdebase:kde-workspace k
-depim extragear"
+- build all the KDE 4 stuff in the "kde/" directory, using "./KDE.SlackBuild kde libs kdebase:nepomuk-core kdepimlibs kdebase kdebindings kdepim extragear"
 - check that everything built correctly
 - build the remaining KDE 5 stuff in the "kde/" directory, using "./KDE.SlackBui
 ld frameworks plasma plasma-extra polkit-kde applications"
 - check that everything built correctly
-- build kdei
+- (optionally) build kdei
 
 BUILD LOG FOR PLASMA:
 
-TODO: Need to recompile everything making sure that Qt4 is not picked up by accident, or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid of the start-time error:
+DONE: Need to recompile everything making sure that Qt4 is not picked up by accident, or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid of the start-time error:
     Failed to load platform plugin "xcb". Available platforms are:
     linuxfb minimal offscreen xcb
     Aborted
-TODO: change "qtpaths" to "qtpaths-qt5" in /usr/bin/startkde
-TODO: change "qdbus" to "qdbus-qt5" in /usr/bin/startkde
-TODO: rename /usr/bin/startkde to /usr/bin/startkde5 because it clashes with the script from kde-workspace. Also update the plasma*desktop scripts to call startkde5 instead of startkde. Remove kde5-plasma*.desktop because plasma-workspace now includes its own plasma.desktop
+    >> The fix was to rebuild the qt5 package, not all of the rest :-) 
+SKIP: change "qtpaths" to "qtpaths-qt5" in /usr/bin/startkde
+   (not needed for Slackware, because /etc/profile.d/qt5.sh expands $PATH)
+SKIP: change "qdbus" to "qdbus-qt5" in /usr/bin/startkde
+   (not needed for Slackware, because /etc/profile.d/qt5.sh expands $PATH)
+SKIP: rename /usr/bin/startkde to /usr/bin/startkde5 because it clashes with the script from kde-workspace. Also update the plasma*desktop scripts to call startkde5 instead of startkde.
+   (I removed kde-workspace instead, we do not need that anyway)
+DONE: Remove kde5-plasma*.desktop because plasma-workspace now includes its own plasma.desktop
 
 BUILD LOG FOR PLASMA-EXTRA:
 
@@ -63,5 +68,5 @@ DONE: kalgebra (needed a refreshed curses patch)
 SKIP: step (don't understand where the compilation error comes from)
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 14-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 21-jan-2015
 
