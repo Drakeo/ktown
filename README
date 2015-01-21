@@ -35,12 +35,13 @@ ld frameworks plasma plasma-extra polkit-kde applications"
 
 BUILD LOG FOR PLASMA:
 
-Need to recompile everything making sure that Qt4 is not picked up by accident,
-or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid
-of the start-time error:
-Failed to load platform plugin "xcb". Available platforms are:
-linuxfb minimal offscreen xcb
-Aborted
+TODO: Need to recompile everything making sure that Qt4 is not picked up by accident, or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid of the start-time error:
+    Failed to load platform plugin "xcb". Available platforms are:
+    linuxfb minimal offscreen xcb
+    Aborted
+TODO: change "qtpaths" to "qtpaths-qt5" in /usr/bin/startkde
+TODO: change "qdbus" to "qdbus-qt5" in /usr/bin/startkde
+TODO: rename /usr/bin/startkde to /usr/bin/startkde5 because it clashes with the script from kde-workspace. Also update the plasma*desktop scripts to call startkde5 instead of startkde. Remove kde5-plasma*.desktop because plasma-workspace now includes its own plasma.desktop
 
 BUILD LOG FOR PLASMA-EXTRA:
 

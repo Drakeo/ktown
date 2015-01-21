@@ -1,6 +1,3 @@
-# Makes the build fail:
-#export XDG_DATA_DIRS="/opt/kf5/share:$XDG_DATA_DIRS"
-
 # Change "-DKDEPIM_SUPPORT_BUILD=FALSE" to  "-DKDEPIM_SUPPORT_BUILD=TRUE" 
 # if we have a kdepimlibs-framework package.
 
