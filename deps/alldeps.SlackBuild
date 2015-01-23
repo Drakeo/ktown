@@ -49,6 +49,7 @@ ALLDEPS=" \
   poppler \
   libepoxy \
   exiv2 \
+  wayland \
   "
 
 # Allow for specification of individual packages to be built:

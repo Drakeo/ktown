@@ -2,6 +2,7 @@
 kfilemetadata5
 #kdepimlibs-framework
 baloo5
+kdecoration
 breeze
 kde-cli-tools
 khelpcenter
@@ -16,6 +17,7 @@ milou
 oxygen
 oxygen-fonts
 systemsettings
+kwayland
 plasma-workspace
 plasma-desktop
 kdeplasma-addons
@@ -24,5 +26,14 @@ libmm-qt5
 #libnm-qt5
 plasma5-nm
 powerdevil
+#libbluedevil
+#bluedevil
 khotkeys
 kmenuedit
+polkit-kde-framework
+kscreen2
+sddm-kcm
+kde-gtk-config
+muon
+ksshaskpass
+

@@ -22,9 +22,6 @@
 # The Frameworks 5, Plasma 5 and Applications:
 #
 
-# polkit-kde
-polkit-kde-framework
-
 # frameworks
 # Tier 1, depends on Qt5, system libraries:
 attica-framework
@@ -99,6 +96,7 @@ khtml
 kfilemetadata5
 kdepimlibs-framework
 baloo5
+kdecoration
 breeze
 kde-cli-tools
 khelpcenter
@@ -113,6 +111,7 @@ milou
 oxygen
 oxygen-fonts
 systemsettings
+kwayland
 plasma-desktop
 plasma-workspace
 kdeplasma-addons
@@ -121,14 +120,20 @@ libmm-qt5
 libnm-qt5
 plasma5-nm
 powerdevil
+#libbluedevil
+#bluedevil
 khotkeys
 kmenuedit
+polkit-kde-framework
+kscreen2
+sddm-kcm
+kde-gtk-config
+muon
+ksshaskpass
 
 # plasma-extra
 sddm-qt5
-sddm-kcm
 sddm-theme-breeze
-kscreen2
 kdeconnect-framework
 
 # applications

@@ -42,6 +42,7 @@ ALLDEPS=" \
   polkit-qt5-1 \
   libepoxy \
   exiv2 \
+  wayland \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \

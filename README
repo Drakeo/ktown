@@ -2,23 +2,57 @@ KDE 5_1501
 ==========
 
 This is going to be KDE 5 for Slackware-current, composed of Frameworks 5.6.0,
-Plasma 5.1.2 and Applications 14.12.1.
+Plasma 5.2.0 and Applications 14.12.1.
 
 Compared to Applications 14.12.0, the Applications 14.12.1 adds LTS releases of
 kdelibs, kdepimlibs, kdepim-runtime, kdepim and kde-workspace.
 I am going to skip kde-workspace because its contents largely collide with
 the plasma-workspace and we want to have a Plasma Workspace.
 
+Plasma 5.2.0 has many improvements to the previous 5.1.2, and comes with
+several new packages (some of which I originally had in plasma-extra but have
+now found their rightful place): (lib)bluedevil, ksshaskpass, muon,
+sddm-kcm-module, kscreen2, polkit-framework, kde-gtk-config, kdecoration.
+And unfortunately, in order to be able to compile KWin, I had to add wayland
+to the "deps/" for this release of Plasma.
+
 Note that there is still a lot of KDE 4 stuff in here, which is necessary to
 support all the Applications that have not yet been ported to KDE Frameworks 5.
 The Applications 15.04 (march 2015) release should offer a lot more KF5 ports.
 
-Preliminary build procedure (not verified 100% yet):
-----------------------------------------------------
+
+CURRENT RUNTIME ISSUES:
+=======================
+
+These are issues I ran into while testing on my Virtual machine. Not tested yet
+if they occur on real hardware.
+
+- plasmashell crashes a lot, with error message "the x11 connection broke: unsupported extension used (code 2)".
+  Symptom: the desktop disappears and leaves a black screen. If you happen to
+  have a konsole window open, you can type "plasmashell" to get the desktop
+  back and watch the errors when it crashes again.
+
+- any action in systemsettings5 which requires admin credentials does not work.
+  Examples: date/time changes; SDDM configuration changes.
+  What *should* happen is that polkit pops up a window where you can enter
+  admin credentials. What happens is that no popup appears and the user
+  interface of systemsettings freezes (the app continues running, for instance
+  the clock keeps working)
+
+
+COMPILING IT ALL:
+=================
+
+Preliminary build procedure:
+----------------------------
 
 - (crude) get rid of Slackware's KDE:
   # removepkg /var/log/packages/*-4.10.5-*
   # removepkg libkscreen
+  # removepkg kscreen
+  # removepkg polkit-kde-agent-1
+  # removepkg polkit-kde-kcmodules-1
+  # removepkg polkit-qt-1
 - build all the deps using "updates.SlackBuild" script in the "deps/" directory
   - note that extra-cmake-modules is required here as well as when building the
     frameworks, so I just copied it from frameworks to deps.
@@ -32,8 +66,27 @@ Preliminary build procedure (not verified 100% yet):
 ld frameworks plasma plasma-extra polkit-kde applications"
 - check that everything built correctly
 - (optionally) build kdei
+- If you want to use SDDM as your graphical login manager, use the following
+  patch to /etc/rc.d/rc.4:
+
+# -------- 8< --------------------------------------
+--- /etc/rc.d/rc.4.orig 2015-01-23 13:26:43.273394439 +0100
++++ /etc/rc.d/rc.4      2015-01-23 10:01:12.189036253 +0100
+@@ -28,6 +28,8 @@
+ # Not there?  OK, try to use KDE's kdm session manager:
+ if [ -x /opt/kde/bin/kdm ]; then
+   exec /opt/kde/bin/kdm -nodaemon
++elif [ -x /usr/bin/sddm ]; then
++  exec /usr/bin/sddm
+ elif [ -x /usr/bin/kdm ]; then
+   exec /usr/bin/kdm -nodaemon
+ fi
+# -------- 8< --------------------------------------
+
+
 
 BUILD LOG FOR PLASMA:
+=====================
 
 DONE: Need to recompile everything making sure that Qt4 is not picked up by accident, or else set "export QT_QPA_PLATFORM_PLUGIN_PATH=path/to/qt/plugins" to get rid of the start-time error:
     Failed to load platform plugin "xcb". Available platforms are:
@@ -48,11 +101,15 @@ SKIP: rename /usr/bin/startkde to /usr/bin/startkde5 because it clashes with the
    (I removed kde-workspace instead, we do not need that anyway)
 DONE: Remove kde5-plasma*.desktop because plasma-workspace now includes its own plasma.desktop
 
+
 BUILD LOG FOR PLASMA-EXTRA:
+===========================
 
 DONE: sddm-qt5 (no longer adds an /etc/sddm.conf so we need to generate one in its doinst.sh)
 
+
 BUILD LOG FOR APPLICATIONS:
+===========================
 
 DONE: kdoctools (needs a fix for its CMake search for path to "/usr/share/xml/docbook/xml-dtd-4.5/docbookx.dtd", which causes a build error in kde-dev-scripts later on)
 DONE: kde-dev-scripts (needs a fixed "/usr/share/kf5/kdoctools/customization/dtd/kdex.dtd" in kdoctools)
@@ -68,5 +125,5 @@ DONE: kalgebra (needed a refreshed curses patch)
 SKIP: step (don't understand where the compilation error comes from)
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 21-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 23-jan-2015
 
