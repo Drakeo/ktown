@@ -52,6 +52,10 @@ ALLDEPS=" \
   libepoxy \
   exiv2 \
   wayland \
+  json-glib \
+  libdbusmenu-gtk \
+  libindicator \
+  libappindicator \
   "
 
 # Allow for specification of individual packages to be built:

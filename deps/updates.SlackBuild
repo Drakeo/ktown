@@ -45,6 +45,10 @@ ALLDEPS=" \
   libepoxy \
   exiv2 \
   wayland \
+  json-glib \
+  libdbusmenu-gtk \
+  libindicator \
+  libappindicator \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \
