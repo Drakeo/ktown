@@ -14,6 +14,8 @@ TMP=${TMP:-/tmp}
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
+  qt \
+  sni-qt \
   cmake \
   extra-cmake-modules \
   strigi \

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+      |-----handy-ruler------------------------------------------------------|
+sni-qt: sni-qt (provide systray support for Qt4 apps in Plasma 5)
+sni-qt:
+sni-qt: Qt4 plugin which turns all QSystemTrayIcon into StatusNotifierItems
+sni-qt: (appindicators).
+sni-qt: Similar to libappindicator for GTK apps.
+sni-qt:
+sni-qt:
+sni-qt:
+sni-qt:
+sni-qt:
+sni-qt: See also: https://launchpad.net/sni-qt

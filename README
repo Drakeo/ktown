@@ -50,6 +50,7 @@ Preliminary build procedure:
   # removepkg /var/log/packages/*-4.10.5-*
   # removepkg libkscreen
   # removepkg kscreen
+  # removepkg networkmanagement
   # removepkg polkit-kde-agent-1
   # removepkg polkit-kde-kcmodules-1
   # removepkg polkit-qt-1
