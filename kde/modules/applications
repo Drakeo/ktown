@@ -1,8 +1,23 @@
 # https://community.kde.org/Applications/14.12_Release_Notes
+#
+# Ported to KF5:
+libkeduvocdocument
+kate
+konsole
+analitza
+gwenview
+kalgebra
+kanagram
+khangman
+kig
+parley
+kapptemplate
+okteta
+#
 # old kdebase:
 kde-baseapps
 kde-wallpapers
-#kde-workspace
+kde-workspace
 kde-runtime
 kde-base-artwork
 # Old kdesdk:
@@ -153,19 +168,4 @@ rocs
 step
 # kdewebdev:
 kdewebdev
-
-#
-# Ported to KF5:
-libkeduvocdocument
-kate
-konsole
-analitza
-gwenview
-kalgebra
-kanagram
-khangman
-kig
-parley
-kapptemplate
-okteta
 

@@ -45,6 +45,7 @@ Then, run an "upgradepkg --reinstall" of this sddm-qt5 package so that it can ru
 EOT
   else
     chroot . passwd -l sddm > /dev/null
+    chroot . gpasswd -a sddm video > /dev/null
   fi
 fi
 

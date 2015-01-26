@@ -24,6 +24,7 @@ ALLDEPS=" \
   attica \
   shared-desktop-ontologies \
   LibRaw \
+  eigen2 \
   eigen3 \
   orc \
   OpenAL \

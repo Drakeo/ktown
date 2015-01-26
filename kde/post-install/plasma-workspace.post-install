@@ -35,5 +35,5 @@ mkdir -p $PKG/etc
 mv $PKG//etc/kde/dbus-1 $PKG/etc/
 
 # For shadow, this file needs to be setuid root just like the KDE4 version:
-chmod +s $PKG/usr/lib$LIBDIRSUFFIX/libexec/kcheckpass
+chmod +s $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass
 

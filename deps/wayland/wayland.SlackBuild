@@ -23,7 +23,7 @@
 # -----------------------------------------------------------------------------
 
 
-PRGNAM=wayland
+PKGNAM=wayland
 VERSION=${VERSION:-1.6.0}
 BUILD=${BUILD:-1}
 
@@ -31,7 +31,7 @@ NUMJOBS=${NUMJOBS:" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
-PKG=$TMP/package-$PRGNAM
+PKG=$TMP/package-$PKGNAM
 
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
@@ -75,9 +75,9 @@ esac
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.xz || exit 1
-cd $PRGNAM-$VERSION || exit 1
+rm -rf $PKGNAM-$VERSION
+tar xvf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
+cd $PKGNAM-$VERSION || exit 1
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
@@ -96,7 +96,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --sysconfdir=/etc \
   --localstatedir=/var \
   --mandir=/usr/man \
-  --docdir=/usr/doc/$PRGNAM-$VERSION \
+  --docdir=/usr/doc/$PKGNAM-$VERSION \
   --enable-static=no \
   --build=$TARGET
 
@@ -135,5 +135,5 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 
 # Create the package:
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$PRGNAM-$VERSION-$ARCH-$BUILD.txz
+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
 

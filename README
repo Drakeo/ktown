@@ -6,7 +6,7 @@ Plasma 5.2.0 and Applications 14.12.1.
 
 Compared to Applications 14.12.0, the Applications 14.12.1 adds LTS releases of
 kdelibs, kdepimlibs, kdepim-runtime, kdepim and kde-workspace.
-I am going to skip kde-workspace because its contents largely collide with
+I am not going to ship kde-workspace because its contents largely collide with
 the plasma-workspace and we want to have a Plasma Workspace.
 
 Plasma 5.2.0 has many improvements to the previous 5.1.2, and comes with
@@ -27,17 +27,13 @@ CURRENT RUNTIME ISSUES:
 These are issues I ran into while testing on my Virtual machine. Not tested yet
 if they occur on real hardware.
 
-- plasmashell crashes a lot, with error message "the x11 connection broke: unsupported extension used (code 2)".
+- plasmashell crashes a lot, with error message "the x11 connection broke:
+  unsupported extension used (code 2)".  I can reliably reproduce this by
+  moving the mouse into any window icon in the task bar (probably because
+  KWin wants to show something of the window contents).
   Symptom: the desktop disappears and leaves a black screen. If you happen to
   have a konsole window open, you can type "plasmashell" to get the desktop
   back and watch the errors when it crashes again.
-
-- any action in systemsettings5 which requires admin credentials does not work.
-  Examples: date/time changes; SDDM configuration changes.
-  What *should* happen is that polkit pops up a window where you can enter
-  admin credentials. What happens is that no popup appears and the user
-  interface of systemsettings freezes (the app continues running, for instance
-  the clock keeps working)
 
 
 COMPILING IT ALL:
@@ -50,10 +46,6 @@ Preliminary build procedure:
   # removepkg /var/log/packages/*-4.10.5-*
   # removepkg libkscreen
   # removepkg kscreen
-  # removepkg networkmanagement
-  # removepkg polkit-kde-agent-1
-  # removepkg polkit-kde-kcmodules-1
-  # removepkg polkit-qt-1
 - build all the deps using "updates.SlackBuild" script in the "deps/" directory
   - note that extra-cmake-modules is required here as well as when building the
     frameworks, so I just copied it from frameworks to deps.
@@ -64,7 +56,7 @@ Preliminary build procedure:
 - build all the KDE 4 stuff in the "kde/" directory, using "./KDE.SlackBuild kde libs kdebase:nepomuk-core kdepimlibs kdebase kdebindings kdepim extragear"
 - check that everything built correctly
 - build the remaining KDE 5 stuff in the "kde/" directory, using "./KDE.SlackBui
-ld frameworks plasma plasma-extra polkit-kde applications"
+ld frameworks plasma plasma-extra applications"
 - check that everything built correctly
 - (optionally) build kdei
 - If you want to use SDDM as your graphical login manager, use the following
@@ -126,5 +118,5 @@ DONE: kalgebra (needed a refreshed curses patch)
 SKIP: step (don't understand where the compilation error comes from)
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 23-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 26-jan-2015
 
