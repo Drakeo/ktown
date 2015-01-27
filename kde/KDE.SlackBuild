@@ -174,6 +174,16 @@ precheck() {
     echo "Multiply-defined package names: '$(echo $PKGDUP)'"
     RETVAL=1
   fi
+  unset PKGDUP
+
+  # Any source not being built modular (i.e. forgotten to add to modularize)?
+  for PSRC in $(cat modules/* | grep -v "^ *#" | grep -v "^$"); do
+    if ! grep -wq "^${PSRC}$" modularize ; then
+      echo "Not built modular: $PSRC"
+      RETVAL=1
+    fi
+  done
+  unset PSRC
 
   for MODULE in $(cat $CWD/modules/* | grep -v "^ *#") ; do
     # First find out if the pkg source is different from the actual pkg name:

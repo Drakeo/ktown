@@ -1,8 +1,8 @@
 KDE 5_1501
 ==========
 
-This is going to be KDE 5 for Slackware-current, composed of Frameworks 5.6.0,
-Plasma 5.2.0 and Applications 14.12.1.
+This is KDE 5 for Slackware-current, composed of Frameworks 5.6.0, Plasma 5.2.0
+and Applications 14.12.1.
 
 Compared to Applications 14.12.0, the Applications 14.12.1 adds LTS releases of
 kdelibs, kdepimlibs, kdepim-runtime, kdepim and kde-workspace.
@@ -15,6 +15,8 @@ now found their rightful place): (lib)bluedevil, ksshaskpass, muon,
 sddm-kcm-module, kscreen2, polkit-framework, kde-gtk-config, kdecoration.
 And unfortunately, in order to be able to compile KWin, I had to add wayland
 to the "deps/" for this release of Plasma.
+I will not ship a 'muon' package since that is only meaningful on debian and
+derivatives like ubuntu.
 
 Note that there is still a lot of KDE 4 stuff in here, which is necessary to
 support all the Applications that have not yet been ported to KDE Frameworks 5.
@@ -58,6 +60,8 @@ Preliminary build procedure:
 - build the remaining KDE 5 stuff in the "kde/" directory, using "./KDE.SlackBui
 ld frameworks plasma plasma-extra applications"
 - check that everything built correctly
+- remove kde-workspace and re-install plasma-workspace (kde-workspace is only
+  used to build kdeartwork)
 - (optionally) build kdei
 - If you want to use SDDM as your graphical login manager, use the following
   patch to /etc/rc.d/rc.4:
@@ -115,8 +119,8 @@ DONE: khangman (needed libkeduvocdocument, was missing due to build order issue)
 DONE: parley (needed libkeduvocdocument, was missing due to build order issue)
 DONE: okular (needed libkscreen removed)
 DONE: kalgebra (needed a refreshed curses patch)
-SKIP: step (don't understand where the compilation error comes from)
+DONE: step (needed an update of eigne2 to compile successfully)
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 26-jan-2015
+                     Eric Hameleers / alien at slackware dot com / 27-jan-2015
 
