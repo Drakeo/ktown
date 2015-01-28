@@ -119,7 +119,7 @@ DONE: khangman (needed libkeduvocdocument, was missing due to build order issue)
 DONE: parley (needed libkeduvocdocument, was missing due to build order issue)
 DONE: okular (needed libkscreen removed)
 DONE: kalgebra (needed a refreshed curses patch)
-DONE: step (needed an update of eigne2 to compile successfully)
+DONE: step (needed an update of eigen2 to compile successfully)
 
 ==============================================================================
                      Eric Hameleers / alien at slackware dot com / 27-jan-2015
