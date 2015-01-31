@@ -5,6 +5,7 @@ baloo5
 kdecoration
 breeze
 kde-cli-tools
+kwayland
 khelpcenter
 kinfocenter
 kio-extras
@@ -17,7 +18,6 @@ milou
 oxygen
 oxygen-fonts
 systemsettings
-kwayland
 plasma-workspace
 plasma-desktop
 kdeplasma-addons
