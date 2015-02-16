@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler-----------------------------------------------------|
+katepart4: katepart4 (an advanced text editor component for KDE4)
+katepart4:
+katepart4: The Kate project develops two main products:
+katepart4: KatePart, the advanced editor component which is used in numerous KDE
+katepart4: applications requiring a text editing component, and Kate, a MDI text
+katepart4: editor application.  In addition, they provide KWrite, a simple SDI
+katepart4: editor shell which allows the user to select his/her favorite editor
+katepart4: component.
+katepart4: This package only contains the KatePart for KDE4 applications.
+katepart4:
+katepart4: Homepage: http://kate-editor.org
