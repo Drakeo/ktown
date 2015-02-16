@@ -1,0 +1,54 @@
+mkdir build
+cd build
+  cmake \
+    $KDE_OPT_ARGS \
+    -DKDE4_BUILD_TESTS=OFF \
+    -DKDE_PLATFORM_FEATURE_DISABLE_DEPRECATED=TRUE \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DSYSCONF_INSTALL_DIR=/etc/kde \
+    -DLIB_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
+    -DLIBEXEC_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DBUILD_appmenu:BOOL=OFF \
+    -DBUILD_cursors:BOOL=OFF \
+    -DBUILD_doc:BOOL=OFF \
+    -DBUILD_freespacenotifier:BOOL=OFF \
+    -DBUILD_kcheckpass:BOOL=OFF \
+    -DBUILD_kcminit:BOOL=OFF \
+    -DBUILD_kcontrol:BOOL=OFF \
+    -DBUILD_kdm:BOOL=OFF \
+    -DBUILD_khotkeys:BOOL=OFF \
+    -DBUILD_kinfocenter:BOOL=OFF \
+    -DBUILD_klipper:BOOL=OFF \
+    -DBUILD_kmenuedit:BOOL=OFF \
+    -DBUILD_krunner:BOOL=OFF \
+    -DBUILD_kscreensaver:BOOL=ON \
+    -DBUILD_ksmserver:BOOL=OFF \
+    -DBUILD_ksplash:BOOL=OFF \
+    -DBUILD_kstartupconfig:BOOL=OFF \
+    -DBUILD_kstyles:BOOL=ON \
+    -DBUILD_ksysguard:BOOL=OFF \
+    -DBUILD_ksystraycmd:BOOL=OFF \
+    -DBUILD_ktouchpadenabler:BOOL=ON \
+    -DBUILD_kwin:BOOL=OFF \
+    -DBUILD_kwrited:BOOL=OFF \
+    -DBUILD_module:BOOL=OFF \
+    -DBUILD_plasma:BOOL=OFF \
+    -DBUILD_powerdevil:BOOL=OFF \
+    -DBUILD_python:BOOL=OFF \
+    -DBUILD_qguiplatformplugin_kde:BOOL=OFF \
+    -DBUILD_ruby:BOOL=OFF \
+    -DBUILD_screenlocker:BOOL=OFF \
+    -DBUILD_solid-actions-kcm:BOOL=OFF \
+    -DBUILD_statusnotifierwatcher:BOOL=OFF \
+    -DBUILD_systemsettings:BOOL=OFF \
+    -DBUILD_webkit:BOOL=OFF \
+    -Wno-dev \
+    ..
+

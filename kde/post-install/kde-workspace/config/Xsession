@@ -79,7 +79,7 @@ case $session in
     exec $HOME/.xsession
     ;;
   default)
-    exec /usr/bin/startkde
+    exec /usr/bin/startkde4
     ;;
   *)
     eval exec "$session"

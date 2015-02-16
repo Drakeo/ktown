@@ -7,3 +7,6 @@ cat $CWD/patch/kde-workspace/kde-workspace.batteryapplet.diff | patch -p1 --verb
 # Fix crash when DesktopNames isn't set (fixed in 4.11.10):
 #cat $CWD/patch/kde-workspace/kde-workspace.desktopnames.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# In Plasma 5 we do not need the Plasma 4 core apps, they conflict.
+cat $CWD/patch/kde-workspace/kde-workspace.no.plasma4.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

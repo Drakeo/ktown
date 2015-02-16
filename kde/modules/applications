@@ -1,5 +1,11 @@
 # https://community.kde.org/Applications/14.12_Release_Notes
 #
+# Some of the old kdegraphics:
+libkipi
+libkexiv2
+libkdcraw
+libksane
+
 # Ported to KF5:
 libkeduvocdocument
 kate
@@ -35,10 +41,6 @@ lokalize
 poxml
 umbrello
 # The old kdegraphics:
-libkipi
-libkexiv2
-libkdcraw
-libksane
 kdegraphics-mobipocket
 kdegraphics-strigi-analyzer
 okular

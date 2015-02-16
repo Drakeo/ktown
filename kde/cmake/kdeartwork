@@ -12,5 +12,6 @@ cd build
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DKSCREENSAVER_SOUND_SUPPORT=ON \
+    -DBUILD_kwin-styles=OFF \
     ..
 

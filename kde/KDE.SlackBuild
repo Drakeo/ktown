@@ -189,14 +189,14 @@ precheck() {
     # First find out if the pkg source is different from the actual pkg name:
     if [ -f $CWD/pkgsrc/$MODULE ]; then
       MODBASE=$(basename $(cat $CWD/pkgsrc/$MODULE))
-      MODLOC=$(dirname $(cat $CWD/pkgsrc/$MODULE))
+      MODLOC=$(dirname $(cat $CWD/pkgsrc/$MODULE))/
     else
       MODBASE=$MODULE
       MODLOC=""
     fi
     MODSRC="$(find $CWD/src/$MODLOC -name $MODBASE-*.tar.* |grep -E "$MODBASE-[^-]+.tar.*$|$MODBASE-[0-9].+.tar.*$")"
     if [ -z "$MODSRC" ] ; then
-      echo "Module '$MODULE' does not have a matching source tarball ($MODLOC/$MODBASE)!"
+      echo "Module '$MODULE' does not have a matching source tarball ($MODLOC$MODBASE)!"
       if [ "$CHECKOUT" = "yes" -o "$CHECKOUT" = "YES" ]; then
         echo "Checking out KDE component at branch '$VERSION'."
         git archive --format=tar --prefix ${MODBASE}-${VERSION}/ --remote ${KDEGITURI}/${MODBASE}.git v${VERSION} | xz -c > $CWD/src/${MODLOC}/${MODBASE}-${VERSION}.tar.xz
@@ -321,8 +321,16 @@ build_mod_pkg () {
           . $CWD/cmake/cmake
         fi
 
-        make $NUMJOBS || make || exit 1
-        make install DESTDIR=$PKG || exit 1
+        # Run make, using custom make script if needed:
+        if [ -r $CWD/make/${PKGNAME} ]; then
+          . $CWD/make/${PKGNAME}
+        elif [ -r $CWD/make/${kde_module} ]; then
+          . $CWD/make/${kde_module}
+        else
+          # This is the default make && make install routine:
+          make $NUMJOBS || make || exit 1
+          make install DESTDIR=$PKG || exit 1
+        fi
       fi
 
       # Back to source toplevel builddir, since cmake may have run in a subdir:
@@ -543,11 +551,11 @@ KDEMODS=" \
   kdebase \
   kdebindings
   kdepim \
-  extragear \
   frameworks \
   plasma \
   plasma-extra \
   applications \
+  extragear \
   "
 
 # Allow for specification of individual packages to be built:
