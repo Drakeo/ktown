@@ -31,6 +31,7 @@ ALLDEPS=" \
   harfbuzz \
   poppler \
   xapian-core \
+  libssh \
   libfakekey \
   gstreamer1 \
   gst1-plugins-base \

@@ -67,8 +67,8 @@ rm -rf ${PKGNAM}-${VERSION}
 tar xvf $CWD/${PKGNAM}-$VERSION.tar.xz || exit 1
 cd ${PKGNAM}-$VERSION || exit 1
 
-# These fail to build and are not packaged anyway:
-zcat $CWD/libssh.no.example.build.diff | patch -p1 --verbose || exit 1
+# Fix a compilation issue (backport from libssh git):
+cat $CWD/libssh_libgcrypt.patch | patch -p1 --verbose || exit 1
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
