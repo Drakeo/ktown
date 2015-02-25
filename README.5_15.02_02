@@ -1,8 +1,8 @@
 KDE5
 ====
 
-This is KDE 5_15.02 for Slackware, consisting of the KDE Frameworks 5.7.0,
-Plasma 5.2.0 and Applications 14.12.2.
+This is KDE 5_15.02_2 for Slackware, consisting of the KDE Frameworks 5.7.0,
+Plasma 5.2.1 and Applications 14.12.2.
 This is meant only to be installed on top of Slackware -current and it will
 *replace* any version of KDE 4 you migh thave installed!
 
@@ -14,16 +14,22 @@ using Qt 5 and Frameworks 5.
 And with the Breeze themed artwork and its own Oxygen font, this desktop looks
 clean and modern.
 
-New & changed since my 15.01 release of KDE 5:
+New & changed since my KDE 5_15.02 release:
+- deps/libssh version 0.6.4 was re-added, this was still missing after I moved
+  from KDE 4.14.3 To KDE 5. The updated version is required by kde-runtime.
+- kde/plasma packages were updated to 5.2.1. This is a bugfix release, see also
+  https://www.kde.org/announcements/plasma-5.2.1.php
+- kde/frameworks/kglobalaccel was rebuilt. It broke after the upgrade of
+  plasma-workspace because it had picked up an unneeded dependency.
+- kde/applications/kde-runtime was rebuilt. With the newer libssh in place,
+  the 'sftp' kioslave is built as well.
+
+Further points of interest that are unchanged since my KDE 5_15.01:
 - all "extragear" packages that went missing between KDE 4.14.3 and 5_15.01
   like k3b, kdevelop etc, have been re-added
-- The Frameworks have been upgraded from 5.6.0 to 5.7.0
-- The Applications have been upgraded from 14.12.1 to 14.12.2 (bugfix release)
 - katepart4 was added so that kdevelop works again
 - konsolepart4 was added to be able to use an embedded konsole in dolphin
 - sddm-theme-breeze was removed, the theme is now part of plasma-workspace
-
-Further points of interest that are unchanged since my KDE 5_15.01:
 - Lots of packages in the 'deps' department which are completely new to
   Slackware. Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
   find many Qt5 related packages. Also, in order for Qt4 and GTK based
@@ -162,6 +168,9 @@ If you have my 'ktown_preview' set of KDE 5.0.2 installed as well:
 If you have my 'ktown' set of KDE 5_15.01 installed:
   # removepkg /var/log/packages/sddm-theme-breeze
 
+If you have my 'ktown' set of KDE 5_15.02 installed:
+  There is nothing you need to do right now.
+
 Then proceed with installing/upgrading KDE 5 as outlined below.
 
 To make it easy for you, here is a one-line command that downloads the whole
@@ -222,5 +231,5 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 17-feb-2015
+                     Eric Hameleers / alien at slackware dot com / 25-feb-2015
 
