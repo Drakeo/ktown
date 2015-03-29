@@ -33,6 +33,10 @@ ALLDEPS=" \
   qt-gstreamer1 \
   xapian-core \
   libfakekey \
+  grantlee \
+  librevenge \
+  libwpd \
+  libodfgen \
   "
   #qt-gstreamer \
 
