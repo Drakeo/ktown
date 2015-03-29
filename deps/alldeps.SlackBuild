@@ -31,6 +31,10 @@ ALLDEPS=" \
   orc \
   xapian-core \
   libfakekey \
+  grantlee \
+  librevenge \
+  libwpd \
+  libodfgen \
   OpenAL \
   gstreamer1 \
   gst1-plugins-base \

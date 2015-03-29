@@ -33,6 +33,10 @@ ALLDEPS=" \
   xapian-core \
   libssh \
   libfakekey \
+  grantlee \
+  librevenge \
+  libwpd \
+  libodfgen \
   gstreamer1 \
   gst1-plugins-base \
   gst1-plugins-good \
