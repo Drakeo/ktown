@@ -17,7 +17,6 @@ solid
 karchive
 kdbusaddons
 kcoreaddons
-kjs
 kimageformats
 ki18n
 networkmanager-qt
@@ -28,6 +27,7 @@ kglobalaccel
 kjobwidgets
 kcompletion
 kdoctools
+kjs
 kpackage
 kdnssd
 kconfigwidgets
@@ -45,9 +45,10 @@ kxmlgui
 kbookmarks
 kcmutils
 kio
-kdesignerplugin
 knewstuff
 kparts
+kdewebkit
+kdesignerplugin
 kdeclarative
 kinit
 kded
@@ -56,12 +57,13 @@ knotifyconfig
 kjsembed
 kross
 kmediaplayer
-kdewebkit
 ktexteditor
 #kfileaudiopreview
 kactivities-framework
 plasma-framework
 krunner
+kpeople
+kxmlrpcclient
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
 kapidox
 frameworkintegration
