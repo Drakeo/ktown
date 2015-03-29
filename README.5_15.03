@@ -1,8 +1,8 @@
 KDE5
 ====
 
-This is KDE 5_15.02_2 for Slackware, consisting of the KDE Frameworks 5.7.0,
-Plasma 5.2.1 and Applications 14.12.2.
+This is KDE 5_15.03 for Slackware, consisting of the KDE Frameworks 5.8.0,
+Plasma 5.2.2 and Applications 14.12.3.
 This is meant only to be installed on top of Slackware -current and it will
 *replace* any version of KDE 4 you migh thave installed!
 
@@ -14,17 +14,23 @@ using Qt 5 and Frameworks 5.
 And with the Breeze themed artwork and its own Oxygen font, this desktop looks
 clean and modern.
 
-New & changed since my KDE 5_15.02 release:
-- deps/libssh version 0.6.4 was re-added, this was still missing after I moved
-  from KDE 4.14.3 To KDE 5. The updated version is required by kde-runtime.
-- kde/plasma packages were updated to 5.2.1. This is a bugfix release, see also
-  https://www.kde.org/announcements/plasma-5.2.1.php
-- kde/frameworks/kglobalaccel was rebuilt. It broke after the upgrade of
-  plasma-workspace because it had picked up an unneeded dependency.
-- kde/applications/kde-runtime was rebuilt. With the newer libssh in place,
-  the 'sftp' kioslave is built as well.
+New & changed since my KDE 5_15.02_02 release:
+- kde/frameworks packages were updated to 5..8.0. Two new Frameworks were added:
+  + KPeople, provides access to all contacts and the people who hold them
+  + KXmlRpcClient, interaction with XMLRPC services
+  See also https://www.kde.org/announcements/kde-frameworks-5.8.0.php
+- kde/plasma packages were updated to 5.2.2. This is a bugfix release, see also
+  https://www.kde.org/announcements/plasma-5.2.2.php
+- kde/applications packages were updated to 14.12.03. This is a bugfix release,
+  see also https://www.kde.org/announcements/announce-applications-14.12.3.php
+- kde/kde4, new versions of kdelibs, kdepim*
+- kde/kde4-extragear has a new version 2.9.1 of the Calligra office suite.
+- deps directory has two updates to Slackware packages (libwpd and grantlee)
+  which are required by the new versions of calligra and kdepim respectively;
+  and two new packages: librevenge and libodfgen (both are required for the
+  new release of libwpd)
 
-Further points of interest that are unchanged since my KDE 5_15.01:
+Further points of interest that are unchanged since the previous release:
 - all "extragear" packages that went missing between KDE 4.14.3 and 5_15.01
   like k3b, kdevelop etc, have been re-added
 - katepart4 was added so that kdevelop works again
@@ -45,7 +51,6 @@ Further points of interest that are unchanged since my KDE 5_15.01:
   or else Skype won't be able to dock its icon in the systray.
 - A bit sneakily, I built phonon-vlc for you.  You will also need a VLC package
   to be able to use this package though.
-- I added the latest Calligra 2.8.7 office suite.
 - Several source tarballs in Plasma 5.2.0 have not been compiled to Slackware
   packages: libbluedevil and bluedevil (they need BlueZ 5 which is not part of
   Slackware), muon (a debian/ubuntu package manager), libkface (needs opencv
@@ -168,7 +173,7 @@ If you have my 'ktown_preview' set of KDE 5.0.2 installed as well:
 If you have my 'ktown' set of KDE 5_15.01 installed:
   # removepkg /var/log/packages/sddm-theme-breeze
 
-If you have my 'ktown' set of KDE 5_15.02 installed:
+If you have my 'ktown' set of KDE 5_15.02 or 5_15.02_02 installed:
   There is nothing you need to do right now.
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
@@ -231,5 +236,5 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 25-feb-2015
+                     Eric Hameleers / alien at slackware dot com / 28-mar-2015
 
