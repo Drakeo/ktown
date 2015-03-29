@@ -1,0 +1,5 @@
+# Fix for kwallet -which was encrypting to ECB instead of CBC:
+zcat $CWD/patch/kde-runtime/kwallet_cbcfix.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Automatically convert old wallets from ECB to CBC:
+zcat $CWD/patch/kde-runtime/kwallet_convert_ecb2cbc.diff.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

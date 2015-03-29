@@ -15,3 +15,7 @@ zcat $CWD/patch/kdelibs/return-application-icons-properly.patch.gz | patch -R -p
 # Patch for CVE-2014-3494 (KMail/KIO POP3 SSL MITM Flaw) - fixed in 4.13.3:
 #zcat $CWD/patch/kdelibs/kdelibs.CVE-2014-3494.patch.gz | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Patch a BIC (binary incompatibility) introduced by mistake in 4.14.6.
+# Will be fixed in 4.14.7:
+cat $CWD/patch/kdelibs/fixbic-4.14.6.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
