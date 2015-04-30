@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+                  |-----handy-ruler------------------------------------------------------|
+plasma-mediacenter: plasma-mediacenter (KDE mediacenter)
+plasma-mediacenter:
+plasma-mediacenter: A mediacenter user interface written on top of the
+plasma-mediacenter: Plasma Frameworks.
+plasma-mediacenter: One unified interface for any device capable of running KDE.
+plasma-mediacenter:
+plasma-mediacenter:
+plasma-mediacenter:
+plasma-mediacenter: For more information, visit:
+plasma-mediacenter:   https://community.kde.org/Plasma/Plasma_Media_Center
+plasma-mediacenter:
