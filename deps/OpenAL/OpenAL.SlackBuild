@@ -26,7 +26,7 @@
 PKGNAM=OpenAL
 SRCNAM=openal-soft
 VERSION=${VERSION:-1.16.0}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 NUMJOBS=${NUMJOBS:" -j4 "}
 
 CWD=$(pwd)

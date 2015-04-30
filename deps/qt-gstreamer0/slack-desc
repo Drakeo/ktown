@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler-----------------------------------------------------|
+qt-gstreamer0: qt-gstreamer0 (C++ bindings for gstreamer 0.x)
+qt-gstreamer0:
+qt-gstreamer0: QtGStreamer provides C++ bindings for GStreamer with a Qt-style API,
+qt-gstreamer0: plus some helper classes and elements for integrating GStreamer
+qt-gstreamer0: better in Qt applications.
+qt-gstreamer0: The goal of this module is to allow easy use of GStreamer for
+qt-gstreamer0: applications targetting MeeGo Mobile or the KDE desktop.
+qt-gstreamer0:
+qt-gstreamer0: Homepage:
+qt-gstreamer0:   http://gstreamer.freedesktop.org/modules/qt-gstreamer.html
+qt-gstreamer0:

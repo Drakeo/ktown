@@ -26,7 +26,7 @@
 PKGNAM=phonon-gstreamer
 SRCNAM=phonon-backend-gstreamer
 VERSION=${VERSION:-4.8.2}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:" -j7 "}
 

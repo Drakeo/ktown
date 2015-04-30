@@ -14,47 +14,30 @@ TMP=${TMP:-/tmp}
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
-  qt \
-  sni-qt \
-  cmake \
   extra-cmake-modules \
-  strigi \
-  soprano \
-  akonadi \
-  attica \
-  shared-desktop-ontologies \
-  LibRaw \
+  sni-qt \
+  sip \
+  PyQt \
   eigen2 \
-  eigen3 \
-  orc \
   OpenAL \
-  harfbuzz \
-  poppler \
   xapian-core \
-  libssh \
-  libfakekey \
-  grantlee \
-  librevenge \
-  libwpd \
-  libodfgen \
-  gstreamer1 \
-  gst1-plugins-base \
-  gst1-plugins-good \
   qt5 \
   qca-qt5 \
   libdbusmenu-qt5 \
+  qt-gstreamer0 \
   qt-gstreamer \
-  qt-gstreamer1 \
   phonon \
   phonon-gstreamer \
+  PyQt5 \
   polkit-qt5-1 \
+  grantlee-qt5 \
   libepoxy \
-  exiv2 \
   wayland \
   json-glib \
   libdbusmenu-gtk \
   libindicator \
   libappindicator \
+  cfitsio \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \

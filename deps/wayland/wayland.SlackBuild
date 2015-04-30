@@ -24,7 +24,7 @@
 
 
 PKGNAM=wayland
-VERSION=${VERSION:-1.6.0}
+VERSION=${VERSION:-1.7.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:" -j4 "}
@@ -98,6 +98,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --mandir=/usr/man \
   --docdir=/usr/doc/$PKGNAM-$VERSION \
   --enable-static=no \
+  --disable-documentation \
   --build=$TARGET
 
 # Build and install:

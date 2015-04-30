@@ -43,9 +43,10 @@
 # Modifications for qt 5.2.1 2014 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.3.1 2014 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.4.0 2015 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.4.1 2015 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.4.0}
+VERSION=${VERSION:-5.4.1}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -110,6 +111,12 @@ find . \
  -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
+
+# Fix dangling symlinks, thanks Larry Hajali:
+rm -f qtwebengine/src/3rdparty/chromium/third_party/mesa/src/src/gallium/state_trackers/d3d1x/w32api
+rm -f qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/audio/perf
+ln -s ../../../../../tools/perf \
+  qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/audio/
 
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
@@ -282,8 +289,8 @@ if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/qt5/doc/html ]; then
 fi
 
 mkdir -p $PKG/install
-zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
 cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
