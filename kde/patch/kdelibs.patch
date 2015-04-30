@@ -14,5 +14,5 @@ cat $CWD/patch/kdelibs/return-application-icons-properly.patch | patch -R -p1 --
 
 # Patch a BIC (binary incompatibility) introduced by mistake in 4.14.6.
 # Will be fixed in 4.14.7:
-cat $CWD/patch/kdelibs/fixbic-4.14.6.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kdelibs/fixbic-4.14.6.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

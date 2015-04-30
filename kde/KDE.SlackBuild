@@ -545,17 +545,12 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 # kde-baseapps is rebuilt after kdewebdev because it can then pickup
 #   libtidy and enable the Konqueror validators plugin to validate HTML.
 KDEMODS=" \
-  kdelibs \
-  kdebase:nepomuk-core \
-  kdepimlibs \
-  kdebase \
-  kdebindings
-  kdepim \
+  kde4 \
   frameworks \
   plasma \
   plasma-extra \
   applications \
-  extragear \
+  kde4-extragear \
   "
 
 # Allow for specification of individual packages to be built:
