@@ -1,8 +1,8 @@
 KDE5
 ====
 
-This is KDE 5_15.03 for Slackware, consisting of the KDE Frameworks 5.8.0,
-Plasma 5.2.2 and Applications 14.12.3.
+This is KDE 5_15.04 for Slackware, consisting of the KDE Frameworks 5.9.0,
+Plasma 5.3.0 and Applications 15.04.0.
 This is meant only to be installed on top of Slackware -current and it will
 *replace* any version of KDE 4 you migh thave installed!
 
@@ -14,25 +14,34 @@ using Qt 5 and Frameworks 5.
 And with the Breeze themed artwork and its own Oxygen font, this desktop looks
 clean and modern.
 
-New & changed since my KDE 5_15.02_02 release:
-- kde/frameworks packages were updated to 5..8.0. Two new Frameworks were added:
-  + KPeople, provides access to all contacts and the people who hold them
-  + KXmlRpcClient, interaction with XMLRPC services
-  See also https://www.kde.org/announcements/kde-frameworks-5.8.0.php
-- kde/plasma packages were updated to 5.2.2. This is a bugfix release, see also
-  https://www.kde.org/announcements/plasma-5.2.2.php
-- kde/applications packages were updated to 14.12.03. This is a bugfix release,
-  see also https://www.kde.org/announcements/announce-applications-14.12.3.php
+New & changed since my KDE 5_15.03 release:
+- kde/frameworks packages were updated to 5.9.0. One new Framework was added:
+  + ModemManagerQt: a Qt wrapper for ModemManager API, this used to be
+    libmm-qt5 in the plasma directory.
+  See also https://www.kde.org/announcements/kde-frameworks-5.9.0.php
+- kde/plasma packages were updated to 5.3.0. This is new feature release,
+  see also https://www.kde.org/announcements/plasma-5.3.0.php
+  Note that I did not compile the new Plasma Mediacenter tech-preview.
+- kde/applications packages were updated to 15.04.0. This is a bugfix release,
+  see also https://www.kde.org/announcements/announce-applications-15.04.0.php
+  Note that I did not compile the new KDEnlive and KDE Telepathy. They need
+  a lot of attention before I can build them and it was more important to me
+  to have a new release of KDE 5 out as fast as possible, that works with
+  the latest slackware-current.
+  If you are curious and want to try yourself, start by reading:
+  https://community.kde.org/KTp/Setting_up_KAccounts
 - kde/kde4, new versions of kdelibs, kdepim*
-- kde/kde4-extragear has a new version 2.9.1 of the Calligra office suite.
-- deps directory has two updates to Slackware packages (libwpd and grantlee)
-  which are required by the new versions of calligra and kdepim respectively;
-  and two new packages: librevenge and libodfgen (both are required for the
-  new release of libwpd)
+- kde/kde4-extragear is completely emptied - you should use the packages from
+  slackware-current (calligra, k3b, kaudiocreator, kplayer, kwebkitpart,
+  oxygen-gtk2, oxygen-gtk3, kdevplatform, kdevelop-pg-qt, kdevelop,
+  kdev-python, kdevelop-php, kdevelop-php-docs, skanlite, kio-mtp,
+  libktorrent, ktorrent, partitionmanager).
+- deps directory has three new packages (PyQt5, cfitsio, grantlee-qt5)
+  to allow the new KF5 ports kstars and rocs to compile and since lots of
+  applications can use PyQt5; updates for PyQt, qt5 and sip; and the rest has
+  been recompiled just to be sure they are compatible with slackware-current.
 
-Further points of interest that are unchanged since the previous release:
-- all "extragear" packages that went missing between KDE 4.14.3 and 5_15.01
-  like k3b, kdevelop etc, have been re-added
+Further points of interest that are unchanged since the previous releases:
 - katepart4 was added so that kdevelop works again
 - konsolepart4 was added to be able to use an embedded konsole in dolphin
 - sddm-theme-breeze was removed, the theme is now part of plasma-workspace
@@ -60,31 +69,14 @@ Further points of interest that are unchanged since the previous release:
   *runtime*. Nevertheless, I left the package in, just in case you want or need
   to recompile kwin (actually, it does not seem required any longer, but that
   issue will be revisited on next Plasma update).
-- Graphical login: KDM has been replaced with SDDM.
-  If you want to see the new graphical session (login) manager SDDM in action,
-  add the following lines to the Slackware file "/etc/rc.d/rc.4" right after
-  the line: echo "Starting up X11 session manager..."
-
-# --- 8< --------------------------------------
-if [ -x /usr/bin/sddm ]; then
-  exec /usr/bin/sddm
-fi
-# --- 8< --------------------------------------
-
-... and then switch to runlevel 4 by typing (at the root prompt):
-
-  # init 4
-
-Select "Plasma" from the SDDM session dropdown.
-Alternatively, if you prefer good old runlevel 3, you can type (at your own
-user account's command prompt):
-
-  $ xwmconfig
-
-... and select "xinitrc.plasma" as your default window manager for X.
-Then run:
-
-  $ startx
+- Graphical login: KDM has been replaced with SDDM. Slackware-current supports
+  it already.  Select "Plasma" from the SDDM session dropdown.
+  Alternatively, if you prefer good old runlevel 3, you can type (at your own
+  user account's command prompt):
+    $ xwmconfig
+  ... and select "xinitrc.plasma" as your default window manager for X.
+  Then run:
+    $ startx
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -103,13 +95,27 @@ If you decide to install these packages on top of a fresh installation of
     * bluedevil
     * polkit-kde-agent-1
     * polkit-kde-kcmodules-1
-  And optionally install these as well:
+  And optionally install these extragear packages as well:
     * amarok
+    * calligra
+    * k3b
     * kaudiocreator
-    * kdevelop-pg-qt
     * kplayer
+    * kwebkitpart
+    * kaudiocreator
+    * kdevplatform
+    * kdevelop-pg-qt
+    * kdevelop
+    * kdev-python
+    * kdevelop-php
+    * kdevelop-php-docs
+    * kio-mtp
     * ktorrent
     * libktorrent
+    * oxygen-gtk2
+    * oxygen-gtk3
+    * partitionmanager
+    * skanlite
 
 -------------------------------------------------------------------------------
 Building it all from source:
@@ -151,30 +157,44 @@ go back to runlevel 3 (console) by typing "init 3".
 If you still have a KDE 4 installed, it must be removed first. No clean
 upgrade path can be provided!  Do as follows:
 
-If you have Slackware's default KDE 4.10.5 installed:
-  # removepkg /var/log/packages/*-4.10.5-*
-  # removepkg libkscreen
-  # removepkg kscreen
-
-If you have my 'ktown' set of KDE 4.14.3 installed:
-  # removepkg /var/log/packages/*-4.14.3-*alien
+If you have Slackware-current's default KDE 4.14.3 installed:
+  # removepkg /var/log/packages/*-4.14.3-*
   # removepkg libkscreen
   # removepkg kscreen
   # removepkg kde-workspace
   # removepkg libmm-qt
+  # removepkg libnm-qt
   # removepkg plasma-nm
   # removepkg kdeconnect-kde
 
-If you have my 'ktown_preview' set of KDE 5.0.2 installed as well:
-  # removepkg /var/log/packages/*-5.0.2-*alien
-  # removepkg /var/log/packages/*-5.2.0-*alien
-  # removepkg kscreen2 libkscreen2 libmm-qt5 libnm-qt5 oxygen-fonts sddm
-
-If you have my 'ktown' set of KDE 5_15.01 installed:
-  # removepkg /var/log/packages/sddm-theme-breeze
-
-If you have my 'ktown' set of KDE 5_15.02 or 5_15.02_02 installed:
-  There is nothing you need to do right now.
+If you have my 'ktown' set of KDE 5_15.03 installed:
+- Remove packages that no longer exist in KDE 5_15.04:
+  # removepkg gst1-plugins-base
+  # removepkg gst1-plugins-good
+  # removepkg gstreamer1
+  # removepkg qt-gstreamer1
+  # removepkg libmm-qt5
+- Re-install original Slackware-current packages that were removed from "deps"
+  in KDE 5_15.04 (this will be easiest using slackpkg):
+  * LibRaw
+  * akonadi
+  * attica
+  * cmake
+  * eigen3
+  * exiv2
+  * grantlee
+  * harfbuzz
+  * libfakekey
+  * libodfgen
+  * librevenge
+  * libssh
+  * libwpd
+  * orc
+  * poppler
+  * qt
+  * shared-desktop-ontologies
+  * soprano
+  * strigi
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
 
@@ -236,5 +256,5 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 28-mar-2015
+                     Eric Hameleers / alien at slackware dot com / 28-apr-2015
 
