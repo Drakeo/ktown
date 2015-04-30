@@ -1,32 +1,41 @@
-# https://community.kde.org/Applications/14.12_Release_Notes
+# https://community.kde.org/Applications/15.04_Release_Notes
 #
-# Some of the old kdegraphics:
+# Some of the kdegraphics needs to be compiled first:
 libkipi
 libkexiv2
 libkdcraw
 libksane
+gwenview
 
-# Ported to KF5:
-libkeduvocdocument
+# KDE Telepathy:
+#signon-kwallet-extension
+#kaccounts-providers
+#kaccounts-integration
+#ktp-common-internals
+#ktp-accounts-kcm
+#ktp-contact-list
+#ktp-contact-runner
+#ktp-text-ui
+#ktp-approver
+#ktp-kded-module
+#ktp-auth-handler
+#ktp-filetransfer-handler
+#ktp-send-file
+#ktp-call-ui
+#ktp-desktop-applets
+
+# kdebase:
 kate
 konsole
-analitza
-gwenview
-kalgebra
-kanagram
-khangman
-kig
-parley
-kapptemplate
-okteta
-#
-# old kdebase:
 kde-baseapps
 kde-wallpapers
 kde-workspace
 kde-runtime
 kde-base-artwork
-# Old kdesdk:
+
+# kdesdk:
+kapptemplate
+okteta
 cervisia
 dolphin-plugins
 kcachegrind
@@ -40,7 +49,8 @@ kompare
 lokalize
 poxml
 umbrello
-# The old kdegraphics:
+
+# Rest of kdegraphics:
 kdegraphics-mobipocket
 kdegraphics-strigi-analyzer
 okular
@@ -54,13 +64,15 @@ ksaneplugin
 ksnapshot
 svgpart
 #libkface
-# The old kdeaccessibility:
+
+# kdeaccessibility:
 #jovie
 kaccessible
 kmouth
 kmousetool
 kmag
-# The old kdeutils:
+
+# kdeutils:
 ark
 filelight
 kcalc
@@ -74,7 +86,8 @@ ktimer
 kwalletmanager
 superkaramba
 sweeper
-# The old kdemultimedia:
+
+# kdemultimedia:
 libkcddb
 libkcompactdisc
 audiocd-kio
@@ -84,9 +97,11 @@ mplayerthumbs
 juk
 kmix
 #kscd
+
 # The oxygen icon set:
 oxygen-icons
-# The kdenetwork:
+
+# kdenetwork:
 kdenetwork-filesharing
 kdenetwork-strigi-analyzers
 zeroconf-ioslave
@@ -95,12 +110,15 @@ kopete
 kppp
 krdc
 krfb
+
 # kdeadmin:
 kcron
 ksystemlog
 kuser
+
 # kdeartwork:
 kdeartwork
+
 # kdegames:
 libkdegames
 libkmahjongg
@@ -143,13 +161,22 @@ ktuberling
 kjumpingcube
 kmahjongg
 kspaceduel
+
 # kdetoys:
 amor
 kteatime
 ktux
+
 # kdeedu:
 libkdeedu
 kdeedu-data
+libkeduvocdocument
+analitza
+kalgebra
+kanagram
+khangman
+kig
+parley
 artikulate
 blinken
 cantor
@@ -168,6 +195,13 @@ marble
 pairs
 rocs
 step
+
+# Needs to come after marble:
+libkgeomap
+
+# Needs ffmpeg and dvdauthor to be really useful:
+#kdenlive
+
 # kdewebdev:
 kdewebdev
 

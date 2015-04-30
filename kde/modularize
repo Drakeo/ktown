@@ -45,6 +45,7 @@ kcoreaddons
 kimageformats
 ki18n
 networkmanager-qt
+modemmanager-qt
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
@@ -118,11 +119,9 @@ plasma-desktop
 plasma-workspace
 kdeplasma-addons
 plasma-workspace-wallpapers
-libmm-qt5
-libnm-qt5
 plasma5-nm
 powerdevil
-#libbluedevil
+#bluez-qt
 #bluedevil
 khotkeys
 kmenuedit
@@ -132,6 +131,8 @@ sddm-kcm
 kde-gtk-config
 muon
 ksshaskpass
+plasma-sdk
+#plasma-mediacenter
 
 # plasma-extra
 sddm-qt5
@@ -140,13 +141,17 @@ kdeconnect-framework
 polkit-kde-kcmodules-framework
 
 # applications
-# old kdebase:
+# kdebase:
+kate
+konsole
 kde-baseapps
 kde-wallpapers
 kde-workspace
 kde-runtime
 kde-base-artwork
-# Old kdesdk:
+# kdesdk:
+kapptemplate
+okteta
 cervisia
 dolphin-plugins
 kcachegrind
@@ -160,11 +165,12 @@ kompare
 lokalize
 poxml
 umbrello
-# The old kdegraphics:
+# kdegraphics:
 libkipi
 libkexiv2
 libkdcraw
 libksane
+gwenview
 kdegraphics-mobipocket
 kdegraphics-strigi-analyzer
 okular
@@ -178,13 +184,13 @@ ksaneplugin
 ksnapshot
 svgpart
 libkface
-# The old kdeaccessibility:
+# kdeaccessibility:
 #jovie
 kaccessible
 kmouth
 kmousetool
 kmag
-# The old kdeutils:
+# kdeutils:
 ark
 filelight
 kcalc
@@ -198,7 +204,7 @@ ktimer
 kwalletmanager
 superkaramba
 sweeper
-# The old kdemultimedia:
+# kdemultimedia:
 libkcddb
 libkcompactdisc
 audiocd-kio
@@ -208,9 +214,9 @@ mplayerthumbs
 juk
 kmix
 #kscd
-# The oxygen icon set:
+# oxygen icon set:
 oxygen-icons
-# The kdenetwork:
+# kdenetwork:
 kdenetwork-filesharing
 kdenetwork-strigi-analyzers
 zeroconf-ioslave
@@ -274,6 +280,13 @@ ktux
 # kdeedu:
 libkdeedu
 kdeedu-data
+libkeduvocdocument
+analitza
+kalgebra
+kanagram
+khangman
+kig
+parley
 artikulate
 blinken
 cantor
@@ -292,24 +305,27 @@ marble
 pairs
 rocs
 step
+# After marble:
+libkgeomap
+kdenlive
 # kdewebdev:
 kdewebdev
-
-#
-# Ported to KF5:
-kate
-konsole
-analitza
-gwenview
-kalgebra
-kanagram
-khangman
-kig
-parley
-kapptemplate
-okteta
-libkeduvocdocument
-
+# KDE Telepathy:
+signon-kwallet-extension
+kaccounts-providers
+kaccounts-integration
+ktp-common-internals
+ktp-accounts-kcm
+ktp-contact-list
+ktp-contact-runner
+ktp-text-ui
+ktp-approver
+ktp-kded-module
+ktp-auth-handler
+ktp-filetransfer-handler
+ktp-send-file
+#ktp-call-ui
+ktp-desktop-applets
 
 #
 # The old KDE 4 stuff which has not been migrated yet. or is still needed
@@ -349,8 +365,9 @@ kdepim-runtime
 # kdepimlibs
 kdepimlibs
 
-# kdeplasma-addons
-#kdeplasma-addons
+# kdegames:
+libkdegames4
+libkmahjongg4
 
 # extragear
 calligra

@@ -1,0 +1,32 @@
+# kdelibs:
+kdelibs
+# Taken from kdebase, needed for kdepimlibs:
+nepomuk-core
+# kdepimlibs:
+kdepimlibs
+# kdebase:
+kfilemetadata
+baloo
+baloo-widgets
+nepomuk-widgets
+kactivities
+katepart4
+konsolepart4
+# kdebindings:
+smokegen
+smokeqt
+qtruby
+perlqt
+smokekde
+korundum
+perlkde
+pykde4
+kross-interpreters
+#kimono
+#qyoto
+# kdepim:
+kdepim
+kdepim-runtime
+# kdegames:
+libkdegames4
+libkmahjongg4
