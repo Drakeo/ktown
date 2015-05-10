@@ -161,7 +161,6 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg /var/log/packages/*-4.14.3-*
   # removepkg libkscreen
   # removepkg kscreen
-  # removepkg kactivities
   # removepkg kde-workspace
   # removepkg libmm-qt
   # removepkg libnm-qt
