@@ -1,8 +1,9 @@
 KDE5
 ====
 
-This is KDE 5_15.04 for Slackware, consisting of the KDE Frameworks 5.9.0,
-Plasma 5.3.0 and Applications 15.04.0.
+This is KDE 5_15.05 for Slackware, consisting of the KDE Frameworks 5.10.0,
+Plasma 5.3.1 and Applications 15.04.1.  It's mostly a maintenance release for
+all components; there's no new packages or functionality.
 This is meant only to be installed on top of Slackware -current and it will
 *replace* any version of KDE 4 you migh thave installed!
 
@@ -14,34 +15,34 @@ using Qt 5 and Frameworks 5.
 And with the Breeze themed artwork and its own Oxygen font, this desktop looks
 clean and modern.
 
-New & changed since my KDE 5_15.03 release:
-- kde/frameworks packages were updated to 5.9.0. One new Framework was added:
-  + ModemManagerQt: a Qt wrapper for ModemManager API, this used to be
-    libmm-qt5 in the plasma directory.
-  See also https://www.kde.org/announcements/kde-frameworks-5.9.0.php
-- kde/plasma packages were updated to 5.3.0. This is new feature release,
-  see also https://www.kde.org/announcements/plasma-5.3.0.php
-  Note that I did not compile the new Plasma Mediacenter tech-preview.
-- kde/applications packages were updated to 15.04.0. This is a bugfix release,
-  see also https://www.kde.org/announcements/announce-applications-15.04.0.php
-  Note that I did not compile the new KDEnlive and KDE Telepathy. They need
-  a lot of attention before I can build them and it was more important to me
-  to have a new release of KDE 5 out as fast as possible, that works with
-  the latest slackware-current.
-  If you are curious and want to try yourself, start by reading:
-  https://community.kde.org/KTp/Setting_up_KAccounts
-- kde/kde4, new versions of kdelibs, kdepim*
+New & changed since my KDE 5_15.04 release:
+- kde/frameworks packages were updated to 5.10.0. No new Frameworks this time.
+  See also https://www.kde.org/announcements/kde-frameworks-5.10.0.php
+- kde/plasma packages were updated to 5.3.1. This is a maintenance release,
+  see also https://www.kde.org/announcements/plasma-5.3.1.php
+- kde/applications packages were updated to 15.04.1. This is a bugfix release,
+  see also https://www.kde.org/announcements/announce-applications-15.04.1.php
+- kde/kde4, new LTS (Long Term Support) versions of kdelibs, kdepim*
+- deps directory: I have removed qt-gstreamer0 because I do not think any
+  package uses it.  Slackware has moved to gstreamer-1 and furthermore, the
+  contents of qt-gstreamer and qt-gstreamer0 paackages had a partial overlap
+  in their files.  Be sure to re-install qt-gstreamer just in case.
+- I fixed the missing shutdown/reboot and suspend/hibernate options in the
+  menu by adding several Polkit policy files to the powerdevil package.
+
+Further points of interest that are unchanged since the previous releases:
 - kde/kde4-extragear is completely emptied - you should use the packages from
   slackware-current (calligra, k3b, kaudiocreator, kplayer, kwebkitpart,
   oxygen-gtk2, oxygen-gtk3, kdevplatform, kdevelop-pg-qt, kdevelop,
   kdev-python, kdevelop-php, kdevelop-php-docs, skanlite, kio-mtp,
   libktorrent, ktorrent, partitionmanager).
-- deps directory has three new packages (PyQt5, cfitsio, grantlee-qt5)
-  to allow the new KF5 ports kstars and rocs to compile and since lots of
-  applications can use PyQt5; updates for PyQt, qt5 and sip; and the rest has
-  been recompiled just to be sure they are compatible with slackware-current.
-
-Further points of interest that are unchanged since the previous releases:
+- I still did not compile the new Plasma Mediacenter tech-preview.
+- Note that I did not compile the new KDEnlive and KDE Telepathy. They need
+  a lot of attention before I can build them and it was more important to me
+  to have a new release of KDE 5 out as fast as possible, that works with
+  the latest slackware-current.
+  If you are curious and want to try yourself, start by reading:
+  https://community.kde.org/KTp/Setting_up_KAccounts
 - katepart4 was added so that kdevelop works again
 - konsolepart4 was added to be able to use an embedded konsole in dolphin
 - sddm-theme-breeze was removed, the theme is now part of plasma-workspace
@@ -51,10 +52,9 @@ Further points of interest that are unchanged since the previous releases:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed. So, apart from updates to regular Slackware packages, these are the
   new ones:
-  LibRaw, OpenAL, akonadi-qt5, eigen3, gst1-plugins-base, gst1-plugins-good,
-  gstreamer1, json-glib, libappindicator, libdbusmenu-gtk, libdbusmenu-qt5,
-  libepoxy, libfakekey, libindicator, orc, polkit-qt5-1, qca-qt5, qt-gstreamer,
-  qt-gstreamer1, qt5, sni-qt, wayland and xapian-core.
+  OpenAL, PyQT5, cfitsio, grantlee-qt5, json-glib, libappindicator,
+  libdbusmenu-gtk, libdbusmenu-qt5, libepoxy, libfakekey, libindicator,
+  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, sni-qt, wayland and xapian-core.
 - Note for users of multilib Slackware64 and also using Skype: you will have to
   grab the 32-bit version of sni-qt and run 'convertpkg-compat32' on it,
   or else Skype won't be able to dock its icon in the systray.
@@ -93,8 +93,6 @@ If you decide to install these packages on top of a fresh installation of
   will have to install the following essential Slackware-current packages
   at a a minimum:
     * bluedevil
-    * polkit-kde-agent-1
-    * polkit-kde-kcmodules-1
   And optionally install these extragear packages as well:
     * amarok
     * calligra
@@ -161,11 +159,20 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg /var/log/packages/*-4.14.3-*
   # removepkg libkscreen
   # removepkg kscreen
+  # removepkg kactivities
   # removepkg kde-workspace
   # removepkg libmm-qt
   # removepkg libnm-qt
   # removepkg plasma-nm
+  # removepkg polkit-kde-agent-1
+  # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
+
+If you have my 'ktown' set of KDE 5_15.04 installed:
+- Remove packages that no longer exist in KDE 5_15.05:
+  # removepkg qt-gstreamer0
+- Re-install packages from KDE 5_15.04:
+  * qt-gstreamer
 
 If you have my 'ktown' set of KDE 5_15.03 installed:
 - Remove packages that no longer exist in KDE 5_15.04:
@@ -256,5 +263,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 28-apr-2015
-
+                     Eric Hameleers / alien at slackware dot com / 24-may-2015
