@@ -24,7 +24,6 @@ ALLDEPS=" \
   qt5 \
   qca-qt5 \
   libdbusmenu-qt5 \
-  qt-gstreamer0 \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
@@ -41,6 +40,8 @@ ALLDEPS=" \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \
+  # Not needed, conflicts with qt-gstreamer files
+  #qt-gstreamer0 \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then
