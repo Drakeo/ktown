@@ -1,41 +1,33 @@
 KDE5
 ====
 
-This is KDE 5_15.05 for Slackware, consisting of the KDE Frameworks 5.10.0,
-Plasma 5.3.1 and Applications 15.04.1.  It's mostly a maintenance release for
-all components; there's no new packages or functionality.
+This is KDE 5_15.06 for Slackware, consisting of the KDE Frameworks 5.10.0,
+Plasma 5.3.1 and Applications 15.04.2.  Compared to my KDE 5_15.05 the only
+updates are the new set of Applications packages.  This includes LTS
+(Long Term Support) updates for kdelibs, kdepimlibs, kdepim, kdepim-runtime
+and kde-workspace.
+One package is new:
+- kde4-extragear/kdeconnect4 contains the essentials of the KDE4 based
+  kdeconnect-kde which will allow you to access your Android device with the
+  (also still KDE4 based) Dolphin.  This package therefore fixes the errors
+  you would get if you tried to access your Android device in Plasma 5.
+One package has been modified:
+- kde4/kactivities, the KDE4 based version, no longer contains the
+  kactivitymanagerd binary.
+  The same daemon in the kactivities-framework works fine with the KDE4 based
+  activities libraries. When installing all my KDE5 packages in one massive
+  upgrade, the kactivities package would get installed after the
+  kactivities-framework package and the KDE4 based kactivitymanagerd would
+  overwrite the Frameworks version, causing serious desktop crashes.
+Note:
 This is meant only to be installed on top of Slackware -current and it will
 *replace* any version of KDE 4 you migh thave installed!
 
-Plasma 5 is the next generation of KDE's desktop workspace.
-Plasma 5 improves support for high-DPI displays and comes with a "converged
-shell", i.e. one Plasma codebase for different target devices.  Plasma 5 uses
-a new fully hardware-accelerated OpenGL(ES) graphics stack.  Plasma 5 is built
-using Qt 5 and Frameworks 5.
-And with the Breeze themed artwork and its own Oxygen font, this desktop looks
-clean and modern.
-
-New & changed since my KDE 5_15.04 release:
-- kde/frameworks packages were updated to 5.10.0. No new Frameworks this time.
-  See also https://www.kde.org/announcements/kde-frameworks-5.10.0.php
-- kde/plasma packages were updated to 5.3.1. This is a maintenance release,
-  see also https://www.kde.org/announcements/plasma-5.3.1.php
-- kde/applications packages were updated to 15.04.1. This is a bugfix release,
-  see also https://www.kde.org/announcements/announce-applications-15.04.1.php
-- kde/kde4, new LTS (Long Term Support) versions of kdelibs, kdepim*
-- deps directory: I have removed qt-gstreamer0 because I do not think any
-  package uses it.  Slackware has moved to gstreamer-1 and furthermore, the
-  contents of qt-gstreamer and qt-gstreamer0 paackages had a partial overlap
-  in their files.  Be sure to re-install qt-gstreamer just in case.
-- I fixed the missing shutdown/reboot and suspend/hibernate options in the
-  menu by adding several Polkit policy files to the powerdevil package.
-
 Further points of interest that are unchanged since the previous releases:
-- kde/kde4-extragear is completely emptied - you should use the packages from
-  slackware-current (calligra, k3b, kaudiocreator, kplayer, kwebkitpart,
-  oxygen-gtk2, oxygen-gtk3, kdevplatform, kdevelop-pg-qt, kdevelop,
-  kdev-python, kdevelop-php, kdevelop-php-docs, skanlite, kio-mtp,
-  libktorrent, ktorrent, partitionmanager).
+- kde/kde4-extragear packages should be taken from slackware-current (calligra,
+  k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, oxygen-gtk3,
+  kdevplatform, kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php,
+  kdevelop-php-docs, skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
 - I still did not compile the new Plasma Mediacenter tech-preview.
 - Note that I did not compile the new KDEnlive and KDE Telepathy. They need
   a lot of attention before I can build them and it was more important to me
@@ -93,6 +85,7 @@ If you decide to install these packages on top of a fresh installation of
   will have to install the following essential Slackware-current packages
   at a a minimum:
     * bluedevil
+    * libktorrent
   And optionally install these extragear packages as well:
     * amarok
     * calligra
@@ -109,7 +102,6 @@ If you decide to install these packages on top of a fresh installation of
     * kdevelop-php-docs
     * kio-mtp
     * ktorrent
-    * libktorrent
     * oxygen-gtk2
     * oxygen-gtk3
     * partitionmanager
@@ -168,10 +160,14 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
 
+If you have my 'ktown' set of KDE 5_15.05 installed:
+- Re-install 'ktown' packages:
+  * kactivities-framework
+
 If you have my 'ktown' set of KDE 5_15.04 installed:
 - Remove packages that no longer exist in KDE 5_15.05:
-  # removepkg qt-gstreamer0
-- Re-install packages from KDE 5_15.04:
+  * removepkg qt-gstreamer0
+- Re-install 'ktown' packages:
   * qt-gstreamer
 
 If you have my 'ktown' set of KDE 5_15.03 installed:
@@ -263,4 +259,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 24-may-2015
+                     Eric Hameleers / alien at slackware dot com / 01-jun-2015
