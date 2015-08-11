@@ -1,0 +1,4 @@
+# Add search paths for kdelibs4 documentation to khelpcenter.
+# Patch taken from kubuntu:
+cat $CWD/patch/kio/kio_kdelibs4_docpatch.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
