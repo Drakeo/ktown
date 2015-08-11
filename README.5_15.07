@@ -1,27 +1,14 @@
 KDE5
 ====
 
-This is KDE 5_15.06 for Slackware, consisting of the KDE Frameworks 5.10.0,
-Plasma 5.3.1 and Applications 15.04.2.  Compared to my KDE 5_15.05 the only
-updates are the new set of Applications packages.  This includes LTS
-(Long Term Support) updates for kdelibs, kdepimlibs, kdepim, kdepim-runtime
-and kde-workspace.
-One package is new:
-- kde4-extragear/kdeconnect4 contains the essentials of the KDE4 based
-  kdeconnect-kde which will allow you to access your Android device with the
-  (also still KDE4 based) Dolphin.  This package therefore fixes the errors
-  you would get if you tried to access your Android device in Plasma 5.
-One package has been modified:
-- kde4/kactivities, the KDE4 based version, no longer contains the
-  kactivitymanagerd binary.
-  The same daemon in the kactivities-framework works fine with the KDE4 based
-  activities libraries. When installing all my KDE5 packages in one massive
-  upgrade, the kactivities package would get installed after the
-  kactivities-framework package and the KDE4 based kactivitymanagerd would
-  overwrite the Frameworks version, causing serious desktop crashes.
+This is KDE 5_15.07 for Slackware, consisting of the KDE Frameworks 5.12.0,
+Plasma 5.3.2 and Applications 15.04.3.
+
+Compared to my KDE 5_15.06 no further changes were made apart from the updates
+to Frameworks, Plasma and Applications.
 Note:
 This is meant only to be installed on top of Slackware -current and it will
-*replace* any version of KDE 4 you migh thave installed!
+*replace* any version of KDE 4 you might have installed!
 
 Further points of interest that are unchanged since the previous releases:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
@@ -37,6 +24,9 @@ Further points of interest that are unchanged since the previous releases:
   https://community.kde.org/KTp/Setting_up_KAccounts
 - katepart4 was added so that kdevelop works again
 - konsolepart4 was added to be able to use an embedded konsole in dolphin
+- kdeconnect4 was added; this stripped-down version of the KDE4 based
+  kdeconnect-kde allows you to access your Android device with the
+  (also still KDE4 based) Dolphin filemanager
 - sddm-theme-breeze was removed, the theme is now part of plasma-workspace
 - Lots of packages in the 'deps' department which are completely new to
   Slackware. Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
@@ -52,7 +42,7 @@ Further points of interest that are unchanged since the previous releases:
   or else Skype won't be able to dock its icon in the systray.
 - A bit sneakily, I built phonon-vlc for you.  You will also need a VLC package
   to be able to use this package though.
-- Several source tarballs in Plasma 5.2.0 have not been compiled to Slackware
+- Several source tarballs in Plasma 5.3.2 have not been compiled to Slackware
   packages: libbluedevil and bluedevil (they need BlueZ 5 which is not part of
   Slackware), muon (a debian/ubuntu package manager), libkface (needs opencv
   which I was not willing to add as a dependency).
@@ -86,7 +76,7 @@ If you decide to install these packages on top of a fresh installation of
   at a a minimum:
     * bluedevil
     * libktorrent
-  And optionally install these extragear packages as well:
+  And optionally install these Slackware-current packages as well:
     * amarok
     * calligra
     * k3b
@@ -160,8 +150,11 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
 
+If you have my 'ktown' set of KDE 5_15.06 installed:
+- No further actions are needed.
+
 If you have my 'ktown' set of KDE 5_15.05 installed:
-- Re-install 'ktown' packages:
+- Re-install the following 'ktown' packages:
   * kactivities-framework
 
 If you have my 'ktown' set of KDE 5_15.04 installed:
@@ -259,4 +252,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 01-jun-2015
+                     Eric Hameleers / alien at slackware dot com / 08-jul-2015
