@@ -39,6 +39,7 @@ ALLDEPS=" \
   cfitsio \
   "
   # needed only by future kdepimlibs-framework
+  # by then we need to rename akonadi -> akonadi4 and akonadi-qt5 -> akonadi
   #akonadi-qt5 \
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \
