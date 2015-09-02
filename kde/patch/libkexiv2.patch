@@ -1,0 +1,3 @@
+# Backport a patch from git to support our newer cmake:
+#cat $CWD/patch/libkexiv2/libkexiv2_cmake_minver.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

@@ -1,21 +1,25 @@
-diff -up kdepim-4.11.90/kleopatra/libkleopatraclient/CMakeLists.txt.install_kleopatra_headers kdepim-4.11.90/kleopatra/libkleopatraclient/CMakeLists.txt
---- kdepim-4.11.90/kleopatra/libkleopatraclient/CMakeLists.txt.install_kleopatra_headers	2013-11-14 02:23:52.000000000 -0600
-+++ kdepim-4.11.90/kleopatra/libkleopatraclient/CMakeLists.txt	2013-11-16 13:17:30.289810575 -0600
-@@ -6,3 +6,7 @@ add_subdirectory(gui)
- 
- add_subdirectory(tests)
+diff -uarN kdepim-15.08.0.orig/kleopatra/libkleopatraclient/CMakeLists.txt kdepim-15.08.0/kleopatra/libkleopatraclient/CMakeLists.txt
+--- kdepim-15.08.0.orig/kleopatra/libkleopatraclient/CMakeLists.txt	2015-08-10 21:56:00.000000000 +0200
++++ kdepim-15.08.0/kleopatra/libkleopatraclient/CMakeLists.txt	2015-08-24 23:05:07.650076668 +0200
+@@ -4,6 +4,11 @@
+ add_subdirectory(core)
+ add_subdirectory(gui)
  
 +install(
 +  FILES kleopatraclient_export.h
 +  DESTINATION ${INCLUDE_INSTALL_DIR}/libkleopatraclient
 +  )
-diff -up kdepim-4.11.90/kleopatra/libkleopatraclient/core/CMakeLists.txt.install_kleopatra_headers kdepim-4.11.90/kleopatra/libkleopatraclient/core/CMakeLists.txt
---- kdepim-4.11.90/kleopatra/libkleopatraclient/core/CMakeLists.txt.install_kleopatra_headers	2013-11-14 02:23:52.000000000 -0600
-+++ kdepim-4.11.90/kleopatra/libkleopatraclient/core/CMakeLists.txt	2013-11-16 13:17:30.290810557 -0600
-@@ -72,3 +72,13 @@ else()
++
+ if(BUILD_TESTING)
+     add_subdirectory(tests)
  endif()
+diff -uarN kdepim-15.08.0.orig/kleopatra/libkleopatraclient/core/CMakeLists.txt kdepim-15.08.0/kleopatra/libkleopatraclient/core/CMakeLists.txt
+--- kdepim-15.08.0.orig/kleopatra/libkleopatraclient/core/CMakeLists.txt	2015-08-10 21:56:00.000000000 +0200
++++ kdepim-15.08.0/kleopatra/libkleopatraclient/core/CMakeLists.txt	2015-08-24 22:52:15.613045160 +0200
+@@ -67,3 +67,13 @@
+ target_link_libraries(kleopatraclientcore Qt5::Widgets KF5::I18n)
  
- install(TARGETS kleopatraclientcore ${INSTALL_TARGETS_DEFAULT_ARGS})
+ install(TARGETS kleopatraclientcore ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 +
 +install(
 +  FILES
@@ -26,25 +30,25 @@ diff -up kdepim-4.11.90/kleopatra/libkleopatraclient/core/CMakeLists.txt.install
 +    decryptverifyfilescommand.h
 +  DESTINATION ${INCLUDE_INSTALL_DIR}/libkleopatraclient/core
 +  )
-diff -up kdepim-4.11.90/kleopatra/libkleopatraclient/gui/CMakeLists.txt.install_kleopatra_headers kdepim-4.11.90/kleopatra/libkleopatraclient/gui/CMakeLists.txt
---- kdepim-4.11.90/kleopatra/libkleopatraclient/gui/CMakeLists.txt.install_kleopatra_headers	2013-11-14 02:23:52.000000000 -0600
-+++ kdepim-4.11.90/kleopatra/libkleopatraclient/gui/CMakeLists.txt	2013-11-16 13:17:30.290810557 -0600
-@@ -16,3 +16,9 @@ set_target_properties(kleopatraclientgui
+diff -uarN kdepim-15.08.0.orig/kleopatra/libkleopatraclient/gui/CMakeLists.txt kdepim-15.08.0/kleopatra/libkleopatraclient/gui/CMakeLists.txt
+--- kdepim-15.08.0.orig/kleopatra/libkleopatraclient/gui/CMakeLists.txt	2015-08-10 21:56:00.000000000 +0200
++++ kdepim-15.08.0/kleopatra/libkleopatraclient/gui/CMakeLists.txt	2015-08-24 22:52:15.613045160 +0200
+@@ -16,3 +16,9 @@
  )
  
- install(TARGETS kleopatraclientgui ${INSTALL_TARGETS_DEFAULT_ARGS})
+ install(TARGETS kleopatraclientgui ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 +
 +install(
 +  FILES
 +    certificaterequester.h
 +  DESTINATION ${INCLUDE_INSTALL_DIR}/libkleopatraclient/gui
 +  )
-diff -up kdepim-4.11.90/libkleo/CMakeLists.txt.install_kleopatra_headers kdepim-4.11.90/libkleo/CMakeLists.txt
---- kdepim-4.11.90/libkleo/CMakeLists.txt.install_kleopatra_headers	2013-11-14 02:23:52.000000000 -0600
-+++ kdepim-4.11.90/libkleo/CMakeLists.txt	2013-11-16 13:17:30.290810557 -0600
-@@ -121,3 +121,61 @@ install ( FILES libkleopatrarc-win32.des
+diff -uarN kdepim-15.08.0.orig/libkleo/CMakeLists.txt kdepim-15.08.0/libkleo/CMakeLists.txt
+--- kdepim-15.08.0.orig/libkleo/CMakeLists.txt	2015-08-10 21:56:00.000000000 +0200
++++ kdepim-15.08.0/libkleo/CMakeLists.txt	2015-08-24 22:52:15.613045160 +0200
+@@ -126,3 +126,61 @@
  else ()
- install ( FILES libkleopatrarc.desktop DESTINATION ${CONFIG_INSTALL_DIR} RENAME libkleopatrarc )
+ install ( FILES libkleopatrarc.desktop DESTINATION ${KDE_INSTALL_CONFDIR} RENAME libkleopatrarc )
  endif ()
 +
 +install( FILES
@@ -104,12 +108,12 @@ diff -up kdepim-4.11.90/libkleo/CMakeLists.txt.install_kleopatra_headers kdepim-
 +    ui/directoryserviceswidget.h
 +    ui/filenamerequester.h
 +    DESTINATION ${INCLUDE_INSTALL_DIR}/kleo/ui COMPONENT Devel)
-diff -up kdepim-4.11.90/libkpgp/CMakeLists.txt.install_kleopatra_headers kdepim-4.11.90/libkpgp/CMakeLists.txt
---- kdepim-4.11.90/libkpgp/CMakeLists.txt.install_kleopatra_headers	2013-11-16 13:17:30.290810557 -0600
-+++ kdepim-4.11.90/libkpgp/CMakeLists.txt	2013-11-16 13:20:55.258111864 -0600
-@@ -35,3 +35,11 @@ add_subdirectory( tests )
- install(FILES kconf_update/kpgp.upd  DESTINATION ${KCONF_UPDATE_INSTALL_DIR})
- install(PROGRAMS kconf_update/kpgp-3.1-upgrade-address-data.pl DESTINATION ${KCONF_UPDATE_INSTALL_DIR})
+diff -uarN kdepim-15.08.0.orig/libkpgp/CMakeLists.txt kdepim-15.08.0/libkpgp/CMakeLists.txt
+--- kdepim-15.08.0.orig/libkpgp/CMakeLists.txt	2015-08-10 21:56:00.000000000 +0200
++++ kdepim-15.08.0/libkpgp/CMakeLists.txt	2015-08-24 23:04:02.505074051 +0200
+@@ -44,6 +44,15 @@
+ set_target_properties(kpgp PROPERTIES VERSION ${KDEPIM_LIB_VERSION} SOVERSION ${KDEPIM_LIB_SOVERSION})
+ install(TARGETS kpgp ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
  
 +install(FILES
 +        kpgp.h
@@ -119,4 +123,7 @@ diff -up kdepim-4.11.90/libkpgp/CMakeLists.txt.install_kleopatra_headers kdepim-
 +        kpgpui.h
 +        libkpgp_export.h
 +        DESTINATION ${INCLUDE_INSTALL_DIR}/kpgp COMPONENT Devel )
-
++
+ if(BUILD_TESTING)
+     add_subdirectory( tests )
+ endif()

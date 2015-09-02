@@ -1,0 +1,3 @@
+# Ensure marble bindings for Qt4 get compiled:
+cat $CWD/patch/marble/marble_qt4.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
