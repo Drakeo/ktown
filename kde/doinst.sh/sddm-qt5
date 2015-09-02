@@ -55,17 +55,21 @@ chown -R sddm:sddm $sddmhome > /dev/null
 # Generate a new configuration file if it does not exist:
 chroot . sddm --example-config > /etc/sddm.conf.new
 
-# Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
-sed -i -e "/\[Theme\]/,/^\[/s/^Current.*/Current=breeze/" etc/sddm.conf.new
+if ! grep -q "Current=breeze" etc/sddm.conf.new ; then
+  # Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:
+  sed -i -e "/\[Theme\]/,/^\[/s/^Current.*/Current=breeze/" etc/sddm.conf.new
+fi
 
-# SDDM follows the systemd convention of starting the first graphical session
-# on tty1.  We prefer the old convention where tty1 through tty6
-# are reserved for text consoles:
-cat <<EOT >> etc/sddm.conf.new
+if ! grep -q "MinimumVT=7" etc/sddm.conf.new ; then
+  # SDDM follows the systemd convention of starting the first graphical session
+  # on tty1.  We prefer the old convention where tty1 through tty6
+  # are reserved for text consoles:
+  cat <<EOT >> etc/sddm.conf.new
 
 [XDisplay]
 MinimumVT=7
 EOT
+fi
 
 # Move over the new confguration file if needed:
 if [ -f etc/sddm.conf.new ]; then
