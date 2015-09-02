@@ -1,0 +1,3 @@
+# Remove files that clash with the Frameworks version of kdepimlibs:
+rm -r $PKG/usr/bin
+rm -r $PKG/usr/share/config.kcfg
