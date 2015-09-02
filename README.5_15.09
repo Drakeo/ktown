@@ -1,14 +1,137 @@
 KDE5
 ====
 
-This is KDE 5_15.07 for Slackware, consisting of the KDE Frameworks 5.12.0,
-Plasma 5.3.2 and Applications 15.04.3.
+Here is KDE 5_15.09 for Slackware, consisting of the KDE Frameworks 5.13.0,
+Plasma 5.4.0 and Applications 15.08.0.
 
-Compared to my KDE 5_15.06 no further changes were made apart from the updates
-to Frameworks, Plasma and Applications.
-Note:
-This is meant only to be installed on top of Slackware -current and it will
-*replace* any version of KDE 4 you might have installed!
+This is an intrusive update if you currently have my KDE 5_15.07 packages
+installed. Consider this to be beta-quality because there may be some usability
+issues - and read the "BUILD NOTES" below very carefully before you decide
+to upgrade. I need testers to iron out some annoying regressions.
+
+KDE-5_15.09 is meant only to be installed on top of Slackware -current and
+it will *replace* any version of KDE 4 you might have installed!
+
+BUILD NOTES:
+
+In random order, this is what I ran into while working on this set of updates.
+* Qt5 fails to compile if an older version of Qt5 is already installed.
+* frameworks:kwallet should be built against applications:gpgmepp,
+  therefore I adapted the build order in KDE.SlackBuild slightly.
+* Several Applications packages could not be configured using cmake,
+  because of a missing line in their CMakeFiles.txt. These files needed a line
+  "cmake_minimum_required(VERSION 2.8.9)". Instead of creating 17 patches I
+  decided to modify cmake/applications and cake/applications5 instead, and
+  fixed the omission with a sed substitution.
+* kde-runtime needs the kdelibs-4 based kdepimlibs. Since KDEPIM has now been
+  ported to KDE Frameworks 5 (KF5) I had to add a compatibility package
+  "kdepimlibs4" containing the relevant bits of the old kdepimlibs.
+* and... kdepimlibs4 needs the old akonadi-1.13 release. Therefore a "akonadi4"
+  package was added alongside "kdepimlibs4" in the kde/kde4/ directory.
+* kdepimlibs4 will fail to compile in the presence of akonadi (kf5 edition),
+  it wants only akonadi4 to be present. I hope I fixed this.
+* Compilation errors in okteta required a patch to qca-qt5.
+* I took the opportunity to rebuild some packages with library linking issues
+  caused by recent slackware-current updates: phonon-vlc, pykde4, qtruby,
+  korundum, smokekde, perlqt, smokeqt, baloo.
+* rocs will emit an internal compiler error unless you increase the RAM to
+  well beyond 3GB (use a big swap file if needed).
+* Into the breeze package I have built Qt4 support in addition to the default
+  Qt5 support. This will allow the KDE4 based applications to blend in
+  with the Plasma 5 Breeze theme better.
+* I updated the SDDM login manager (sddm-qt5 package) with a git snapshot
+  which supposedly supports the session management of ConsoleKit2. However
+  the 'passwd' authentication backend was broken and it took a while before
+  someone came up with a patch.
+* Several "deps" packages were removed:
+  - grantlee-qt5 (nothing uses the old grantlee anymore I hope, so I just
+    replaced it with the new grantlee-5)
+  - pairs and kgamma (no longer part of KDE Applications)
+  - ConsoleKit (has been replaced by ConsoleKit2 which is a fork of the
+    no longer maintained ConsoleKit and has several fixes and enhancements)
+* A problematic package is baloo because its file content partially overlaps
+  with baloo5, and I do not know what I can do about it. Nor do I know if
+  this has any negative impact on Plasma 5 Workspace.
+* libkface requires opencv as a dependency. I almost wanted to add opencv to
+  make the process of adding digikam easier (since digikam needs both libkface
+  and opencv) but after discussing with willysr and ponce, SBo admins,
+  I decided to skip this because the new opencv-3 has to much impact on the
+  slackbuilds.org content. 
+
+All in all I am pretty unhappy with the effort which was required to get this
+latest batch of updates to compile and work together.
+And even then, with a finished set of packages, there are a few annoying issues
+for which I have no explanation nor do I have a solution because I do not know
+whether they are caused by Plasma 5 or by the recent slackware-current updates.
+
+Annoyance #1:
+Logging out is delayed:
+* Try to open the Plasma Kicker startmenu and move your mouse over the
+  "Leave" tab. It will then take a minute to display the tab's content,
+  and in the meantime, the Plasma workspace is frozen. Any open application
+  windows are still responsive and you can work with them.
+* Try to use the logout/shutdown widget in the system tray if you added that.
+  Clicking the widget will also cause a one to tw minute delay before the
+  logoff dialog appears.
+* Try logging out from the commandline using this qdbus commmand in an X term:
+  $ qdbus org.kde.ksmserver /KSMServer logout 0 0 0
+  You will notice that this command just sits there for the same one to two
+  minutes, and then it kicks into action and you'll be logged off.
+Something is amiss with the communication over dbus. Ideas anyone?
+
+Annoyance #2:
+Whenever the power saver kicks in and I am not paying attention, the screen
+of my Lenovo T400 laptop (Intel graphics) turns black and will not revive.
+I have to Ctrl-Alt-F1 to get to my Linux console, press the backlight button until I can read again what's on screen, and then back to X using Alt-F7.
+
+Annoyance #3:
+In my 32-bit virtual machine I cannot even login, because there is a flood of
+re-spawning screensaver processes that prevent access. This can be caused by
+something in the virtual machine, but I did not do extensive troubleshooting.
+
+=== END OF BUILD NOTES ===
+
+Having said all that, it is still an impressive release with lots of changes
+and improvements. I hope that we get the quirks solved so we can focus on
+what's good.
+
+Highlights of KDE-5_15.09:
+- Qt5 has been updated to 5.5.0
+- ConsoleKit (unmaintained) gets replaced by ConsoleKit2 (well-maintained fork)
+  which could open up a path to a systemd-free Slackware that is compatible to
+  a large extent with systemd requirements.
+- I added LoginKit also for that purpose. LoginKit in its present form does not
+  do much (if anything at all) but I want to have it in for those who want to
+  play test this.
+- Several of the other deps were added, updated, rebuilt or removed as well: 
+  LibRaw (update for the Slackware package),
+  PyQt5 (updated),
+  qca-qt5 (patched),
+  grantlee (update for the Slackware package)
+  lmdb (new)
+  grantlee-qt5 (renamed to grantlee thereby replacing the Slackware version)
+- Removed deps (we can use the original Slackware packages now) are:
+  PyQt, sip and libepoxy
+- Frameworks 5.13.0 is an enhancement release, lots of fixes are documented on
+  https://www.kde.org/announcements/kde-frameworks-5.13.0.php
+- Plasma 5.4.0 is a feature release, you can read all the details in
+  https://www.kde.org/announcements/plasma-5.4.0.php
+  Important is that the krunner has a command history again, and lots of new
+  icons were added for non-Plasma5 applications, which helps to give the
+  Plasma 5 desktop a uniform look and feel;
+  Not so important for Slackware is the Wayland Tech Preview and some system
+  tool improvements using PAM (kwallet-pam) or pulseaudio (audio volume applet).
+- Applications 15.08.0 is bringing more KF5 ports: 107 applications in total.
+  Most noticeable are the KF5 ports of Dolphin (the file manager), KDEPIM (the
+  Kontact Suite as it is called now) and Ark (archive tool). I am a bit worried
+  about the Kontact development toward the KDE Frameworks 5. Lots of struggles
+  were discussed in the mailing lists and the resulting KF5 based Kontact Suite
+  is still considered BETA quality. 
+  The move to KF5 exposed several older KDE4 based applications that have
+  a dependency on the KDE4 based PIM libraries.
+  Therefore I had to add a compatibility layer of packages containing that
+  KDE4 code: akonadi4 and kdepimlibs4 (similar to what I had to do earlier
+  with libkmahjongg4, libkdegames4, konsolepart4 and katepart4).
 
 Further points of interest that are unchanged since the previous releases:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
@@ -34,18 +157,19 @@ Further points of interest that are unchanged since the previous releases:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed. So, apart from updates to regular Slackware packages, these are the
   new ones:
-  OpenAL, PyQT5, cfitsio, grantlee-qt5, json-glib, libappindicator,
-  libdbusmenu-gtk, libdbusmenu-qt5, libepoxy, libfakekey, libindicator,
-  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, sni-qt, wayland and xapian-core.
+  OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
+  libdbusmenu-qt5, libepoxy, libfakekey, libindicator, polkit-qt5-1, qca-qt5,
+  qt-gstreamer, qt5, sni-qt, wayland and xapian-core.
 - Note for users of multilib Slackware64 and also using Skype: you will have to
   grab the 32-bit version of sni-qt and run 'convertpkg-compat32' on it,
   or else Skype won't be able to dock its icon in the systray.
 - A bit sneakily, I built phonon-vlc for you.  You will also need a VLC package
   to be able to use this package though.
-- Several source tarballs in Plasma 5.3.2 have not been compiled to Slackware
+- Several source tarballs in Plasma 5.4.0 have not been compiled to Slackware
   packages: libbluedevil and bluedevil (they need BlueZ 5 which is not part of
   Slackware), muon (a debian/ubuntu package manager), libkface (needs opencv
-  which I was not willing to add as a dependency).
+  which I was not willing to add as a dependency), user-manager and kwallet-pam
+  (need PAM), plasma-pa (needs pulseaudio).
 - One dependency which you'll probably find curious, is wayland. It is required
   in order to *compile* KWin's X11 driver, but it is apparently not needed at
   *runtime*. Nevertheless, I left the package in, just in case you want or need
@@ -150,6 +274,14 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
 
+If you have my 'ktown' set of KDE 5_15.07 installed:
+- Upgrade to KDE-5_15.09 and then remove the packages
+  that no longer exist in KDE 5_15.09:
+  * removepkg ConsoleKit
+  * removepkg grantlee-qt5
+  * removepkg kgamma
+  * removepkg pairs
+
 If you have my 'ktown' set of KDE 5_15.06 installed:
 - No further actions are needed.
 
@@ -252,4 +384,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 08-jul-2015
+                     Eric Hameleers / alien at slackware dot com / 02-sep-2015
