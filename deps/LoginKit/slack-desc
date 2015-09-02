@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler-----------------------------------------------------|
+LoginKit: LoginKit (stand-alone logind and libsystemd shim)
+LoginKit:
+LoginKit: LoginKit is an attempt to implement a logind shim, which allows
+LoginKit: packages that depend on systemd-logind to work without dependency
+LoginKit: on a specific init system.
+LoginKit: LoginKit uses ConsoleKit2 as its backend.
+LoginKit: This package contains the 'devuan jessie' branch.
+LoginKit:
+LoginKit:
+LoginKit: See also: https://github.com/dimkr/LoginKit
+LoginKit:

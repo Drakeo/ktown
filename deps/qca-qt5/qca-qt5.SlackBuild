@@ -23,7 +23,7 @@
 
 PKGNAM=qca-qt5
 VERSION=${VERSION:-2.1.0.3}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 NUMJOBS=${NUMJOBS:--j6}
 
 # Automatically determine the architecture we're building on:
@@ -58,6 +58,10 @@ cd $TMP
 rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
 cd $PKGNAM-$VERSION || exit 1
+
+# Add a missing include. Fixes build against Qt 5.5:
+cat $CWD/qca_qiodevice.patch | patch -p1 --verbose || exit 1
+
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \

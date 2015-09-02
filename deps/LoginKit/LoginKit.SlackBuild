@@ -21,53 +21,56 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-PKGNAM=grantlee-qt5
-SRCNAM=grantlee
-VERSION=${VERSION:-5.0.0}
+PKGNAM=LoginKit
+VERSION=${VERSION:-f363547_20150221git}
 BUILD=${BUILD:-1}
-
-NUMJOBS=${NUMJOBS:--j7}
-
-# Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
-if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
-    # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
-  esac
-fi
-
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "s390" ]; then
-  SLKCFLAGS="-O2"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "x86_64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
-  LIBDIRSUFFIX="64"
-elif [ "$ARCH" = "armv7hl" ]; then
-  SLKCFLAGS="-O2 -march=armv7-a -mfpu=vfpv3-d16"
-  LIBDIRSUFFIX=""
-else
-  SLKCFLAGS="-O2"
-  LIBDIRSUFFIX=""
-fi
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$(uname -m)" in
+    i?86) ARCH=i486 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || AR
+CH=armv7hl ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *) ARCH=$(uname -m) ;;
+  esac
+  export ARCH
+fi
+
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  SLKLDFLAGS="-L/usr/lib64"
+  LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "armv7hl" ]; then
+  SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+else
+  SLKCFLAGS="-O2"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+fi
+
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf $SRCNAM-$VERSION
-tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
-cd $SRCNAM-$VERSION || exit 1
+rm -rf $PKGNAM-$VERSION
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+cd $PKGNAM-$VERSION || exit 1
+
+# Fix ownerships and permissions:
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -75,32 +78,45 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-# Don't make it clash with grantlee:
-sed  -i CMakeLists.txt \
-  -e 's|INCLUDE_INSTALL_DIR include|INCLUDE_INSTALL_DIR include/grantlee-qt5|'
-
-mkdir -p build
-cd build
-  QTDIR=/usr/lib${LIBDIRSUFFIX}/qt \
-  PATH=$QTDIR/bin:$PATH \
-  cmake \
-    $KDE_OPT_ARGS \
-    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    ..
-   make $NUMJOBS || make || exit 1
-   make install DESTDIR=$PKG || exit 1
-cd -
+# Compile and install:
+export CFLAGS="$SLKCFLAGS"
+export CXXFLAGS="$SLKCFLAGS"
+make LIB_DIR=/usr/lib${LIBDIRSUFFIX} || exit 1
+make install DESTDIR=$PKG LIB_DIR=$DESTDIR/usr/lib${LIBDIRSUFFIX}
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
+# Compress and link manpages, if any:
+if [ -d $PKG/usr/man ]; then
+  ( cd $PKG/usr/man
+    for manpagedir in $(find . -type d -name "man*") ; do
+      ( cd $manpagedir
+        for eachpage in $( find . -type l -maxdepth 1) ; do
+          ln -s $( readlink $eachpage ).gz $eachpage.gz
+          rm $eachpage
+        done
+        gzip -9 *.?
+      )
+    done
+  )
+fi
+
+# Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
-cp -a AUTHORS CHANGELOG COPYING* GOALS README \
+cp -a \
+  AUTHORS COPYING README doc/* \
   $PKG/usr/doc/$PKGNAM-$VERSION
 
+# If there's a ChangeLog, installing at least part of the recent history
+# is useful, but don't let it get totally out of control:
+if [ -r ChangeLog ]; then
+  DOCSDIR=$(echo $PKG/usr/doc/*-$VERSION)
+  cat ChangeLog | head -n 1000 > $DOCSDIR/ChangeLog
+  touch -r ChangeLog $DOCSDIR/ChangeLog
+fi
+
+# Add a package description:
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 

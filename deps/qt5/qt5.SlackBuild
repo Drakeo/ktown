@@ -118,6 +118,14 @@ rm -f qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/aud
 ln -s ../../../../../tools/perf \
   qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/audio/
 
+# Use -reduce-relocations only on i?86 and x86_64 architextures.
+# https://bugreports.qt-project.org/browse/QTBUG-36129
+if echo $ARCH | grep -q '\(i.86\|x86_64\)' 2>/dev/null; then
+  RELOCATIONS="-reduce-relocations"
+else
+  RELOCATIONS=""
+fi
+
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
@@ -166,7 +174,6 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -optimized-qmake \
   -qpa xcb \
   -qt-harfbuzz \
-  -reduce-relocations \
   -verbose \
   -xcb \
   -nomake examples \
@@ -175,6 +182,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -no-separate-debug-info \
   -no-strip \
   -no-use-gold-linker \
+  ${RELOCATIONS} \
   -no-pch \
   # No-precompiled-headers is ccache-friendly.
   
@@ -186,6 +194,17 @@ make install INSTALL_ROOT=$PKG || exit 1
 # Strip binaries the Slackware way:
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Fix internal linking for Qt5WebKit.pc , thanks to Larry Hajali's SBo script:
+sed -i \
+  -e "s|-Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebKit[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebKit2[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebCore[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/ThirdParty/ANGLE[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/JavaScriptCore[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WTF[^ ]* ||" \
+  -e "s|-Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/ThirdParty/leveldb[^ ]* ||" \
+  $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKit.pc
 
 # Fix the path in prl files:
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \

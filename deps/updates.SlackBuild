@@ -14,10 +14,11 @@ TMP=${TMP:-/tmp}
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
+  LibRaw \
+  ConsoleKit2 \
+  LoginKit \
   extra-cmake-modules \
   sni-qt \
-  sip \
-  PyQt \
   eigen2 \
   OpenAL \
   xapian-core \
@@ -29,14 +30,14 @@ ALLDEPS=" \
   phonon-gstreamer \
   PyQt5 \
   polkit-qt5-1 \
-  grantlee-qt5 \
-  libepoxy \
+  grantlee \
   wayland \
   json-glib \
   libdbusmenu-gtk \
   libindicator \
   libappindicator \
   cfitsio \
+  lmdb \
   "
   # needed only by future kdepimlibs-framework
   # by then we need to rename akonadi -> akonadi4 and akonadi-qt5 -> akonadi

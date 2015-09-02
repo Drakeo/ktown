@@ -1,0 +1,14 @@
+--- ConsoleKit2-1.0.0/tools/Makefile.am.orig	2015-08-10 08:48:27.000000000 +0200
++++ ConsoleKit2-1.0.0/tools/Makefile.am	2015-08-23 16:54:50.559056869 +0200
+@@ -171,9 +171,9 @@
+ 	$(NULL)
+ 
+ install-exec-hook:
+-	mkdir -p $(DESTDIR)$(prefix)/lib/ConsoleKit/run-seat.d
++	mkdir -p $(DESTDIR)$(libdir)/ConsoleKit/run-seat.d
+ 	mkdir -p $(DESTDIR)$(UDEVDIR)
+-	ln -sf $(libexecdir)/udev-acl $(DESTDIR)$(prefix)/lib/ConsoleKit/run-seat.d/udev-acl.ck
++	ln -sf $(libexecdir)/udev-acl $(DESTDIR)$(libdir)/ConsoleKit/run-seat.d/udev-acl.ck
+ 	ln -sf $(libexecdir)/udev-acl $(DESTDIR)$(UDEVDIR)/udev-acl
+ endif
+ 
