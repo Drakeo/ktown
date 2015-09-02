@@ -1,11 +1,13 @@
 # plasma:
 kfilemetadata5
 #kdepimlibs-framework
+kgamma5
 baloo5
 kdecoration
 breeze
 kde-cli-tools
 kwayland
+kwayland-integration
 khelpcenter
 kinfocenter
 kio-extras
@@ -35,5 +37,8 @@ kde-gtk-config
 muon
 ksshaskpass
 plasma-sdk
+#kwallet-pam
+#plasma-pa
+#user-manager
 #plasma-mediacenter
 

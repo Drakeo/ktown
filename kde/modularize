@@ -97,7 +97,7 @@ khtml
 
 # plasma
 kfilemetadata5
-kdepimlibs-framework
+kgamma5
 baloo5
 kdecoration
 breeze
@@ -115,6 +115,7 @@ oxygen
 oxygen-fonts
 systemsettings
 kwayland
+kwayland-integration
 plasma-desktop
 plasma-workspace
 kdeplasma-addons
@@ -132,6 +133,9 @@ kde-gtk-config
 muon
 ksshaskpass
 plasma-sdk
+#kwallet-pam
+#plasma-pa
+#user-manager
 #plasma-mediacenter
 
 # plasma-extra
@@ -142,6 +146,7 @@ polkit-kde-kcmodules-framework
 
 # applications
 # kdebase:
+kdebugsettings
 kate
 konsole
 kde-baseapps
@@ -149,6 +154,7 @@ kde-wallpapers
 kde-workspace
 kde-runtime
 kde-base-artwork
+dolphin
 # kdesdk:
 kapptemplate
 okteta
@@ -177,7 +183,6 @@ okular
 kdegraphics-thumbnailers
 kamera
 kcolorchooser
-kgamma
 kolourpaint
 kruler
 ksaneplugin
@@ -326,6 +331,30 @@ ktp-filetransfer-handler
 ktp-send-file
 #ktp-call-ui
 ktp-desktop-applets
+# KDE PIM
+gpgmepp
+kcalcore
+akonadi
+akonadi-search
+kholidays
+kpimtextedit
+kidentitymanagement
+kalarmcal
+kcalutils
+syndication
+kblog
+kcontacts
+kmime
+kimap
+kldap
+kmbox
+kontactinterface
+ktnef
+kdepim
+kdepimlibs
+kdepim-runtime
+kmailtransport
+akonadi-calendar
 
 #
 # The old KDE 4 stuff which has not been migrated yet. or is still needed
@@ -336,9 +365,11 @@ ktp-desktop-applets
 kdelibs
 
 # kdebase:
+akonadi4
 baloo
 baloo-widgets
 nepomuk-core
+kdepimlibs4
 nepomuk-widgets
 kfilemetadata
 kactivities
@@ -357,13 +388,6 @@ pykde4
 kross-interpreters
 kimono
 qyoto
-
-# kdepim
-kdepim
-kdepim-runtime
-
-# kdepimlibs
-kdepimlibs
 
 # kdegames:
 libkdegames4

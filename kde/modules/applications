@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/15.04_Release_Notes
+# https://community.kde.org/Applications/15.08_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -6,6 +6,8 @@ libkexiv2
 libkdcraw
 libksane
 gwenview
+
+# KDE PIM: split out to modules/kdepim
 
 # KDE Telepathy:
 #signon-kwallet-extension
@@ -32,8 +34,10 @@ kde-wallpapers
 kde-workspace
 kde-runtime
 kde-base-artwork
+dolphin
 
 # kdesdk:
+kdebugsettings
 kapptemplate
 okteta
 cervisia
@@ -57,12 +61,12 @@ okular
 kdegraphics-thumbnailers
 kamera
 kcolorchooser
-kgamma
 kolourpaint
 kruler
 ksaneplugin
 ksnapshot
 svgpart
+# needs opencv:
 #libkface
 
 # kdeaccessibility:
@@ -192,7 +196,7 @@ ktouch
 kturtle
 kwordquiz
 marble
-pairs
+#pairs
 rocs
 step
 

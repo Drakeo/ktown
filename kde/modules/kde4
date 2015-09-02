@@ -1,9 +1,11 @@
+# Pre-requisite for the old KDE4 PIM applications:
+akonadi4
 # kdelibs:
 kdelibs
 # Taken from kdebase, needed for kdepimlibs:
 nepomuk-core
-# kdepimlibs:
-kdepimlibs
+# kdepimlibs for KDE4 based PIM applications:
+kdepimlibs4
 # kdebase:
 kfilemetadata
 baloo
@@ -24,9 +26,6 @@ pykde4
 kross-interpreters
 #kimono
 #qyoto
-# kdepim:
-kdepim
-kdepim-runtime
 # kdegames:
 libkdegames4
 libkmahjongg4
