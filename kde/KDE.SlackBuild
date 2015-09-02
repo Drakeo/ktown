@@ -542,11 +542,13 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 SLACK_KDE_BUILD_DIR=$TMP/kde-build
 mkdir -p $SLACK_KDE_BUILD_DIR
 
-# kde-baseapps is rebuilt after kdewebdev because it can then pickup
-#   libtidy and enable the Konqueror validators plugin to validate HTML.
+# kwallet is built again after kdepim,
+# so that it can pick up support for gpgmepp.
 KDEMODS=" \
   kde4 \
   frameworks \
+  kdepim \
+  frameworks:kwallet \
   plasma \
   plasma-extra \
   applications \
