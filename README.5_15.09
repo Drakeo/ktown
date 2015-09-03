@@ -71,7 +71,7 @@ Logging out is delayed:
   and in the meantime, the Plasma workspace is frozen. Any open application
   windows are still responsive and you can work with them.
 * Try to use the logout/shutdown widget in the system tray if you added that.
-  Clicking the widget will also cause a one to tw minute delay before the
+  Clicking the widget will also cause a one to two minute delay before the
   logoff dialog appears.
 * Try logging out from the commandline using this qdbus commmand in an X term:
   $ qdbus org.kde.ksmserver /KSMServer logout 0 0 0
@@ -135,9 +135,9 @@ Highlights of KDE-5_15.09:
 
 Further points of interest that are unchanged since the previous releases:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
-  k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, oxygen-gtk3,
-  kdevplatform, kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php,
-  kdevelop-php-docs, skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
+  k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, kdevplatform,
+  kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php, kdevelop-php-docs,
+  skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
 - I still did not compile the new Plasma Mediacenter tech-preview.
 - Note that I did not compile the new KDEnlive and KDE Telepathy. They need
   a lot of attention before I can build them and it was more important to me
@@ -158,8 +158,8 @@ Further points of interest that are unchanged since the previous releases:
   needed. So, apart from updates to regular Slackware packages, these are the
   new ones:
   OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
-  libdbusmenu-qt5, libepoxy, libfakekey, libindicator, polkit-qt5-1, qca-qt5,
-  qt-gstreamer, qt5, sni-qt, wayland and xapian-core.
+  libdbusmenu-qt5, libindicator, polkit-qt5-1, qca-qt5, qt-gstreamer, qt5,
+  sni-qt, wayland and xapian-core.
 - Note for users of multilib Slackware64 and also using Skype: you will have to
   grab the 32-bit version of sni-qt and run 'convertpkg-compat32' on it,
   or else Skype won't be able to dock its icon in the systray.
@@ -217,7 +217,6 @@ If you decide to install these packages on top of a fresh installation of
     * kio-mtp
     * ktorrent
     * oxygen-gtk2
-    * oxygen-gtk3
     * partitionmanager
     * skanlite
 
@@ -384,4 +383,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 02-sep-2015
+                     Eric Hameleers / alien at slackware dot com / 03-sep-2015

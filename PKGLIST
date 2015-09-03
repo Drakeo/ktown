@@ -19,7 +19,7 @@
 14.2/5/x86/deps/polkit-qt5-1-3882e11_20140802git-i486-3alien.txz
 14.2/5/x86/deps/qca-qt5-2.1.0.3-i486-3alien.txz
 14.2/5/x86/deps/qt-gstreamer-1.2.0-i486-2alien.txz
-14.2/5/x86/deps/qt5-5.5.0-i486-1.txz
+14.2/5/x86/deps/qt5-5.5.0-i486-1alien.txz
 14.2/5/x86/deps/sni-qt-0.2.6-i486-2alien.txz
 14.2/5/x86/deps/wayland-1.7.0-i486-1alien.txz
 14.2/5/x86/deps/xapian-core-1.2.19-i486-2alien.txz
@@ -283,9 +283,8 @@
 14.2/5/x86/kde/kdepim/kpimtextedit-15.08.0-i486-1alien.txz
 14.2/5/x86/kde/kdepim/ktnef-15.08.0-i486-1alien.txz
 14.2/5/x86/kde/kdepim/syndication-15.08.0-i486-1alien.txz
-14.2/5/x86/kde/plasma-extra/kdeconnect-framework-c7cee37_20150319git-i486-1.txz
-14.2/5/x86/kde/plasma-extra/polkit-kde-kcmodules-framework-c2e67c6_20150121git-i486-3.txz
-14.2/5/x86/kde/plasma-extra/sddm-qt5-0.11.0-i486-2.txz
+14.2/5/x86/kde/plasma-extra/kdeconnect-framework-c7cee37_20150319git-i486-1alien.txz
+14.2/5/x86/kde/plasma-extra/polkit-kde-kcmodules-framework-c2e67c6_20150121git-i486-3alien.txz
 14.2/5/x86/kde/plasma-extra/sddm-qt5-d42700a_20150822git-i486-1alien.txz
 14.2/5/x86/kde/plasma/baloo5-5.13.0-i486-1alien.txz
 14.2/5/x86/kde/plasma/breeze-5.4.0-i486-1alien.txz
@@ -399,7 +398,6 @@
 14.2/5/x86_64/deps/qca-qt5-2.1.0.3-x86_64-2alien.txz
 14.2/5/x86_64/deps/qca-qt5-2.1.0.3-x86_64-3alien.txz
 14.2/5/x86_64/deps/qt-gstreamer-1.2.0-x86_64-2alien.txz
-14.2/5/x86_64/deps/qt5-5.4.1-x86_64-1alien.txz
 14.2/5/x86_64/deps/qt5-5.5.0-x86_64-1alien.txz
 14.2/5/x86_64/deps/sni-qt-0.2.6-x86_64-2alien.txz
 14.2/5/x86_64/deps/wayland-1.7.0-x86_64-1alien.txz
