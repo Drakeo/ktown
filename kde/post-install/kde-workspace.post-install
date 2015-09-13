@@ -1,15 +1,15 @@
-
-# Use ck-launch-session in runlevel 3,
-# to start and attach a ConsoleKit session to the X session:
-mkdir -p $PKG/etc/X11/xinit
-cat $CWD/post-install/kde-workspace/xinit/xinitrc.kde > $PKG/etc/X11/xinit/xinitrc.kde
-chmod 0755 $PKG/etc/X11/xinit/xinitrc.kde
+# Stop offering KDE4 session - only Plasma5 is relevant now.
+## Use ck-launch-session in runlevel 3,
+## to start and attach a ConsoleKit session to the X session:
+#mkdir -p $PKG/etc/X11/xinit
+#cat $CWD/post-install/kde-workspace/xinit/xinitrc.kde > $PKG/etc/X11/xinit/xinitrc.kde
+#chmod 0755 $PKG/etc/X11/xinit/xinitrc.kde
 
 # This is fubar:
 rm -f $PKG/usr/share/icons/hicolor/index.theme
 
-# Rename the startkde script so that it does not conflict with plasma-workspace:
-mv $PKG/usr/bin/startkde $PKG/usr/bin/startkde4
+# Remove the startkde script - we need only the Plasma5 script:
+rm $PKG/usr/bin/startkde
 
 # Remove symlinks that clash with plasma-workspace:
 for SOFILE in libksgrd libksignalplotter liblsofui libprocesscore libprocessui libtaskmanager ; do
