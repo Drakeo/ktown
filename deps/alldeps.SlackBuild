@@ -16,7 +16,6 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 ALLDEPS=" \
   LibRaw \
   ConsoleKit2 \
-  LoginKit \
   extra-cmake-modules \
   sni-qt \
   qt5 \
@@ -42,6 +41,7 @@ ALLDEPS=" \
   libappindicator \
   cfitsio \
   lmdb \
+  libproxy \
   "
   # needed only by future kdepimlibs-framework
   #akonadi-qt5 \

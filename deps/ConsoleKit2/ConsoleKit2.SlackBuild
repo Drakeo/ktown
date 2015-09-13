@@ -2,8 +2,8 @@
 
 # Slackware build script for ConsoleKit
 
-# Copyright 2009  Robby Workman, Northport, Alabama, USA
-# Copyright 2010,2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2009, 2015  Robby Workman, Northport, Alabama, USA
+# Copyright 2010, 2015  Eric Hameleers, Eindhoven, NL
 # Copyright 2010  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -26,7 +26,7 @@
 
 PKGNAM=ConsoleKit2
 VERSION=${VERSION:-1.0.0}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j6}
 
@@ -79,7 +79,10 @@ rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
 cd $PKGNAM-$VERSION || exit 1
 
-cat $CWD/patches/ConsoleKit2_lib64.patch | patch -p1 --verbose || exit 1
+cat $CWD/patches/0001-Revert-Minor-code-refactoring.patch | patch -p1 --verbose || exit 1
+cat $CWD/patches/0002-Fix-some-libdir-scripts-stuff-missed-in-4d87a25ea0af.patch | patch -p1 --verbose || exit 1
+cat $CWD/patches/0003-Filter-out-the-kdm-user.patch | patch -p1 --verbose || exit 1
+cat $CWD/patches/0004-Apply-overlooked-prefix-lib-libdir-substitution.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \
@@ -88,20 +91,19 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-[ ! -x configure ] && CONFIGURE=autogen.sh || CONFIGURE=configure
+autoreconf -vif
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-LDFLAGS="$SLKLDFLAGS" \
-./${CONFIGURE} \
+./configure \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --sysconfdir=/etc \
   --localstatedir=/var \
   --mandir=/usr/man \
   --docdir=/usr/doc/$PKGNAM-$VERSION \
-  --with-rundir=/run \
-  --with-pid-file=/run/ConsoleKit/pid \
+  --with-rundir=/var/run \
+  --with-pid-file=/var/run/ConsoleKit/pid \
   --enable-docbook-docs \
   --enable-pam-module=no \
   --enable-udev-acl \
@@ -126,11 +128,6 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" \
 # Compress and link manpages, if any:
 if [ -d $PKG/usr/man ]; then
   ( cd $PKG/usr/man
-    if find -type f -name "*.1m" 2>/dev/null ; then
-      for mfile in $(find -type f -name "*.1m") ; do
-        mkdir -p man8 ; mv $mfile man8/$(basename $mfile 1m).8
-      done
-    fi
     for manpagedir in $(find . -type d -name "man*") ; do
       ( cd $manpagedir
         for eachpage in $( find . -type l -maxdepth 1) ; do
@@ -158,7 +155,7 @@ fi
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
-zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
