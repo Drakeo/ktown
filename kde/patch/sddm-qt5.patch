@@ -6,4 +6,5 @@ cat $CWD/patch/sddm-qt5/sddm_consolekit.diff | patch -p1 --verbose || { touch ${
 #cat $CWD/patch/sddm-qt5/sddm_auth.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 # Fix a compilation error on passwd backend:
-cat $CWD/patch/sddm-qt5/sddm_qstring.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# (fixed in sddm-0.12.0).
+#cat $CWD/patch/sddm-qt5/sddm_qstring.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
