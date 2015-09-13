@@ -1,4 +1,7 @@
 # KDE Frameworks.
+#
+# http://api.kde.org/frameworks-api/frameworks5-apidocs/
+#
 # Tier 1, depends on Qt5, system libraries:
 extra-cmake-modules
 attica-framework
@@ -28,16 +31,16 @@ kglobalaccel
 kjobwidgets
 kcompletion
 kdoctools
-kjs
 kpackage
 kdnssd
-kconfigwidgets
-kservice
-kiconthemes
 knotifications
 kunitconversion
 kpty
+kfilemetadata5
 # Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
+kconfigwidgets
+kservice
+kiconthemes
 kwallet
 kemoticons
 kdesu
@@ -55,18 +58,21 @@ kinit
 kded
 knotifyconfig
 #kprintutils
-kjsembed
-kross
-kmediaplayer
 ktexteditor
 #kfileaudiopreview
 kactivities-framework
 plasma-framework
-krunner
 kpeople
 kxmlrpcclient
+baloo5
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
+kjs
+kjsembed
+kross
+kmediaplayer
+krunner
 kapidox
 frameworkintegration
 kdelibs4support
 khtml
+

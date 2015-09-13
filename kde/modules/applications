@@ -27,6 +27,7 @@ gwenview
 #ktp-desktop-applets
 
 # kdebase:
+kio-extras
 kate
 konsole
 kde-baseapps

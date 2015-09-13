@@ -24,8 +24,8 @@
 
 # frameworks
 # Tier 1, depends on Qt5, system libraries:
-attica-framework
 extra-cmake-modules
+attica-framework
 kitemmodels
 kitemviews
 kplotting
@@ -38,7 +38,6 @@ sonnet
 kconfig
 kwindowsystem
 solid
-kglobalaccel
 karchive
 kdbusaddons
 kcoreaddons
@@ -49,62 +48,62 @@ modemmanager-qt
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
+kglobalaccel
 kjobwidgets
 kcompletion
 kdoctools
-kjs
 kpackage
 kdnssd
-kconfigwidgets
-kservice
-kiconthemes
 knotifications
 kunitconversion
 kpty
+kfilemetadata5
 # Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
+kconfigwidgets
+kservice
+kiconthemes
 kwallet
 kemoticons
 kdesu
 ktextwidgets
 kxmlgui
 kbookmarks
-kcmutils
 kio
 knewstuff
 kparts
 kdewebkit
 kdesignerplugin
 kdeclarative
+kcmutils
 kinit
 kded
 knotifyconfig
 #kprintutils
-kjsembed
-kross
-kmediaplayer
 ktexteditor
 #kfileaudiopreview
 kactivities-framework
 plasma-framework
-krunner
 kpeople
 kxmlrpcclient
+baloo5
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
+kjsembed
+kross
+kmediaplayer
+krunner
+kjs
 kapidox
 frameworkintegration
 kdelibs4support
 khtml
 
 # plasma
-kfilemetadata5
 kgamma5
-baloo5
 kdecoration
 breeze
 kde-cli-tools
 khelpcenter
 kinfocenter
-kio-extras
 libksysguard
 ksysguard
 kwin
@@ -146,6 +145,7 @@ polkit-kde-kcmodules-framework
 
 # applications
 # kdebase:
+kio-extras
 kdebugsettings
 kate
 konsole
