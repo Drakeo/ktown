@@ -5,3 +5,6 @@
 # frameworks 5.9.0. This patch is no longer needed for plasma-nm-5.3.0:
 #cat $CWD/patch/plasma-nm/plasma-nm_modemmanager-qt_api.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix compilation against NetworkManager 1.0.6:
+cat $CWD/patch/plasma-nm/plasma-nm_networkmanager.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
