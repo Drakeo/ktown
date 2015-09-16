@@ -30,6 +30,7 @@ ALLDEPS=" \
   PyQt5 \
   polkit-qt5-1 \
   grantlee \
+  grantlee-qt4 \
   wayland \
   json-glib \
   libdbusmenu-gtk \
