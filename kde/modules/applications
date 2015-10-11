@@ -9,22 +9,7 @@ gwenview
 
 # KDE PIM: split out to modules/kdepim
 
-# KDE Telepathy:
-#signon-kwallet-extension
-#kaccounts-providers
-#kaccounts-integration
-#ktp-common-internals
-#ktp-accounts-kcm
-#ktp-contact-list
-#ktp-contact-runner
-#ktp-text-ui
-#ktp-approver
-#ktp-kded-module
-#ktp-auth-handler
-#ktp-filetransfer-handler
-#ktp-send-file
-#ktp-call-ui
-#ktp-desktop-applets
+# KDE Telepathy: split out to modules/telepathy
 
 # kdebase:
 kio-extras

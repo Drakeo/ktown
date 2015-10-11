@@ -57,9 +57,7 @@ kcmutils
 kinit
 kded
 knotifyconfig
-#kprintutils
 ktexteditor
-#kfileaudiopreview
 kactivities-framework
 plasma-framework
 kpeople

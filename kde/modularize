@@ -78,9 +78,7 @@ kcmutils
 kinit
 kded
 knotifyconfig
-#kprintutils
 ktexteditor
-#kfileaudiopreview
 kactivities-framework
 plasma-framework
 kpeople
@@ -121,8 +119,8 @@ kdeplasma-addons
 plasma-workspace-wallpapers
 plasma5-nm
 powerdevil
-#bluez-qt
-#bluedevil
+bluez-qt
+bluedevil
 khotkeys
 kmenuedit
 polkit-kde-framework
@@ -132,14 +130,14 @@ kde-gtk-config
 muon
 ksshaskpass
 plasma-sdk
-#kwallet-pam
-#plasma-pa
-#user-manager
-#plasma-mediacenter
+plasma-mediacenter
+kwallet-pam
+plasma-pa
+user-manager
 
 # plasma-extra
 sddm-qt5
-sddm-theme-breeze
+xembed-sni-proxy
 kdeconnect-framework
 polkit-kde-kcmodules-framework
 
@@ -190,7 +188,7 @@ ksnapshot
 svgpart
 libkface
 # kdeaccessibility:
-#jovie
+jovie
 kaccessible
 kmouth
 kmousetool
@@ -214,11 +212,11 @@ libkcddb
 libkcompactdisc
 audiocd-kio
 dragon
-#ffmpegthumbs
+ffmpegthumbs
 mplayerthumbs
 juk
 kmix
-#kscd
+kscd
 # oxygen icon set:
 oxygen-icons
 # kdenetwork:
@@ -329,7 +327,7 @@ ktp-kded-module
 ktp-auth-handler
 ktp-filetransfer-handler
 ktp-send-file
-#ktp-call-ui
+ktp-call-ui
 ktp-desktop-applets
 # KDE PIM
 gpgmepp
@@ -376,7 +374,7 @@ kactivities
 katepart4
 konsolepart4
 
-# kdebindings
+# kdebindings:
 smokegen
 smokeqt
 qtruby
@@ -403,7 +401,6 @@ kaudiocreator
 kplayer
 kwebkitpart
 oxygen-gtk2
-oxygen-gtk3
 kdevplatform
 kdevelop-pg-qt
 kdevelop
