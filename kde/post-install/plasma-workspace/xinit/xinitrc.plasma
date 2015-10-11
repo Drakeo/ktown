@@ -24,22 +24,9 @@ if [ -f $usermodmap ]; then
     xmodmap $usermodmap
 fi
 
-## KDE Frameworks 5 plus Plasma Next:
-#export KF5=/opt/kf5
-#export PATH=$KF5/bin:$KF5/lib@LIBDIRSUFFIX@/qt5/bin:$PATH
-#export QML2_IMPORT_PATH=$KF5/lib@LIBDIRSUFFIX@/qt5/qml:/usr/lib@LIBDIRSUFFIX@/qt5/qml
-#export QT_PLUGIN_PATH=$KF5/lib@LIBDIRSUFFIX@/qt5/plugins:/usr/lib@LIBDIRSUFFIX@/qt5/plugins
-#export XDG_CONFIG_DIRS=$KF5/etc/xdg:/etc/xdg:/etc/kde/xdg
-#export XDG_DATA_DIRS=$KF5/share:/usr/share:/usr/local/share
-
-#export XDG_DATA_HOME="$HOME/.local5"
-#export XDG_CONFIG_HOME="$HOME/.config5"
-#export XDG_CACHE_HOME="$HOME/.cache5"
-#export KDEHOME="$HOME/.kde5"
-
 # Start the window manager:
 if [ -z "$DESKTOP_SESSION" -a -x /usr/bin/ck-launch-session ]; then
-    ck-launch-session startkde
+    ck-launch-session dbus-launch --sh-syntax --exit-with-session startkde
 else
-    startkde
+    dbus-launch --sh-syntax --exit-with-session startkde
 fi

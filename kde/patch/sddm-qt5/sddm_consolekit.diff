@@ -7,7 +7,7 @@ index a5d270d..4b48524 100755
      ;;
    *)
 -    eval exec "$session"
-+    eval exec ck-launch-session "$session"
++    eval exec ck-launch-session dbus-launch --sh-syntax --exit-with-session "$session"
      ;;
  esac
  exec xmessage -center -buttons OK:0 -default OK "Sorry, cannot execute $session. Check $DESKTOP_SESSION.desktop."
