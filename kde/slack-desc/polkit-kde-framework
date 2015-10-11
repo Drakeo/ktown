@@ -9,10 +9,11 @@
 polkit-kde-framework: polkit-kde-framework (KDE polkit authenticator)
 polkit-kde-framework:
 polkit-kde-framework: This daemon provides a polkit authenticator UI for KDE.
-polkit-kde-framework: 
-polkit-kde-framework: 
-polkit-kde-framework: 
-polkit-kde-framework: 
 polkit-kde-framework:
-polkit-kde-framework: 
+polkit-kde-framework:
+polkit-kde-framework:
+polkit-kde-framework:
+polkit-kde-framework:
+polkit-kde-framework: See also:
+polkit-kde-framework: https://projects.kde.org/projects/kde/workspace/polkit-kde-agent-1
 polkit-kde-framework:
