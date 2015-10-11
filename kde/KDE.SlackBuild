@@ -546,13 +546,14 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 # so that it can pick up support for gpgmepp.
 KDEMODS=" \
   kde4 \
+  kde4-extragear \
   frameworks \
   kdepim \
   frameworks:kwallet \
   plasma \
   plasma-extra \
   applications \
-  kde4-extragear \
+  telepathy \
   "
 
 # Allow for specification of individual packages to be built:

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                    |-----handy-ruler----------------------------------------------------|
+telepathy-logger-qt5: telepathy-logger-qt5 (Telepathy Logging for Qt5)
+telepathy-logger-qt5:
+telepathy-logger-qt5: Qt5 bindings for telepathy-logger.
+telepathy-logger-qt5:
+telepathy-logger-qt5:
+telepathy-logger-qt5:
+telepathy-logger-qt5:
+telepathy-logger-qt5:
+telepathy-logger-qt5: See also:
+telepathy-logger-qt5: https://community.kde.org/Real-Time_Communication_and_Collaboration
+telepathy-logger-qt5:

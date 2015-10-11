@@ -43,9 +43,8 @@ ALLDEPS=" \
   cfitsio \
   lmdb \
   libproxy \
+  telepathy \
   "
-  # needed only by future kdepimlibs-framework
-  #akonadi-qt5 \
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \
 

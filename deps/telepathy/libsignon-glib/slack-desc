@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+              |-----handy-ruler------------------------------------------------------|
+libsignon-glib: libsignon-glib (GLib client library for managing SSO credentials)
+libsignon-glib:
+libsignon-glib: This project is a library for managing single signon credentials
+libsignon-glib: which can be used from GLib applications.
+libsignon-glib: It is effectively a GLib binding for the D-Bus API provided by
+libsignon-glib: signond. It is part of the accounts-sso project.
+libsignon-glib:
+libsignon-glib:
+libsignon-glib:
+libsignon-glib: Homepage: https://gitlab.com/accounts-sso/libsignon-glib
+libsignon-glib:

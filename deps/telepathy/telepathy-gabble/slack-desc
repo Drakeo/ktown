@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                |-----handy-ruler----------------------------------------------------|
+telepathy-gabble: telepathy-gabble (Jabber/XMPP connection manager for Telepathy)
+telepathy-gabble:
+telepathy-gabble: Gabble is a Jabber/XMPP connection manager for the Telepathy
+telepathy-gabble: framework, currently supporting:
+telepathy-gabble: * single-user chats
+telepathy-gabble: * multi-user chats
+telepathy-gabble: * voice/video calling
+telepathy-gabble: * file transfer
+telepathy-gabble: with Jabber/XMPP and Google Talk interoperability.
+telepathy-gabble:
+telepathy-gabble: Homepage: http://telepathy.freedesktop.org/

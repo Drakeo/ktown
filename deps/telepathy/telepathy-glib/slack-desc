@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                         |-----handy-ruler-------------------------------------------------------|
+telepathy-mission-control: telepathy-mission-control (abstraction library for Telepathy)
+telepathy-mission-control: 
+telepathy-mission-control: This package contains a Telepathy component providing
+telepathy-mission-control: abstraction of some of the details of connection managers.
+telepathy-mission-control:
+telepathy-mission-control:
+telepathy-mission-control:
+telepathy-mission-control:
+telepathy-mission-control:
+telepathy-mission-control: Homepage: http://telepathy.freedesktop.org/
+telepathy-mission-control:
