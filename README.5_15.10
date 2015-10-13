@@ -1,44 +1,39 @@
 KDE5
 ====
 
-Here is KDE 5_15.09_02 for Slackware, consisting of the KDE Frameworks 5.14.0,
-Plasma 5.4.1 and Applications 15.08.1.
+Here is KDE 5_15.10 for Slackware, consisting of the KDE Frameworks 5.15.0,
+Plasma 5.4.2 and Applications 15.08.2.
 
-Upgrading from the previous 5_15.09 should be an easy ride.
-KDE-5_15.09 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_15.09_02 should be straight-forward.
+KDE-5_15.10 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
-There is a couple of bugs left that really nag me:
-Both these issues are most likely caused by the Intel driver in
-Slackware-current, not by the KDE packages.
-- Whenever the power saver kicks in and I am not paying attention, the screen
-  of my Lenovo T400 laptop (Intel graphics) turns black (backlight stays off?).
-  I have to Ctrl-Alt-F1 to get to my Linux console, press the brightness button
-  until I can read again what's on screen, and then back to X using Alt-F7.
-- If the screenlocker was activated during powersave, and I have to run the
-  above sequence to get my X display visible again, the screenlocker is
-  seemingly not responding to my typing. But in fact the display is simply not
-  refreshing. After typing my password and hitting ENTER (thus unlocking my
-  session) the screen seems unchanged until I press Alt-TAB and the screen
-  suddenly refreshes, showing my unlocked desktop.
-
-Noteworthy NEWS for this batch of updates:
-- One "deps" package was removed:
-  LoginKit - it did not add anything that ConsoleKit2 does not do already
-  (offer the same API as systemd-logind) and in fact having it installed
-  was the cause of minute-log delays in displaying the "Leave" menu or
-  responding to clicks on the Logout widget. One annoyance less!
-- One "deps" packages was added:
-  libproxy - this is a recompilation of the package that is already
-  part of Slackware. I rebuilt it without support for KDE 4, which will
-  help preventing crashes in KDE Frameworks 5 (KF5) based applications
-  that call libproxy's functions which in turn would load KDE 4 libraries.
-- Frameworks 5.14.0 is an enhancement release, lots of fixes are documented on
-  https://www.kde.org/announcements/kde-frameworks-5.14.0.php
-- Plasma 5.4.1 is a bugfix release, you can read all the details in
-  https://www.kde.org/announcements/plasma-5.4.1.php
-- Applications 15.08.1 is a bugfix release as well, mainly for the total of
-  107 applications that have been ported to KF5.
+What is the NEWS in this batch of updates:
+- Two updated "deps" packages: qca-qt5 and wayland.
+- A completely new subset of "deps" packages, contained in their own
+  "telepathy" subdirectory, is paving the way for KDE Telepathy (see below):
+  libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
+  signon, signon-plugin-oauth2, signon-ui, libsignon-glib,
+  telepathy-glib, telepathy-farstream, telepathy-haze, telepathy-gabble,
+  telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
+  telepathy-mission-control and telepathy-accounts-signon.
+- Frameworks 5.15.0 is an enhancement release, no new Framework was added. See
+  https://www.kde.org/announcements/kde-frameworks-5.15.0.php
+- Plasma 5.4.2 is a bugfix release, you can read the details in
+  https://www.kde.org/announcements/plasma-5.4.2.php .  Worth mentioning is
+  that I have finally enabled the 'plasma-mediacenter' package.
+- In plasma-extra you will find a rebuilt sddm-qt5 package which fixes the
+  broken progress bar on startup of the Plasma Desktop session. Also you will
+  find a new package 'xembed-sni-proxy' which docks into the Plasma 5 system
+  tray and provided a legacy XEmbed tray for those applications that need it.
+  It is therefore no longer necessary to use a program like trayer-srg or
+  stalonetray to make these XEmbed tray-icons visible.
+- Applications 15.08.2 is a bugfix release as well. But for my Slackware
+  package set, the important change is that I have added all the KDE Telepathy
+  packages that previously stayed un-built. You'll find a new systray icon
+  waiting for you to configure your IM accounts.  Only the voice & video GUI
+  is still missing, the KDE Telepathy developers are still looking for someone
+  knowledgeable to port the old KDE 4 version to Frameworks 5.
 
 Further points of interest that are unchanged since the previous releases:
 - ConsoleKit2 replaces Slackware's ConsoleKit. Now we have something again
@@ -48,13 +43,8 @@ Further points of interest that are unchanged since the previous releases:
   k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, kdevplatform,
   kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php, kdevelop-php-docs,
   skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
-- I still did not compile the new Plasma Mediacenter tech-preview.
-- Note that I did not compile the new KDEnlive and KDE Telepathy. They need
-  a lot of attention before I can build them and it was more important to me
-  to have a new release of KDE 5 out as fast as possible, that works with
-  the latest slackware-current.
-  If you are curious and want to try yourself, start by reading:
-  https://community.kde.org/KTp/Setting_up_KAccounts
+- Note that I did not compile KDEnlive which ships with Applications. It needs
+  a lot of attention before I can build this (ffmpeg amd more is required).
 - katepart4 was added so that kdevelop works again
 - konsolepart4 was added to be able to use an embedded konsole in dolphin
 - kdeconnect4 was added; this stripped-down version of the KDE4 based
@@ -67,8 +57,8 @@ Further points of interest that are unchanged since the previous releases:
   Slackware. Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
   find many Qt5 related packages. Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
-  needed. So, apart from updates to regular Slackware packages, these are the
-  new ones:
+  needed. So, apart from updates to regular Slackware packages and the
+  aforementioned new telepathy support packages, these are the new ones:
   OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
   libdbusmenu-qt5, libindicator, lmdb, polkit-qt5-1, qca-qt5, qt-gstreamer,
   qt5, sni-qt, wayland and xapian-core.
@@ -83,9 +73,8 @@ Further points of interest that are unchanged since the previous releases:
   which I was not willing to add as a dependency), user-manager and kwallet-pam
   (need PAM), plasma-pa (needs pulseaudio).
 - One dependency which you'll probably find curious, is wayland. It is required
-  in order to *compile* KWin's X11 driver, but it is apparently not needed at
-  *runtime*. Nevertheless, I left the package in, just in case you want or need
-  to recompile kwin.
+  in order to *compile* KWin's X11 driver, but for using KWin inside a
+  X session it is not needed at *runtime*.
 - Graphical login: KDM has been replaced with SDDM. Slackware-current supports
   it already.  Select "Plasma" from the SDDM session dropdown.
   Alternatively, if you prefer good old runlevel 3, you can type (at your own
@@ -183,6 +172,10 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-agent-1
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
+...or instead of the above, simply '# slackpkg remove kde'.
+
+If you hsve my 'ktown' set of KDE 5_15.09_02 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_15.09 installed:
 - Upgrade to KDE-5_15.09_02 and then remove the packages
@@ -270,10 +263,12 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
+  # upgradepkg --reinstall --install-new x86/deps/telepathy/*.t?z
   # upgradepkg --reinstall --install-new x86/kde/*/*.t?z
 
   On Slackware 64-bit:
   # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
+  # upgradepkg --reinstall --install-new x86_64/deps/telepathy/*.t?z
   # upgradepkg --reinstall --install-new x86_64/kde/*/*.t?z
 
   If you already have one or more non-english language packs installed:
@@ -299,4 +294,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 14-sep-2015
+                     Eric Hameleers / alien at slackware dot com / 13-oct-2015
