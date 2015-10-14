@@ -1,0 +1,4 @@
+# Fix a crash in KDE Telepathy which was supposed to be fixed in 15.08.2:
+# See also https://bugs.kde.org/show_bug.cgi?id=351785
+cat $CWD/patch/ktp-accounts-kcm/ktp-accounts-kcm_kdebug_351785.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
