@@ -5,15 +5,15 @@
 # make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':'.
 
-                         |-----handy-ruler-------------------------------------------------------|
-telepathy-mission-control: telepathy-mission-control (abstraction library for Telepathy)
-telepathy-mission-control: 
-telepathy-mission-control: This package contains a Telepathy component providing
-telepathy-mission-control: abstraction of some of the details of connection managers.
-telepathy-mission-control:
-telepathy-mission-control:
-telepathy-mission-control:
-telepathy-mission-control:
-telepathy-mission-control:
-telepathy-mission-control: Homepage: http://telepathy.freedesktop.org/
-telepathy-mission-control:
+              |-----handy-ruler-------------------------------------------------------|
+telepathy-glib: telepathy-glib (GObject bindings for Telepathy)
+telepathy-glib: 
+telepathy-glib: Telepathy-GLib is a GObject-based C binding for Telepathy,
+telepathy-glib: a unified framework for all forms of real time conversations,
+telepathy-glib: including instant messaging, IRC, voice calls and video calls.
+telepathy-glib:
+telepathy-glib:
+telepathy-glib:
+telepathy-glib:
+telepathy-glib: Homepage: http://telepathy.freedesktop.org/
+telepathy-glib:
