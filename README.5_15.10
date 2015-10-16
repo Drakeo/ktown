@@ -107,7 +107,6 @@ If you decide to install these packages on top of a fresh installation of
     * kaudiocreator
     * kplayer
     * kwebkitpart
-    * kaudiocreator
     * kdevplatform
     * kdevelop-pg-qt
     * kdevelop
@@ -174,7 +173,7 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg kdeconnect-kde
 ...or instead of the above, simply '# slackpkg remove kde'.
 
-If you hsve my 'ktown' set of KDE 5_15.09_02 installed:
+If you have my 'ktown' set of KDE 5_15.09_02 installed:
 - No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_15.09 installed:
