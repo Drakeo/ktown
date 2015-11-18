@@ -30,7 +30,7 @@ EOT
   fi
 fi
 if ! chroot . getent passwd sddm > /dev/null; then
-  useradd -c "SDDM Daemon Owner" -d $sddmhome -u $sddmuid \
+  chroot . useradd -c "SDDM Daemon Owner" -d $sddmhome -u $sddmuid \
     -g sddm -s /bin/false sddm
   res=$?
   if [ $res -ne 0 ]; then
@@ -49,11 +49,12 @@ EOT
   fi
 fi
 
-mkdir -p $sddmhome
-chown -R sddm:sddm $sddmhome > /dev/null
+# Without a homedirectory, sddm will not start:
+chroot . mkdir -p $sddmhome
+chroot . chown -R sddm:sddm $sddmhome > /dev/null
 
 # Generate a new configuration file if it does not exist:
-chroot . sddm --example-config > /etc/sddm.conf.new
+chroot . sddm --example-config > etc/sddm.conf.new
 
 if ! grep -q "Current=breeze" etc/sddm.conf.new ; then
   # Set the KDE5 theme 'breeze' as default, integrates better with Plasma 5:

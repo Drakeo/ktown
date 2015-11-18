@@ -13,5 +13,6 @@ cd build
     -DUSE_QT4:BOOL=FALSE \
     -DUSE_QT5:BOOL=TRUE \
     -DENABLE_JOURNALD:BOOL=OFF \
+    -DENABLE_PAM:BOOL=OFF \
     ..
 
