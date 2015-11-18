@@ -14,13 +14,9 @@ TMP=${TMP:-/tmp}
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
-  LibRaw \
-  ConsoleKit2 \
   extra-cmake-modules \
   sni-qt \
   qt5 \
-  eigen2 \
-  xapian-core \
   OpenAL \
   qt-gstreamer \
   qjson \
