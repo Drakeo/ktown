@@ -1,5 +1,8 @@
 # List packages with an $ARCH of "noarch" (i.e. packages
 # that contain no binaries) here:
 
+breeze-icons
 kde-wallpapers
+oxygen-icons
+oxygen-icons5
 
