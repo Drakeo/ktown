@@ -1,9 +1,9 @@
 # Add search paths for kdelibs4 documentation to khelpcenter.
 # Patch taken from kubuntu:
-cat $CWD/patch/kio/kio_kdelibs4_docpatch.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kio/kio_kdelibs4_docpatch.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 # KDEBUG #350769 (fixed in Frameworks 5.16.0):
 # Move konqpopupmenuplugin.desktop from kde-baseapps (kdelibs4 based)
 # to kio (kf5 based) to make service menus visible in dolphin (kf5 based):
-cat $CWD/patch/kio/kio_dolphin_servicemenus.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kio/kio_dolphin_servicemenus.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
