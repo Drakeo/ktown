@@ -25,7 +25,7 @@
 PKGNAM=libaccounts-qt5
 SRCNAM=libaccounts-qt
 VERSION=${VERSION:-"13d1af2a_20150911git"}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 

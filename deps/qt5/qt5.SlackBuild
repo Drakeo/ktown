@@ -46,7 +46,7 @@
 # Modifications for qt 5.4.1 2015 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.5.0}
+VERSION=${VERSION:-5.5.1}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}

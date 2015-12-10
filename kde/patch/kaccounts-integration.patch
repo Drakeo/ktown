@@ -1,0 +1,4 @@
+# A bug with 15.08.2/.3 breaks KDE Telepathy accounts connection .
+# Will be fixed in 15.12.0:
+cat $CWD/patch/kaccounts-integration/kaccounts-integration-15.08.3_service.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

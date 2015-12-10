@@ -1,0 +1,28 @@
+--- a/src/jobs/createaccount.cpp
++++ b/src/jobs/createaccount.cpp
+@@ -141,8 +141,8 @@
+ 
+     m_done = true;
+ 
++    connect(m_identity, &SignOn::Identity::credentialsStored, m_identity, &SignOn::Identity::queryInfo);
+     m_identity->storeCredentials();
+-    connect(m_identity, &SignOn::Identity::credentialsStored, m_identity, &SignOn::Identity::queryInfo);
+ }
+ 
+ void CreateAccount::pluginError(const QString &error)
+@@ -177,12 +177,12 @@
+         return;
+     }
+ 
++    m_account->selectService();
++
+     if (m_account->displayName().isEmpty()) {
+         m_account->setDisplayName(info.userName());
+     }
+     m_account->setValue("username", info.userName());
+-
+-    m_account->selectService();
+     m_account->setCredentialsId(info.id());
+ 
+     Accounts::AuthData authData = m_accInfo->authData();
+
