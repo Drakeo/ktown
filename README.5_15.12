@@ -1,83 +1,55 @@
 KDE5
 ====
 
-Here is KDE 5_15.11 for Slackware, consisting of the KDE Frameworks 5.16.0,
-Plasma 5.4.3 and Applications 15.08.3.
+Here is KDE 5_15.12 for Slackware, consisting of the KDE Frameworks 5.17.0,
+Plasma 5.5.1 and Applications 15.12.0.
 
-Upgrading from the previous 5_15.10 should be straight-forward.
-KDE-5_15.11 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_15.11 should be straight-forward.
+KDE-5_15.12 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Two rebuilt "deps" packages: qca-qt5 and libproxy.
-- Several packages in "kde/kde4" were rebuilt because of library updates
-  in slackware-current.
-- Frameworks 5.16.0 is an enhancement release, new Frameworks are:
-  oxygen-icons5 and breeze-icons.  These new icons really make a difference!
-  See https://www.kde.org/announcements/kde-frameworks-5.16.0.php
-- Plasma 5.4.3 is a bugfix release, you can read the details in
-  https://www.kde.org/announcements/plasma-5.4.3.php .
-- Applications 15.08.3 is a bugfix release as well - see
-  https://www.kde.org/announcements/announce-applications-15.08.3.php .
-- Kdepim is part of the Applications release, but the packages are placed in
-  a separate subdirectory "kde/kdepim".
-- In plasma-extra you will find updates for the kdeconnect-framework, sddm-qt5
-  and xembed-sni-proxy packages.
-- ConsoleKit2 has now been added to Slackware itself, replacing ConsoleKit.
-  It is properly maintained by a Slackware-friendly developer and exposes the
-  critical parts of the systemd-logind API (so that we can ignore systemd).
-- kdeconnect4 was removed now that Dolphin has been ported to KF5.
+- Frameworks 5.17.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.17.0.php
+- Plasma 5.5.1 is the first bugfix release of the 5.5 series.
+  See https://www.kde.org/announcements/plasma-5.5.1.php . Plasma 5.5 ditched
+  KDE's own TrueType font "oxygen-icons" in favor of Google's Noto font family.
+  Support for legacy Xembed protocol is back and my "xembed-sni-proxy" package
+  which I added a few releases earlier, is gone again from my repository 
+  because its code is now part of Plasma itself.
+  Network Manager applet supports WPA Enterprise now.
+  A Breeze theme engine for GTK2+ applications was added.
+- Applications 15.12.0 is a step further in maturing the KDE Frameworks 5 (KF5)
+  ports of the KDE application collection.
+  Highlight is the retirement of good old KSnapshot and the introduction of
+  a brand new screenshot tool, Spectacle.
+  Apart from KSnapshot, other packages have been removed as well: Amor, KTux
+  (both unmaintained), and SuperKaramba (Plasma offers similar functionality).
+  Several artwork collections are no longer shipped: kde-base-artwork,
+  kde-wallpapers and kdeartwork. Do you need them back? Please tell me.
 
-Further points of interest that are unchanged since the previous releases:
+Further points of interest:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
   k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, kdevplatform,
   kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php, kdevelop-php-docs,
   skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
-- Note that I did not compile KDEnlive which ships with Applications. It needs
-  a lot of attention before I can build this (ffmpeg amd more is required).
-- katepart4 was added so that kdevelop works again
-- konsolepart4 was added to be able to use an embedded konsole in dolphin
-- akonadi4 and kdepimlibs4 were added to support KDE 4 applications that call
-  PIM functionality.
-- sddm-theme-breeze was removed, the theme is now part of plasma-workspace
-- Lots of packages in the 'deps' department which are completely new to
-  Slackware. Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
+- Lots of packages in the 'deps' department are completely new to Slackware.
+  Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
   find many Qt5 related packages. Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed. So, apart from updates to regular Slackware packages and the
-  aforementioned new telepathy support packages, these are the new ones:
+  new telepathy support packages (see below), these are the new ones:
   OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
-  libdbusmenu-qt5, libindicator, lmdb, polkit-qt5-1, qca-qt5, qt-gstreamer,
-  qt5, sni-qt, wayland and xapian-core.
-- Note for users of multilib Slackware64 and also using Skype: you will have to
-  grab the 32-bit version of sni-qt and run 'convertpkg-compat32' on it,
-  or else Skype won't be able to dock its icon in the systray.
-- A bit sneakily, I built phonon-vlc for you.  You will also need a VLC package
-  to be able to use this package though.
-- Several source tarballs in Plasma 5.4.x have not been compiled to Slackware
-  packages: libbluedevil and bluedevil (they need BlueZ 5 which is not part of
-  Slackware), muon (a debian/ubuntu package manager), libkface (needs opencv
-  which I was not willing to add as a dependency), user-manager and kwallet-pam
-  (need PAM), plasma-pa (needs pulseaudio).
-- One dependency which you'll probably find curious, is wayland. It is required
-  in order to *compile* KWin's X11 driver, but for using KWin inside a
-  X session it is not needed at *runtime*.
+  libdbusmenu-qt5, libindicator, lmdb, noto-font-ttf, noto-cjk-font-ttf,
+  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, sni-qt, wayland and libxkbcommon.
 - A completely new subset of "deps" packages, contained in their own
-  "telepathy" subdirectory, is paving the way for KDE Telepathy:
+  "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
   signon, signon-plugin-oauth2, signon-ui, libsignon-glib,
   telepathy-glib, telepathy-farstream, telepathy-haze, telepathy-gabble,
   telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
-- Graphical login: KDM has been replaced with SDDM. Slackware-current supports
-  it already.  Select "Plasma" from the SDDM session dropdown.
-  Alternatively, if you prefer good old runlevel 3, you can type (at your own
-  user account's command prompt):
-    $ xwmconfig
-  ... and select "xinitrc.plasma" as your default window manager for X.
-  Then run:
-    $ startx
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -167,6 +139,17 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
 ...or instead of the above, simply '# slackpkg remove kde'.
+
+If you have my 'ktown' set of KDE 5_15.11 installed:
+- Upgrade to KDE-5_15.12
+  Remove the packages that no longer exist in KDE 5_15.12:
+  * removepkg xembed-sni-proxy
+  * removepkg ktux
+  * removepkg amor
+  You may want to reconsider removing these, lots of old artwork in there:
+  * removepkg kde-base-artwork
+  * removepkg kde-wallpapers
+  * removepkg kdeartwork
 
 If you have my 'ktown' set of KDE 5_15.10 installed:
 - Upgrade to KDE-5_15.11
@@ -298,4 +281,4 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 Then reboot your system.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 15-nov-2015
+                     Eric Hameleers / alien at slackware dot com / 17-dec-2015
