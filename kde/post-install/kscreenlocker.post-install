@@ -1,0 +1,3 @@
+# For shadow, this file needs to be setuid root just like the KDE4 version:
+chmod +s $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass
+

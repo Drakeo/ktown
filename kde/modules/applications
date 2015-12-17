@@ -16,10 +16,10 @@ kio-extras
 kate
 konsole
 kde-baseapps
-kde-wallpapers
+#kde-wallpapers
 kde-workspace
 kde-runtime
-kde-base-artwork
+#kde-base-artwork
 dolphin
 
 # kdesdk:
@@ -50,7 +50,8 @@ kcolorchooser
 kolourpaint
 kruler
 ksaneplugin
-ksnapshot
+#ksnapshot
+spectacle
 svgpart
 # needs opencv:
 #libkface
@@ -74,7 +75,7 @@ print-manager
 kremotecontrol
 ktimer
 kwalletmanager
-superkaramba
+#superkaramba
 sweeper
 
 # kdemultimedia:
@@ -107,7 +108,7 @@ ksystemlog
 kuser
 
 # kdeartwork:
-kdeartwork
+#kdeartwork
 
 # kdegames:
 libkdegames
@@ -153,9 +154,9 @@ kmahjongg
 kspaceduel
 
 # kdetoys:
-amor
+#amor
 kteatime
-ktux
+#ktux
 
 # kdeedu:
 libkdeedu

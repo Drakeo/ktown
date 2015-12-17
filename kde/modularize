@@ -101,17 +101,19 @@ oxygen-icons5
 kgamma5
 kdecoration
 breeze
+breeze-gtk
 kde-cli-tools
 khelpcenter
 kinfocenter
 libksysguard
 ksysguard
+kscreenlocker
 kwin
 kwrited
 libkscreen2
 milou
 oxygen
-oxygen-fonts
+#oxygen-fonts
 systemsettings
 kwayland
 kwayland-integration
@@ -136,6 +138,7 @@ plasma-mediacenter
 kwallet-pam
 plasma-pa
 user-manager
+discover
 
 # plasma-extra
 sddm-qt5
@@ -187,6 +190,7 @@ kolourpaint
 kruler
 ksaneplugin
 ksnapshot
+spectacle
 svgpart
 libkface
 # kdeaccessibility:
@@ -395,6 +399,9 @@ libkmahjongg4
 
 # kdesdk:
 oktetapart4
+
+# kdegraphics:
+libksane4
 
 # extragear
 calligra

@@ -31,3 +31,5 @@ libkdegames4
 libkmahjongg4
 # kdesdk:
 oktetapart4
+# kdegraphics:
+libksane4

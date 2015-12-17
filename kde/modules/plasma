@@ -2,6 +2,7 @@
 kgamma5
 kdecoration
 breeze
+breeze-gtk
 kde-cli-tools
 kwayland
 kwayland-integration
@@ -9,12 +10,13 @@ khelpcenter
 kinfocenter
 libksysguard
 ksysguard
+kscreenlocker
 kwin
 kwrited
 libkscreen2
 milou
 oxygen
-oxygen-fonts
+#oxygen-fonts
 systemsettings
 plasma-workspace
 plasma-desktop
@@ -30,11 +32,12 @@ polkit-kde-framework
 kscreen2
 sddm-kcm
 kde-gtk-config
-muon
+#muon
 ksshaskpass
 plasma-sdk
 plasma-mediacenter
 #kwallet-pam
 #plasma-pa
 #user-manager
+#discover
 
