@@ -23,7 +23,7 @@
 
 
 PKGNAM=lmdb
-VERSION=${VERSION:-0.9.16}
+VERSION=${VERSION:-0.9.17}
 BUILD=${BUILD:-1}
 
 CWD=$(pwd)

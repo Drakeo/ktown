@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+                 |-----handy-ruler------------------------------------------------------|
+noto-cjk-font-ttf: noto-cjk-font-ttf (Google's Noto CJK TrueType fonts)
+noto-cjk-font-ttf:
+noto-cjk-font-ttf: Noto CJK 'Super OTC' font: This packaging form carries the fonts for
+noto-cjk-font-ttf: each of Simplified Chinese, Traditional Chinese, Japanese, and
+noto-cjk-font-ttf: Korean multiplied by all 7 weights for each in one single font file.
+noto-cjk-font-ttf: In addition, each language provides monospace versions in Regular
+noto-cjk-font-ttf: and Bold weights. Once installed it will appear in font menus
+noto-cjk-font-ttf: as 36 separate fonts. This format is the easiest to install of all
+noto-cjk-font-ttf: the formats and takes the least space due to sharing between
+noto-cjk-font-ttf: the 36 pieces.
+noto-cjk-font-ttf: noto-cjk-font-ttf home: https://github.com/googlei18n/noto-cjk

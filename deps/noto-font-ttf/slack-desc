@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+noto-font-ttf: noto-font-ttf (Google's Noto TrueType fonts)
+noto-font-ttf:
+noto-font-ttf: Noto's goal is to provide a beautiful reading experience for all
+noto-font-ttf: languages.  Currently, Noto covers all major languages of the world
+noto-font-ttf: and many others, including European, African, Middle Eastern, Indic,
+noto-font-ttf: South and Southeast Asian, Central Asian, American, and East Asian
+noto-font-ttf: languages.  Support for Simplified Chinese, Traditional Chinese,
+noto-font-ttf: Japanese, and Korean was first added in July 2014. 
+noto-font-ttf: All Noto fonts are included, except CJK and Emoji.
+noto-font-ttf:
+noto-font-ttf: noto-font-ttf home: https://github.com/googlei18n/noto-fonts

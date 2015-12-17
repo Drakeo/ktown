@@ -23,11 +23,13 @@ ALLDEPS=" \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
+  sip \
   PyQt5 \
   polkit-qt5-1 \
   grantlee \
   grantlee-qt4 \
   wayland \
+  libxkbcommon \
   json-glib \
   libdbusmenu-gtk \
   libindicator \
@@ -36,6 +38,8 @@ ALLDEPS=" \
   lmdb \
   libproxy \
   telepathy \
+  noto-font-ttf \
+  noto-cjk-font-ttf \
   "
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \
