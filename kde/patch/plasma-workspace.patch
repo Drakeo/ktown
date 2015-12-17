@@ -1,4 +1,5 @@
 # Add ConsoleKit2 support for screenlocker (ConsoleKit2 has implemented the
 # systemd-logind API for Lock, Unlock, PrepareForSleep and Inhibit.
-cat $CWD/patch/plasma-workspace/plasma-workspace_consolekit2.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# This functionality has been incorporated into kscreenlocker-5.5.0.
+#cat $CWD/patch/plasma-workspace/plasma-workspace_consolekit2.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

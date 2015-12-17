@@ -3,3 +3,6 @@
 
 # Forgotten includes:
 #cat $CWD/patch/plasma-desktop/plasma-desktop_kdelibs4support.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix for Plasma 5.5.0 (KDEBUG #356398):
+#cat $CWD/patch/plasma-desktop//plasma-desktop_kickoff_kdebug_356398.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
