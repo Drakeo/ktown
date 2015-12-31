@@ -24,8 +24,8 @@ kdeplasma-addons
 plasma-workspace-wallpapers
 plasma5-nm
 powerdevil
-#bluez-qt
-#bluedevil
+bluez-qt
+bluedevil
 khotkeys
 kmenuedit
 polkit-kde-framework
@@ -36,6 +36,7 @@ kde-gtk-config
 ksshaskpass
 plasma-sdk
 plasma-mediacenter
+baloo-widgets
 #kwallet-pam
 #plasma-pa
 #user-manager

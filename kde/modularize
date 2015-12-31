@@ -113,7 +113,6 @@ kwrited
 libkscreen2
 milou
 oxygen
-#oxygen-fonts
 systemsettings
 kwayland
 kwayland-integration
@@ -145,6 +144,7 @@ sddm-qt5
 xembed-sni-proxy
 kdeconnect-framework
 polkit-kde-kcmodules-framework
+oxygen-fonts
 
 # applications
 # kdebase:
@@ -201,6 +201,7 @@ kmousetool
 kmag
 # kdeutils:
 ark
+baloo5-widgets
 filelight
 kcalc
 kcharselect

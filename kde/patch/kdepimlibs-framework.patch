@@ -1,3 +1,0 @@
-# The autotests generate ECM errors so skip building them:
-cat $CWD/patch/kdepimlibs-framework/kdepimlibs_autotests.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-

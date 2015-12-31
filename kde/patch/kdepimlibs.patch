@@ -1,0 +1,3 @@
+# Fix a crash in kmail (fixed in 15.12.1):
+cat $CWD/patch/kdepimlibs/kdepimlibs_kmail_crash.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/15.08_Release_Notes
+# https://community.kde.org/Applications/15.12_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -65,6 +65,7 @@ kmag
 
 # kdeutils:
 ark
+baloo5-widgets
 filelight
 kcalc
 kcharselect

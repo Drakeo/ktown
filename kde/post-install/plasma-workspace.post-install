@@ -7,11 +7,12 @@ cat $CWD/post-install/plasma-workspace/xinit/xinitrc.plasma \
   > $PKG/etc/X11/xinit/xinitrc.plasma
 chmod 0755 $PKG/etc/X11/xinit/xinitrc.plasma
 
-# Add a "fail-safe" version of KDE Plasma desktop session:
+# Add a "fail-safe" version of KDE Plasma desktop session.
+# Prefix the name with "z_" because SDDM is braindead:
 mkdir -p $PKG/usr/share/xsessions
 cat $CWD/post-install/plasma-workspace/xsession/plasma-safe.desktop \
   | sed -e "s,@PREFIX@,/usr,g" \
-  >  $PKG/usr/share/xsessions/plasma-safe.desktop
+  >  $PKG/usr/share/xsessions/z_plasma-safe.desktop
 
 # What is "plugins/plugins"?
 mv $PKG/usr/lib64/qt5/plugins/{plugins,}/phonon_platform

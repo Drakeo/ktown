@@ -1,0 +1,4 @@
+# Ark won't open RAR archives unless rar is installed (even for read access).
+# KDEBUG #357057 is fixed in 15.12.1; still needs unrar.
+cat $CWD/patch/ark/ark_kdebug357057.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
