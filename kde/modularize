@@ -45,6 +45,7 @@ kimageformats
 ki18n
 networkmanager-qt
 modemmanager-qt
+bluez-qt
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
@@ -122,7 +123,6 @@ kdeplasma-addons
 plasma-workspace-wallpapers
 plasma5-nm
 powerdevil
-bluez-qt
 bluedevil
 khotkeys
 kmenuedit
@@ -144,6 +144,7 @@ sddm-qt5
 xembed-sni-proxy
 kdeconnect-framework
 polkit-kde-kcmodules-framework
+kde-wallpapers
 oxygen-fonts
 
 # applications
@@ -153,7 +154,6 @@ kdebugsettings
 kate
 konsole
 kde-baseapps
-kde-wallpapers
 kde-workspace
 kde-runtime
 kde-base-artwork
@@ -403,6 +403,7 @@ oktetapart4
 
 # kdegraphics:
 libksane4
+libkexiv2_4
 
 # extragear
 calligra
