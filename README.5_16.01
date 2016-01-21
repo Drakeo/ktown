@@ -1,32 +1,29 @@
 KDE5
 ====
 
-Here is KDE 5_15.12 for Slackware, consisting of the KDE Frameworks 5.17.0,
-Plasma 5.5.1 and Applications 15.12.0.
+Here is KDE 5_16.01 for Slackware, consisting of the KDE Frameworks 5.18.0,
+Plasma 5.5.3 and Applications 15.12.1.
 
-Upgrading from the previous 5_15.11 should be straight-forward.
-KDE-5_15.12 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_15.12 should be straight-forward.
+KDE-5_16.01 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.17.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.17.0.php
-- Plasma 5.5.1 is the first bugfix release of the 5.5 series.
-  See https://www.kde.org/announcements/plasma-5.5.1.php . Plasma 5.5 ditched
-  KDE's own TrueType font "oxygen-icons" in favor of Google's Noto font family.
-  Support for legacy Xembed protocol is back and my "xembed-sni-proxy" package
-  which I added a few releases earlier, is gone again from my repository 
-  because its code is now part of Plasma itself.
-  Network Manager applet supports WPA Enterprise now.
-  A Breeze theme engine for GTK2+ applications was added.
-- Applications 15.12.0 is a step further in maturing the KDE Frameworks 5 (KF5)
-  ports of the KDE application collection.
-  Highlight is the retirement of good old KSnapshot and the introduction of
-  a brand new screenshot tool, Spectacle.
-  Apart from KSnapshot, other packages have been removed as well: Amor, KTux
-  (both unmaintained), and SuperKaramba (Plasma offers similar functionality).
-  Several artwork collections are no longer shipped: kde-base-artwork,
-  kde-wallpapers and kdeartwork. Do you need them back? Please tell me.
+- Frameworks 5.18.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.18.0.php
+  Most visible fix is that the annoying "I18N_PLURAL_ARGUMENT_MISSING" text
+  in several notifications is gone.
+  I moved the 'bluez-qt' package into the Frameworks directory where it belongs
+  (previous release it was mistakenly created in the Plasma directory).
+- Plasma 5.5.3 is a bugfix release of the 5.5 series.
+  See https://www.kde.org/announcements/plasma-5.5.3.php .
+  With PulseAudio added to Slackware, I was now able to create a package for
+  'plasma-pa' which provides a system tray plasmoid for volume control using
+  PulseAudio.
+  I re-added the old kde-wallpapers of KDE Applications and placed the package
+  in the 'plasma-extra' directory.
+- Applications 15.12.1 provides stability updates for the 15.12 release, see
+  https://www.kde.org/announcements/announce-applications-15.12.1.php
 
 Further points of interest:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
@@ -87,33 +84,6 @@ If you decide to install these packages on top of a fresh installation of
     * skanlite
 
 -------------------------------------------------------------------------------
-Building it all from source:
--------------------------------------------------------------------------------
-
-Sources and scripts are separated from the packages in my 'ktown' repository.
-If you want the sources for KDE 5, run the following command to download them:
-
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/5 .
-
-There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
-install before attempting to compile KDE 5. Compiling and installing these
-dependencies on Slackware-current is as easy as:
-  # cd 5/deps
-  # ./updates.SlackBuild
-  # cd -
-
-Be prepared to wait a *long* time since this will recompile Qt4 and compile a
-new Qt5 package among others.  The finished package will be stored in /tmp .
-Then if you want to compile the KDE packages on your computer, run:
-  # cd 5/kde
-  # ./KDE.SlackBuild
-
-Wait a long time, and you will find the new packages in /tmp/kde-build .
-Note that these packages will already have been installed by KDE.SlackBuild !
-
-But if all you want is the packages I created, then you can skip all of that.
-
--------------------------------------------------------------------------------
 Install pre-compiled packages:
 -------------------------------------------------------------------------------
 
@@ -138,7 +108,11 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-agent-1
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
-...or instead of the above, simply '# slackpkg remove kde'.
+  ..or instead of the above, simply '# slackpkg remove kde' and de-select
+  the packages you want to keep (libktorrent, calligra, skanlite etc).
+
+If you have my 'ktown' set of KDE 5_15.12 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_15.11 installed:
 - Upgrade to KDE-5_15.12
@@ -280,5 +254,33 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 
 Then reboot your system.
 
+-------------------------------------------------------------------------------
+Building it all from source:
+-------------------------------------------------------------------------------
+
+Sources and scripts are separated from the packages in my 'ktown' repository.
+If you want the sources for KDE 5, run the following command to download them:
+
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/5 .
+
+There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
+install before attempting to compile KDE 5. Compiling and installing these
+dependencies on Slackware-current is as easy as:
+  # cd 5/deps
+  # ./updates.SlackBuild
+  # cd -
+
+Be prepared to wait a *long* time since this will compile a new Qt5 package
+among others.  The finished package will be stored in /tmp .
+Then if you want to compile the KDE packages on your computer, run:
+  # cd 5/kde
+  # ./KDE.SlackBuild
+
+Wait a long time, and you will find the new packages in /tmp/kde-build .
+Note that these packages will already have been installed by KDE.SlackBuild !
+
+But if all you want is the packages I created, then you can skip this section
+and just follow what's written in "Install pre-compiled packages".
+
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 17-dec-2015
+                     Eric Hameleers / alien at slackware dot com / 21-jan-2016
