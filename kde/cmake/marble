@@ -38,6 +38,8 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt \
 marble_configure \
     -DQT_MOC_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/moc \
     -DQT_QMAKE_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/qmake \
+    -DQT_PLUGIN_INSTALL_DIR=lib$LIBDIRSUFFIX/qt/plugins \
+    -DQT_PLUGINS_DIR=lib$LIBDIRSUFFIX/qt/plugins \
     -DMARBLE_PLUGIN_PATH=/usr/lib${LIBDIRSUFFIX}/marble4/plugins \
     -DQT5BUILD=OFF \
     -DCMAKE_DISABLE_FIND_PACKAGE_Qt5=ON \
