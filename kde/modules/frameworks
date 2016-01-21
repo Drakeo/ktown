@@ -24,6 +24,7 @@ kimageformats
 ki18n
 networkmanager-qt
 modemmanager-qt
+bluez-qt
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
@@ -75,4 +76,3 @@ kdelibs4support
 khtml
 breeze-icons
 oxygen-icons5
-

@@ -16,7 +16,6 @@ kwrited
 libkscreen2
 milou
 oxygen
-#oxygen-fonts
 systemsettings
 plasma-workspace
 plasma-desktop
@@ -24,7 +23,6 @@ kdeplasma-addons
 plasma-workspace-wallpapers
 plasma5-nm
 powerdevil
-bluez-qt
 bluedevil
 khotkeys
 kmenuedit
@@ -36,9 +34,8 @@ kde-gtk-config
 ksshaskpass
 plasma-sdk
 plasma-mediacenter
-baloo-widgets
+plasma-pa
 #kwallet-pam
-#plasma-pa
 #user-manager
 #discover
 
