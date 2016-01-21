@@ -47,7 +47,7 @@
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.5.1}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -129,8 +129,14 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Forcibly disable pulseaudio in qtwebengine:
-cat $CWD/patches/qt5.pulseaudio.diff | patch -p1 --verbose || exit 1
+if ! pkg-config --exists libpulse 2>/dev/null ; then
+  # Forcibly disable pulseaudio in qtwebengine:
+  cat $CWD/patches/qt5.pulseaudio.diff | patch -p1 --verbose || exit 1
+  # Disable pulseaudio in Qt5:
+  PACONF="-no-pulseaudio"
+else
+  PACONF=" "
+fi
 
 # Install path fix for libplatformplugin.so:
 # See https://bugs.webkit.org/show_bug.cgi?id=117077
@@ -178,10 +184,10 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -xcb \
   -nomake examples \
   -nomake tests \
-  -no-pulseaudio \
   -no-separate-debug-info \
   -no-strip \
   -no-use-gold-linker \
+  ${PACONF} \
   ${RELOCATIONS} \
   -no-pch \
   # No-precompiled-headers is ccache-friendly.

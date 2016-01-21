@@ -26,7 +26,7 @@
 
 PKGNAM=phonon
 VERSION=${VERSION:-4.8.3}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -76,6 +76,13 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+# Check if we have pulseaudio:
+if pkg-config --exists libpulse 2>/dev/null ; then
+  DOPULSE="ON"
+else
+  DOPULSE="OFF"
+fi
+
 mkdir build
 cd build
   cmake \
@@ -87,7 +94,7 @@ cd build
     -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT:BOOL=ON \
     -DPHONON_QT_PLUGIN_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX/qt/plugins/designer \
     -DWITH_QZeitgeist=BOOL:OFF \
-    -DWITH_PulseAudio=BOOL:OFF \
+    -DWITH_PulseAudio=BOOL:${DOPULSE} \
     ..
   make $NUMJOBS || make || exit 1
   make install DESTDIR=$PKG || exit 1
@@ -106,8 +113,9 @@ if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
       -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT:BOOL=ON \
       -DPHONON_QT_PLUGIN_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX/qt/plugins/designer \
       -DWITH_QZeitgeist=BOOL:OFF \
-      -DWITH_PulseAudio=BOOL:OFF \
+      -DWITH_PulseAudio=BOOL:${DOPULSE} \
       -DPHONON_BUILD_PHONON4QT5=ON \
+      -D__KDE_HAVE_GCC_VISIBILITY=NO \
       -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt5 \
       ..
     make $NUMJOBS || make || exit 1
