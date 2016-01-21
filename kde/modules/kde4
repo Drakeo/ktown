@@ -1,6 +1,9 @@
 # Pre-requisite for the old KDE4 PIM applications:
 akonadi4
 # kdelibs:
+# -- NOTE:
+# -- kdelibs is part of KDE Applications and therefore needs to be rebuilt
+# -- at every release of KDE Applications.
 kdelibs
 # Taken from kdebase, needed for kdepimlibs:
 nepomuk-core
@@ -33,3 +36,4 @@ libkmahjongg4
 oktetapart4
 # kdegraphics:
 libksane4
+libkexiv2_4
