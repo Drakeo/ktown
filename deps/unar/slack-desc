@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+    |-----handy-ruler------------------------------------------------------|
+unar: unar (Unarchiver for a variety of file formats)
+unar:
+unar: The Unarchiver is an archive unpacker program with support for the
+unar: popular zip, RAR, 7z, tar, gzip, bzip2, LZMA, XZ, CAB, MSI, NSIS, EXE,
+unar: ISO, BIN, and split file formats, as well as the old Stuffit,
+unar: Stuffit X, DiskDouble, Compact Pro, Packit, cpio, compress (.Z), ARJ,
+unar: ARC, PAK, ACE, ZOO, LZH, ADF, DMS, LZX, PowerPacker, LBR, Squeeze,
+unar: Crunch, and other old formats.
+unar:
+unar: See also: http://unarchiver.c3.cx/commandline
+unar:
