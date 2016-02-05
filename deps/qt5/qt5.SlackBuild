@@ -44,10 +44,11 @@
 # Modifications for qt 5.3.1 2014 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.4.0 2015 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.4.1 2015 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.5.1 2015,2016 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.5.1}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -128,6 +129,11 @@ fi
 
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
+
+# Properly detect ALSA version 1.1.0 as being newer than 1.0.10:
+cd qtmultimedia
+  cat $CWD/patches/qt5.alsa.patch | patch -p0 --verbose || exit 1
+cd -
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
