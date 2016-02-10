@@ -360,6 +360,7 @@ kdepimlibs
 kdepim-runtime
 kmailtransport
 akonadi-calendar
+kjots
 
 #
 # The old KDE 4 stuff which has not been migrated yet. or is still needed
