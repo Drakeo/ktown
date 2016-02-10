@@ -48,7 +48,7 @@
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.5.1}
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-4}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -134,6 +134,9 @@ cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 cd qtmultimedia
   cat $CWD/patches/qt5.alsa.patch | patch -p0 --verbose || exit 1
 cd -
+
+# Prevent cropped video in full-screen mode (QTBUG-48321):
+cat $CWD/patches/qt5.whandle.patch | patch -p1 --verbose || exit 1
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
