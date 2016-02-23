@@ -1,29 +1,28 @@
 KDE5
 ====
 
-Here is KDE 5_16.01 for Slackware, consisting of the KDE Frameworks 5.18.0,
-Plasma 5.5.3 and Applications 15.12.1.
+Here is KDE 5_16.02 for Slackware, consisting of the KDE Frameworks 5.19.0,
+Plasma 5.5.4 and Applications 15.12.2.
 
-Upgrading from the previous 5_15.12 should be straight-forward.
-KDE-5_16.01 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_16.01 should be straight-forward.
+KDE-5_16.02 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.18.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.18.0.php
-  Most visible fix is that the annoying "I18N_PLURAL_ARGUMENT_MISSING" text
-  in several notifications is gone.
-  I moved the 'bluez-qt' package into the Frameworks directory where it belongs
-  (previous release it was mistakenly created in the Plasma directory).
-- Plasma 5.5.3 is a bugfix release of the 5.5 series.
-  See https://www.kde.org/announcements/plasma-5.5.3.php .
-  With PulseAudio added to Slackware, I was now able to create a package for
-  'plasma-pa' which provides a system tray plasmoid for volume control using
-  PulseAudio.
-  I re-added the old kde-wallpapers of KDE Applications and placed the package
-  in the 'plasma-extra' directory.
-- Applications 15.12.1 provides stability updates for the 15.12 release, see
-  https://www.kde.org/announcements/announce-applications-15.12.1.php
+- Frameworks 5.19.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.19.0.php
+- Plasma 5.5.4 is a bugfix release of the 5.5 series; I added these packages
+  as an incremental update to ktown a couple of weeks ago.
+  See https://www.kde.org/announcements/plasma-5.5.4.php .
+- Applications 15.12.2 provides stability updates for the 15.12 release, see
+  https://www.kde.org/announcements/announce-applications-15.12.2.php
+  * I re-added the 'kjots' package which used to be part of KDEPIM and was
+    released recently as a new separate tarball.
+  * I also added 'ktp-call-ui' which is scheduled to be included with
+    KDE Telepathy 16.04.x.  This is the missing GUI for voice & video chat
+    in telepathy.  I used a git source snapshot to give you guys a preview.
+All in all, nothing spectacular.  Hopefully just a more stable and pleasant
+experience all around.
 
 Further points of interest:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
@@ -62,7 +61,6 @@ If you decide to install these packages on top of a fresh installation of
   If you excluded the complete Slackware-current 'KDE' series, then you
   will have to install the following essential Slackware-current packages
   at a a minimum:
-    * bluedevil
     * libktorrent
   And optionally install these Slackware-current packages as well:
     * amarok
@@ -110,6 +108,9 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg kdeconnect-kde
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (libktorrent, calligra, skanlite etc).
+
+If you have my 'ktown' set of KDE 5_16.01 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_15.12 installed:
 - No further actions are needed.
@@ -254,6 +255,10 @@ renamed or integrated and that is the reason for the 'removepkg' lines):
 
 Then reboot your system.
 
+If all you want is to install the packages I created, then you can skip the
+remainder of the README which details how to (re)compile the packages from
+their sources; it is not required reading material.
+
 -------------------------------------------------------------------------------
 Building it all from source:
 -------------------------------------------------------------------------------
@@ -279,8 +284,5 @@ Then if you want to compile the KDE packages on your computer, run:
 Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
-But if all you want is the packages I created, then you can skip this section
-and just follow what's written in "Install pre-compiled packages".
-
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 21-jan-2016
+                     Eric Hameleers / alien at slackware dot com / 23-feb-2016
