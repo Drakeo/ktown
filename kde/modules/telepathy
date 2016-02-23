@@ -13,6 +13,6 @@ ktp-kded-module
 ktp-auth-handler
 ktp-filetransfer-handler
 ktp-send-file
-#ktp-call-ui
+ktp-call-ui
 ktp-desktop-applets
 
