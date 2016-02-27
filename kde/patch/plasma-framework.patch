@@ -1,0 +1,8 @@
+# KDE Plasma with KF 5.18 crash, if mouse repeatedly hovers over TaskManager
+# KDEBUG 357895; fixed in Frameworks 5.20.
+cat $CWD/patch/plasma-framework/plasma-framework_KDEBUG_357895.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Icons for SNI Qt apps not appearing
+# KDEBUG 359388; fixed in Frameworks 5.20.
+cat $CWD/patch/plasma-framework/plasma-framework_KDEBUG_359388.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
