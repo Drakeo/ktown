@@ -1,0 +1,30 @@
+From: Milian Wolff <milian.wolff@kdab.com>
+Date: Mon, 07 Mar 2016 09:58:37 +0000
+Subject: Fix compile with clang: isnan is in the std namespace when including cmath.
+X-Git-Url: http://quickgit.kde.org/?p=kholidays.git&a=commitdiff&h=488aa158f7a0a99604a13a897a11388c02f8d39e
+---
+Fix compile with clang: isnan is in the std namespace when including cmath.
+---
+
+
+--- a/src/sunriseset.cpp
++++ b/src/sunriseset.cpp
+@@ -180,7 +180,7 @@
+     double hourAngle = calcHourAngleSunrise(latitude, solarDec);
+     double delta = longitude + radToDeg(hourAngle);
+     QTime timeUTC(0, 0);
+-    if (isnan(delta))
++    if (std::isnan(delta))
+         return timeUTC;
+     timeUTC = timeUTC.addSecs((720 - (4.0 * delta) - eqTime) * 60);
+     return QTime(timeUTC.hour(),
+@@ -199,7 +199,7 @@
+     double hourAngle = -calcHourAngleSunrise(latitude, solarDec);
+     double delta = longitude + radToDeg(hourAngle);
+     QTime timeUTC(0, 0);
+-    if (isnan(delta))
++    if (std::isnan(delta))
+         return timeUTC;
+     timeUTC = timeUTC.addSecs((720 - (4.0 * delta) - eqTime) * 60);
+     return QTime(timeUTC.hour(),
+

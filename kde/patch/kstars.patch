@@ -1,0 +1,3 @@
+# Fix for "error: isnan was not declared in this scope"
+cat $CWD/patch/kstars/kstars_isnan.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
