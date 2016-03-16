@@ -1,4 +1,4 @@
 # KDEBUG #358125, also CVE-2016-2312 (fixed in Plasma 5.5.5):
 # Dont quit the Greeter when last window closes.
-cat $CWD/patch/kscreenlocker/kscreenlocker_CVE-2016-2312.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kscreenlocker/kscreenlocker_CVE-2016-2312.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
