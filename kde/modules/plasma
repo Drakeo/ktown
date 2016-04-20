@@ -3,9 +3,12 @@ kgamma5
 kdecoration
 breeze
 breeze-gtk
+#breeze-grub
+#breeze-plymouth
 kde-cli-tools
 kwayland
 kwayland-integration
+plasma-integration
 khelpcenter
 kinfocenter
 libksysguard

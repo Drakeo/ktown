@@ -19,7 +19,7 @@ kio-extras
 kate
 konsole
 kde-baseapps
-kde-workspace
+#kde-workspace
 kde-runtime
 #kde-base-artwork
 dolphin
@@ -189,6 +189,8 @@ marble
 #pairs
 rocs
 step
+# Needs http://drumstick.sourceforge.net/
+#minuet
 
 # Needs to come after marble:
 libkgeomap
