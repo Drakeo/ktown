@@ -552,6 +552,7 @@ KDEMODS=" \
   frameworks:kwallet \
   plasma \
   plasma-extra \
+  applications-extra \
   applications \
   telepathy \
   "
