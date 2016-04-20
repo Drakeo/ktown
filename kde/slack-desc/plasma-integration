@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+                  |-----handy-ruler------------------------------------------------------|
+plasma-integration: plasma-integration (Plasma theme integration plugins)
+plasma-integration:
+plasma-integration: Qt Platform Theme integration plugins for the Plasma workspaces
+plasma-integration:
+plasma-integration:
+plasma-integration:
+plasma-integration:
+plasma-integration:
+plasma-integration: For more information, visit:
+plasma-integration:  https://projects.kde.org/plasma-integration
+plasma-integration:
