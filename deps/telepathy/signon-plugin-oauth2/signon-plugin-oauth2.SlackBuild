@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2016  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,8 +23,8 @@
 
 
 PKGNAM=signon-plugin-oauth2
-VERSION=${VERSION:-"7b8274da_20150911git"}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-"3dec32c_20160414git"}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 

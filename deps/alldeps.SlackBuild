@@ -15,8 +15,10 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   extra-cmake-modules \
+  ninja \
   sni-qt \
   qt5 \
+  qt5-webkit \
   OpenAL \
   qt-gstreamer \
   qjson \

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2016  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -24,8 +24,8 @@
 
 PKGNAM=signon
 SRCNAM=signond
-VERSION=${VERSION:-"d09cb035_20150911git"}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-"49e13c1_20160414git"}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
