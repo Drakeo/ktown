@@ -138,6 +138,7 @@ muon
 ksshaskpass
 plasma-sdk
 plasma-mediacenter
+kactivitymanagerd
 kwallet-pam
 plasma-pa
 user-manager
@@ -145,14 +146,10 @@ discover
 
 # plasma-extra
 sddm-qt5
-xembed-sni-proxy
 kdeconnect-framework
 polkit-kde-kcmodules-framework
 kde-wallpapers
 oxygen-fonts
-# Temporary packages can go at release of Plasma 5.6:
-kactivitymanagerd
-kactivities-workspace
 
 # applications
 # kdebase:
