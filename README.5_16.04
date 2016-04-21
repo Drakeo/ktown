@@ -1,32 +1,52 @@
 KDE5
 ====
 
-Here is KDE 5_16.03 for Slackware, consisting of the KDE Frameworks 5.20.0,
-Plasma 5.5.5 and Applications 15.12.3.
+Here is KDE 5_16.04 for Slackware, consisting of the KDE Frameworks 5.21.0,
+Plasma 5.6.3 and Applications 16.04.0.
 
-Upgrading from the previous 5_16.02 should be straight-forward.
-KDE-5_16.03 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_16.03 should be straight-forward.
+KDE-5_16.04 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.20.0 is an enhancement release without new frameworks.
-  See https://www.kde.org/announcements/kde-frameworks-5.19.0.php
-- Plasma 5.5.5 is the last release of the 5.5 series;  since there is an
-  interdependency between development of Frameworks and Plasma, two packages
-  were added as 'plasma-extra' to cover for the period after release of
-  Frameworks 5.20.0 and Plasma 5.6.0: kactivities-workspace and
-  kactivitymanagerd. Their content will be split into Frameworks 5.21.0 and
-  Plasma 5.6 so the two packages will be removed from the 'ktown' repository
-  in the next round.
-  See https://www.kde.org/announcements/plasma-5.5.5.php .
-- Applications 15.12.3 provides stability updates for the 15.12 release, see
-  https://www.kde.org/announcements/announce-applications-15.12.3.php
+- Frameworks 5.21.0 is an enhancement release with one new framework:
+    kactivities-stats.
+  See https://www.kde.org/announcements/kde-frameworks-5.21.0.php
+- Plasma 5.6.3 is the third interation of the 5.6 series which I have not
+  shipped before. I have upgraded Qt5 to 5.6.0 to accompany this Plasma
+  release.  Lots of visual improvements, the task manager is much more
+  informative about running tasks and the weather applet is back...
+- Two packages were removed that I added to 'plasma-extra' to cover for the
+  period after release of Frameworks 5.20.0 and before Plasma 5.6.0.
+  The package 'kactivities-workspace' has been absorbed in Plasma and
+  Applications packages, and 'kactivitymanagerd' is now part of Plasma itself.
+  See https://www.kde.org/announcements/plasma-5.6.3.php .
+- Applications 16.04.0 was just released.  KColorChooser, KFloppy, KMahjongg
+  and KRDC have now been ported to KDE Frameworks 5, and the Kontact Suite
+  (KDEPIM) has been subject to massive bughunting (and -fixing).  Lots of
+  PIM related libraries were split-off into their own source tarballs,
+  resulting in 16 new packages.  For the announcement, see
+  https://www.kde.org/announcements/announce-applications-16.04.0.php .
+- KDE Telepathy now officially has a voice & video GUI application.
+  Previously I shipped a beta release of the "ktp-call-ui" package.
+  Also I upgraded or recompiled the complete stack of "deps/telepathy"
+  packages.
+- ktorrent (and libktorrent) have also been ported to KF5, and packages for
+  these have been added to kde/applications-extra/ .
+- Phonon, and its plugins for gstreamer and VLC backends, have been upgraded
+  offering improvements for the Qt5 build, better volume slider and muting
+  support, and use of the VLC 2.2 API.  Remember, if you actually want to
+  use the VLC backend for phonon you will have to install a VLC package
+  separately (it is not included with the 'ktown' releases).
+- And finally, QT5 was updated to the latest release 5.6.0.  A new package
+  was added (qt5-webkit) because the Qt5 WebKit source code has been removed
+  from Qt5 since 5.6.0 and it needs to be compiled/packaged separately now.
 
 Further points of interest:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
   k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, kdevplatform,
   kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php, kdevelop-php-docs,
-  skanlite, kio-mtp, libktorrent, ktorrent, partitionmanager)
+  skanlite, kio-mtp, partitionmanager)
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
   find many Qt5 related packages. Also, in order for Qt4 and GTK based
@@ -35,7 +55,8 @@ Further points of interest:
   new telepathy support packages (see below), these are the new ones:
   OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
   libdbusmenu-qt5, libindicator, lmdb, noto-font-ttf, noto-cjk-font-ttf,
-  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, sni-qt, wayland and libxkbcommon.
+  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, qt5-webkit, sni-qt, wayland
+  and libxkbcommon.
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
@@ -57,10 +78,7 @@ If you decide to install these packages on top of a fresh installation of
   during installation, you will be missing several add-on packages, some of
   these are essential to the proper functioning of KDE!
   If you excluded the complete Slackware-current 'KDE' series, then you
-  will have to install the following essential Slackware-current packages
-  at a a minimum:
-    * libktorrent
-  And optionally install these Slackware-current packages as well:
+  can optionally install these Slackware-current packages as well:
     * amarok
     * calligra
     * k3b
@@ -74,10 +92,16 @@ If you decide to install these packages on top of a fresh installation of
     * kdevelop-php
     * kdevelop-php-docs
     * kio-mtp
-    * ktorrent
     * oxygen-gtk2
     * partitionmanager
     * skanlite
+
+NOTE:
+If you had installed KDE4 previously as your default desktop, the removal
+of KDE4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
+An attempt to run 'startx' in a console will fail with a black screen.
+After installing Plasma5 for the first time, you need to run 'xwmconfig'
+and select 'xinitrc.plasma' as your desktop session.
 
 -------------------------------------------------------------------------------
 Install pre-compiled packages:
@@ -105,7 +129,12 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
-  the packages you want to keep (libktorrent, calligra, skanlite etc).
+  the packages you want to keep (calligra, skanlite etc).
+
+If you have my 'ktown' set of KDE 5_16.03 installed:
+- Upgrade to KDE 5_16.04
+  Remove the packages that no longer exist in KDE 5_16.04:
+  * removepkg kactivities-workspace
 
 If you have my 'ktown' set of KDE 5_16.02 installed:
 - No further actions are needed.
@@ -286,4 +315,4 @@ Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 14-mar-2016
+                     Eric Hameleers / alien at slackware dot com / 20-apr-2016
