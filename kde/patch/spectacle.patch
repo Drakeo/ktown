@@ -1,0 +1,7 @@
+# Fix for broken HiDPI support.
+# Fixed post Applications 16.04.0:
+cat $CWD/patch/spectacle/spectacle_hidpi.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Fix for broken rectangular image capture on Nvidia GPU (KDEBUG 362241):
+# Fixed post Applications 16.04.0:
+cat $CWD/patch/spectacle/spectacle_rect_capture.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
