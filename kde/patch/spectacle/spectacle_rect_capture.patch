@@ -7,12 +7,14 @@ Unbreak rectangular image grabs for nvidia users.
 
 BUG: 362241
 FIXED-IN: 16.04.1
+Patch rebased for Slackware (did not apply cleanly)
 ---
 
 
---- a/src/QuickEditor/QuickEditor.cpp
-+++ b/src/QuickEditor/QuickEditor.cpp
-@@ -138,24 +138,7 @@
+diff -uar spectacle-16.04.0.orig/src/QuickEditor/QuickEditor.cpp spectacle-16.04.0/src/QuickEditor/QuickEditor.cpp
+--- spectacle-16.04.0.orig/src/QuickEditor/QuickEditor.cpp	2016-04-13 18:54:34.000000000 +0200
++++ spectacle-16.04.0/src/QuickEditor/QuickEditor.cpp	2016-05-02 12:25:49.554524405 +0200
+@@ -138,23 +138,6 @@
      d->mGrabRect = QRect(x, y, width, height);
      SpectacleConfig::instance()->setCropRegion(d->mGrabRect);
  
@@ -24,10 +26,8 @@ FIXED-IN: 16.04.1
 -    }
 -
 -    connect(d->mCurrentGrabResult.data(), &QQuickItemGrabResult::ready, this, &QuickEditor::grabReadyHandler);
-+    d->mQuickView->hide();
-+    emit grabDone(mImageStore->mPixmap.copy(d->mGrabRect), d->mGrabRect);
- }
- 
+-}
+-
 -void QuickEditor::grabReadyHandler()
 -{
 -    Q_D(QuickEditor);
@@ -35,13 +35,13 @@ FIXED-IN: 16.04.1
 -    QImage croppedImage = d->mCurrentGrabResult->image().copy(d->mGrabRect);
 -    QPixmap croppedPixmap = QPixmap::fromImage(croppedImage);
 -
--    d->mQuickView->hide();
+     d->mQuickView->hide();
 -    emit grabDone(croppedPixmap, d->mGrabRect);
--}
--
-
---- a/src/QuickEditor/QuickEditor.h
-+++ b/src/QuickEditor/QuickEditor.h
++    emit grabDone(mImageStore->mPixmap.copy(d->mGrabRect), d->mGrabRect);
+ }
+diff -uar spectacle-16.04.0.orig/src/QuickEditor/QuickEditor.h spectacle-16.04.0/src/QuickEditor/QuickEditor.h
+--- spectacle-16.04.0.orig/src/QuickEditor/QuickEditor.h	2016-04-13 18:54:34.000000000 +0200
++++ spectacle-16.04.0/src/QuickEditor/QuickEditor.h	2016-05-02 12:22:48.124516811 +0200
 @@ -39,7 +39,6 @@
      private slots:
  
@@ -50,4 +50,3 @@ FIXED-IN: 16.04.1
  
      private:
  
-
