@@ -43,15 +43,17 @@ You'll have add a 'sddm' user manually.  Run these commands (as root):
 and select a free value for UID that is below 500 (check /etc/passwd)
 Then, run an "upgradepkg --reinstall" of this sddm-qt5 package so that it can run the rest of the install script.
 EOT
-  else
-    chroot . passwd -l sddm > /dev/null
-    chroot . gpasswd -a sddm video > /dev/null
   fi
 fi
 
 # Without a homedirectory, sddm will not start:
 chroot . mkdir -p $sddmhome
-chroot . chown -R sddm:sddm $sddmhome > /dev/null
+chroot . chown -R ${sddmuid}:${sddmgid} $sddmhome 1>/dev/null
+
+# Execute this regardless of the pre-existence of the sddm account:
+chroot . usermod -d $sddmhome sddm 1>/dev/null
+chroot . passwd -l sddm 1>/dev/null
+chroot . gpasswd -a sddm video 1>/dev/null
 
 # Generate a new configuration file if it does not exist:
 chroot . sddm --example-config > etc/sddm.conf.new
