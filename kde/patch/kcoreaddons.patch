@@ -1,5 +1,5 @@
 # KDEBUG #362161 (fixed in Frameworks 5.22.0):
 # Fixes regression introduced in 9ae6d765b37135bbfe3a8b936e5a88b8a435e424
 # Since the rand() was not seeded, the numbers generated were predictable.
-cat $CWD/patch/kcoreaddons/kcoreaddons.kdebug_362161.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kcoreaddons/kcoreaddons.kdebug_362161.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

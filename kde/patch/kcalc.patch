@@ -1,5 +1,5 @@
 # Fix issue where kcalc has a zero-sized window and appears not to start,
 # in combination with Qt 5.6.
 # Should be fixed after 16.04.0.
-cat $CWD/patch/kcalc/kcalc-kdebug_360105.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kcalc/kcalc-kdebug_360105.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
