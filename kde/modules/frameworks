@@ -25,6 +25,7 @@ ki18n
 networkmanager-qt
 modemmanager-qt
 bluez-qt
+kwayland
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash

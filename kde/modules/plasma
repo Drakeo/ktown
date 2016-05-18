@@ -6,10 +6,8 @@ breeze-gtk
 #breeze-grub
 #breeze-plymouth
 kde-cli-tools
-kwayland
 kwayland-integration
 plasma-integration
-khelpcenter
 kinfocenter
 libksysguard
 ksysguard
@@ -33,12 +31,12 @@ polkit-kde-framework
 kscreen2
 sddm-kcm
 kde-gtk-config
-#muon
 ksshaskpass
 plasma-sdk
 plasma-mediacenter
 plasma-pa
 kactivitymanagerd
+#muon
 #kwallet-pam
 #user-manager
 #discover
