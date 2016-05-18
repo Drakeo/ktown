@@ -107,7 +107,6 @@ breeze-gtk
 breeze-grub
 breeze-plymouth
 kde-cli-tools
-khelpcenter
 kinfocenter
 libksysguard
 ksysguard
@@ -215,6 +214,7 @@ kgpg
 print-manager
 kremotecontrol
 ktimer
+khelpcenter
 kwalletmanager
 superkaramba
 sweeper
