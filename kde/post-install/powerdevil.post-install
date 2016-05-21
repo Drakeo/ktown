@@ -7,7 +7,7 @@ mkdir -p $PKG/etc/polkit-1/localauthority/50-local.d
 chmod 700 $PKG/etc/polkit-1/localauthority
 
 # Add polkit policy file that brings back suspend/hibernate options:
-install -m 0660 -o root \
+install -m 0644 -o root \
   $CWD/post-install/powerdevil/10-enable-suspend.rules \
   $PKG/etc/polkit-1/rules.d/10-enable-suspend.rules.new
 install -m 0660 -o root \
