@@ -1,28 +1,23 @@
 KDE5
 ====
 
-Here is KDE 5_16.05 for Slackware, consisting of the KDE Frameworks 5.22.0,
-Plasma 5.6.4 and Applications 16.04.1.
+Here is KDE 5_16.06 for Slackware, consisting of the KDE Frameworks 5.23.0,
+Plasma 5.6.5 and Applications 16.04.2.
 
-Upgrading from the previous 5_16.04 should be straight-forward.
-KDE-5_16.05 is meant only to be installed on top of Slackware -current and
+Upgrading from the previous 5_16.05 should be straight-forward.
+KDE-5_16.06 is meant only to be installed on top of Slackware -current and
 it will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.22.0 is an enhancement release with one new framework:
-    kwayland (this has been moved from plasma to frameworks).
-  See https://www.kde.org/announcements/kde-frameworks-5.22.0.php
-- Plasma 5.6.4 is an incremental bug fix release.
-  See https://www.kde.org/announcements/plasma-5.6.4.php
-- Applications 16.04.1 is the first stability upgrade for 16.04 with just
+- Frameworks 5.23.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.23.0.php
+- Plasma 5.6.5 is an incremental bug fix release.
+  See https://www.kde.org/announcements/plasma-5.6.5.php
+- Applications 16.04.2 is a stability upgrade for 16.04 with just
   bugs fixed, no new functionality.
-  See https://www.kde.org/announcements/announce-applications-16.04.1.php .
-- Also worth mentioning: the KF5 port of ktorrent can be found in the
-  applications-extra directory.  And sddm-qt5 (the SDDM graphical
-  login/session manager) has been fixed so that it uses the proper
-  homedirectory again (the 'sddm' account was added to Slackware months ago
-  but with an incorrect homedirectory.  The start of SDDM in runlevel 4
-  is now (almost) instantaneous again.
+  See https://www.kde.org/announcements/announce-applications-16.04.2.php .
+- Qt5 and Qt5-webkit have been upgraded to 5.6.1.  This release fixes a lot
+  of the bugs that were in 5.6.0 and it is a required upgrade for Plasma.
 
 Further points of interest:
 - kde/kde4-extragear packages should be taken from slackware-current (calligra,
@@ -47,6 +42,8 @@ Further points of interest:
   telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
+- Also worth mentioning: the KF5 port of ktorrent can be found in the
+  applications-extra directory.
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -111,6 +108,9 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg kdeconnect-kde
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (calligra, skanlite etc).
+
+If you have my 'ktown' set of KDE 5_16.05 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_16.04 installed:
 - No further actions are needed.
@@ -299,4 +299,4 @@ Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 15-may-2016
+                     Eric Hameleers / alien at slackware dot com / 15-jun-2016
