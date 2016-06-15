@@ -1,0 +1,23 @@
+From: Kai Uwe Broulik <kde@privat.broulik.de>
+Date: Mon, 13 Jun 2016 18:36:17 +0000
+Subject: [PanelView] Fix build...
+X-Git-Url: http://quickgit.kde.org/?p=plasma-workspace.git&a=commitdiff&h=767aa574400276b872aa0495f9af096784a8ed66
+---
+[PanelView] Fix build...
+
+CCMAIL: notmart@gmail.com
+---
+
+
+--- a/shell/panelview.cpp
++++ b/shell/panelview.cpp
+@@ -995,7 +995,7 @@
+ {
+     if (status == Plasma::Types::NeedsAttentionStatus) {
+         showTemporarily();
+-    } else if (status == Plasma::AcceptingInputStatus) {
++    } else if (status == Plasma::Types::AcceptingInputStatus) {
+         KWindowSystem::forceActiveWindow(winId());
+     } else {
+         restoreAutoHide();
+

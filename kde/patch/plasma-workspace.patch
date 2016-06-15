@@ -3,3 +3,6 @@
 # This functionality has been incorporated into kscreenlocker-5.5.0.
 #cat $CWD/patch/plasma-workspace/plasma-workspace_consolekit2.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Apply commit that fixes compilation of 5.6.5:
+#cat $CWD/patch/plasma-workspace/plasma-workspace_apply_767aa57.patc | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
