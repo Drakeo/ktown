@@ -148,7 +148,7 @@ precheck() {
   # See if the sources we have match the module components we want to build:
   RETVAL=0
 
-  for SRCFILE in $(find $CWD/src -name "*.tar.?z*") ; do
+  for SRCFILE in $(find $CWD/src -name "*.tar.?z*" |grep -vE ".asc$|.sig$") ; do
     # Check if the source tarball is mentioned in pkgsrc/
     # meaning its package will get a different name:
     PKGSRC=$(echo $SRCFILE |rev |cut -f2- -d- |cut -f1,2 -d/ |rev)
@@ -194,7 +194,7 @@ precheck() {
       MODBASE=$MODULE
       MODLOC=""
     fi
-    MODSRC="$(find $CWD/src/$MODLOC -name $MODBASE-*.tar.* |grep -E "$MODBASE-[^-]+.tar.*$|$MODBASE-[0-9].+.tar.*$")"
+    MODSRC="$(find $CWD/src/$MODLOC -name $MODBASE-*.tar.* |grep -vE ".asc$|.sig$" |grep -E "$MODBASE-[^-]+.tar.*$|$MODBASE-[0-9].+.tar.*$")"
     if [ -z "$MODSRC" ] ; then
       echo "Module '$MODULE' does not have a matching source tarball ($MODLOC$MODBASE)!"
       if [ "$CHECKOUT" = "yes" -o "$CHECKOUT" = "YES" ]; then
@@ -257,7 +257,7 @@ build_mod_pkg () {
         PKGSRC=$PKGNAME
         PKGLOC=""
       fi
-      kde_src=$(basename $(find $CWD/src/$PKGLOC -name "$PKGSRC-*.tar.?z*" |grep -E "$PKGSRC-[^-]+.tar.*$|$PKGSRC-[0-9].+.tar.*$") 2>/dev/null)
+      kde_src=$(basename $(find $CWD/src/$PKGLOC -name "$PKGSRC-*.tar.?z*" |grep -vE ".asc$|.sig$" |grep -E "$PKGSRC-[^-]+.tar.*$|$PKGSRC-[0-9].+.tar.*$") 2>/dev/null)
       if [ "x$kde_src" = "x" ]; then
         echo "** Did not find '$PKGSRC' in src"
         continue
