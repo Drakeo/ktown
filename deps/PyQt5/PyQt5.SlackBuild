@@ -27,8 +27,7 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-SRCNAM=PyQt
-VERSION=${VERSION:-5.5.1}
+VERSION=${VERSION:-5.6}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -64,9 +63,13 @@ fi
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf $SRCNAM-gpl-$VERSION
-tar xvf $CWD/$SRCNAM-gpl-$VERSION.tar.?z* || exit 1
-cd $SRCNAM-gpl-$VERSION || exit 1
+rm -rf ${PKGNAM}_gpl-$VERSION
+tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z* || exit 1
+cd ${PKGNAM}_gpl-$VERSION || exit 1
+
+# The additional include path was removed due to this line,
+# resulting in "fatal error: dbus/dbus-arch-deps.h: No such file or directory"
+sed -i '/target_config.dbus_inc_dirs = \[\]/d' configure.py
 
 chown -R root:root .
 find . \

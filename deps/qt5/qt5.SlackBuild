@@ -36,7 +36,7 @@
 # Alternate method (we don't use this):
 # wget http://qt.gitorious.org/qt/kde-qt/archive-tarball/4.6.2-patched
 #
-# Modifications 2010, 2011, 2012, 2013, 2014, 2015  Eric Hameleers, Eindhoven, NL
+# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016  Eric Hameleers, Eindhoven, NL
 # qt 4.7.3, 4.7.4, 4.8.0, 4.8.1, 4.8.2, 4.8.4, are built from original nokia sources.
 #
 # Modifications for qt 5.2.0 2013 by Michael James, AU
@@ -46,9 +46,12 @@
 # Modifications for qt 5.4.1 2015 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.5.1 2015,2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.6.0 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.6.1 2016 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.6.1}
+VERSION=${VERSION:-5.6.1-1}
+PKGSRC=$(echo $VERSION |cut -d- -f1)
+PKGVER=$(echo $VERSION |tr - _)
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -105,7 +108,7 @@ cd $TMP
 rm -rf qt-everywhere-opensource-src-$VERSION
 echo "Extracting qt-everywhere-opensource-src-$VERSION.tar.xz"
 tar xf $CWD/qt-everywhere-opensource-src-$VERSION.tar.xz || exit 1
-cd qt-everywhere-opensource-src-$VERSION || exit 1
+cd qt-everywhere-opensource-src-$PKGSRC || exit 1
 
 chown -R root:root .
 find . \
@@ -131,21 +134,21 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Properly detect ALSA version 1.1.0 as being newer than 1.0.10:
-cat $CWD/patches/qt5.alsa.patch | patch -p1 --verbose || exit 1
-
+## Properly detect ALSA version 1.1.0 as being newer than 1.0.10:
+#cat $CWD/patches/qt5.alsa.patch | patch -p1 --verbose || exit 1
+#
 ## Build with explicitlib, preventing linker errors:
 #cd qtbase
 #  cat $CWD/patches/qt5.qtbug-51621.patch | patch -p1 --verbose || exit 1
 #cd -
-
-# Backport fixes for QtDBus deadlocks:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-51648.patch | patch -p1 --verbose || exit 1
-  cat $CWD/patches/qt5.qtbug-51649.patch | patch -p1 --verbose || exit 1
-  cat $CWD/patches/qt5.qtbug-51676.patch | patch -p1 --verbose || exit 1
-cd -
-
+#
+## Backport fixes for QtDBus deadlocks:
+#cd qtbase
+#  cat $CWD/patches/qt5.qtbug-51648.patch | patch -p1 --verbose || exit 1
+#  cat $CWD/patches/qt5.qtbug-51649.patch | patch -p1 --verbose || exit 1
+#  cat $CWD/patches/qt5.qtbug-51676.patch | patch -p1 --verbose || exit 1
+#cd -
+#
 ## qtwebengine fails to build with system nss 3.23:
 #cd qtwebengine
 #  cat $CWD/patches/qt5.qtbug-51890.patch | patch -p1 --verbose || exit 1
@@ -167,7 +170,7 @@ sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-bas
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 export OPENSOURCE_CXXFLAGS="$SLKCFLAGS"
-export QTDIR="${TMP}/qt-everywhere-opensource-src-${VERSION}"
+export QTDIR="${TMP}/qt-everywhere-opensource-src-${PKGSRC}"
 export LD_LIBRARY_PATH="${QTDIR}/qtbase/lib:${QTDIR}/qttools/lib:${LD_LIBRARY_PATH}"
 export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
 ./configure \
@@ -180,8 +183,8 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -headerdir /usr/include/qt5 \
   -datadir /usr/share/qt5 \
   -archdatadir /usr/lib${LIBDIRSUFFIX}/qt5 \
-  -docdir /usr/doc/qt5-$VERSION \
-  -examplesdir /usr/doc/qt5-$VERSION/examples \
+  -docdir /usr/doc/qt5-$PKGVER \
+  -examplesdir /usr/doc/qt5-$PKGVER/examples \
   -system-libpng \
   -system-libjpeg \
   -system-pcre \
@@ -321,12 +324,12 @@ Categories=Qt;Development;Debugger;
 EOF
 
 # Add a documentation directory:
-mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
+mkdir -p $PKG/usr/doc/$PKGNAM-$PKGVER
 cp -a \
   README qtbase/{header*,LGPL_EXCEPTION.txt,LICENSE*} \
-  $PKG/usr/doc/$PKGNAM-$VERSION
+  $PKG/usr/doc/$PKGNAM-$PKGVER
 if [ -d $PKG/usr/lib${LIBDIRSUFFIX}/qt5/doc/html ]; then
-  ( cd $PKG/usr/doc/$PKGNAM-$VERSION
+  ( cd $PKG/usr/doc/$PKGNAM-$PKGVER
     ln -sf /usr/lib${LIBDIRSUFFIX}/qt5/doc/html .
   )
 fi
@@ -336,5 +339,5 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$PKGVER-$ARCH-$BUILD.txz
 

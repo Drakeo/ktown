@@ -25,7 +25,6 @@ ALLDEPS=" \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
-  sip \
   PyQt5 \
   polkit-qt5-1 \
   grantlee \

@@ -20,12 +20,12 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2014, 2015 by Eric Hameleers <alien@slackware.com>
+# Modified 2014, 2015, 2016 by Eric Hameleers <alien@slackware.com>
 
 
 PKGNAM=polkit-qt5-1
-VERSION=${VERSION:-3882e11_20140802git}
-BUILD=${BUILD:-3}
+VERSION=${VERSION:-50624e0_20160719git}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
