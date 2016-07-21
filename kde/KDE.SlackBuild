@@ -244,7 +244,7 @@ build_mod_pkg () {
   rm -rf $PKG
   mkdir -p $PKG
   ( for PKGNAME in $(cat $kde_module |grep -v "^$" |grep -v "^#") ; do
-      if grep -wq "^$PKGNAME" ${CWD}/package-blacklist ; then
+      if grep -wq "^${PKGNAME}$" ${CWD}/package-blacklist ; then
         continue
       fi
       # Find the full source filename - yeah ugly, but I had two goals:
@@ -265,7 +265,7 @@ build_mod_pkg () {
       # Reset $PKGARCH to its initial value:
       PKGARCH=$ARCH
       # Perhaps $PKGARCH should be something different:
-      if grep -wq "^$PKGNAME" ${CWD}/noarch ; then
+      if grep -wq "^${PKGNAME}$" ${CWD}/noarch ; then
         PKGARCH=noarch
       fi 
       cd $SLACK_KDE_BUILD_DIR/${kde_module}
@@ -284,7 +284,7 @@ build_mod_pkg () {
         echo "Building from source ${kde_src}"
         echo
       fi
-      if grep -wq "^$PKGNAME" ${CWD}/modularize ; then
+      if grep -wq "^${PKGNAME}$" ${CWD}/modularize ; then
         # Set $PKG to a private dir for the modular package build:
         PKG=$SLACK_KDE_BUILD_DIR/${kde_module}/package-$PKGNAME
         rm -rf $PKG
@@ -310,7 +310,7 @@ build_mod_pkg () {
         . $CWD/pre-install/${PKGNAME}.pre-install
       fi
 
-      if ! grep -wq "^$PKGNAME$" ${CWD}/nomake ; then
+      if ! grep -wq "^${PKGNAME}$" ${CWD}/nomake ; then
         # Run cmake, using custom cmake script if needed:
         if [ -r $CWD/cmake/${PKGNAME} ]; then
           . $CWD/cmake/${PKGNAME}
@@ -419,7 +419,7 @@ build_mod_pkg () {
     echo
     echo "Searching for packages in ${kde_module} that were not built modular:"
     cat $CWD/modules/${kde_module} | grep -v "^#" | grep -v -w "^" | while read checkpackage ; do
-      if ! grep -wq "^$checkpackage" ${CWD}/modularize ; then
+      if ! grep -wq "^${checkpackage}$" ${CWD}/modularize ; then
         # Non-modular package found, so we'll have to build the package below.
         # It might already have been built once, but in that case it is likely
         # that more things have been added to the package directory since then.
