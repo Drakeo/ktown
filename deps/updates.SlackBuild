@@ -18,6 +18,7 @@ ALLDEPS=" \
   ninja \
   sni-qt \
   OpenAL \
+  libinput \
   qt5 \
   qt5-webkit \
   qca-qt5 \

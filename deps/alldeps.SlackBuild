@@ -17,6 +17,7 @@ ALLDEPS=" \
   extra-cmake-modules \
   ninja \
   sni-qt \
+  libinput \
   qt5 \
   qt5-webkit \
   OpenAL \
