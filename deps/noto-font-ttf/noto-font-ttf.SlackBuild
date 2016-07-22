@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2016  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN  USA
 # All rights reserved.
 #
@@ -26,9 +26,10 @@
 
 PRGNAM=noto-font-ttf
 SRCNAM=noto-fonts
-VERSION=${VERSION:-"2015-09-29"}
+SRCVER=${SRCVER:-"2015-09-29"}
+VERSION=$(echo $SRCVER | tr - _)
 ARCH=noarch
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -50,17 +51,17 @@ fi
 mkdir -p $PKG$FONTDIR
 
 cd $TMP
-rm -rf ${PRGNAM}-${VERSION}
-mkdir ${PRGNAM}-${VERSION}
-cd ${PRGNAM}-${VERSION}
-tar xvf $CWD/${SRCNAM}-${VERSION}-license-adobe.tar.gz || exit 1
+rm -rf ${PRGNAM}-${SRCVER}
+mkdir ${PRGNAM}-${SRCVER}
+cd ${PRGNAM}-${SRCVER}
+tar xvf $CWD/${SRCNAM}-${SRCVER}-license-adobe.tar.gz || exit 1
 chown -R root:root .
 find . \
   \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
   -exec chmod 755 {} \; -o \
   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
   -exec chmod 644 {} \;
-cd ${SRCNAM}-${VERSION}-license-adobe
+cd ${SRCNAM}-${SRCVER}-license-adobe
 
 # Install just the hinted fonts - unhinted fonts for Android and Mac;
 # Android and Mac ignore hinting information embedded in fonts:
