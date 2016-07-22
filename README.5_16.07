@@ -1,39 +1,49 @@
 KDE5
 ====
 
-Here is KDE 5_16.06 for Slackware, consisting of the KDE Frameworks 5.23.0,
-Plasma 5.6.5 and Applications 16.04.2.
+Here is KDE 5_16.07 for Slackware, consisting of the KDE Frameworks 5.24.0,
+Plasma 5.7.2 and Applications 16.04.3 on top of Qt 5.6.1.
 
-Upgrading from the previous 5_16.05 should be straight-forward.
-KDE-5_16.06 is meant only to be installed on top of Slackware -current and
-it will *replace* any version of KDE 4 you might have installed!
+Upgrading from the previous 5_16.06 should be straight-forward.
+KDE-5_16.07 is meant to be installed on top of Slackware 14.2 or -current.
+It will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.23.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.23.0.php
-- Plasma 5.6.5 is an incremental bug fix release.
-  See https://www.kde.org/announcements/plasma-5.6.5.php
-- Applications 16.04.2 is a stability upgrade for 16.04 with just
+- Frameworks 5.24.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.24.0.php
+- Plasma 5.7.2 is an incremental bug fix release for the 5.7 series which
+  I released as a Slackware Live Edition a few weeks back.
+  See https://www.kde.org/announcements/plasma-5.7.2.php
+- Applications 16.04.3 is a stability upgrade for 16.04 with just
   bugs fixed, no new functionality.
-  See https://www.kde.org/announcements/announce-applications-16.04.2.php .
-- Qt5 and Qt5-webkit have been upgraded to 5.6.1.  This release fixes a lot
-  of the bugs that were in 5.6.0 and it is a required upgrade for Plasma.
+  See https://www.kde.org/announcements/announce-applications-16.04.3.php .
+- Several Qt5 related 'deps' have been recompiled or upgraded: sni-qt,
+  qca-qt5, PyQt5, polkit-qt5-1, phonon, grantlee and qt-gstreamer. The sip
+  package has been removed from 'deps' because Slackware 14.2 now has a
+  proper version of that.
+- The 'noto-font-ttf' package was rebuilt because the VERSION number contained
+  dashes, which created an illegal package name.  You have to remove the old
+  package manually.
+- A new 'libinput' package was added as dependency for Qt5.  It will be needed
+  in future by KWin.  FYI: a X.Org driver 'xf86-input-libinput' exists as a
+  wrapper around libinput that can replace evdev and synaptics drivers.
 
 Further points of interest:
-- kde/kde4-extragear packages should be taken from slackware-current (calligra,
-  k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2, kdevplatform,
-  kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php, kdevelop-php-docs,
-  skanlite, kio-mtp, partitionmanager)
+- kde/kde4-extragear packages should be taken from slackware-current
+  (calligra, k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2,
+  kdevplatform, kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php,
+  kdevelop-php-docs, partitionmanager)
 - Lots of packages in the 'deps' department are completely new to Slackware.
-  Since KDE 5 is built on Qt5 (KDE 4 had Qt4 as its base) you'll
-  find many Qt5 related packages. Also, in order for Qt4 and GTK based
+  Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
+  you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
-  needed. So, apart from updates to regular Slackware packages and the
+  needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, cfitsio, json-glib, libappindicator, libdbusmenu-gtk,
-  libdbusmenu-qt5, libindicator, lmdb, noto-font-ttf, noto-cjk-font-ttf,
-  polkit-qt5-1, qca-qt5, qt-gstreamer, qt5, qt5-webkit, sni-qt, wayland
-  and libxkbcommon.
+  OpenAL, PyQT5, cfitsio, grantlee-qt4, json-glib, libappindicator,
+  libdbusmenu-gtk, libdbusmenu-qt5, libindicator, libxkbcommon, lmdb,
+  noto-font-ttf, noto-cjk-font-ttf, polkit-qt5-1, qca-qt5, qt-gstreamer,
+  qt5, qt5-webkit, sni-qt and wayland.  The phonon package was extended so
+  that it now supports both Qt4 and Qt5.
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
@@ -42,22 +52,23 @@ Further points of interest:
   telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
-- Also worth mentioning: the KF5 port of ktorrent can be found in the
-  applications-extra directory.
+- Also worth mentioning: the KF5 ports of ktorrent and skanlite can be found 
+  in the applications-extra directory.  And kjots, previously contained in
+  KDE PIM, is separated into its own package in the kde/applications directory.
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
-You will have to remove old KDE packages manually.  If you do not have KDE
-installed at all, you will have to *install* some of Slackware's own KDE
+You will have to remove old KDE 4 packages manually.  If you do not have KDE
+installed at all, you will have to *install* some of Slackware's own KDE 4
 packages manually.
 
 NOTE:
 If you decide to install these packages on top of a fresh installation of
-  Slackware-current and have excluded all packages in the 'KDE' package series
-  during installation, you will be missing several add-on packages, some of
-  these are essential to the proper functioning of KDE!
-  If you excluded the complete Slackware-current 'KDE' series, then you
-  can optionally install these Slackware-current packages as well:
+  Slackware 14.2 or -current and have excluded all packages in the 'KDE'
+  package series during installation, you will be missing several add-on
+  packages, some of these are essential to the proper functioning of KDE!
+  If you excluded the complete Slackware 'KDE' series, then you
+  can optionally install these Slackware packages as well:
     * amarok
     * calligra
     * k3b
@@ -70,15 +81,13 @@ If you decide to install these packages on top of a fresh installation of
     * kdev-python
     * kdevelop-php
     * kdevelop-php-docs
-    * kio-mtp
     * oxygen-gtk2
-    * skanlite
 
 NOTE:
-If you had installed KDE4 previously as your default desktop, the removal
-of KDE4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
+If you had installed KDE 4 previously as your default desktop, the removal
+of KDE 4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
 An attempt to run 'startx' in a console will fail with a black screen.
-After installing Plasma5 for the first time, you need to run 'xwmconfig'
+After installing Plasma 5 for the first time, you need to run 'xwmconfig'
 and select 'xinitrc.plasma' as your desktop session.
 
 -------------------------------------------------------------------------------
@@ -94,7 +103,7 @@ go back to runlevel 3 (console) by typing "init 3".
 If you still have a KDE 4 installed, it must be removed first. No clean
 upgrade path can be provided!  Do as follows:
 
-If you have Slackware-current's default KDE 4.14.3 installed:
+If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg /var/log/packages/*-4.14.3-*
   # removepkg libkscreen
   # removepkg kscreen
@@ -107,7 +116,12 @@ If you have Slackware-current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
-  the packages you want to keep (calligra, skanlite etc).
+  the packages you want to keep (amarok, calligra, k3b etc).
+
+If you have my 'ktown' set of KDE 5_16.06 installed:
+- Upgrade to KDE 5_16.07
+  Remove the packages that no longer exist in KDE 5_16.07:
+  * removepkg /var/log/packages/noto-font-ttf-2015-09-29-noarch-1alien
 
 If you have my 'ktown' set of KDE 5_16.05 installed:
 - No further actions are needed.
@@ -125,88 +139,6 @@ If you have my 'ktown' set of KDE 5_16.02 installed:
 
 If you have my 'ktown' set of KDE 5_16.01 installed:
 - No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_15.12 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_15.11 installed:
-- Upgrade to KDE-5_15.12
-  Remove the packages that no longer exist in KDE 5_15.12:
-  * removepkg xembed-sni-proxy
-  * removepkg ktux
-  * removepkg amor
-  You may want to reconsider removing these, lots of old artwork in there:
-  * removepkg kde-base-artwork
-  * removepkg kde-wallpapers
-  * removepkg kdeartwork
-
-If you have my 'ktown' set of KDE 5_15.10 installed:
-- Upgrade to KDE-5_15.11
-  Then re-install original Slackware-current package that was removed
-  from "deps" in KDE 5_15.11 (this will be easiest using slackpkg):
-  * ConsoleKit2
-  * eigen2
-  * xapian-core
-  Remove the package that no longer exists in KDE 5_15.11:
-  * removepkg kdeconnect4
-
-If you have my 'ktown' set of KDE 5_15.09_02 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_15.09 installed:
-- Upgrade to KDE-5_15.09_02 and then remove the packages
-  that no longer exist in KDE 5_15.09_02:
-  * removepkg LoginKit
-
-If you have my 'ktown' set of KDE 5_15.07 installed:
-- Upgrade to KDE-5_15.09 and then remove the packages
-  that no longer exist in KDE 5_15.09:
-  * removepkg ConsoleKit
-  * removepkg grantlee-qt5
-  * removepkg kgamma
-  * removepkg pairs
-
-If you have my 'ktown' set of KDE 5_15.06 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_15.05 installed:
-- Re-install the following 'ktown' packages:
-  * kactivities-framework
-
-If you have my 'ktown' set of KDE 5_15.04 installed:
-- Remove packages that no longer exist in KDE 5_15.05:
-  * removepkg qt-gstreamer0
-- Re-install 'ktown' packages:
-  * qt-gstreamer
-
-If you have my 'ktown' set of KDE 5_15.03 installed:
-- Remove packages that no longer exist in KDE 5_15.04:
-  # removepkg gst1-plugins-base
-  # removepkg gst1-plugins-good
-  # removepkg gstreamer1
-  # removepkg qt-gstreamer1
-  # removepkg libmm-qt5
-- Re-install original Slackware-current packages that were removed from "deps"
-  in KDE 5_15.04 (this will be easiest using slackpkg):
-  * LibRaw
-  * akonadi
-  * attica
-  * cmake
-  * eigen3
-  * exiv2
-  * grantlee
-  * harfbuzz
-  * libfakekey
-  * libodfgen
-  * librevenge
-  * libssh
-  * libwpd
-  * orc
-  * poppler
-  * qt
-  * shared-desktop-ontologies
-  * soprano
-  * strigi
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
 
@@ -291,6 +223,7 @@ dependencies on Slackware-current is as easy as:
 
 Be prepared to wait a *long* time since this will compile a new Qt5 package
 among others.  The finished package will be stored in /tmp .
+
 Then if you want to compile the KDE packages on your computer, run:
   # cd 5/kde
   # ./KDE.SlackBuild
@@ -299,4 +232,4 @@ Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 15-jun-2016
+                     Eric Hameleers / alien at slackware dot com / 22-jul-2016
