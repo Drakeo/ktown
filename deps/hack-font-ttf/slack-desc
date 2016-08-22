@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+             |-----handy-ruler------------------------------------------------------|
+hack-font-ttf: hack-font-ttf (TrueType font based on Bitstream Vera Mono)
+hack-font-ttf:
+hack-font-ttf: Hack is a typeface designed for writing source code.
+hack-font-ttf: It expands upon the contributions of the Bitstream Vera
+hack-font-ttf: & DejaVu projects.
+hack-font-ttf: Hack includes monospaced regular, bold, oblique, and bold oblique
+hack-font-ttf: sets to cover all of your syntax highlighting needs.
+hack-font-ttf:
+hack-font-ttf:
+hack-font-ttf: hack-font-ttf home: http://sourcefoundry.org/hack/
+hack-font-ttf:
