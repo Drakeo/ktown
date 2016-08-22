@@ -3,7 +3,7 @@
 # Slackware build script for PyQt
 
 # Copyright 2008  Aleksandar Samardzic <asamardzic@gmail.com>
-# Copyright 2008, 2009, 2010, 2011, 2015  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2008, 2009, 2010, 2011, 2015, 2016  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -27,7 +27,7 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.6}
+VERSION=${VERSION:-5.7}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -67,9 +67,9 @@ rm -rf ${PKGNAM}_gpl-$VERSION
 tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z* || exit 1
 cd ${PKGNAM}_gpl-$VERSION || exit 1
 
-# The additional include path was removed due to this line,
-# resulting in "fatal error: dbus/dbus-arch-deps.h: No such file or directory"
-sed -i '/target_config.dbus_inc_dirs = \[\]/d' configure.py
+## The additional include path was removed due to this line,
+## resulting in "fatal error: dbus/dbus-arch-deps.h: No such file or directory"
+#sed -i '/target_config.dbus_inc_dirs = \[\]/d' configure.py
 
 chown -R root:root .
 find . \

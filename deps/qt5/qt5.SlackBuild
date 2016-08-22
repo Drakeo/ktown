@@ -47,9 +47,10 @@
 # Modifications for qt 5.5.1 2015,2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.6.0 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.6.1 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.6.1-1}
+VERSION=${VERSION:-5.7.0}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 BUILD=${BUILD:-1}
@@ -134,25 +135,15 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-## Properly detect ALSA version 1.1.0 as being newer than 1.0.10:
-#cat $CWD/patches/qt5.alsa.patch | patch -p1 --verbose || exit 1
-#
-## Build with explicitlib, preventing linker errors:
-#cd qtbase
-#  cat $CWD/patches/qt5.qtbug-51621.patch | patch -p1 --verbose || exit 1
-#cd -
-#
-## Backport fixes for QtDBus deadlocks:
-#cd qtbase
-#  cat $CWD/patches/qt5.qtbug-51648.patch | patch -p1 --verbose || exit 1
-#  cat $CWD/patches/qt5.qtbug-51649.patch | patch -p1 --verbose || exit 1
-#  cat $CWD/patches/qt5.qtbug-51676.patch | patch -p1 --verbose || exit 1
-#cd -
-#
-## qtwebengine fails to build with system nss 3.23:
-#cd qtwebengine
-#  cat $CWD/patches/qt5.qtbug-51890.patch | patch -p1 --verbose || exit 1
-#cd -
+# Fix UNSIGNED values in QMYSQL:
+cd qtbase
+  cat $CWD/patches/qt5.qtbug-53237.patch | patch -p1 --verbose || exit 1
+cd -
+
+# Fix freetype engine performance:
+cd qtbase
+  cat $CWD/patches/qt5.qtbug-49452.patch | patch -p1 --verbose || exit 1
+cd -
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
