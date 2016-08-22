@@ -19,6 +19,8 @@ ALLDEPS=" \
   sni-qt \
   OpenAL \
   libinput \
+  libxkbcommon \
+  wayland \
   qt5 \
   qt5-webkit \
   qca-qt5 \
@@ -30,8 +32,7 @@ ALLDEPS=" \
   polkit-qt5-1 \
   grantlee \
   grantlee-qt4 \
-  wayland \
-  libxkbcommon \
+  poppler \
   json-glib \
   libdbusmenu-gtk \
   libindicator \
@@ -40,8 +41,10 @@ ALLDEPS=" \
   lmdb \
   libproxy \
   telepathy \
+  hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
+  elogind \
   "
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \

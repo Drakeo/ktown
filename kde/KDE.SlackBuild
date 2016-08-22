@@ -162,7 +162,7 @@ precheck() {
       echo "Source file '$(basename $SRCFILE)' is commented out: ($PKGTGT) !"
     elif cat package-blacklist |grep -v "^ *#" |grep -wq ${PKGBASE}$ ; then
       echo "Source file '$(basename $SRCFILE)' is on the package-blacklist ($PKGBASE) !"
-    elif ! cat modules/* |grep -v "^ *#" |grep -wq ${PKGBASE} ; then
+    elif ! cat modules/* |grep -v "^ *#" |grep -wq ${PKGBASE}$ ; then
       echo "Source file '$(basename $SRCFILE)' is not mentioned in 'modules' ($PKGBASE) !"
       RETVAL=1
     fi
@@ -243,7 +243,7 @@ build_mod_pkg () {
   PKG=${SLACK_KDE_BUILD_DIR}/${kde_module}/package-${kde_module}
   rm -rf $PKG
   mkdir -p $PKG
-  ( for PKGNAME in $(cat $kde_module |grep -v "^$" |grep -v "^#") ; do
+  ( for PKGNAME in $(cat $kde_module |grep -v "^$" |grep -v "^ *#") ; do
       if grep -wq "^${PKGNAME}$" ${CWD}/package-blacklist ; then
         continue
       fi
@@ -418,7 +418,7 @@ build_mod_pkg () {
     # for "<kde_module>":
     echo
     echo "Searching for packages in ${kde_module} that were not built modular:"
-    cat $CWD/modules/${kde_module} | grep -v "^#" | grep -v -w "^" | while read checkpackage ; do
+    cat $CWD/modules/${kde_module} | grep -v "^ *#" | grep -v -w "^" | while read checkpackage ; do
       if ! grep -wq "^${checkpackage}$" ${CWD}/modularize ; then
         # Non-modular package found, so we'll have to build the package below.
         # It might already have been built once, but in that case it is likely
@@ -512,7 +512,7 @@ deterministic_build() {
       if [ "${KDE_PKGS: -1}" = "," ]; then
         # Last character is a ','. Expand the list with all subsequent packages.
         START_PKG=$(echo $KDE_PKGS |rev |cut -d, -f2 |rev)
-        MOD_LIST=$(cat modules/$KDE_MOD |grep -v "^#" |grep -v "^$" |tr '\n' ',')
+        MOD_LIST=$(cat modules/$KDE_MOD |grep -v "^ *#" |grep -v "^$" |tr '\n' ',')
         KDE_PKGS="${KDE_PKGS}${MOD_LIST/#?*,${START_PKG},/}"
         echo "** SlackBuild expanding '$ENTRY' to '$KDE_MOD:$KDE_PKGS'"
       fi
