@@ -12,7 +12,7 @@ else
 endif
 
 if ( ! $?XDG_RUNTIME_DIR ) then
-    setenv XDG_RUNTIME_DIR /tmp/xdg-runtime-$USER
+    setenv XDG_RUNTIME_DIR /run/user/$USER
     mkdir -p $XDG_RUNTIME_DIR
     chown $USER $XDG_RUNTIME_DIR
     chmod 700 $XDG_RUNTIME_DIR
