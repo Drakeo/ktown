@@ -1,0 +1,18 @@
+diff --git a/poppler/SplashOutputDev.cc b/poppler/SplashOutputDev.cc
+index 13d090c..9803d38 100644
+--- a/poppler/SplashOutputDev.cc
++++ b/poppler/SplashOutputDev.cc
+@@ -94,6 +94,13 @@ extern "C" int unlink(char *filename);
+ #endif
+ #endif
+ 
++#if __cplusplus > 199711L
++#include <cmath>
++#ifndef isfinite
++#define isfinite(x) std::isfinite(x)
++#endif
++#endif
++
+ static inline void convertGfxColor(SplashColorPtr dest,
+                                    SplashColorMode colorMode,
+                                    GfxColorSpace *colorSpace,
