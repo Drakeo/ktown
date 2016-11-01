@@ -345,6 +345,9 @@ ktp-desktop-applets
 gpgmepp
 kcalcore
 akonadi
+akonadi-mime
+akonadi-contacts
+akonadi-notes
 akonadi-search
 kholidays
 kpimtextedit
@@ -434,17 +437,17 @@ kaudiocreator
 kplayer
 kwebkitpart
 oxygen-gtk2
-kdevplatform
-kdevelop-pg-qt
-kdevelop
-kdev-python
-kdevelop-php
-kdevelop-php-docs
-skanlite
 kio-mtp
-partitionmanager
 kdeconnect4
 
 # applications extra
 libktorrent
 ktorrent
+skanlite
+kpmcore
+partitionmanager
+kdevplatform
+kdevelop-pg-qt
+kdevelop
+kdev-python
+kdev-php

@@ -20,28 +20,31 @@ solid
 karchive
 kdbusaddons
 kcoreaddons
-kimageformats
 ki18n
 networkmanager-qt
 modemmanager-qt
 bluez-qt
 kwayland
 # Tier 2, depends on Tier 1, Qt5, system libraries:
+breeze-icons
+kapidox
+kdnssd
+oxygen-icons5
 kauth
 kcrash
-kglobalaccel
 kjobwidgets
 kcompletion
 kdoctools
 kpackage
-kdnssd
 knotifications
 kunitconversion
 kpty
+kimageformats
 kfilemetadata5
 # Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
 kconfigwidgets
 kservice
+kglobalaccel
 kiconthemes
 kwallet
 kemoticons
@@ -72,9 +75,6 @@ kjsembed
 kross
 kmediaplayer
 krunner
-kapidox
 frameworkintegration
 kdelibs4support
 khtml
-breeze-icons
-oxygen-icons5

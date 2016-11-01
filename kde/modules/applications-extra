@@ -1,4 +1,12 @@
 libktorrent
 ktorrent
+kpmcore
+partitionmanager
 skanlite
+kdevplatform
+kdevelop-pg-qt
+kdevelop
+kdev-php
+# Requires python3:
+#kdev-python
 

@@ -34,7 +34,6 @@ kcachegrind
 kde-dev-scripts
 kde-dev-utils
 kdesdk-kioslaves
-kdesdk-strigi-analyzers
 kdesdk-thumbnailers
 libkomparediff2
 kompare
@@ -44,7 +43,6 @@ umbrello
 
 # Rest of kdegraphics:
 kdegraphics-mobipocket
-kdegraphics-strigi-analyzer
 okular
 kdegraphics-thumbnailers
 kamera
@@ -87,8 +85,6 @@ libkcddb
 libkcompactdisc
 audiocd-kio
 dragon
-#ffmpegthumbs
-mplayerthumbs
 juk
 kmix
 #kscd
@@ -98,7 +94,6 @@ kmix
 
 # kdenetwork:
 kdenetwork-filesharing
-kdenetwork-strigi-analyzers
 zeroconf-ioslave
 kget
 kopete
@@ -163,7 +158,6 @@ kteatime
 #ktux
 
 # kdeedu:
-libkdeedu
 kdeedu-data
 libkeduvocdocument
 analitza
