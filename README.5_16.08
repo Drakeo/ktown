@@ -1,38 +1,59 @@
+
+
+NOTE:
+
+compile a new kdeconnect
+
+
+
 KDE5
 ====
 
-Here is KDE 5_16.07 for Slackware, consisting of the KDE Frameworks 5.24.0,
-Plasma 5.7.2 and Applications 16.04.3 on top of Qt 5.6.1.
+Here is KDE 5_16.08 for Slackware, consisting of the KDE Frameworks 5.25.0,
+Plasma 5.7.4 and Applications 16.08.0 on top of Qt 5.7.0.
 
-Upgrading from the previous 5_16.06 should be straight-forward.
-KDE-5_16.07 is meant to be installed on top of Slackware 14.2 or -current.
+Upgrading from the previous 5_16.07 should be straight-forward.
+KDE-5_16.08 is meant to be installed on top of Slackware 14.2 or -current.
 It will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.24.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.24.0.php
-- Plasma 5.7.2 is an incremental bug fix release for the 5.7 series which
-  I released as a Slackware Live Edition a few weeks back.
-  See https://www.kde.org/announcements/plasma-5.7.2.php
-- Applications 16.04.3 is a stability upgrade for 16.04 with just
-  bugs fixed, no new functionality.
-  See https://www.kde.org/announcements/announce-applications-16.04.3.php .
-- Several Qt5 related 'deps' have been recompiled or upgraded: sni-qt,
-  qca-qt5, PyQt5, polkit-qt5-1, phonon, grantlee and qt-gstreamer. The sip
-  package has been removed from 'deps' because Slackware 14.2 now has a
-  proper version of that.
-- The 'noto-font-ttf' package was rebuilt because the VERSION number contained
-  dashes, which created an illegal package name.  You have to remove the old
-  package manually.
-- A new 'libinput' package was added as dependency for Qt5.  It will be needed
-  in future by KWin.  FYI: a X.Org driver 'xf86-input-libinput' exists as a
-  wrapper around libinput that can replace evdev and synaptics drivers.
+- Frameworks 5.25.0 is an enhancement release.  The build order of these
+  packages has changed a bit as some packages moved to different Tiers.
+  See https://www.kde.org/announcements/kde-frameworks-5.25.0.php
+- Plasma 5.7.4 is an incremental bug fix release for the 5.7 series.
+  See https://www.kde.org/announcements/plasma-5.7.4.php
+- Applications 16.08.0 is the quarterly major upgrade.   Kolourpaint and
+  Cervisia were finally ported to KDE Frameworks 5 (KF5).
+  The kdepimlibs tarball of the Kontakt Suite (PDEPIM) has been split
+  into akonadi-contacts, akonadi-mime and akonadi-notes.
+  Apart from kdepimlibs, several other packages have been removed:
+  kdegraphics-strigi-analyzer, kdenetwork-strigi-analyzers,
+  kdesdk-strigi-analyzers, libkdeedu and mplayerthumbs.
+  See https://www.kde.org/announcements/announce-applications-16.08.0.php .
+- Several Qt5 related 'deps' have again been recompiled or upgraded because
+  of the upgrade of Qt5 to 5.7.0: sni-qt, qca-qt5, qt-gstreamer, phonon,
+  PyQt5, polkit-qt5-1, grantlee, poppler and libdbusmenu-qt5.
+- A new font package 'hack-font-ttf' package was added to 'deps' - as
+  required by KDE.  This is a monospaced TrueType font, primarily meant
+  for writing code.
+- Several KF5 ports of 'extragear' packages were added to the
+  'applications-extra' directory: a new version of KDE Partition Manager
+  (kpmcore, partitionmanager) and the all new KDEvelop (kdevplatform,
+  kdevelop-pg-qt, kdevelop and kdev-php). Note that the python plugin for
+  kdevelop can not be built because it requires python3 which we do not have
+  in Slackware. 
 
 Further points of interest:
-- kde/kde4-extragear packages should be taken from slackware-current
-  (calligra, k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2,
-  kdevplatform, kdevelop-pg-qt, kdevelop, kdev-python, kdevelop-php,
-  kdevelop-php-docs, partitionmanager)
+- There are a couple of *runtime* dependencies that I did not add to the
+  ktown repository, but you may want to consider installing them yourself:
+  * vlc - will give phonon another backend to select from.
+  * python-twisted - required by kajongg to start & run.
+  * sshfs-fuse: required by kdeconnect to browse remote storage
+    on Android devices.
+  * freerdp: access RDP servers through krdc.
+  All of these can be found in my regular package repository.
+- kde/kde4-extragear packages should be taken from slackware 14.2 or -current
+  (calligra, k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2).
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
@@ -40,10 +61,10 @@ Further points of interest:
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
   OpenAL, PyQT5, cfitsio, grantlee-qt4, json-glib, libappindicator,
-  libdbusmenu-gtk, libdbusmenu-qt5, libindicator, libxkbcommon, lmdb,
-  noto-font-ttf, noto-cjk-font-ttf, polkit-qt5-1, qca-qt5, qt-gstreamer,
-  qt5, qt5-webkit, sni-qt and wayland.  The phonon package was extended so
-  that it now supports both Qt4 and Qt5.
+  libdbusmenu-gtk, libdbusmenu-qt5, libindicator, libinput, libxkbcommon,
+  lmdb, hack-font-ttf, ninja, noto-font-ttf, noto-cjk-font-ttf, polkit-qt5-1,
+  qca-qt5, qt-gstreamer, qt5, qt5-webkit, sni-qt and wayland.
+  The phonon package was extended so that it now supports both Qt4 and Qt5.
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
@@ -54,7 +75,7 @@ Further points of interest:
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
 - Also worth mentioning: the KF5 ports of ktorrent and skanlite can be found 
   in the applications-extra directory.  And kjots, previously contained in
-  KDE PIM, is separated into its own package in the kde/applications directory.
+  KDEPIM, is separated into its own package in the kde/applications directory.
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -75,12 +96,6 @@ If you decide to install these packages on top of a fresh installation of
     * kaudiocreator
     * kplayer
     * kwebkitpart
-    * kdevplatform
-    * kdevelop-pg-qt
-    * kdevelop
-    * kdev-python
-    * kdevelop-php
-    * kdevelop-php-docs
     * oxygen-gtk2
 
 NOTE:
@@ -115,8 +130,17 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-agent-1
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
+  # removepkg kdepimlibs
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (amarok, calligra, k3b etc).
+
+If you have my 'ktown' set of KDE 5_16.07 installed:
+- Upgrade to KDE 5_16.08
+  Remove the packages that no longer exist in KDE 5_16.08:
+  * removepkg kdegraphics-strigi-analyzer
+  * removepkg kdenetwork-strigi-analyzers
+  * rempovepkg kdesdk-strigi-analyzers
+  * removepkg kdepimlibs libkdeedu mplayerthumbs
 
 If you have my 'ktown' set of KDE 5_16.06 installed:
 - Upgrade to KDE 5_16.07
@@ -232,4 +256,4 @@ Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 22-jul-2016
+                     Eric Hameleers / alien at slackware dot com / 31-aug-2016
