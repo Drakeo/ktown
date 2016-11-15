@@ -9,4 +9,6 @@ kdevelop
 kdev-php
 # Requires python3:
 #kdev-python
+# No longer compiles:
+#kjots
 

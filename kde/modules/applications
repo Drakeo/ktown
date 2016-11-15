@@ -9,9 +9,6 @@ gwenview
 
 # KDE PIM: split out to modules/kdepim
 
-# Used to be part of PIM in KDE4:
-kjots
-
 # KDE Telepathy: split out to modules/telepathy
 
 # kdebase:

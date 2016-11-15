@@ -33,8 +33,9 @@ sddm-kcm
 kde-gtk-config
 ksshaskpass
 plasma-sdk
-plasma-mediacenter
+#plasma-mediacenter
 plasma-pa
+#plasma-tests
 kactivitymanagerd
 #muon
 #kwallet-pam
