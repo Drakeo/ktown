@@ -2,6 +2,15 @@
 # (brings back the switch_user functionality in KDE):
 cat $CWD/patch/sddm-qt5/sddm_consolekit.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# SDDM 0.14 sources $HOME/.xsession which in Slackware will override the
+# session selection you make in SDDM. We fix that unwanted side effect by
+# reverting the change:
+cat $CWD/patch/sddm-qt5/sddm_userxsession.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix display of user avatars ($HOME/.face.icon file)
+# (fixed in sddm-0.15.0).
+cat $CWD//patch/sddm-qt5/sddm_avatars.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
 # Fix a compilation error on passwd backend:
 #cat $CWD/patch/sddm-qt5/sddm_auth.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

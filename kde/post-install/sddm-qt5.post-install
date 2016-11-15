@@ -1,3 +1,6 @@
 # Remove PAM related stuff:
 rm -rf $PKG/etc/pam.d
 
+# Remove the sddm.conf file because we will generate our own in doinst.sh:
+rm -f $PKG/etc/sddm.conf
+
