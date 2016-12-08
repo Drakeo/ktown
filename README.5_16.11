@@ -1,55 +1,40 @@
-
-
-NOTE:
-
-compile a new kdeconnect
-
-
-
 KDE5
 ====
 
-Here is KDE 5_16.08 for Slackware, consisting of the KDE Frameworks 5.25.0,
-Plasma 5.7.4 and Applications 16.08.0 on top of Qt 5.7.0.
+Here is KDE 5_16.11 for Slackware, consisting of the KDE Frameworks 5.27.0,
+Plasma 5.8.3 and Applications 16.08.2 on top of Qt 5.7.0.
 
-Upgrading from the previous 5_16.07 should be straight-forward.
-KDE-5_16.08 is meant to be installed on top of Slackware 14.2 or -current.
+Upgrading from the previous 5_16.08 should be straight-forward.
+KDE-5_16.11 is meant to be installed on top of Slackware 14.2 or -current.
 It will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.25.0 is an enhancement release.  The build order of these
-  packages has changed a bit as some packages moved to different Tiers.
-  See https://www.kde.org/announcements/kde-frameworks-5.25.0.php
-- Plasma 5.7.4 is an incremental bug fix release for the 5.7 series.
-  See https://www.kde.org/announcements/plasma-5.7.4.php
-- Applications 16.08.0 is the quarterly major upgrade.   Kolourpaint and
-  Cervisia were finally ported to KDE Frameworks 5 (KF5).
-  The kdepimlibs tarball of the Kontakt Suite (PDEPIM) has been split
-  into akonadi-contacts, akonadi-mime and akonadi-notes.
-  Apart from kdepimlibs, several other packages have been removed:
-  kdegraphics-strigi-analyzer, kdenetwork-strigi-analyzers,
-  kdesdk-strigi-analyzers, libkdeedu and mplayerthumbs.
-  See https://www.kde.org/announcements/announce-applications-16.08.0.php .
-- Several Qt5 related 'deps' have again been recompiled or upgraded because
-  of the upgrade of Qt5 to 5.7.0: sni-qt, qca-qt5, qt-gstreamer, phonon,
-  PyQt5, polkit-qt5-1, grantlee, poppler and libdbusmenu-qt5.
-- A new font package 'hack-font-ttf' package was added to 'deps' - as
-  required by KDE.  This is a monospaced TrueType font, primarily meant
-  for writing code.
-- Several KF5 ports of 'extragear' packages were added to the
-  'applications-extra' directory: a new version of KDE Partition Manager
-  (kpmcore, partitionmanager) and the all new KDEvelop (kdevplatform,
-  kdevelop-pg-qt, kdevelop and kdev-php). Note that the python plugin for
-  kdevelop can not be built because it requires python3 which we do not have
-  in Slackware. 
+- Frameworks 5.27.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.27.0.php
+- Plasma 5.8.3 is an incremental bug fix release for the 5.8 series.
+  Note that this is the first Plasma 5.8 that goes into my 'ktown' packages
+  as you will notice straight away when starting a Plasma session. There is
+  a new 'loading' animation again.
+  Plasma 5.8 is labeled a Long Term Support (LTS) release.  In part this
+  has been done because the developers think that 5.8 marks the point where
+  users who loved KDE 4 and turned away from Plasma 5 should re-evaluate
+  this desktop environment and hopefully want to stay.
+  The 5.8 LTS release should work with Qt 5.6.1 but I think it is better
+  to stick with the Qt 5.7 which I already used for the previous 'ktown'
+  iteration.
+  See https://www.kde.org/announcements/plasma-5.8.3.php and if you want
+  to know more about the LTS, go read:
+  https://www.kde.org/announcements/plasma-5.8.0.php
+- Applications 16.08.2 is a maintenance upgrade.
+  See https://www.kde.org/announcements/announce-applications-16.08.2.php .
+- Upgrades for kdeconnect and sddm can be found in the 'plasma-extra'
+  subdirectory, while a newer skanlite can be found in 'applications-extra'.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
   ktown repository, but you may want to consider installing them yourself:
   * vlc - will give phonon another backend to select from.
   * python-twisted - required by kajongg to start & run.
-  * sshfs-fuse: required by kdeconnect to browse remote storage
-    on Android devices.
   * freerdp: access RDP servers through krdc.
   All of these can be found in my regular package repository.
 - kde/kde4-extragear packages should be taken from slackware 14.2 or -current
@@ -134,9 +119,12 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (amarok, calligra, k3b etc).
 
+If you have my 'ktown' set of KDE 5_16.08 installed:
+- No further actions are needed.
+
 If you have my 'ktown' set of KDE 5_16.07 installed:
 - Upgrade to KDE 5_16.08
-  Remove the packages that no longer exist in KDE 5_16.08:
+  Remove the packages that no longer exist in KDE 5_16.07:
   * removepkg kdegraphics-strigi-analyzer
   * removepkg kdenetwork-strigi-analyzers
   * rempovepkg kdesdk-strigi-analyzers
@@ -256,4 +244,4 @@ Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 31-aug-2016
+                     Eric Hameleers / alien at slackware dot com / 09-nov-2016
