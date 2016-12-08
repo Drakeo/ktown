@@ -5,3 +5,6 @@
 # Fix compilation against NetworkManager 1.0.6:
 cat $CWD/patch/kde-runtime/kde-runtime_networkmanager.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix compilation against gpgme 1.7+:
+cat $CWD/patch/kde-runtime/kde-runtime_gpgme.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

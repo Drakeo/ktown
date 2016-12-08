@@ -1,10 +1,3 @@
-# Temporary kludge to allow badly ported app to compile:
-if ! grep -q 'cmake_minimum_required' CMakeLists.txt ; then
-  # Prepend a cmake_minimum_required stanza at the top, which enables
-  # newer cmake features which the build needs:
-  sed -i -e '1icmake_minimum_required(VERSION 2.8.9)\' CMakeLists.txt
-fi
-
 mkdir build
 cd build
   cmake \
@@ -12,16 +5,19 @@ cd build
     -DKDE_PLATFORM_FEATURE_DISABLE_DEPRECATED=TRUE \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS  -std=c++11" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS  -std=c++11" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DMAN_INSTALL_DIR=/usr/man \
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DSAMBA_INCLUDE_DIR=/usr/include/samba-4.0 \
+    -DBUILD_doc=OFF \
     -DBUILD_khelpcenter=OFF \
     -DBUILD_kglobalaccel=OFF \
     -DBUILD_kuiserver=OFF \
+    -DWITH_NepomukCore=OFF \
+    -DWITH_QNtrack=OFF \
     ..
 
