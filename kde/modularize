@@ -46,6 +46,8 @@ ki18n
 networkmanager-qt
 modemmanager-qt
 bluez-qt
+kwayland
+syntax-highlighting
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
 kcrash
@@ -117,7 +119,6 @@ libkscreen2
 milou
 oxygen
 systemsettings
-kwayland
 kwayland-integration
 plasma-integration
 plasma-desktop

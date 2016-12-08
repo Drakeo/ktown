@@ -11,8 +11,9 @@ nepomuk-core
 kdepimlibs4
 # kdebase:
 kfilemetadata
-baloo
-baloo-widgets
+# obsolete:
+#baloo
+#baloo-widgets
 nepomuk-widgets
 kactivities
 katepart4

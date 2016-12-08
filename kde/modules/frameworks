@@ -1,6 +1,6 @@
 # KDE Frameworks.
 #
-# http://api.kde.org/frameworks-api/frameworks5-apidocs/
+# https://api.kde.org/frameworks/index.html
 #
 # Tier 1, depends on Qt5, system libraries:
 extra-cmake-modules
@@ -25,6 +25,7 @@ networkmanager-qt
 modemmanager-qt
 bluez-qt
 kwayland
+syntax-highlighting
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 breeze-icons
 kapidox
