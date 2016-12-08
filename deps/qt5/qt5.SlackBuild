@@ -53,7 +53,7 @@ PKGNAM=qt5
 VERSION=${VERSION:-5.7.0}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -150,6 +150,11 @@ cd qtwebengine
   cat $CWD/patches/qt5.glibc224.patch | patch -p1 --verbose || exit 1
 cd -
 
+# Fix crash on exit when using default property aliases with layouts: 
+cd qtdeclarative
+  cat $CWD/patches/qt5.qtbug-51927.patch | patch -p1 --verbose || exit 1
+cd -
+
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
   cat $CWD/patches/qt5.pulseaudio.diff | patch -p1 --verbose || exit 1
@@ -162,6 +167,9 @@ fi
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
 sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-base.conf || exit 1
+
+# Enable h.264 codec support:
+echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
 
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"

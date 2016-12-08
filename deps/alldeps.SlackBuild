@@ -48,8 +48,10 @@ ALLDEPS=" \
   hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
-  elogind \
+  gpgme \
   "
+  # Only needed when adding support for Wayland:
+  #elogind \
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \
 

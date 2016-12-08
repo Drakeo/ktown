@@ -28,6 +28,8 @@ ALLDEPS=" \
   telepathy-haze \
   telepathy-gabble \
   telepathy-qt5 \
+  telegram-qt \
+  telepathy-morse \
   telepathy-logger \
   telepathy-logger-qt5 \
   telepathy-mission-control \
