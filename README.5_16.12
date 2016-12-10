@@ -1,34 +1,41 @@
 KDE5
 ====
 
-Here is KDE 5_16.11 for Slackware, consisting of the KDE Frameworks 5.27.0,
-Plasma 5.8.3 and Applications 16.08.2 on top of Qt 5.7.0.
+Here is KDE 5_16.12 for Slackware, consisting of the KDE Frameworks 5.28.0,
+Plasma 5.8.4 and Applications 16.08.3 on top of Qt 5.7.0.
 
-Upgrading from the previous 5_16.08 should be straight-forward.
-KDE-5_16.11 is meant to be installed on top of Slackware 14.2 or -current.
+I wanted to have the last 16.08.x release of KDE Applications available in
+my repository before the new 16.12.x releases start coming.  There are
+some big changes in Applications 16.12 for which I need to time to review,
+plan and build packages.  Therefore you will probably not see packages
+for Applications 16.12.0 in 2016.
+
+Upgrading from the previous 5_16.11 should be straight-forward.
+KDE-5_16.12 is meant to be installed on top of Slackware 14.2 or -current.
 It will *replace* any version of KDE 4 you might have installed!
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.27.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.27.0.php
-- Plasma 5.8.3 is an incremental bug fix release for the 5.8 series.
-  Note that this is the first Plasma 5.8 that goes into my 'ktown' packages
-  as you will notice straight away when starting a Plasma session. There is
-  a new 'loading' animation again.
-  Plasma 5.8 is labeled a Long Term Support (LTS) release.  In part this
-  has been done because the developers think that 5.8 marks the point where
-  users who loved KDE 4 and turned away from Plasma 5 should re-evaluate
-  this desktop environment and hopefully want to stay.
-  The 5.8 LTS release should work with Qt 5.6.1 but I think it is better
-  to stick with the Qt 5.7 which I already used for the previous 'ktown'
-  iteration.
-  See https://www.kde.org/announcements/plasma-5.8.3.php and if you want
-  to know more about the LTS, go read:
+- Frameworks 5.28.0 is an enhancement release and contains one new framework:
+  syntax-highlighting.
+  See https://www.kde.org/announcements/kde-frameworks-5.28.0.php
+- Plasma 5.8.4 is an incremental bug fix release for the 5.8 series.
+  See https://www.kde.org/announcements/plasma-5.8.4.php and if you want
+  to know more about the long term support (LTS) for Plasma 5.8, go read:
   https://www.kde.org/announcements/plasma-5.8.0.php
-- Applications 16.08.2 is a maintenance upgrade.
-  See https://www.kde.org/announcements/announce-applications-16.08.2.php .
-- Upgrades for kdeconnect and sddm can be found in the 'plasma-extra'
-  subdirectory, while a newer skanlite can be found in 'applications-extra'.
+- Applications 16.08.3 is a maintenance upgrade.
+  See https://www.kde.org/announcements/announce-applications-16.08.3.php .
+- I have removed baloo and baloo-widgets from the 'kde4' package subset.
+  These two kdelibs4-based packages are no longer used by other packages
+- The qt5 package was recompiled after applying a stability patch.  The
+  patch will be part of Qt 5.7.1 but that does not yet have a release date,
+  and it should solve issues people are having after resume from suspend.
+- The KDE Telepathy stack has been enhanced with support for Telegram IM.
+  For this reason, the 'deps' section has two new packages: telegram-qt and
+  telepathy-morse and one recompiled package: telepathy-qt5.
+- The 'deps' section was expanded with an updated 'gpgme' package which
+  replaces the older gpgme in Slackware. Telepathy and Kwallet need the new
+  gpgmepp functionality in gpgme.  For that reason a gpgmepp tarball will
+  no longer ship with future releases of KDE Applications.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -53,14 +60,25 @@ Further points of interest:
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
-  signon, signon-plugin-oauth2, signon-ui, libsignon-glib,
+  signon, signon-plugin-oauth2, signon-ui, libsignon-glib, telegram-qt,
   telepathy-glib, telepathy-farstream, telepathy-haze, telepathy-gabble,
-  telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
+  telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
-- Also worth mentioning: the KF5 ports of ktorrent and skanlite can be found 
-  in the applications-extra directory.  And kjots, previously contained in
-  KDEPIM, is separated into its own package in the kde/applications directory.
+- Also worth mentioning: the KF5 ports of ktorrent, partition-manager and
+  skanlite can be found in the kde/applications-extra directory.  Also kjots,
+  previously contained in KDEPIM, is separated into its own package in the
+  kde/applications-extra directory.
+
+NOTE:
+If you install a 32bit program on a 64bit Slackware computer with multilib
+and that program needs legacy system tray support (think of Skype for
+instance), you will have to grab the 32-bit version of Slackware's
+'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
+'convertpkg-compat32 -i' command on them to create 'compat32' versions of these
+packages.  Then install both 'libdbusmenu-qt-compat32' and 'sni-qt-compat32'.
+Those two are mandatory addons for displaying system tray icons of 32bit
+binaries in 64bit multilib Plasma5.
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -119,6 +137,18 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (amarok, calligra, k3b etc).
 
+Alternativly, in case you are already using an older release of my KDE 5
+packages, you need to look up that particular release in the list right below
+(for instance: KDE 5_16.08) and then apply the actions shown for that KDE 5
+release *and* all more recent releases, i.e. work your way back up to this
+paragraph.  Here we go:
+
+If you have my 'ktown' set of KDE 5_16.11 installed:
+- Upgrade to KDE 5_16.12
+  Remove the packages that no longer exist in KDE 5_16.12:
+  * removepkg baloo
+  * removepkg baloo-widgets
+
 If you have my 'ktown' set of KDE 5_16.08 installed:
 - No further actions are needed.
 
@@ -154,21 +184,28 @@ If you have my 'ktown' set of KDE 5_16.01 installed:
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
 
-To make it easy for you, here is a one-line command that downloads the whole
-'5' directory (excluding the sources), with 32-bit and 64-bit packages
-(and be careful of the 'dot' at the end of that command, it is part of the
-commandline !!):
+NOTE:
+The example commands are for Slackware -current but you
+can use these commands for Slackware 14.2 as well by replacing the /current/
+string with /14.2/ in the example commandlines below:
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/current/5 .
+NOTE:
+Instead of using the host alien.slackbook.org/alien/ktown/ you can pick any
+mirror like bear.alienbase.nl/mirrors/alien-kde/ because a mirror may be faster.
+
+To make it easy for you, here is a one-line command that downloads the whole
+'5' directory (excluding the sources), with 32-bit and 64-bit packages.
+
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
 
 Or else, if you want to download packages for just one of the two supported
 architectures, you would run one of the following commands instead (note that
 there is a dot at the end of these commands!).
 
 If you want only the 64-bit packages:
-  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/current/5 .
+  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
 If you want only the 32-bit packages:
-  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/current/5 .
+  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
 
 Assuming you just downloaded the bits you want from the directory tree
 "5", you must now change your current directory to where you found this
@@ -224,7 +261,7 @@ Building it all from source:
 Sources and scripts are separated from the packages in my 'ktown' repository.
 If you want the sources for KDE 5, run the following command to download them:
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/5 .
+  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/5/ 5/
 
 There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
 install before attempting to compile KDE 5. Compiling and installing these
@@ -232,9 +269,13 @@ dependencies on Slackware-current is as easy as:
   # cd 5/deps
   # ./updates.SlackBuild
   # cd -
+  # cd 5/deps/telepathy
+  # ./telepathy.SlackBuild
+  # cd -
 
 Be prepared to wait a *long* time since this will compile a new Qt5 package
-among others.  The finished package will be stored in /tmp .
+among others.  The finished packages will be stored in /tmp and will already
+have been installed/upgraded automatically.
 
 Then if you want to compile the KDE packages on your computer, run:
   # cd 5/kde
@@ -242,6 +283,7 @@ Then if you want to compile the KDE packages on your computer, run:
 
 Wait a long time, and you will find the new packages in /tmp/kde-build .
 Note that these packages will already have been installed by KDE.SlackBuild !
+Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 09-nov-2016
+                     Eric Hameleers / alien at slackware dot com / 09-dec-2016
