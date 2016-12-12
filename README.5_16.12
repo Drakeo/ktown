@@ -134,6 +134,8 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
   # removepkg kdepimlibs
+  # removepkg kdevelop-php
+  # removepkg kdevelop-php-docs
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (amarok, calligra, k3b etc).
 
