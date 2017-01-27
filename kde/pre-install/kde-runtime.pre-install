@@ -6,3 +6,7 @@ sed -i \
   doc/kioslave/CMakeLists.txt
 mv -i doc/kioslave/{,kio}bookmarks
 mv -i doc/kioslave/{,kio}smb
+
+# Don't link to kactivities (>= 16.12.0):
+sed -e '/plasmaextracomponents/d' -i plasma/declarativeimports/CMakeLists.txt
+
