@@ -548,6 +548,7 @@ KDEMODS=" \
   kde4 \
   kde4-extragear \
   frameworks \
+  applications-extra:kdiagram \
   kdepim \
   frameworks:kwallet \
   plasma \
