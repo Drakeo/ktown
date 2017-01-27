@@ -1,3 +1,5 @@
+calligra
+krita
 libktorrent
 ktorrent
 kpmcore
@@ -7,8 +9,9 @@ kdevplatform
 kdevelop-pg-qt
 kdevelop
 kdev-php
+kdiagram
+kjots
+kuser
 # Requires python3:
 #kdev-python
-# No longer compiles:
-#kjots
 

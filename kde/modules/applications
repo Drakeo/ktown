@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/15.12_Release_Notes
+# https://community.kde.org/Applications/16.12_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -15,7 +15,11 @@ gwenview
 kio-extras
 kate
 konsole
-kde-baseapps
+#kde-baseapps was split up into kdialog, keditbookmarks, kfind, konqueror:
+kdialog
+keditbookmarks
+kfind
+konqueror
 #kde-workspace
 kde-runtime
 #kde-base-artwork
@@ -85,6 +89,8 @@ dragon
 juk
 kmix
 #kscd
+#ffmpegthumbs
+kwave
 
 # The oxygen icon set:
 #oxygen-icons
@@ -101,7 +107,6 @@ krfb
 # kdeadmin:
 kcron
 ksystemlog
-kuser
 
 # kdeartwork:
 #kdeartwork
@@ -190,6 +195,9 @@ libkgeomap
 # Needs ffmpeg and dvdauthor to be really useful:
 #kdenlive
 
-# kdewebdev:
-kdewebdev
+# kdewebdev is split into kfilereplace, kimagemapeditor, klinkstatus, kommander:
+kfilereplace
+kimagemapeditor
+klinkstatus
+kommander
 

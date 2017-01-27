@@ -5,8 +5,8 @@ akonadi4
 # -- kdelibs is part of KDE Applications and therefore needs to be rebuilt
 # -- at every release of KDE Applications.
 kdelibs
-# Taken from kdebase, needed for kdepimlibs:
-nepomuk-core
+# Taken from kdebase, needed for kdepimlibs (obsolete):
+#nepomuk-core
 # kdepimlibs for KDE4 based PIM applications:
 kdepimlibs4
 # kdebase:
@@ -14,8 +14,8 @@ kfilemetadata
 # obsolete:
 #baloo
 #baloo-widgets
-nepomuk-widgets
-kactivities
+#nepomuk-widgets
+#kactivities
 katepart4
 konsolepart4
 # kdebindings:

@@ -47,6 +47,7 @@ networkmanager-qt
 modemmanager-qt
 bluez-qt
 kwayland
+prison
 syntax-highlighting
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 kauth
@@ -158,7 +159,10 @@ kio-extras
 kdebugsettings
 kate
 konsole
-kde-baseapps
+kdialog
+keditbookmarks
+kfind
+konqueror
 kde-workspace
 kde-runtime
 kde-base-artwork
@@ -230,6 +234,7 @@ mplayerthumbs
 juk
 kmix
 kscd
+kwave
 # oxygen icon set:
 oxygen-icons
 # kdenetwork:
@@ -244,7 +249,6 @@ krfb
 # kdeadmin:
 kcron
 ksystemlog
-kuser
 # kdeartwork:
 kdeartwork
 # kdegames:
@@ -326,7 +330,10 @@ minuet
 libkgeomap
 kdenlive
 # kdewebdev:
-kdewebdev
+kfilereplace
+kimagemapeditor
+klinkstatus
+kommander
 # KDE Telepathy:
 signon-kwallet-extension
 kaccounts-providers
@@ -344,49 +351,61 @@ ktp-send-file
 ktp-call-ui
 ktp-desktop-applets
 # KDE PIM
-gpgmepp
-kcalcore
 akonadi
-akonadi-mime
+akonadi-calendar
+akonadi-calendar-tools
 akonadi-contacts
+akonadi-import-wizard
+akonadi-mime
 akonadi-notes
 akonadi-search
-kholidays
-kpimtextedit
-kidentitymanagement
-kalarmcal
-kcalutils
-syndication
-kblog
-kcontacts
-kmime
-kimap
-kldap
-kmbox
-kontactinterface
-ktnef
-kdepim
-kdepimlibs
-kdepim-runtime
-kmailtransport
-akonadi-calendar
-kjots
-libkleo
-grantleetheme
-libkdepim
-pimcommon
-libgravatar
-libksieve
-kdgantt2
-mailimporter
-kdepim-apps-libs
+akonadiconsole
+akregator
+blogilo
 calendarsupport
 eventviews
+grantlee-editor
+grantleetheme
 incidenceeditor
-messagelib
-mailcommon
-kleopatra
+kaddressbook
+kalarm
+kalarmcal
+kblog
+kcalcore
+kcalutils
+kcontacts
 kdepim-addons
+kdepim-apps-libs
+kdepim-runtime
+kholidays
+kidentitymanagement
+kimap
+kldap
+kleopatra
+kmail
+kmail-account-wizard
+kmailtransport
+kmbox
+kmime
+knotes
+kontact
+kontactinterface
+korganizer
+kpimtextedit
+ktnef
+libgravatar
+libkdepim
+libkleo
+libksieve
+mailcommon
+mailimporter
+mbox-importer
+messagelib
+pim-data-exporter
+pim-sieve-editor
+pim-storage-service-manager
+pimcommon
+syndication
 
 #
 # The old KDE 4 stuff which has not been migrated yet. or is still needed
@@ -432,8 +451,8 @@ oktetapart4
 libksane4
 libkexiv2_4
 
-# extragear
-calligra
+# kde4 extragear
+libkcddb4
 k3b
 kaudiocreator
 kplayer
@@ -443,6 +462,8 @@ kio-mtp
 kdeconnect4
 
 # applications extra
+calligra
+krita
 libktorrent
 ktorrent
 skanlite
@@ -453,3 +474,6 @@ kdevelop-pg-qt
 kdevelop
 kdev-python
 kdev-php
+kuser
+kdiagram
+

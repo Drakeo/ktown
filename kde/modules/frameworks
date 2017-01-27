@@ -25,6 +25,7 @@ networkmanager-qt
 modemmanager-qt
 bluez-qt
 kwayland
+prison
 syntax-highlighting
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 breeze-icons
