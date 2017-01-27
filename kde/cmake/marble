@@ -29,23 +29,26 @@ marble_configure \
     -DQML_INSTALL_DIR=lib$LIBDIRSUFFIX/qt5/qml \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
     -DQca-qt5_DIR=/usr/lib${LIBDIRSUFFIX}/cmake/Qca
-cd -
 
-# Add Qt4 support (needed by libkgeomap):
-mkdir build_qt4
-cd build_qt4
-QT5DIR="" \
-QTDIR=/usr/lib${LIBDIRSUFFIX}/qt \
-marble_configure \
-    -DQT_MOC_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/moc \
-    -DQT_QMAKE_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/qmake \
-    -DQT_PLUGIN_INSTALL_DIR=lib$LIBDIRSUFFIX/qt/plugins \
-    -DQT_PLUGINS_DIR=lib$LIBDIRSUFFIX/qt/plugins \
-    -DMARBLE_PLUGIN_PATH=/usr/lib${LIBDIRSUFFIX}/marble4/plugins \
-    -DQT5BUILD=OFF \
-    -DCMAKE_DISABLE_FIND_PACKAGE_Qt5=ON \
-    -DCMAKE_DISABLE_FIND_PACKAGE_KF5=ON \
-    -DBUILD_MARBLE_TESTS=OFF \
-    -DBUILD_MARBLE_APPS=OFF
-
-# make can pick up from here, and first build the Qt4, then Qt5 stuff.
+#
+#cd -
+#
+## Add Qt4 support (needed by libkgeomap):
+#mkdir build_qt4
+#cd build_qt4
+#QT5DIR="" \
+#QTDIR=/usr/lib${LIBDIRSUFFIX}/qt \
+#marble_configure \
+#    -DQT_MOC_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/moc \
+#    -DQT_QMAKE_EXECUTABLE=/usr/lib${LIBDIRSUFFIX}/qt/bin/qmake \
+#    -DQT_PLUGIN_INSTALL_DIR=lib$LIBDIRSUFFIX/qt/plugins \
+#    -DQT_PLUGINS_DIR=lib$LIBDIRSUFFIX/qt/plugins \
+#    -DMARBLE_PLUGIN_PATH=/usr/lib${LIBDIRSUFFIX}/marble4/plugins \
+#    -DQT5BUILD=OFF \
+#    -DCMAKE_DISABLE_FIND_PACKAGE_Qt5=ON \
+#    -DCMAKE_DISABLE_FIND_PACKAGE_KF5=ON \
+#    -DBUILD_MARBLE_TESTS=OFF \
+#    -DBUILD_MARBLE_APPS=OFF
+#
+## make can pick up from here, and first build the Qt4, then Qt5 stuff.
+#
