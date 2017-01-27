@@ -18,6 +18,7 @@ ALLDEPS=" \
   ninja \
   sni-qt \
   OpenAL \
+  libwacom \
   libinput \
   libxkbcommon \
   wayland \
@@ -28,6 +29,7 @@ ALLDEPS=" \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
+  sip \
   PyQt5 \
   polkit-qt5-1 \
   grantlee \
@@ -39,6 +41,8 @@ ALLDEPS=" \
   libappindicator \
   cfitsio \
   lmdb \
+  libdmtx \
+  qrencode \
   libproxy \
   telepathy \
   hack-font-ttf \

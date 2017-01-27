@@ -17,6 +17,7 @@ ALLDEPS=" \
   extra-cmake-modules \
   ninja \
   sni-qt \
+  libwacom \
   libinput \
   libxkbcommon \
   wayland \
@@ -43,6 +44,8 @@ ALLDEPS=" \
   libappindicator \
   cfitsio \
   lmdb \
+  libdmtx \
+  qrencode \
   libproxy \
   telepathy \
   hack-font-ttf \

@@ -48,12 +48,13 @@
 # Modifications for qt 5.6.0 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.6.1 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.7.1 2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.7.0}
+VERSION=${VERSION:-5.7.1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -135,24 +136,19 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Fix UNSIGNED values in QMYSQL:
+## Don't depend on features that were only added in linux 4.5:
+#cd qtwebengine
+#  cat $CWD/patches/qt5.glibc224.patch | patch -p1 --verbose || exit 1
+#cd -
+
+# Don't unload plugins in QPluginLoader (segfault in LXQT):
 cd qtbase
-  cat $CWD/patches/qt5.qtbug-53237.patch | patch -p1 --verbose || exit 1
+  cat $CWD/patches/qt5.qtbug-49061.patch | patch -p1 --verbose || exit 1
 cd -
 
-# Fix freetype engine performance:
+# Fix file chooser segfault on Gnome/Wayland:
 cd qtbase
-  cat $CWD/patches/qt5.qtbug-49452.patch | patch -p1 --verbose || exit 1
-cd -
-
-# Don't depend on features that were only added in linux 4.5:
-cd qtwebengine
-  cat $CWD/patches/qt5.glibc224.patch | patch -p1 --verbose || exit 1
-cd -
-
-# Fix crash on exit when using default property aliases with layouts: 
-cd qtdeclarative
-  cat $CWD/patches/qt5.qtbug-51927.patch | patch -p1 --verbose || exit 1
+  cat $CWD/patches/qt5.qtbug-55583.patch | patch -p1 --verbose || exit 1
 cd -
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then

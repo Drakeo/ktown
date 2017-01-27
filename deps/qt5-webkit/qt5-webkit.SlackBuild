@@ -22,10 +22,10 @@
 
 # Derived from the qt5.SlackBuild
 
-# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0, 5.7.1 2016,2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5-webkit
-VERSION=${VERSION:-5.7.0}
+VERSION=${VERSION:-5.7.1}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -83,9 +83,6 @@ rm -rf qtwebkit-opensource-src-$VERSION
 echo "Extracting qtwebkit-opensource-src-$VERSION.tar.xz"
 tar xf $CWD/qtwebkit-opensource-src-$VERSION.tar.xz || exit 1
 cd qtwebkit-opensource-src-$VERSION || exit 1
-
-## Fix linking to pthread:
-#cat $CWD/patches/qt5-webkit.pthread.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \
