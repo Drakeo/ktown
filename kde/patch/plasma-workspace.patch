@@ -8,5 +8,6 @@
 
 # Systray: Move all icon resolution to dataengine, preventing high CPU usage,
 # see https://phabricator.kde.org/D2986 :
-cat $CWD/patch/plasma-workspace/plasma-workspace.systray_cpubug.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Fixed in 5.9.0
+#cat $CWD/patch/plasma-workspace/plasma-workspace.systray_cpubug.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
