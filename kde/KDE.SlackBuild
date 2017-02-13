@@ -545,6 +545,7 @@ mkdir -p $SLACK_KDE_BUILD_DIR
 # kwallet is built again after kdepim,
 # so that it can pick up support for gpgmepp.
 KDEMODS=" \
+  frameworks:extra-cmake-modules \
   kde4 \
   kde4-extragear \
   frameworks \
