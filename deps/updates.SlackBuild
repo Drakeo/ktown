@@ -30,6 +30,7 @@ ALLDEPS=" \
   phonon \
   phonon-gstreamer \
   sip \
+  PyQt \
   PyQt5 \
   polkit-qt5-1 \
   grantlee \
