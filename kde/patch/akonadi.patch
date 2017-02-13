@@ -1,0 +1,10 @@
+# Remove hardcoded absolute path to stdlib header.
+# This is Windows-centric and breaks on any linux GCC upgrade.
+# Thanks to Gentoo where I found the following two patches at
+# https://packages.gentoo.org/packages/kde-apps/akonadi
+cat $CWD/patch/akonadi/akonadi_revert-abs-path.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+cat $CWD/patch/akonadi/akonadi_rename-header.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+
+
+

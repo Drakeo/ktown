@@ -1,0 +1,30 @@
+# Do not try to build against kdepimlibs4 - I can not get akonadi support
+# to compile properly. Errors like:
+# /tmp/kde-build/kde4/pykde4-4.14.3/build/sip/akonadi/sipakonadipart3.cpp:1170:60: error: invalid new-expression of abstract class type ?sipAkonadi_ItemSerializerPluginV2?
+# /tmp/kde-build/kde4/pykde4-4.14.3/build/sip/akonadi/sipakonadipart3.cpp:1185:63: error: invalid new-expression of abstract class type ?sipAkonadi_ItemSerializerPluginV2?
+# make[2]: *** [CMakeFiles/python_module_PyKDE4_akonadi.dir/build.make:275: CMakeFiles/python_module_PyKDE4_akonadi.dir/sip/akonadi/sipakonadipart3.cpp.o] Error 1
+# make[1]: *** [CMakeFiles/Makefile2:692: CMakeFiles/python_module_PyKDE4_akonadi.dir/all] Error 2
+
+mkdir build
+cd build
+  cmake \
+    $KDE_OPT_ARGS \
+    -DKDE_PLATFORM_FEATURE_DISABLE_DEPRECATED=TRUE \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DSYSCONF_INSTALL_DIR=/etc/kde \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DLIB_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
+    -DLIBEXEC_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
+    -DKDE4_BUILD_TESTS=OFF \
+    -DWITH_KdepimLibs=OFF \
+    -DWITH_Nepomuk=OFF \
+    -DWITH_PolkitQt=OFF \
+    -DWITH_Soprano=OFF \
+    ..
+
