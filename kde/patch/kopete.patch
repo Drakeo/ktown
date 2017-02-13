@@ -1,0 +1,4 @@
+# Fix for jabber protocol vulnerability in Kopete: CVE-2017-5593
+# (User Impersonation Vulnerability)
+cat $CWD/patch/kopete/kopete_kdebug376348.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
