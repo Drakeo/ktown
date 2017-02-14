@@ -539,7 +539,7 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 [ -d post-install/kdebase ] && eval $(sed -e "s#/lib#/lib${LIBDIRSUFFIX}#" ./post-install/kdebase/profile.d/kde.sh)
 
 # Where we are going to do all the hard labour:
-SLACK_KDE_BUILD_DIR=$TMP/kde-build
+SLACK_KDE_BUILD_DIR=$TMP/kde_build
 mkdir -p $SLACK_KDE_BUILD_DIR
 
 # kwallet is built again after kdepim,
