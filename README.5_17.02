@@ -1,80 +1,28 @@
 KDE5
 ====
 
-Here is KDE 5_17.01 for Slackware, consisting of the KDE Frameworks 5.30.0,
-Plasma 5.8.5 and Applications 16.12.1 on top of Qt 5.7.1.
+Here is KDE 5_17.02 for Slackware, consisting of the KDE Frameworks 5.31.0,
+Plasma 5.9.2 and Applications 16.12.2 on top of Qt 5.7.1.
 
-Upgrading from the previous 5_16.12 needs a bit of tender care & loving this
-time.  In particular, the new quarterly release of the Applications brings
-a lot of change. Many packages have been added, but also many packages are
-no longer part of the 'ktown' repository.  Read the instructions well!
+Upgrading from the previous 5_17.01 is straight-forward.
 
-KDE-5_17.01 is meant to be installed on top of Slackware 14.2 or -current.
+KDE-5_17.02 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 
-Note that I am currently undecided whether I should keep on supporting
-Slackware 14.2 in my 'ktown' builds.  The 'ktown' repository's primary goal
-has always been to do the research and development into bleeding edge
-KDE software, so that integrating it into Slackware's core can be done with
-the knowledge that these KDE releases have been given a good QA testing
-by the community.  Which means, slackware-current is the only relevant release.
-Providing updates for 14.2 will probably stop, once -current has diverged too
-much from 14.2 to keep it all manageable.
-
 What is the NEWS in this batch of updates:
-- Frameworks 5.30.0 is an enhancement release and contains one new framework
-  compared to my previous release: prison.
-  See https://www.kde.org/announcements/kde-frameworks-5.30.0.php
-- Plasma 5.8.5 is an incremental bug fix release for the 5.8 series.
-  See https://www.kde.org/announcements/plasma-5.8.5.php and if you want
-  to know more about the long term support (LTS) for Plasma 5.8, go read:
-  https://www.kde.org/announcements/plasma-5.8.0.php
-- Applications 16.12.1 contains many changes.  In these 16.12.x releases,
-  some of the big packages have been split into many smaller ones:
-  kde-baseapps, kdepim and kdewebdev (and these three packages are gone now).
-  Two other packages have been removed: gpgmepp (whose functionality has been
-  integrated into gpgme), and kuser (for which there is no replacement and
-  therefore I have kept it as part of applications-extra).
-  Formerly part of 'kdepim', the kdgantt2 program has been removed and it is
-  replaced by a new package 'kdiagram'.
-  Another new package 'kwave' was added in 16.12.0 (which I never built).
-  See https://www.kde.org/announcements/announce-applications-16.12.1.php .
-- I have removed kactivities, nepomuk and nepomuk-widgets from the 'kde4'
-  package subset.  These kdelibs4-based packages are no longer used by
-  other packages.
-  I also added a package there: libcddb4 is the old kdelibs4 based version
-  and it is needed to keep k3b running.  The latest libkcddb is Frameworks5
-  based and incompatible with k3b.
-  Unfortunately kdepimlibs4 is still required by kopete and klinkstatus.
-  I had to recompile kdepimlibs4 to remove gpgme++ files that are now part
-  of the gpgme package. If you want to repeat this at home, make sure you
-  only have 'akonadi4' installed, not the newer 'akonadi' from Applications.
-- In applications-extra, I  upgraded calligra to the recently released
-  Frameworks5 based version; a recompilation would have been needed anyway
-  in order to ditch kactivities.  The new calligra has shed some of its code
-  and no longer contains krita or kexi, they are developed independently now.
-  Flow and Stage have also been removed from the code but here the reason is
-  that their code is unmaintained.
-  Therefore I have added 'krita' as a new package.  If anyone needs 'kexi'
-  as well, let me know so I can add it (and its dependencies) next time.
-  Also, partitionmanager was upgraded and is now Frameworks5 based.  Note:
-  partitionmanager has issues using kdesu to gain root access to the disks
-  even though it will ask for the root password. If all actions are greyed
-  out, start it from the commandline with "sudo -s partitionmanager".
-- The 'kdeconnect' package in plasma-extra was upgraded.
-- The 'deps' section has two new packages (three in the Slackware 14.2 repo
-  as you can read below): libdmtx and qrencode, both of which are requirements
-  for the new 'kdiagram' package.
-  The 'libinput' package was upgraded to the same version as was recently
-  added to slackware-current (and compiled against the new package
-  'libwacom' just like in slackware-current).  Note that libinput and
-  libwacom are not part of the 'deps' for Slackware-current since these are
-  already covered by your Slackware install.
-- The qt5 package was upgraded to 5.7.1, and accompanying upgrades were
-  done for qt5-webkit, sip and PyQt5.  Note that qt5's dependencies have
-  increased again: it now requires libinput, libwacom, libxkbcommon.
-  I did not upgrade qt5 to 5.8.0 - it is too new and currently seems to have
-  issues with KWin.
+- Frameworks 5.31.0 is an enhancement release.
+  See https://www.kde.org/announcements/kde-frameworks-5.31.0.php
+- Plasma 5.9.2 is the second iteration of the 5.9 series with small fixes only.
+  See https://www.kde.org/announcements/plasma-5.9.2.php .
+  I am not sticking with the long term support (LTS) releases of Plasma 5.8,
+  as I think LTS should be targeting stable Slackware.  If you want, go read:
+  https://www.kde.org/announcements/plasma-5.8.0.php for the LTS plans.
+- Applications 16.12.2 is an incremental fix-release in the 16.12 series.
+  See https://www.kde.org/announcements/announce-applications-16.12.2.php .
+- The 'deps' section has four updated packages: OpenAL, libxkbcommon, phonon,
+  wayland; and one recompiled package: qt5.
+  I will not upgrade qt5 to 5.8.0 until the KWin developer gives it
+  the green light.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -83,8 +31,8 @@ Further points of interest:
   * python-twisted - required by kajongg to start & run.
   * freerdp: access RDP servers through krdc.
   All of these can be found in my regular package repository.
-- kde/kde4-extragear packages should be taken from slackware 14.2 or -current
-  (k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2).
+- The following kde/kde4-extragear packages should be taken from slackware
+  itself: k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2 .
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
@@ -105,10 +53,13 @@ Further points of interest:
   telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
-- Also worth mentioning: the KF5 ports of ktorrent, skanlite and the KDE
-  Development Suite can be found in the kde/applications-extra directory.
-  Also kjots, previously contained in KDEPIM, has been separated into its
-  own package in the kde/applications-extra directory.
+- The kde/kde4 and kde/kde4-extragear directories contain packages that are
+  still required to support kdelibs4-based Applications.
+- Also worth mentioning: the KF5 ports of calligra, krita, ktorrent,
+  partitionmanager, skanlite and the KDE Development Suite can be found
+  in kde/applications-extra . 
+  Finally, kjots (previously contained in KDEPIM) and kuser have been moved
+  into kde/applications-extra as well.
 
 NOTE:
 If you install a 32bit program on a 64bit Slackware computer with multilib
@@ -184,6 +135,9 @@ packages, you need to look up that particular release in the list right below
 release *and* all more recent releases, i.e. work your way back up to this
 paragraph.  Here we go:
 
+If you have my 'ktown' set of KDE 5_17.01 installed:
+- No further actions are needed.
+
 If you have my 'ktown' set of KDE 5_16.12 installed:
 - Upgrade to KDE 5_17.01
   If you are running Slackware-current, manually install or upgrade libinput
@@ -242,22 +196,23 @@ can use these commands for Slackware 14.2 as well by replacing the /current/
 string with /14.2/ in the example commandlines below:
 
 NOTE:
-Instead of using the host alien.slackbook.org/alien/ktown/ you can pick any
-mirror like bear.alienbase.nl/mirrors/alien-kde/ because a mirror may be faster.
+Instead of using the mirror host bear.alienbase.nl/mirrors/alien-kde/
+you can also use the master host alien.slackbook.org/alien/ktown/
+but that will probably be slower for some of you.
 
 To make it easy for you, here is a one-line command that downloads the whole
 '5' directory (excluding the sources), with 32-bit and 64-bit packages.
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
+  # rsync -av rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 
 Or else, if you want to download packages for just one of the two supported
 architectures, you would run one of the following commands instead (note that
 there is a dot at the end of these commands!).
 
 If you want only the 64-bit packages:
-  # rsync -av --exclude=x86 rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
+  # rsync -av --exclude=x86 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 If you want only the 32-bit packages:
-  # rsync -av --exclude=x86_64 rsync://alien.slackbook.org/alien/ktown/current/5/ 5/
+  # rsync -av --exclude=x86_64 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 
 Assuming you just downloaded the bits you want from the directory tree
 "5", you must now change your current directory to where you found this
@@ -314,7 +269,7 @@ Sources and scripts are separated from the packages in my 'ktown' repository.
 If you want the sources for KDE 5, run the following command to download them
 (downloading from a mirror will usually be much faster):
 
-  # rsync -av rsync://alien.slackbook.org/alien/ktown/source/5/ 5/
+  # rsync -av rsync://bear.alienbase.nl/mirrors/alien-kde/source/5/ 5/
 
 There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
 install before attempting to compile KDE 5. Compiling and installing these
@@ -339,4 +294,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 26-jan-2017
+                     Eric Hameleers / alien at slackware dot com / 14-feb-2017
