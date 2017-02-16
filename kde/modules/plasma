@@ -3,7 +3,7 @@ kgamma5
 kdecoration
 breeze
 breeze-gtk
-#breeze-grub
+breeze-grub
 #breeze-plymouth
 kde-cli-tools
 kwayland-integration
