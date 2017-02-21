@@ -17,3 +17,9 @@ cat $CWD//patch/sddm-qt5/sddm_avatars.patch | patch -p1 --verbose || { touch ${S
 # Fix a compilation error on passwd backend:
 # (fixed in sddm-0.12.0).
 #cat $CWD/patch/sddm-qt5/sddm_qstring.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Add the dutch translation:
+if ! grep -q nl.ts data/translations/CMakeLists.txt ; then
+  sed -e '/set(TRANSLATION_FILES/s/TRANSLATION_FILES/&\n    nl.ts/' \
+      -i data/translations/CMakeLists.txt
+fi
