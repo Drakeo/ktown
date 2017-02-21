@@ -78,4 +78,5 @@ fi
 if [ -f etc/sddm.conf.new ]; then
   config etc/sddm.conf.new
 fi
-
+# And our defaults file:
+config etc/default/sddm.new
