@@ -23,8 +23,8 @@
 
 PKGNAM=qca-qt5
 SRCNAM=qca
-VERSION=${VERSION:-2.1.1}
-BUILD=${BUILD:-6}
+VERSION=${VERSION:-2.1.3}
+BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:--j6}
 
 # Automatically determine the architecture we're building on:
@@ -67,6 +67,8 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+# Note: Slackware already has the qt4 build of this,
+# it needs "-DQT4_BUILD=ON" as aditional cmake parameter.
 mkdir -p build
 cd build
   cmake \
@@ -87,7 +89,7 @@ cd -
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
-mv $PKG/usr/share/man $PKG/usr/
+#mv $PKG/usr/share/man $PKG/usr/
 gzip -9 $PKG/usr/man/man?/*.1
 
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
