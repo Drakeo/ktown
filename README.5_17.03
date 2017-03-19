@@ -1,28 +1,36 @@
 KDE5
 ====
 
-Here is KDE 5_17.02 for Slackware, consisting of the KDE Frameworks 5.31.0,
-Plasma 5.9.2 and Applications 16.12.2 on top of Qt 5.7.1.
+Here is KDE 5_17.03 for Slackware, consisting of the KDE Frameworks 5.32.0,
+Plasma 5.9.3 and Applications 16.12.3 on top of Qt 5.7.1.
 
-Upgrading from the previous 5_17.01 is straight-forward.
+Upgrading from the previous 5_17.02 is straight-forward.
 
-KDE-5_17.02 is meant to be installed on top of Slackware -current.
-It will *replace* any version of KDE 4 you might have installed!
+KDE-5_17.03 is meant to be installed on top of Slackware -current.
+It will *replace* any version of KDE 4 you might have installed!  Plasma 5
+has mostly gotten rid of its Qt4 legacy.
 
 What is the NEWS in this batch of updates:
-- Frameworks 5.31.0 is an enhancement release.
-  See https://www.kde.org/announcements/kde-frameworks-5.31.0.php
-- Plasma 5.9.2 is the second iteration of the 5.9 series with small fixes only.
-  See https://www.kde.org/announcements/plasma-5.9.2.php .
-  I am not sticking with the long term support (LTS) releases of Plasma 5.8,
-  as I think LTS should be targeting stable Slackware.  If you want, go read:
-  https://www.kde.org/announcements/plasma-5.8.0.php for the LTS plans.
-- Applications 16.12.2 is an incremental fix-release in the 16.12 series.
-  See https://www.kde.org/announcements/announce-applications-16.12.2.php .
-- The 'deps' section has four updated packages: OpenAL, libxkbcommon, phonon,
-  wayland; and one recompiled package: qt5.
-  I will not upgrade qt5 to 5.8.0 until the KWin developer gives it
-  the green light.
+- The 'deps' section has some interesting updates this time. Two upgraded
+  packages: phonon-vlc and qca-qt5. Also six new ones to support digikam
+  and kdenlive: lensfun, opencv, frei0r-plugins, vid.stab, dvdauthor and mlt.
+  You may already have one or more of these installed from SBo, so make sure
+  to upgrade to mine to prevent breakage in digikam and kdenlive.  Notably,
+  the SBo version of 'frei0r-plugins' package is called 'frei0r'.
+- Frameworks 5.32.0 is an enhancement release, nothing exciting.
+  See https://www.kde.org/announcements/kde-frameworks-5.32.0.php
+- Plasma 5.9.3 is yet another iteration of the 5.9 series with small fixes only.
+  See https://www.kde.org/announcements/plasma-5.9.3.php .
+- Applications 16.12.3 is an incremental fix-release in the 16.12 series.
+  See https://www.kde.org/announcements/announce-applications-16.12.3.php .
+  This time I have built the 'libkface' and 'kdenlive' packages now that
+  their dependencies have been fulfilled.
+- Applications-extra contains two new packages: digikam and krusader.
+  I have also added a beta release of k3b (now finally a KF5 port)
+  which will see its first new official release as part of Applications
+  17.04.  And finally, I upgraded the kdevelop related packages.
+- In plasma-extra I rebuilt the sddm-qt5 package, enabling the dutch
+  translation and making sure that SDDM picks up your $LANG settings.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -32,18 +40,22 @@ Further points of interest:
   * freerdp: access RDP servers through krdc.
   All of these can be found in my regular package repository.
 - The following kde/kde4-extragear packages should be taken from slackware
-  itself: k3b, kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2 .
+  itself: kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2 .
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, cfitsio, grantlee-qt4, json-glib, libappindicator,
-  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput, libwacom,
-  libxkbcommon, lmdb, hack-font-ttf, ninja, noto-font-ttf, noto-cjk-font-ttf,
-  polkit-qt5-1, qca-qt5, qrencode, qt-gstreamer, qt5, qt5-webkit, sni-qt
-  and wayland.
+  OpenAL, PyQT5, cfitsio, dvdauthor, frei0r-plugins, grantlee-qt4,
+  hack-font-ttf, json-glib, lensfun, libappindicator, libdbusmenu-gtk,
+  libdbusmenu-qt5, libdmtx, libindicator, libinput, libwacom, libxkbcommon,
+  lmdb, mlt, ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1,
+  qca-qt5, qrencode, qt-gstreamer, qt5, qt5-webkit, sni-qt, vid.stab
+  and wayland.  As a side note, libinput and libwacom have become part of
+  Slackware-current.  Technically that makes them redundant in the above
+  listing, however I still compile Plasma5 packages for Slackware 14.2 so
+  I left them in.
   The phonon package was extended so that it now supports both Qt4 and Qt5.
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
@@ -55,7 +67,7 @@ Further points of interest:
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
 - The kde/kde4 and kde/kde4-extragear directories contain packages that are
   still required to support kdelibs4-based Applications.
-- Also worth mentioning: the KF5 ports of calligra, krita, ktorrent,
+- Also worth mentioning: the KF5 ports of k3b, calligra, krita, ktorrent,
   partitionmanager, skanlite and the KDE Development Suite can be found
   in kde/applications-extra . 
   Finally, kjots (previously contained in KDEPIM) and kuser have been moved
@@ -81,26 +93,25 @@ NOTE:
 If you decide to install these packages on top of a fresh installation of
   Slackware 14.2 or -current and have excluded all packages in the 'KDE'
   package series during installation, you will be missing several add-on
-  packages, some of these are essential to the proper functioning of KDE!
-  If you excluded the complete Slackware 'KDE' series, then you
-  can optionally install these Slackware packages as well:
+  packages.  You can optionally install the following Slackware packages:
     * amarok
-    * k3b
     * kaudiocreator
     * kplayer
     * kwebkitpart
     * oxygen-gtk2
 
 NOTE:
-If you had installed KDE 4 previously as your default desktop, the removal
+If you had installed KDE 4 as your default desktop previously, the removal
 of KDE 4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
 An attempt to run 'startx' in a console will fail with a black screen.
 After installing Plasma 5 for the first time, you need to run 'xwmconfig'
 and select 'xinitrc.plasma' as your desktop session.
 
+
 -------------------------------------------------------------------------------
 Install pre-compiled packages:
 -------------------------------------------------------------------------------
+
 
 In order to install or upgrade KDE 5, follow these steps:
 
@@ -127,13 +138,19 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg kdevelop-php
   # removepkg kdevelop-php-docs
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
-  the packages you want to keep (amarok, calligra, k3b etc).
+  the packages you want to keep (amarok, etc).
 
 Alternativly, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
 (for instance: KDE 5_16.08) and then apply the actions shown for that KDE 5
 release *and* all more recent releases, i.e. work your way back up to this
-paragraph.  Here we go:
+paragraph.  Note that some of the old KDE package names were obsoleted along
+the way, they were split up, renamed or integrated and that is the reason
+for some of the 'removepkg' lines you'll see below.
+Here we go:
+
+If you have my 'ktown' set of KDE 5_17.02 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.01 installed:
 - No further actions are needed.
@@ -191,14 +208,31 @@ If you have my 'ktown' set of KDE 5_16.01 installed:
 Then proceed with installing/upgrading KDE 5 as outlined below.
 
 NOTE:
-The example commands are for Slackware -current but you
-can use these commands for Slackware 14.2 as well by replacing the /current/
-string with /14.2/ in the example commandlines below:
+The example commands below are for Slackware -current but you can use
+these commands for Slackware 14.2 as well by replacing the /current/
+string with /14.2/ (provided there is a suitable 'ktown' release available
+for Slackware 14.2 of course):
 
 NOTE:
 Instead of using the mirror host bear.alienbase.nl/mirrors/alien-kde/
-you can also use the master host alien.slackbook.org/alien/ktown/
-but that will probably be slower for some of you.
+you could choose the master host alien.slackbook.org/alien/ktown/
+but that will probably be a lot slower for some of you.
+
+NOTE:
+If you use 'slackpkg' to automate your upgrades, be sure to blacklist my
+custom packages or else slackpkg will always try to replace my packages
+with the stock Slackware versions if the package names are identical.
+As an example, you can add the following lines to the file
+"/etc/slackpkg/blacklist" to prevent this unintentional downgrading to KDE4:
+  # These three lines will blacklist all SBo, alien and multilib packages:
+  [0-9]+_SBo
+  [0-9]+alien
+  [0-9]+compat32
+If on the other hand you are using the 'slackpkg+' extension for slackpkg
+then your "/etc/slackpkg/blacklist" file should *not* contain the above
+lines!  The slackpkg+ extension enables the use of 3rd-party repositories
+with slackpkg and then Plasma5 package upgrades will be handled properly.
+
 
 To make it easy for you, here is a one-line command that downloads the whole
 '5' directory (excluding the sources), with 32-bit and 64-bit packages.
@@ -214,16 +248,14 @@ If you want only the 64-bit packages:
 If you want only the 32-bit packages:
   # rsync -av --exclude=x86_64 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 
-Assuming you just downloaded the bits you want from the directory tree
-"5", you must now change your current directory to where you found this
-README (which is the directory called '5').  If you used one of the
-above "rsync" commands then you can simply do:
+Assuming you just downloaded the bits you want from the directory tree "5",
+you must now change your current directory to where you found this README
+(which is the directory called '5').  If you used one of the above "rsync"
+commands then you can simply do:
 
   # cd 5
 
-From within this directory, you run the following commands as root (note that
-some of the old KDE package names are obsoleted now, they have been split up,
-renamed or integrated and that is the reason for the 'removepkg' lines):
+From within this directory, you run the following commands as root:
 
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
@@ -289,9 +321,9 @@ Then if you want to compile the KDE packages on your computer, run:
   # cd 5/kde
   # ./KDE.SlackBuild
 
-Wait a long time, and you will find the new packages in /tmp/kde-build .
+Wait a long time, and you will find the new packages in /tmp/kde_build .
 Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 14-feb-2017
+                     Eric Hameleers / alien at slackware dot com / 18-mar-2017
