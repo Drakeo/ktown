@@ -1,4 +1,4 @@
-# Fix build against KF 5.31.0:
-cat $CWD/patch/cantor/cantor_python.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
-cat $CWD/patch/cantor/cantor_julia.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Fix build against KF 5.31.0 (repaired in 16.12.3):
+#cat $CWD/patch/cantor/cantor_python.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/cantor/cantor_julia.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
