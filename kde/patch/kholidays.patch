@@ -2,3 +2,7 @@
 # Fixed post Plasma 5.5.5.
 #cat $CWD/patch/kholidays/kholidays_isnan.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Revert depfreeze breaking merges (KF5_VERSION, cmake, PIM_VERSION).
+# Should be fixed in Applications > 16.12.3.
+cat $CWD/patch/kholidays/kholidays_depfreeze_revert.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
