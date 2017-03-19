@@ -6,14 +6,14 @@
 # leave one space after the ':'.
 
         |-----handy-ruler------------------------------------------------------|
-kdenlive: kdenlive (non-linear video editor)
-kdenlive:
-kdenlive: A non-linear video editor for Linux using the MLT video framework.
-kdenlive:
-kdenlive:
-kdenlive:
-kdenlive:
-kdenlive:
-kdenlive:
-kdenlive: For more information, visit:  http://www.kdenlive.org
-kdenlive:
+krusader: krusader (twin panel file management for KDE)
+krusader:
+krusader: Krusader is an advanced twin panel (commander style) file manager
+krusader: for KDE and other desktops in the *nix world, similar to Midnight
+krusader: or Total Commander.
+krusader: It provides all the file management features you could possibly want. 
+krusader:
+krusader:
+krusader:
+krusader: For more information, visit:  http://krusader.org
+krusader:

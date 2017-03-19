@@ -453,7 +453,6 @@ libkexiv2_4
 
 # kde4 extragear
 libkcddb4
-k3b
 kaudiocreator
 kplayer
 kwebkitpart
@@ -463,6 +462,8 @@ kdeconnect4
 
 # applications extra
 calligra
+digikam
+k3b
 krita
 libktorrent
 ktorrent
@@ -477,4 +478,6 @@ kdev-php
 kuser
 kdiagram
 kjots
+krusader
+
 

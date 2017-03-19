@@ -1,4 +1,6 @@
 calligra
+digikam
+k3b
 krita
 libktorrent
 ktorrent
@@ -12,6 +14,7 @@ kdev-php
 kdiagram
 kjots
 kuser
+krusader
 # Requires python3:
 #kdev-python
 

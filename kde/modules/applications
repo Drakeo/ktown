@@ -55,7 +55,7 @@ ksaneplugin
 spectacle
 svgpart
 # needs opencv:
-#libkface
+libkface
 
 # kdeaccessibility:
 #jovie
@@ -193,7 +193,7 @@ step
 libkgeomap
 
 # Needs ffmpeg and dvdauthor to be really useful:
-#kdenlive
+kdenlive
 
 # kdewebdev is split into kfilereplace, kimagemapeditor, klinkstatus, kommander:
 kfilereplace
