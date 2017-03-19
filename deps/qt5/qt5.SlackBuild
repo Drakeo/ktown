@@ -167,6 +167,9 @@ sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-bas
 # Enable h.264 codec support:
 echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
 
+# Enable all languages in the virtual keyboard (required by Plasma 5.11):
+echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
+
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 export OPENSOURCE_CXXFLAGS="$SLKCFLAGS"
