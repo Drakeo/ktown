@@ -1,0 +1,2 @@
+deps: mesa xorg-server libxkbcommon qt5
+frameworks:kwayland

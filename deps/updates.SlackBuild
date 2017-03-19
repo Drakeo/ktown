@@ -50,6 +50,12 @@ ALLDEPS=" \
   noto-font-ttf \
   noto-cjk-font-ttf \
   gpgme \
+  lensfun \
+  opencv \
+  dvdauthor \
+  vid.stab \
+  frei0r-plugins \
+  mlt \
   "
   # Only needed when adding support for Wayland:
   #elogind \
