@@ -56,6 +56,9 @@ ALLDEPS=" \
   vid.stab \
   frei0r-plugins \
   mlt \
+  cracklib \
+  libpwquality \
+  accountsservice \
   "
   # Only needed when adding support for Wayland:
   #elogind \
