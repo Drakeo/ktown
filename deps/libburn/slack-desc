@@ -1,0 +1,20 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+       |-----handy-ruler------------------------------------------------------|
+libburn: libburn (optical media writing library)
+libburn:
+libburn: Libburn is a library by which preformatted data get onto optical
+libburn: media.  Libburn also offers a facility for reading data blocks from
+libburn: optical drives without using the normal block device I/O.
+libburn: Audio CD can be written and read.
+libburn: The code of libburn is independent of cdrecord.
+libburn:
+libburn:
+libburn: See also: https://dev.lovelyhq.com/libburnia/web/wikis/home
+libburn:
+

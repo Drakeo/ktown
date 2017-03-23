@@ -59,6 +59,7 @@ ALLDEPS=" \
   cracklib \
   libpwquality \
   accountsservice \
+  libburn \
   "
   # Only needed when adding support for Wayland:
   #elogind \
