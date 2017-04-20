@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/16.12_Release_Notes
+# https://community.kde.org/Applications/17.04_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -91,6 +91,7 @@ kmix
 #kscd
 ffmpegthumbs
 kwave
+k3b
 
 # The oxygen icon set:
 #oxygen-icons
@@ -126,7 +127,7 @@ kblocks
 lskat
 kreversi
 bovo
-kajongg
+#kajongg
 granatier
 kmines
 kiriki
@@ -199,5 +200,5 @@ kdenlive
 kfilereplace
 kimagemapeditor
 klinkstatus
-kommander
+#kommander
 

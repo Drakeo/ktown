@@ -235,6 +235,7 @@ juk
 kmix
 kscd
 kwave
+k3b
 # oxygen icon set:
 oxygen-icons
 # kdenetwork:
@@ -374,6 +375,8 @@ kblog
 kcalcore
 kcalutils
 kcontacts
+libkgapi
+kdav
 kdepim-addons
 kdepim-apps-libs
 kdepim-runtime
@@ -453,6 +456,8 @@ libkexiv2_4
 
 # kde4 extragear
 libkcddb4
+libkcompactdisc4
+audiocd-kio4
 kaudiocreator
 kplayer
 kwebkitpart
@@ -463,7 +468,6 @@ kdeconnect4
 # applications extra
 calligra
 digikam
-k3b
 krita
 libktorrent
 ktorrent

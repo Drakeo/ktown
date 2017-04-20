@@ -8,6 +8,7 @@ kcalutils
 syndication
 kblog
 kcontacts
+libkgapi
 kmime
 kimap
 kmbox
@@ -36,6 +37,7 @@ incidenceeditor
 messagelib
 mailcommon
 kleopatra
+kdav
 kdepim-addons
 kdepim-runtime
 #kdepim is split up:
@@ -55,5 +57,5 @@ korganizer
 mbox-importer
 pim-data-exporter
 pim-sieve-editor
-pim-storage-service-manager
+#pim-storage-service-manager
 
