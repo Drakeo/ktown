@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2016  Eric Hameleers, Eindhoven, NL
+# Copyright 2016, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2016  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,7 +23,7 @@
 
 
 PKGNAM=ninja
-VERSION=${VERSION:-1.6.0}
+VERSION=${VERSION:-1.7.2}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}

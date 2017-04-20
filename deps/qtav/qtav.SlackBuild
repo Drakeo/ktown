@@ -24,9 +24,11 @@
 # -----------------------------------------------------------------------------
 
 
-PKGNAM=accountsservice
-VERSION=${VERSION:-0.6.45}
+PKGNAM=qtav
+SRCNAM=QtAV
+VERSION=${VERSION:-1.11.0}
 BUILD=${BUILD:-1}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -43,86 +45,72 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-case "$ARCH" in
-  i486)      SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-             SLKLDFLAGS=""; LIBDIRSUFFIX=""
-             ;;
-  x86_64)    SLKCFLAGS="-O2 -fPIC"
-             SLKLDFLAGS="-L/usr/lib64"; LIBDIRSUFFIX="64"
-             ;;
-  armv7hl)   SLKCFLAGS="-O2 -march=armv7-a -mfpu=vfpv3-d16"
-             SLKLDFLAGS=""; LIBDIRSUFFIX=""
-             ;;
-  armv6hl)   SLKCFLAGS="-O2 -march=armv6 -mfpu=vfp -mfloat-abi=hard"
-             SLKLDFLAGS=""; LIBDIRSUFFIX=""
-             ;;
-  *)         SLKCFLAGS=${SLKCFLAGS:-"O2"}
-             SLKLDFLAGS=${SLKLDFLAGS:-""}; LIBDIRSUFFIX=${LIBDIRSUFFIX:-""}
-             ;;
-esac
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  SLKLDFLAGS="-L/usr/lib64"
+  LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "armv7hl" ]; then
+  SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+else
+  SLKCFLAGS="-O2"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+fi
 
 case "$ARCH" in
-    arm*)    TARGET=$ARCH-slackware-linux-gnueabi ;;
-    *)       TARGET=$ARCH-slackware-linux ;;
+    arm*) TARGET=$ARCH-slackware-linux-gnueabi ;;
+    *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
-cd $PKGNAM-$VERSION || exit 1
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
+cd $SRCNAM-$VERSION || exit 1
+
+# Fix bogus permissions:
 chown -R root:root .
-find -L . \
- \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
  -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-[ ! -x configure ] && autoreconf -vif
+export CFLAGS="$SLKCFLAGS"
+export CXXFLAGS="$SLKCFLAGS"
+export LDFLAGS="$SLKLDFLAGS"
 
-LDFLAGS="$SLKLDFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-CFLAGS="$SLKCFLAGS" \
-./configure \
-  --prefix=/usr \
-  --libdir=/usr/lib${LIBDIRSUFFIX} \
-  --mandir=/usr/man \
-  --docdir=/usr/doc/$PKGNAM-$VERSION \
-  --localstatedir=/var \
-  --sysconfdir=/etc \
-  --disable-gtk-doc \
-  --disable-systemd \
-  --enable-admin-group=wheel \
-  --program-prefix= \
-  --program-suffix= \
-  --build=$TARGET
+qmake-qt5 INSTALL_PREFIX=/usr "CONFIG+=no-tests no_rpath recheck"
+make $NUMJOBS || make || exit 1
+make INSTALL_ROOT=$PKG install || exit 1
 
-# Build and install:
-make || exit 1
-make DESTDIR=$PKG install || exit 1
+# Create symlinks for the binaries; these are referenced in *.desktop:
+mkdir -p $PKG/usr/bin
+ln -s ../lib${LIBDIRSUFFIX}/qt5/bin/Player $PKG/usr/bin
+ln -s ../lib${LIBDIRSUFFIX}/qt5/bin/QMLPlayer $PKG/usr/bin
 
-# Add documentation:
+# Fix documentation directory:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
-cp -a \
-  AUTHORS COPYING NEWS README TODO \
-  $PKG/usr/doc/$PKGNAM-$VERSION
+mv $PKG/usr/share/doc/* $PKG/usr/doc/$PKGNAM-$VERSION/
+rmdir $PKG/usr/share/doc
 
-# Compress the man page(s):
-if [ -d $PKG/usr/man ]; then
-  find $PKG/usr/man -type f -name "*.?" -exec gzip -9f {} \;
-  for i in $(find $PKG/usr/man -type l -name "*.?") ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
-fi
-
-# Strip binaries (if any):
-find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+# Strip binaries:
+find $PKG | xargs file | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
 # Add a package description:
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 # Build the package:
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
 

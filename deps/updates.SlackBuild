@@ -60,6 +60,7 @@ ALLDEPS=" \
   libpwquality \
   accountsservice \
   libburn \
+  qtav \
   "
   # Only needed when adding support for Wayland:
   #elogind \
