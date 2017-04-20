@@ -1,42 +1,46 @@
 KDE5
 ====
 
-Here is KDE 5_17.03 for Slackware, consisting of the KDE Frameworks 5.32.0,
-Plasma 5.9.3 and Applications 16.12.3 on top of Qt 5.7.1.
+Here is KDE 5_17.04 for Slackware, consisting of the KDE Frameworks 5.33.0,
+Plasma 5.9.4 and Applications 17.04.0 on top of Qt 5.7.1.
 
-Upgrading from the previous 5_17.02 is straight-forward.
+Upgrading from the previous 5_17.03 is straight-forward.
 
-KDE-5_17.03 is meant to be installed on top of Slackware -current.
+KDE-5_17.04 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.
 
 What is the NEWS in this batch of updates:
-- The 'deps' section has some interesting updates this time. Two upgraded
-  packages: phonon-vlc and qca-qt5. Also six new ones to support digikam
-  and kdenlive: lensfun, opencv, frei0r-plugins, vid.stab, dvdauthor and mlt.
-  You may already have one or more of these installed from SBo, so make sure
-  to upgrade to mine to prevent breakage in digikam and kdenlive.  Notably,
-  the SBo version of 'frei0r-plugins' package is called 'frei0r'.
-- Frameworks 5.32.0 is an enhancement release, nothing exciting.
-  See https://www.kde.org/announcements/kde-frameworks-5.32.0.php
-- Plasma 5.9.3 is yet another iteration of the 5.9 series with small fixes only.
-  See https://www.kde.org/announcements/plasma-5.9.3.php .
-- Applications 16.12.3 is an incremental fix-release in the 16.12 series.
-  See https://www.kde.org/announcements/announce-applications-16.12.3.php .
-  This time I have built the 'libkface' and 'kdenlive' packages now that
-  their dependencies have been fulfilled.
-- Applications-extra contains two new packages: digikam and krusader.
-  I have also added a beta release of k3b (now finally a KF5 port)
-  which will see its first new official release as part of Applications
-  17.04.  And finally, I upgraded the kdevelop related packages.
-- In plasma-extra I rebuilt the sddm-qt5 package, enabling the dutch
-  translation and making sure that SDDM picks up your $LANG settings.
+- The 'deps' section has one recompiled package (because of incompatible
+  library updates in slackware-current): dvdauthor, and five upgrades:
+  accountsservice, frei0r-plugins, gpgme, ninja and poppler.
+  There's also one new package: qtav as a new dependency for digikam.
+- Frameworks 5.33.0 is an bugfix release.
+  See https://www.kde.org/announcements/kde-frameworks-5.33.0.php
+- Plasma 5.9.4 is yet another iteration of the 5.9 series with small fixes only.
+  See https://www.kde.org/announcements/plasma-5.9.4.php .
+- Applications 17.04.0 is an new major release.  Again some remaining kdelibs4
+  based applications have been ported to KF5.
+  See https://www.kde.org/announcements/announce-applications-17.04.0.php .
+  The k3b is now part of the Applications suite, so I have removed the package
+  based on a git snapshot from 'applications-extra'.  Another package which
+  is no longer part of my 'ktown' set: kajongg (it requires python3 now).
+  Two packages are no longer shipped becasue their sources are no longer part
+  of Applications: pim-storage-service-manager and kommander.
+- In applications-extra I added the latest releases of the kdevelop suite
+  and of kpmcore (the partitionmanager core libraries).  I rebuilt digikam
+  against qtav.
+  The newest calligra was already added last week as part of a package
+  rebuild, caused by slackware-current library updates. 
+- In kde4-extragear I have added audiocd-kio4 and libkcompactdisc4 which are
+  built from kdelibs4 based Applications 16.08.3 sources.
+  The audiocd-kio4, libkcddb4 and libkcompactdisc4 packages are (only)
+  required by kaudiocreator.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
   ktown repository, but you may want to consider installing them yourself:
   * vlc - will give phonon another backend to select from.
-  * python-twisted - required by kajongg to start & run.
   * freerdp: access RDP servers through krdc.
   All of these can be found in my regular package repository.
 - The following kde/kde4-extragear packages should be taken from slackware
@@ -56,7 +60,10 @@ Further points of interest:
   Slackware-current.  Technically that makes them redundant in the above
   listing, however I still compile Plasma5 packages for Slackware 14.2 so
   I left them in.
-  The phonon package was extended so that it now supports both Qt4 and Qt5.
+  The phonon and poppler packages were extended so that they now support
+  Qt4 as well as Qt5.
+  Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
+  If you have that SBo package installed, remove it.
 - A completely new subset of "deps" packages, contained in their own
   "telepathy" subdirectory, needed for KDE Telepathy:
   libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
@@ -67,11 +74,11 @@ Further points of interest:
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
 - The kde/kde4 and kde/kde4-extragear directories contain packages that are
   still required to support kdelibs4-based Applications.
-- Also worth mentioning: the KF5 ports of k3b, calligra, krita, ktorrent,
+- Also worth mentioning: the KF5 ports of calligra, digikam, krita, ktorrent,
   partitionmanager, skanlite and the KDE Development Suite can be found
   in kde/applications-extra . 
-  Finally, kjots (previously contained in KDEPIM) and kuser have been moved
-  into kde/applications-extra as well.
+  Finally, kjots (previously contained in KDEPIM) and kuser (abandoned by its
+  developer) have been moved into kde/applications-extra as well.
 
 NOTE:
 If you install a 32bit program on a 64bit Slackware computer with multilib
@@ -134,7 +141,9 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg polkit-kde-agent-1
   # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
+  # removepkg kdepim
   # removepkg kdepimlibs
+  # removepkg kdev-python
   # removepkg kdevelop-php
   # removepkg kdevelop-php-docs
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
@@ -148,6 +157,13 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.03 installed:
+- Upgrade to KDE 5_17.04
+  Remove the packages that no longer exist in KDE 5_17.04:
+  * removepkg kajongg
+  * removepkg kommander
+  * removepkg pim-storage-service-manager
 
 If you have my 'ktown' set of KDE 5_17.02 installed:
 - No further actions are needed.
@@ -164,6 +180,7 @@ If you have my 'ktown' set of KDE 5_16.12 installed:
   * removepkg nepomuk
   * removepkg nepomuk-widgets
   * removepkg gpgmepp
+  * removepkg kdgantt2
   * removepkg kde-baseapps kdepim kdewebdev
 
 If you have my 'ktown' set of KDE 5_16.11 installed:
@@ -326,4 +343,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 18-mar-2017
+                     Eric Hameleers / alien at slackware dot com / 20-apr-2017
