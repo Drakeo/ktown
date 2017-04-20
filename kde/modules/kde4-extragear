@@ -1,8 +1,10 @@
+kio-mtp
 libkcddb4
+libkcompactdisc4
+audiocd-kio4
 #kaudiocreator
 #kplayer
-kwebkitpart
-oxygen-gtk2
-kio-mtp
+#kwebkitpart
+#oxygen-gtk2
 #kdeconnect4
 
