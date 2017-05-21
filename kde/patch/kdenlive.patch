@@ -1,0 +1,4 @@
+# Fix compilation with gcc7.
+# Fixed in  17.04.2.
+cat $CWD/patch/kdenlive/kdenlive_gcc7.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

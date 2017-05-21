@@ -1,0 +1,32 @@
+# Make kdenlive compile with gcc7
+
+--- kdenlive-17.04.1/src/profiles/tree/profiletreemodel.cpp.orig	2017-05-08 19:52:35.000000000 +0200
++++ kdenlive-17.04.1/src/profiles/tree/profiletreemodel.cpp	2017-05-19 08:09:04.986909338 +0200
+@@ -27,6 +27,7 @@
+ #include <QVector>
+ #include <array>
+ #include <KLocalizedString>
++#include <functional>
+ 
+ 
+ class ProfileItem
+--- kdenlive-17.04.1/src/scopes/audioscopes/spectrogram.cpp.orig	2017-05-08 19:52:35.000000000 +0200
++++ kdenlive-17.04.1/src/scopes/audioscopes/spectrogram.cpp	2017-05-19 08:09:04.993910503 +0200
+@@ -241,7 +241,7 @@
+                 x = leftDist + (m_innerScopeRect.width() - 1) * ((float)hz) / m_freqMax;
+ 
+                 // Hide text if it would overlap with the text drawn at the mouse position
+-                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - (leftDist + mouseX + 20)) < (int) minDistX + 16
++                hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - ((int)leftDist + mouseX + 20)) < (int) minDistX + 16
+                            && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+ 
+                 if (x <= rightBorder) {
+@@ -268,7 +268,7 @@
+             }
+             // Draw the line at the very right (maximum frequency)
+             x = leftDist + m_innerScopeRect.width() - 1;
+-            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - (leftDist + mouseX + 30)) < (int) minDistX
++            hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - ((int)leftDist + mouseX + 30)) < (int) minDistX
+                        && mouseX < m_innerScopeRect.width() && mouseX >= 0;
+             davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
+             if (!hideText) {

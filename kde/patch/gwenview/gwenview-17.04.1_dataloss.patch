@@ -1,0 +1,131 @@
+From 6ce5d2f8d82f83c5a3d726ee5807ebaf7a6e3c6c Mon Sep 17 00:00:00 2001
+From: Henrik Fehlauer <rkflx@lab12.net>
+Date: Thu, 11 May 2017 22:40:15 +0200
+Subject: Avoid data loss when importing pictures
+
+Summary:
+Fix porting regressions, which left users of Gwenview Importer with:
+- failed import (import destination still empty)
+- additionally (when choosing "Delete" instead of "Keep" after import):
+  pictures also removed from import source, with no way to recover
+
+Correct additional problems remaining after fixing the import failure:
+- hang on duplicate filenames
+- identically named files with different content are never imported
+- error dialog when deleting pictures from import source
+
+BUG: 379615
+
+In detail:
+
+1st problem (introduced in 017b4fe5dc7f4b6e876cfd7b108dcebbf609ae94):
+
+  Initially, pictures are copied to a temporary folder
+  (e.g. "foo/.gwenview_importer-IcQqvo/"), before being moved/renamed
+  to the final destination (e.g. "foo/"), which is determined by
+  calling "cd .." on the temporary folder.
+
+  However, mistakenly this path contains a superfluous '/'
+  (e.g. "foo/.gwenview_importer-IcQqvo//"), resulting in the final
+  destination reading "foo/.gwenview_importer-IcQqvo/" instead of
+  "foo/". On cleanup, the temporary folder is removed, simultaneously
+  deleting all new pictures.
+
+  Fix: Omit '/' where appropriate.
+
+2nd problem (broken by a3262e9b197ee97323ef8bf3a9dca1e13f61a74c):
+
+  When trying to find a unique filename, the while loop "stat"ing the
+  file repeats forever.
+
+  Fix: Call "KIO::stat" and "KJobWidgets::setWindow"
+       also inside the loop.
+
+3rd problem (introduced in 017b4fe5dc7f4b6e876cfd7b108dcebbf609ae94):
+
+  If the destination directory already contains an identically named
+  file, we try to find a different name by appending a number. For
+  this, we need to strip the old filename from the full path.
+  Unfortunately, only calling "path()" is incorrect, giving
+  "foo/pict0001.jpg/pict0001_1.jpg", rather than "foo/pict0001_1.jpg".
+
+  Fix: Use "adjusted(QUrl::RemoveFilename)".
+
+4th problem (broken by a3262e9b197ee97323ef8bf3a9dca1e13f61a74c):
+
+  Although deletion works, we show a warning dialog stating failure.
+
+  Fix: Invert the logic of "job->exec()", as the error handling should
+       be skipped by "break"ing out of the while loop.
+
+Test Plan:
+Steps to reproduce (see https://bugs.kde.org/show_bug.cgi?id=379615) no longer result in data loss.
+
+Autotests for importer (separate review request in D5750) pass. Hopefully, this helps catching any future porting regressions.
+
+Reviewers: ltoscano, sandsmark, gateau
+
+Reviewed By: ltoscano
+
+Differential Revision: https://phabricator.kde.org/D5749
+---
+ importer/fileutils.cpp    | 5 ++++-
+ importer/importdialog.cpp | 2 +-
+ importer/importer.cpp     | 4 ++--
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/importer/fileutils.cpp b/importer/fileutils.cpp
+index 5293d56..a51a18c 100644
+--- a/importer/fileutils.cpp
++++ b/importer/fileutils.cpp
+@@ -128,7 +128,10 @@ RenameResult rename(const QUrl& src, const QUrl& dst_, QWidget* authWindow)
+         }
+         result = RenamedUnderNewName;
+ 
+-        dst.setPath(dst.path() + '/' + prefix + QString::number(count) + suffix);
++        dst.setPath(dst.adjusted(QUrl::RemoveFilename).path() + prefix + QString::number(count) + suffix);
++        statJob = KIO::stat(dst);
++        KJobWidgets::setWindow(statJob, authWindow);
++
+         ++count;
+     }
+ 
+diff --git a/importer/importdialog.cpp b/importer/importdialog.cpp
+index ee6f7cd..5e9e847 100644
+--- a/importer/importdialog.cpp
++++ b/importer/importdialog.cpp
+@@ -121,7 +121,7 @@ public:
+         QList<QUrl> urls = importedUrls + skippedUrls;
+         while (true) {
+             KIO::Job* job = KIO::del(urls);
+-            if (!job->exec()) {
++            if (job->exec()) {
+                 break;
+             }
+             // Deleting failed
+diff --git a/importer/importer.cpp b/importer/importer.cpp
+index 51c4b96..a7e1d4e 100644
+--- a/importer/importer.cpp
++++ b/importer/importer.cpp
+@@ -98,7 +98,7 @@ struct ImporterPrivate
+         }
+         mCurrentUrl = mUrlList.takeFirst();
+         QUrl dst = mTempImportDirUrl;
+-        dst.setPath(dst.path() + '/' + mCurrentUrl.fileName());
++        dst.setPath(dst.path() + mCurrentUrl.fileName());
+         KIO::Job* job = KIO::copy(mCurrentUrl, dst, KIO::HideProgressInfo);
+         KJobWidgets::setWindow(job, mAuthWindow);
+         QObject::connect(job, SIGNAL(result(KJob*)),
+@@ -122,7 +122,7 @@ struct ImporterPrivate
+         } else {
+             fileName = src.fileName();
+         }
+-        dst.setPath(dst.path() + '/' + fileName);
++        dst.setPath(dst.path() + fileName);
+ 
+         FileUtils::RenameResult result = FileUtils::rename(src, dst, mAuthWindow);
+         switch (result) {
+-- 
+cgit v0.11.2
+
+
