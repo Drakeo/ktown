@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -24,7 +24,7 @@
 
 
 PKGNAM=json-glib
-VERSION=${VERSION:-1.0.4}
+VERSION=${VERSION:-1.2.8}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:" -j4 "}

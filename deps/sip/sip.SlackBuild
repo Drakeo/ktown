@@ -26,8 +26,8 @@
 
 
 PKGNAM=sip
-VERSION=${VERSION:-4.19}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-4.19.2}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -80,7 +80,8 @@ python configure.py \
   -d "$PYTHONLIB" \
   -e "/usr/include/python$PYTHONVER" \
   CFLAGS="$SLKCFLAGS" \
-  CXXFLAGS="$SLKCFLAGS"
+  CXXFLAGS="$SLKCFLAGS" \
+  || exit 1
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
