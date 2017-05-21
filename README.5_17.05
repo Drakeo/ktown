@@ -1,41 +1,26 @@
 KDE5
 ====
 
-Here is KDE 5_17.04 for Slackware, consisting of the KDE Frameworks 5.33.0,
-Plasma 5.9.4 and Applications 17.04.0 on top of Qt 5.7.1.
+Here is KDE 5_17.05 for Slackware, consisting of the KDE Frameworks 5.33.0,
+Plasma 5.9.5 and Applications 17.04.0 on top of Qt 5.7.1.
 
-Upgrading from the previous 5_17.03 is straight-forward.
+Upgrading from the previous 5_17.04 is straight-forward.
 
-KDE-5_17.04 is meant to be installed on top of Slackware -current.
+KDE-5_17.05 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.
 
 What is the NEWS in this batch of updates:
-- The 'deps' section has one recompiled package (because of incompatible
-  library updates in slackware-current): dvdauthor, and five upgrades:
-  accountsservice, frei0r-plugins, gpgme, ninja and poppler.
-  There's also one new package: qtav as a new dependency for digikam.
-- Frameworks 5.33.0 is an bugfix release.
-  See https://www.kde.org/announcements/kde-frameworks-5.33.0.php
-- Plasma 5.9.4 is yet another iteration of the 5.9 series with small fixes only.
-  See https://www.kde.org/announcements/plasma-5.9.4.php .
-- Applications 17.04.0 is an new major release.  Again some remaining kdelibs4
-  based applications have been ported to KF5.
-  See https://www.kde.org/announcements/announce-applications-17.04.0.php .
-  The k3b is now part of the Applications suite, so I have removed the package
-  based on a git snapshot from 'applications-extra'.  Another package which
-  is no longer part of my 'ktown' set: kajongg (it requires python3 now).
-  Two packages are no longer shipped becasue their sources are no longer part
-  of Applications: pim-storage-service-manager and kommander.
-- In applications-extra I added the latest releases of the kdevelop suite
-  and of kpmcore (the partitionmanager core libraries).  I rebuilt digikam
-  against qtav.
-  The newest calligra was already added last week as part of a package
-  rebuild, caused by slackware-current library updates. 
-- In kde4-extragear I have added audiocd-kio4 and libkcompactdisc4 which are
-  built from kdelibs4 based Applications 16.08.3 sources.
-  The audiocd-kio4, libkcddb4 and libkcompactdisc4 packages are (only)
-  required by kaudiocreator.
+No exciting stuff, the changes compared to last week are minimal.
+- The 'deps' section has two updated packages: json-glib and sip.
+- Plasma 5.9.5 is the final bugfix release of the 5.9 series before 5.10.
+  The oxygen theme package is now extended with Qt4 support so that KDE4
+  applications can blend in with the Plasma 5 applications if you use the
+  Oxygen theme.
+  See https://www.kde.org/announcements/plasma-5.9.5.php .
+- In applications-extra I updated krita and krusader, and rebuilt calligra.
+- In kde4-extragear I added a patched oxygen-gtk2 package which should
+  fix crashes in firefox-derived browsers such as Pale Moon.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -44,7 +29,7 @@ Further points of interest:
   * freerdp: access RDP servers through krdc.
   All of these can be found in my regular package repository.
 - The following kde/kde4-extragear packages should be taken from slackware
-  itself: kaudiocreator, kplayer, kwebkitpart, oxygen-gtk2 .
+  itself: kaudiocreator, kplayer, kwebkitpart.
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
@@ -105,7 +90,6 @@ If you decide to install these packages on top of a fresh installation of
     * kaudiocreator
     * kplayer
     * kwebkitpart
-    * oxygen-gtk2
 
 NOTE:
 If you had installed KDE 4 as your default desktop previously, the removal
@@ -157,6 +141,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.04 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.03 installed:
 - Upgrade to KDE 5_17.04
@@ -343,4 +330,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 20-apr-2017
+                     Eric Hameleers / alien at slackware dot com / 04-may-2017
