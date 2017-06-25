@@ -1,0 +1,8 @@
+# Trivial patch for testing the CK2 session controller interface
+# as a replacement for systemd-logind;
+cat $CWD/patch/kwin/kwin_replace_logind_with_ck2.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Workaround Qt regression no longer delivering events for the root window.
+# Fixed in kwin 5.10.3.
+cat $CWD/patch/kwin/kwin_qt59_rootwindow_events.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
