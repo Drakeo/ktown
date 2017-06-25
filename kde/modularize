@@ -145,6 +145,8 @@ plasma-pa
 plasma-tests
 user-manager
 discover
+xdg-desktop-portal-kde
+plymouth-kcm
 
 # plasma-extra
 sddm-qt5

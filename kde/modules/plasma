@@ -38,6 +38,8 @@ plasma-pa
 #plasma-tests
 kactivitymanagerd
 user-manager
+xdg-desktop-portal-kde
+#plymouth-kcm
 #muon
 #kwallet-pam
 #discover
