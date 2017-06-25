@@ -1,4 +1,4 @@
 # Prevent dataloss when importing pictures;
 # Will be fixed in 17.04.2:
-cat $CWD/patch/gwenview/gwenview-17.04.1_dataloss.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/gwenview/gwenview-17.04.1_dataloss.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
