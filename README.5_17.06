@@ -1,30 +1,42 @@
 KDE5
 ====
 
-Here is KDE 5_17.05_02 for Slackware, consisting of the KDE Frameworks 5.34.0,
-Plasma 5.9.5 and Applications 17.04.1 on top of Qt 5.7.1.
+Here is KDE 5_17.06 for Slackware, consisting of the KDE Frameworks 5.35.0,
+Plasma 5.10.2 and Applications 17.04.2 on top of Qt 5.9.0.
 
-Upgrading from the previous 5_17.05 is straight-forward.
+Upgrading from the previous 5_17.05_02 is straight-forward.
 
-KDE-5_17.05_02 is meant to be installed on top of Slackware -current.
+KDE-5_17.06 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.
 
 What is the NEWS in this batch of updates:
-All new packages were compiled with the new gcc 7.1.0 compilers of
-Slackware-current - and that went more smooth than I had anticipated.
-- Old news of course is that the Plasma update to 5.9.5 happened two weeks
-  ago, in my KDE-5_17.05 release. 
-- Frameworks 5.34.0 is a maintenance release, see
-  https://www.kde.org/announcements/kde-frameworks-5.34.0.php
-- Applications 17.04.1 is the first bugfix update for KDE Applications 17.04.
-  See https://www.kde.org/announcements/announce-applications-17.04.1.php .
+- I moved to Qt version 5.9.0. This is supposed to be a LTS release
+  (Long Term Support).
+- As a result of the qt5 upgrade, lots of other packages in the 'deps' section
+  were recompiled (grantlee phonon polkit-qt5-1 qca-qt5 qt-gstreamer qtav)
+  or upgraded (OpenAL PyQt5 libdbusmenu-qt5 poppler qt5-webkit wayland).
+- Plasma was updated to 5.10.2 bugfix release, see
+  https://www.kde.org/announcements/plasma-5.10.2.php . And if you want to
+  know more about what's new in Plasma 5.10, read it on
+  https://www.kde.org/announcements/plasma-5.10.0.php
+  I compiled plasma-nm against openconnect so that it picks up support for
+  it.  However I did not add openconnect to the 'deps' section, you need
+  to install it separately if you need it. 
+- Frameworks 5.35.0 is a maintenance release, see
+  https://www.kde.org/announcements/kde-frameworks-5.35.0.php
+- Applications 17.04.2 is a bugfix update for KDE Applications 17.04.
+  See https://www.kde.org/announcements/announce-applications-17.04.2.php .
+- In applications-extra the following packages were upgraded: digikam,
+  krita,  kpmcore, partitionmanager. Calligra was recompiled against the
+  new gsl, marble and qt5 libraries.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
   ktown repository, but you may want to consider installing them yourself:
   * vlc - will give phonon another backend to select from.
   * freerdp: access RDP servers through krdc.
+  * openconnect: support for Cisco's SSL VPN.
   All of these can be found in my regular package repository.
 - The following kde/kde4-extragear packages should be taken from slackware
   itself: kaudiocreator, kplayer, kwebkitpart.
@@ -139,6 +151,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.05_02 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.05 installed:
 - No further actions are needed.
@@ -331,4 +346,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 21-may-2017
+                     Eric Hameleers / alien at slackware dot com / 25-jun-2017
