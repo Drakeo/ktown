@@ -25,7 +25,7 @@
 
 PKGNAM=OpenAL
 SRCNAM=openal-soft
-VERSION=${VERSION:-1.17.2}
+VERSION=${VERSION:-1.18.0}
 BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:" -j4 "}
 
@@ -42,7 +42,7 @@ else
   MARCH=$( uname -m )
   if [ -z "$ARCH" ]; then
     case "$MARCH" in
-      i?86)    export ARCH=i486 ;;
+      i?86)    export ARCH=i586 ;;
       arm*)    export ARCH=arm ;;
       # Unless $ARCH is already set, use uname -m for all other archs:
       *)       export ARCH=$MARCH ;;
@@ -51,6 +51,12 @@ else
   # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
   if [ "$ARCH" = "i486" ]; then
     SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "i686" ]; then
+    SLKCFLAGS="-O2 -march=i686 -mtune=i686"
     LIBDIRSUFFIX=""
   elif [ "$ARCH" = "s390" ]; then
     SLKCFLAGS="-O2"
@@ -100,7 +106,9 @@ install -m0644 alsoftrc.sample $PKG/etc/openal/alsoft.conf.sample
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
-cp -a COPYING README env-vars.txt hrtf.txt $PKG/usr/doc/$PKGNAM-$VERSION || true
+cp -a \
+  COPYING ChangeLog README XCompile.txt docs/*.txt \
+  $PKG/usr/doc/$PKGNAM-$VERSION || true
 chown -R root:root $PKG/usr/doc/$PKGNAM-$VERSION
 find $PKG/usr/doc -type f -exec chmod 644 {} \;
 

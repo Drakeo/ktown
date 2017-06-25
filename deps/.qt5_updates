@@ -1,2 +1,3 @@
-sni-qt qca-qt5 qt-gstreamer phonon PyQt5 polkit-qt5-1 grantlee poppler libdbusmenu-qt5
-
+#sni-qt qca-qt5 qt-gstreamer phonon PyQt5 polkit-qt5-1 grantlee poppler libdbusmenu-qt5
+# 20170620 after qt5 & qt5-webkit:
+OpenAL qt-gstreamer phonon PyQt5 polkit-qt5-1 grantlee poppler libdbusmenu-qt5 qca-qt5 qtav wayland

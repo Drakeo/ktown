@@ -22,10 +22,10 @@
 
 # Derived from the qt5.SlackBuild
 
-# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0, 5.7.1 2016,2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0, 5.7.1, 5.9.0 2016,2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5-webkit
-VERSION=${VERSION:-5.7.1}
+VERSION=${VERSION:-5.9.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -33,7 +33,7 @@ NUMJOBS=${NUMJOBS:--j7}
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -43,6 +43,10 @@ fi
 
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
@@ -131,9 +135,9 @@ sed -i \
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
 
-# Fix the qmake path in pri file:
-sed -i "s,${QTDIR}/qtbase,/usr/lib${LIBDIRSUFFIX}/qt5," \
-  $PKG/usr/lib${LIBDIRSUFFIX}/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
+## Fix the qmake path in pri file:
+#sed -i "s,${QTDIR}/qtbase,/usr/lib${LIBDIRSUFFIX}/qt5," \
+#  $PKG/usr/lib${LIBDIRSUFFIX}/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
 
 # Add a documentation directory:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION

@@ -24,7 +24,7 @@
 
 
 PKGNAM=wayland
-VERSION=${VERSION:-1.12.0}
+VERSION=${VERSION:-1.13.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:" -j4 "}
@@ -42,7 +42,7 @@ else
   MARCH=$( uname -m )
   if [ -z "$ARCH" ]; then
     case "$MARCH" in
-      i?86)    export ARCH=i486 ;;
+      i?86)    export ARCH=i586 ;;
       arm*)    export ARCH=arm ;;
       # Unless $ARCH is already set, use uname -m for all other archs:
       *)       export ARCH=$MARCH ;;
@@ -51,6 +51,9 @@ else
   # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
   if [ "$ARCH" = "i486" ]; then
     SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+    LIBDIRSUFFIX=""
+  elif [ "$ARCH" = "i586" ]; then
+    SLKCFLAGS="-O2 -march=i586 -mtune=i686"
     LIBDIRSUFFIX=""
   elif [ "$ARCH" = "s390" ]; then
     SLKCFLAGS="-O2"

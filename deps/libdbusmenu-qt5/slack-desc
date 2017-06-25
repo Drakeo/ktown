@@ -12,7 +12,7 @@ libdbusmenu-qt5: This library provides a Qt5 implementation of the DBusMenu prot
 libdbusmenu-qt5: The DBusMenu protocol makes it possible for applications to export
 libdbusmenu-qt5: and import their menus over DBus.
 libdbusmenu-qt5:
-libdbusmenu-qt5: Homepage:  http://people.canonical.com/~agateau/dbusmenu/
+libdbusmenu-qt5: Homepage:  https://launchpad.net/libdbusmenu-qt
 libdbusmenu-qt5:
 libdbusmenu-qt5:
 libdbusmenu-qt5:
