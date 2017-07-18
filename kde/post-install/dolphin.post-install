@@ -3,7 +3,7 @@ mkdir -p $PKG/usr/share/applications
 cat <<EOT > $PKG/usr/share/applications/org.kde.dolphinsu.desktop
 [Desktop Entry]
 Name=File Manager - Super User Mode
-Exec=dbus-launch dolphin %i -caption "%c" "%u"
+Exec=dbus-launch dolphin -qwindowtitle "%c" "%u"
 Icon=system-file-manager
 Type=Application
 X-DocPath=dolphin/index.html
