@@ -1,35 +1,30 @@
 KDE5
 ====
 
-Here is KDE 5_17.06 for Slackware, consisting of the KDE Frameworks 5.35.0,
-Plasma 5.10.2 and Applications 17.04.2 on top of Qt 5.9.0.
+Here is KDE 5_17.07 for Slackware, consisting of the KDE Frameworks 5.36.0,
+Plasma 5.10.3 and Applications 17.04.3 on top of Qt 5.9.0.
 
-Upgrading from the previous 5_17.05_02 is straight-forward.
+Upgrading from the previous 5_17.06 is straight-forward.
 
-KDE-5_17.06 is meant to be installed on top of Slackware -current.
+KDE-5_17.07 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
-has mostly gotten rid of its Qt4 legacy.
+has mostly gotten rid of its Qt4 legacy.  Applications 17.12 will no longer
+ship anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- I moved to Qt version 5.9.0. This is supposed to be a LTS release
-  (Long Term Support).
-- As a result of the qt5 upgrade, lots of other packages in the 'deps' section
-  were recompiled (grantlee phonon polkit-qt5-1 qca-qt5 qt-gstreamer qtav)
-  or upgraded (OpenAL PyQt5 libdbusmenu-qt5 poppler qt5-webkit wayland).
-- Plasma was updated to 5.10.2 bugfix release, see
-  https://www.kde.org/announcements/plasma-5.10.2.php . And if you want to
+- Plasma was updated to 5.10.3 bugfix release, see
+  https://www.kde.org/announcements/plasma-5.10.3.php . And if you want to
   know more about what's new in Plasma 5.10, read it on
   https://www.kde.org/announcements/plasma-5.10.0.php
   I compiled plasma-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it. 
-- Frameworks 5.35.0 is a maintenance release, see
-  https://www.kde.org/announcements/kde-frameworks-5.35.0.php
-- Applications 17.04.2 is a bugfix update for KDE Applications 17.04.
-  See https://www.kde.org/announcements/announce-applications-17.04.2.php .
-- In applications-extra the following packages were upgraded: digikam,
-  krita,  kpmcore, partitionmanager. Calligra was recompiled against the
-  new gsl, marble and qt5 libraries.
+- Frameworks 5.36.0 is a maintenance release, see
+  https://www.kde.org/announcements/kde-frameworks-5.36.0.php
+- Applications 17.04.3 is a bugfix update for KDE Applications 17.04.
+  See https://www.kde.org/announcements/announce-applications-17.04.3.php .
+- In applications-extra I added a new package: 'kile', a LaTex editor.
+  I used a git snapshot of the upcoming KDE Frameworks 5 based version.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -46,15 +41,15 @@ Further points of interest:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, cfitsio, dvdauthor, frei0r-plugins, grantlee-qt4,
-  hack-font-ttf, json-glib, lensfun, libappindicator, libdbusmenu-gtk,
-  libdbusmenu-qt5, libdmtx, libindicator, libinput, libwacom, libxkbcommon,
-  lmdb, mlt, ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1,
-  qca-qt5, qrencode, qt-gstreamer, qt5, qt5-webkit, sni-qt, vid.stab
-  and wayland.  As a side note, libinput and libwacom have become part of
-  Slackware-current.  Technically that makes them redundant in the above
-  listing, however I still compile Plasma5 packages for Slackware 14.2 so
-  I left them in.
+  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, dvdauthor, frei0r-plugins,
+  grantlee-qt4, hack-font-ttf, json-glib, lensfun, libappindicator, libburn,
+  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput,
+  libpwquality, libwacom, libxkbcommon, lmdb, mlt, ninja, noto-font-ttf,
+  noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5, qrencode, qt-gstreamer,
+  qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  As a side note, libinput and libwacom have become part of Slackware-current.
+  Technically that makes them redundant in the above listing, however I still
+  compile Plasma5 packages for Slackware 14.2 so I left them in.
   The phonon and poppler packages were extended so that they now support
   Qt4 as well as Qt5.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
@@ -69,15 +64,15 @@ Further points of interest:
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
 - The kde/kde4 and kde/kde4-extragear directories contain packages that are
   still required to support kdelibs4-based Applications.
-- Also worth mentioning: the KF5 ports of calligra, digikam, krita, ktorrent,
-  partitionmanager, skanlite and the KDE Development Suite can be found
-  in kde/applications-extra . 
+- Also worth mentioning: the KF5 ports of calligra, digikam, kile, krita,
+  ktorrent, partitionmanager, skanlite and the KDE Development Suite
+  can be found in kde/applications-extra . 
   Finally, kjots (previously contained in KDEPIM) and kuser (abandoned by its
   developer) have been moved into kde/applications-extra as well.
 
 NOTE:
 If you install a 32bit program on a 64bit Slackware computer with multilib
-and that program needs legacy system tray support (think of Skype for
+and that program needs legacy system tray support (think of Steam for
 instance), you will have to grab the 32-bit version of Slackware's
 'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
 'convertpkg-compat32 -i' command on them to create 'compat32' versions of these
@@ -151,6 +146,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.06 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.05_02 installed:
 - No further actions are needed.
@@ -234,9 +232,8 @@ string with /14.2/ (provided there is a suitable 'ktown' release available
 for Slackware 14.2 of course):
 
 NOTE:
-Instead of using the mirror host bear.alienbase.nl/mirrors/alien-kde/
-you could choose the master host alien.slackbook.org/alien/ktown/
-but that will probably be a lot slower for some of you.
+Instead of using the mirror host bear.alienbase.nl/mirrors/alien-kde/ ,
+you could choose the alternative mirror http://slackware.uk/people/alien-kde/ 
 
 NOTE:
 If you use 'slackpkg' to automate your upgrades, be sure to blacklist my
@@ -346,4 +343,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 25-jun-2017
+                     Eric Hameleers / alien at slackware dot com / 17-jul-2017
