@@ -1,0 +1,15 @@
+Qt5 .desktop files for apps accept qwindowtitle, not caption.
+However, the 17.04 branch of ksudoku is still kdelibs4 based, and the
+patch applied to KDE BUG 381087 broke the launch of ksudoku here:
+
+--- a/src/gui/org.kde.ksudoku.desktop	2017-06-13 02:44:11.000000000 +0200
++++ b/src/gui/org.kde.ksudoku.desktop	2017-07-15 11:58:32.027477614 +0200
+@@ -50,7 +50,7 @@
+ Name[x-test]=xxKSudokuxx
+ Name[zh_CN]=KSudoku
+ Name[zh_TW]=KSudoku
+-Exec=ksudoku %i -qwindowtitle %c
++Exec=ksudoku %i -caption %c
+ Icon=ksudoku
+ Type=Application
+ X-DocPath=ksudoku/index.html
