@@ -456,7 +456,7 @@ oktetapart4
 libksane4
 libkexiv2_4
 
-# kde4 extragear
+# kde4-extragear
 libkcddb4
 libkcompactdisc4
 audiocd-kio4
@@ -467,7 +467,7 @@ oxygen-gtk2
 kio-mtp
 kdeconnect4
 
-# applications extra
+# applications-extra
 calligra
 digikam
 krita
@@ -485,5 +485,6 @@ kuser
 kdiagram
 kjots
 krusader
+kile
 
 
