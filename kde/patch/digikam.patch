@@ -2,3 +2,8 @@
 # Fixed in digikam 5.5.0.
 #cat $CWD/patch/digikam/digikam_clang_fix.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix linking issue, backport from git master:
+cd core
+  cat $CWD/patch/digikam/digikam_databasemodel.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+cd -
+
