@@ -19,6 +19,7 @@ cd build
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
     -DBUILD_TESTING=OFF \
     -DQca-qt5_DIR=/usr/lib${LIBDIRSUFFIX}/cmake/Qca \
+    -DWITH_MP3=ON \
     -DWITH_OGG_OPUS=OFF \
     ..
 
