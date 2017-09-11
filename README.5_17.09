@@ -1,30 +1,39 @@
 KDE5
 ====
 
-Here is KDE 5_17.07 for Slackware, consisting of the KDE Frameworks 5.36.0,
-Plasma 5.10.3 and Applications 17.04.3 on top of Qt 5.9.0.
+Here is KDE 5_17.09 for Slackware, consisting of the KDE Frameworks 5.38.0,
+Plasma 5.10.5 and Applications 17.08.1 on top of Qt 5.9.1.
 
-Upgrading from the previous 5_17.06 is straight-forward.
+Upgrading from the previous 5_17.07 is straight-forward (there was no 5_17.08).
 
-KDE-5_17.07 is meant to be installed on top of Slackware -current.
+KDE-5_17.09 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.  Applications 17.12 will no longer
 ship anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- Plasma was updated to 5.10.3 bugfix release, see
-  https://www.kde.org/announcements/plasma-5.10.3.php . And if you want to
+- The deps section has many updates; OpenAL, PyQt5, cfitsio, frei0r-plugins,
+  libxkbcommon, lmdb, mlt, poppler, qt5, qt5-webkit, sip and wayland.
+  In particular, qt5 was upgraded to 5.9.1.
+  Also two new packages found their way in: id3lib (new dependency for kwave,
+  now that MP3 support has been enabled) and ddcutil (a new dependency for
+  bluedevil).
+- Plasma was updated to 5.10.5 bugfix release, see
+  https://www.kde.org/announcements/plasma-5.10.5.php . And if you want to
   know more about what's new in Plasma 5.10, read it on
   https://www.kde.org/announcements/plasma-5.10.0.php
-  I compiled plasma-nm against openconnect so that it picks up support for
+  I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it. 
-- Frameworks 5.36.0 is a maintenance release, see
-  https://www.kde.org/announcements/kde-frameworks-5.36.0.php
-- Applications 17.04.3 is a bugfix update for KDE Applications 17.04.
-  See https://www.kde.org/announcements/announce-applications-17.04.3.php .
-- In applications-extra I added a new package: 'kile', a LaTex editor.
-  I used a git snapshot of the upcoming KDE Frameworks 5 based version.
+- Frameworks 5.38.0 contains one new framework: kirigami, see
+  https://www.kde.org/announcements/kde-frameworks-5.38.0.php
+- Applications 17.08.1 is the first stability update for KDE Applications
+  17.08 (where the following applications are finally also KF5 based: kmag,
+  kmousetool, kgoldrunner, kigo, konquest, kreversi, ksnakeduel, kspaceduel,
+  ksudoku, kubrick, lskat, and umbrello).
+  See https://www.kde.org/announcements/announce-applications-17.08.1.php .
+- In applications-extra I updated digikam, ktorrent, partitionmanager and
+  krita; and rebuilt calligra.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -34,24 +43,25 @@ Further points of interest:
   * openconnect: support for Cisco's SSL VPN.
   All of these can be found in my regular package repository.
 - The following kde/kde4-extragear packages should be taken from slackware
-  itself: kaudiocreator, kplayer, kwebkitpart.
+  itself if you still need them: kaudiocreator, kplayer, kwebkitpart.
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, dvdauthor, frei0r-plugins,
-  grantlee-qt4, hack-font-ttf, json-glib, lensfun, libappindicator, libburn,
-  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput,
-  libpwquality, libwacom, libxkbcommon, lmdb, mlt, ninja, noto-font-ttf,
-  noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5, qrencode, qt-gstreamer,
-  qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, ddcutil, dvdauthor,
+  frei0r-plugins, grantlee-qt4, hack-font-ttf, id3lib, json-glib, lensfun,
+  libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5, libdmtx,
+  libindicator, libinput, libpwquality, libwacom, libxkbcommon, lmdb, mlt,
+  ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5,
+  qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab
+  and wayland.
   As a side note, libinput and libwacom have become part of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
   compile Plasma5 packages for Slackware 14.2 so I left them in.
   The phonon and poppler packages were extended so that they now support
-  Qt4 as well as Qt5.
+  Qt5 as well as Qt4.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
   If you have that SBo package installed, remove it.
 - A completely new subset of "deps" packages, contained in their own
@@ -75,10 +85,10 @@ If you install a 32bit program on a 64bit Slackware computer with multilib
 and that program needs legacy system tray support (think of Steam for
 instance), you will have to grab the 32-bit version of Slackware's
 'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
-'convertpkg-compat32 -i' command on them to create 'compat32' versions of these
-packages.  Then install both 'libdbusmenu-qt-compat32' and 'sni-qt-compat32'.
-Those two are mandatory addons for displaying system tray icons of 32bit
-binaries in 64bit multilib Plasma5.
+'convertpkg-compat32 -i' command on them to create 'compat32' versions
+of these packages.  Then install both 'libdbusmenu-qt-compat32' and
+'sni-qt-compat32'.  Those two are mandatory addons for displaying
+system tray icons of 32bit binaries in 64bit multilib Plasma5.
 
 NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
@@ -146,6 +156,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.07 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.06 installed:
 - No further actions are needed.
@@ -343,4 +356,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 17-jul-2017
+                     Eric Hameleers / alien at slackware dot com / 11-sep-2017
