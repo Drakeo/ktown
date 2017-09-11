@@ -13,5 +13,6 @@ cd build
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DKDE_DISTRIBUTION_TEXT="volkerdi@slackware.com" \
+    -DWITH_SOLID_UDISKS2=ON \
     ..
 
