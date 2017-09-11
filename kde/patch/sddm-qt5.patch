@@ -9,7 +9,7 @@ cat $CWD/patch/sddm-qt5/sddm_userxsession.diff | patch -p1 --verbose || { touch 
 
 # Fix display of user avatars ($HOME/.face.icon file)
 # (fixed in sddm-0.15.0).
-cat $CWD//patch/sddm-qt5/sddm_avatars.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD//patch/sddm-qt5/sddm_avatars.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 # Fix a compilation error on passwd backend:
 #cat $CWD/patch/sddm-qt5/sddm_auth.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
