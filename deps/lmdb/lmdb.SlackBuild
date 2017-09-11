@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,7 +23,7 @@
 
 
 PKGNAM=lmdb
-VERSION=${VERSION:-0.9.17}
+VERSION=${VERSION:-0.9.21}
 BUILD=${BUILD:-1}
 
 CWD=$(pwd)
@@ -68,7 +68,7 @@ rm -rf $PKG
 mkdir -p $PKG $TMP
 cd $TMP
 rm -rf ${PKGNAM}-LMDB_${VERSION}
-tar xvf $CWD/${PKGNAM}-LMDB_${VERSION}.tar.xz || exit 1
+tar xvf $CWD/${PKGNAM}-LMDB_${VERSION}.tar.?z* || exit 1
 cd ${PKGNAM}-LMDB_${VERSION} || exit 1
 
 # Fix a x86_64 installation issue:

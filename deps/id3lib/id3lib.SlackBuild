@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
-# Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2017 Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -21,8 +21,8 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PKGNAM=cfitsio
-VERSION=${VERSION:-3.410}
+PKGNAM=id3lib
+VERSION=${VERSION:-3.8.3}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
@@ -70,8 +70,26 @@ cd $TMP
 
 rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
-mv $PKGNAM $PKGNAM-$VERSION
 cd $PKGNAM-$VERSION || exit 1
+
+# Patches obtained from Arch who obtained them from Debian and elsewhere -
+# Use proper C++ headers:
+cat $CWD/patches/id3lib.cppheaders.patch | patch -p1 --verbose || exit 1
+# Add man pages:
+cat $CWD/patches/id3lib.manpages.patch | patch -p1 --verbose || exit 1
+# Write UTF8/UTF16 characters correctly:
+cat $CWD/patches/id3lib.utf8_writing.patch | patch -p1 --verbose || exit 1
+# Securely use mkstemp:
+cat $CWD/patches/id3lib.mkstemp.patch | patch -p1 --verbose || exit 1
+# Add C wrapper functions for field encoding:
+cat $CWD/patches/id3lib.c_wrapper.patch | patch -p1 --verbose || exit 1
+# Add a null pointer check:
+cat $CWD/patches/id3lib.nullpointer_check.patch | patch -p1 --verbose || exit 1
+# Fix stack smash crashes when reading VBR MP3:
+cat $CWD/patches/id3lib.vbr_stack_smash.patch | patch -p1 --verbose || exit 1
+
+# iomanip.h is obsolete; use the standard C++ header:
+sed -e "s%iomanip.h%iomanip%g" -i configure
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
@@ -89,6 +107,11 @@ LDFLAGS="$SLKLDFLAGS" \
 ./configure \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --mandir=/usr/man \
+  --localstatedir=/var \
+  --sysconfdir=/etc \
+  --enable-static=no \
+  --enable-debug=no \
   --build=$TARGET
 
 # Build and install:
@@ -102,8 +125,13 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \
-  License.txt README* docs/*.doc docs/changes.txt \
+  AUTHORS COPYING ChangeLog HISTORY NEWS README THANKS TODO doc/*.txt \
   $PKG/usr/doc/$PKGNAM-$VERSION
+
+# Add and compress man pages:
+mkdir -p ${PKG}/usr/man/man1
+install -p -m0644 doc/man/*.1 ${PKG}/usr/man/man1/
+gzip -9 $PKG/usr/man/man?/*.1
 
 # Add a package description:
 mkdir -p $PKG/install

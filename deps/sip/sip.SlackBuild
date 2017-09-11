@@ -26,21 +26,20 @@
 
 
 PKGNAM=sip
-VERSION=${VERSION:-4.19.2}
+VERSION=${VERSION:-4.19.3}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i586 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i486 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
 fi
 
 if [ "$ARCH" = "i586" ]; then

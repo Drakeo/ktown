@@ -27,7 +27,7 @@ PKGNAM=json-glib
 VERSION=${VERSION:-1.2.8}
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

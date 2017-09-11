@@ -27,7 +27,7 @@ PKGNAM=libdmtx
 VERSION=${VERSION:-0.7.4}
 BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

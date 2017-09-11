@@ -28,7 +28,7 @@ SRCNAM=phonon-backend-vlc
 VERSION=${VERSION:-0.9.1}
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:" -j7 "}
+NUMJOBS=${NUMJOBS:-" -j7 "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

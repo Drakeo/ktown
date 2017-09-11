@@ -50,9 +50,10 @@
 # Modifications for qt 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.7.1 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.0 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.1 2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.9.0}
+VERSION=${VERSION:-5.9.1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 BUILD=${BUILD:-1}
@@ -138,16 +139,6 @@ cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 # Fix missing private includes: QTBUG-37417
 sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' \
   -i qtbase/mkspecs/features/create_cmake.prf
-
-# Don't destroy foreign windows, QTBUG-61140:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-61140.patch | patch -p1 --verbose || exit 1
-cd -
-
-# Fix crashes with QtCurve, QTBUG-60558:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-60558.patch | patch -p1 --verbose || exit 1
-cd -
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:

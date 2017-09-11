@@ -26,7 +26,7 @@
 
 PKGNAM=mlt
 VERSION=${VERSION:-6.4.1}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 PYTHONSITEPKG=$(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
 
@@ -77,6 +77,12 @@ cd $PKGNAM-$VERSION || exit 1
 
 # Fix compilation against Qt >= 5.7 (error "Qt requires C++11 support"):
 cat $CWD/patches/mlt_qt5.patch | patch -p1 --verbose || exit 1
+
+# Fix compilation against glibc 2.26:
+cat $CWD/patches/mlt_glibc226.patch | patch -p1 --verbose || exit 1
+
+# Prevent kdenlive from crashing on exit:
+cat $CWD/patches/mlt_repository_close.patch | patch -p1 --verbose || exit 1
 
 # Fix bogus permissions:
 chown -R root:root .

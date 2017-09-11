@@ -27,7 +27,7 @@
 PKGNAM=qrencode
 VERSION=${VERSION:-3.4.4}
 BUILD=${BUILD:-1}
-NUMJOBS=${NUMJOBS:" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

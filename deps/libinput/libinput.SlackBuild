@@ -30,7 +30,7 @@ BUILD=${BUILD:-1}
 # Support for (wacom) tablets requires libwacom as additional dependency:
 TABLET_SUPPORT=${TABLET_SUPPORT:-"YES"}
 
-NUMJOBS=${NUMJOBS:" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

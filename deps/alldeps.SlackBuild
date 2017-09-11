@@ -63,6 +63,8 @@ ALLDEPS=" \
   accountsservice \
   libburn \
   qtav \
+  ddcutil \
+  id3lib \
   "
   # Only needed when adding support for Wayland:
   #elogind \
