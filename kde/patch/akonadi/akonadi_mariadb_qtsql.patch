@@ -1,0 +1,17 @@
+Patch taken from https://bugs.gentoo.org/626464
+This is a temporary fix. The real bug is in qtsql and needs to be fixed there.
+
+Downstream bug reports:
+https://bugs.kde.org/show_bug.cgi?id=383991
+https://bugreports.qt.io/browse/QTBUG-63108
+
+--- akonadi-17.04.3/src/server/storage/dbconfigmysql.cpp        2017-08-11 23:29:02.088613966 +0800
++++ akonadi-17.04.3/src/server/storage/dbconfigmysql.cpp        2017-08-11 23:22:18.808432643 +0800
+@@ -492,7 +492,7 @@
+         }
+     }
+
+-    QSqlDatabase::removeDatabase(initCon);
++    //QSqlDatabase::removeDatabase(initCon);
+     return success;
+ }

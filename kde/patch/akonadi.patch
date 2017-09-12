@@ -6,6 +6,7 @@
 #cat $CWD/patch/akonadi/akonadi_revert-abs-path.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 #cat $CWD/patch/akonadi/akonadi_rename-header.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
-
-
+# Temporary fix for non-working Akonadi in combination with mariadb 10.2.8
+# (actually this is a bug in qtsql, not in akonadi or mariadb):
+cat $CWD/patch/akonadi/akonadi_mariadb_qtsql.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
