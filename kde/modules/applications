@@ -23,6 +23,25 @@ konqueror
 #kde-workspace
 kde-runtime
 #kde-base-artwork
+
+# kdeutils:
+ark
+baloo5-widgets
+filelight
+kcalc
+kcharselect
+kdf
+kfloppy
+kgpg
+print-manager
+kremotecontrol
+ktimer
+khelpcenter
+kwalletmanager
+#superkaramba
+sweeper
+
+# kdebase-dolphin needs to pick up baloo5-widgets from old kdeutils: 
 dolphin
 
 # kdesdk:
@@ -63,23 +82,6 @@ kaccessible
 kmouth
 kmousetool
 kmag
-
-# kdeutils:
-ark
-baloo5-widgets
-filelight
-kcalc
-kcharselect
-kdf
-kfloppy
-kgpg
-print-manager
-kremotecontrol
-ktimer
-khelpcenter
-kwalletmanager
-#superkaramba
-sweeper
 
 # kdemultimedia:
 libkcddb
