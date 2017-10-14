@@ -1,39 +1,38 @@
 KDE5
 ====
 
-Here is KDE 5_17.09 for Slackware, consisting of the KDE Frameworks 5.38.0,
-Plasma 5.10.5 and Applications 17.08.1 on top of Qt 5.9.1.
+Here is KDE 5_17.10 for Slackware, consisting of the KDE Frameworks 5.39.0,
+Plasma 5.11.0 and Applications 17.08.2 on top of Qt 5.9.2.
 
-Upgrading from the previous 5_17.07 is straight-forward (there was no 5_17.08).
+Upgrading from the previous 5_17.09 is straight-forward.
 
-KDE-5_17.09 is meant to be installed on top of Slackware -current.
+KDE-5_17.10 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.  Applications 17.12 will no longer
 ship anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- The deps section has many updates; OpenAL, PyQt5, cfitsio, frei0r-plugins,
-  libxkbcommon, lmdb, mlt, poppler, qt5, qt5-webkit, sip and wayland.
-  In particular, qt5 was upgraded to 5.9.1.
-  Also two new packages found their way in: id3lib (new dependency for kwave,
-  now that MP3 support has been enabled) and ddcutil (a new dependency for
-  bluedevil).
-- Plasma was updated to 5.10.5 bugfix release, see
-  https://www.kde.org/announcements/plasma-5.10.5.php . And if you want to
-  know more about what's new in Plasma 5.10, read it on
-  https://www.kde.org/announcements/plasma-5.10.0.php
+- A few updates in the deps section.  Most importantly, qt5 was upgraded
+  to 5.9.2.  Two packages were recompiled: ddcutil and gpgme.
+- Plasma was updated to 5.11.0, see
+  https://www.kde.org/announcements/plasma-5.11.0.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it. 
-- Frameworks 5.38.0 contains one new framework: kirigami, see
-  https://www.kde.org/announcements/kde-frameworks-5.38.0.php
-- Applications 17.08.1 is the first stability update for KDE Applications
+  New to Plasma 5.11 is the Vault. It needs an encryption backend (cryfs or
+  encfs) at runtime but I did not add these to the 'deps'.  I might create
+  packages for those in my regular repository however.
+  Plasma 5.11 has more improvements, among others it comes with a new design
+  for systemsettings.
+- Frameworks 5.39.0 contains one new framework: qqc2-desktop-style, see
+  https://www.kde.org/announcements/kde-frameworks-5.39.0.php
+- Applications 17.08.2 is a stability update for KDE Applications
   17.08 (where the following applications are finally also KF5 based: kmag,
   kmousetool, kgoldrunner, kigo, konquest, kreversi, ksnakeduel, kspaceduel,
   ksudoku, kubrick, lskat, and umbrello).
-  See https://www.kde.org/announcements/announce-applications-17.08.1.php .
-- In applications-extra I updated digikam, ktorrent, partitionmanager and
-  krita; and rebuilt calligra.
+  See https://www.kde.org/announcements/announce-applications-17.08.2.php .
+- In applications-extra I updated kpmcore, partitionmanager, krita and
+  the kdevelop suite (now finally including kdev-python).
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -148,7 +147,7 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   ..or instead of the above, simply '# slackpkg remove kde' and de-select
   the packages you want to keep (amarok, etc).
 
-Alternativly, in case you are already using an older release of my KDE 5
+Alternatively, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
 (for instance: KDE 5_16.08) and then apply the actions shown for that KDE 5
 release *and* all more recent releases, i.e. work your way back up to this
@@ -156,6 +155,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.09 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.07 installed:
 - No further actions are needed.
@@ -267,16 +269,15 @@ with slackpkg and then Plasma5 package upgrades will be handled properly.
 To make it easy for you, here is a one-line command that downloads the whole
 '5' directory (excluding the sources), with 32-bit and 64-bit packages.
 
-  # rsync -av rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
+  # rsync -Hav rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 
 Or else, if you want to download packages for just one of the two supported
-architectures, you would run one of the following commands instead (note that
-there is a dot at the end of these commands!).
+architectures, you would run one of the following commands instead.
 
 If you want only the 64-bit packages:
-  # rsync -av --exclude=x86 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
+  # rsync -Hav --exclude=x86 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 If you want only the 32-bit packages:
-  # rsync -av --exclude=x86_64 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
+  # rsync -Hav --exclude=x86_64 rsync://bear.alienbase.nl/mirrors/alien-kde/current/5/ 5/
 
 Assuming you just downloaded the bits you want from the directory tree "5",
 you must now change your current directory to where you found this README
@@ -310,6 +311,11 @@ From within this directory, you run the following commands as root:
   in the next command:
   # upgradepkg --install-new x86_64/kdei/kde-l10n-XX-*.t?z
 
+  Note that these separate language packs contain only the localizations for
+  kdelibs4 based applications.  All KDE Frameworks 5 based programs include
+  localizations in the packages themselves (meaning that you will get all
+  languages installed always).
+
   Check if any ".new" configuration files have been left behind by
   the upgradepkg commands.  Compare them to their originals and decide
   if you need to use them.
@@ -331,7 +337,7 @@ Sources and scripts are separated from the packages in my 'ktown' repository.
 If you want the sources for KDE 5, run the following command to download them
 (downloading from a mirror will usually be much faster):
 
-  # rsync -av rsync://bear.alienbase.nl/mirrors/alien-kde/source/5/ 5/
+  # rsync -Hav rsync://bear.alienbase.nl/mirrors/alien-kde/source/5/ 5/
 
 There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
 install before attempting to compile KDE 5. Compiling and installing these
@@ -356,4 +362,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 11-sep-2017
+                     Eric Hameleers / alien at slackware dot com / 13-oct-2017
