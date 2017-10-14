@@ -51,9 +51,10 @@
 # Modifications for qt 5.7.1 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.0 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.1 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.2 2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.9.1}
+VERSION=${VERSION:-5.9.2}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 BUILD=${BUILD:-1}

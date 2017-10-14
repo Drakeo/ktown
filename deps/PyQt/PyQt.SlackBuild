@@ -60,6 +60,9 @@ else
   SLKCFLAGS="-O2"
 fi
 
+PYTHONLIB=$( python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
@@ -84,10 +87,22 @@ export QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 
+if [ -n "${PYTHON3LIB}" ]; then
+  python3 configure.py --confirm-license --verbose
+  make $NUMJOBS || make || exit 1
+  make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
+  make clean
+
+  mv $PKG/usr/bin/pyuic4 $PKG/usr/bin/pyuic4-py3
+  rm -rf $PKG/$PYTHON3LIB/${PKGNAM}4/uic/port_v2/
+fi
+
 python configure.py --confirm-license --verbose
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
+
+rm -rf $PKG/$PYTHONLIB/${PKGNAM}4/uic/port_v3/
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null

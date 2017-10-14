@@ -26,7 +26,7 @@
 
 PKGNAM=ddcutil
 VERSION=${VERSION:-0.8.4}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -90,7 +90,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --mandir=/usr/man \
-  --docdir=/usr/doc/$PRGNAM-$VERSION \
+  --docdir=/usr/doc/$PKGNAM-$VERSION \
   --disable-static \
   --build=$TARGET
 
@@ -103,6 +103,8 @@ mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \
   AUTHORS CONTRIBUTORS COPYING COPYRIGHT ChangeLog NEWS README \
   $PKG/usr/doc/$PKGNAM-$VERSION
+# Remove phony docdir:
+rm -rf $PKG/usr/share/doc
 
 # Strip binaries:
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
