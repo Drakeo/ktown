@@ -14,6 +14,8 @@ cd build
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DMAN_INSTALL_DIR=/usr/man \
     -DCUSTOM_PERL_SITE_ARCH_DIR=$vendorarch \
+    -DQSCINTILLA_LIBRARY=/usr/lib$LIBDIRSUFFIX/libqscintilla2_qt4.so \
+    -DWITH_Qwt5:BOOL=OFF \
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     ..
