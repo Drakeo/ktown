@@ -26,6 +26,7 @@ modemmanager-qt
 bluez-qt
 kwayland
 prison
+kirigami2
 syntax-highlighting
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 breeze-icons
@@ -60,7 +61,6 @@ kparts
 kdewebkit
 kdesignerplugin
 kdeclarative
-kirigami2
 kcmutils
 kinit
 kded
@@ -72,6 +72,7 @@ plasma-framework
 kpeople
 kxmlrpcclient
 baloo5
+qqc2-desktop-style
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
 kjs
 kjsembed

@@ -39,6 +39,8 @@ plasma-pa
 kactivitymanagerd
 user-manager
 xdg-desktop-portal-kde
+drkonqi
+plasma-vault
 #plymouth-kcm
 #muon
 #kwallet-pam
