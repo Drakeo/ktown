@@ -35,6 +35,7 @@
 # ----------------------------------------------------------------------------
 
 CLEANUP=${CLEANUP:-"yes"} # clean up build directory after successful build.
+UPGRADE=${UPGRADE:-"yes"} # upgrade package after successful build.
 PRECHECK=${PRECHECK:-"no"} # don't let the script check the available sources.
 CHECKOUT=${CHECKOUT:-"no"} # don't let the script checkout missing sources.
 
@@ -359,8 +360,10 @@ build_mod_pkg () {
       find $PKG/usr/doc/${PKGNAME}-$MODULAR_PACKAGE_VERSION -type f -size 0 -exec rm --verbose "{}" \;
       rmdir --verbose $PKG/usr/doc/${PKGNAME}-$MODULAR_PACKAGE_VERSION 2> /dev/null
 
-      # Strip binaries:
-      strip_binaries $PKG
+      # Strip binaries if needed:
+      if [ ! -r $CWD/nostrip/${PKGNAME} ]; then
+        strip_binaries $PKG
+      fi
 
       # If there's any special post-install things to do, do them:
       if [ -r $CWD/post-install/${PKGNAME}.post-install ]; then
@@ -398,9 +401,11 @@ build_mod_pkg () {
           /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-$(echo $MODULAR_PACKAGE_VERSION |tr - _)-${PKGARCH}-${MODBUILD}.txz
         fi
         # We will continue with the fresh packages installed:
-        upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-${MODULAR_PACKAGE_VERSION}-${PKGARCH}-${MODBUILD}.txz
-        # Keep MIME database current:
-        /usr/bin/update-mime-database /usr/share/mime 1>/dev/null 2>/dev/null &
+        if [ "$UPGRADE" = "yes" -o "$UPGRADE" = "YES" ]; then
+          upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${PKGNAME}-${MODULAR_PACKAGE_VERSION}-${PKGARCH}-${MODBUILD}.txz
+          # Keep MIME database current:
+          /usr/bin/update-mime-database /usr/share/mime 1>/dev/null 2>/dev/null &
+        fi
       fi
 
       # Reset $PKG to assume we're building the whole source dir:
@@ -491,9 +496,11 @@ build_mod_pkg () {
       /sbin/makepkg -l y -c n ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-$(echo $VERSION |tr - _)-${PKGARCH}-${SRCDIRBUILD}.txz
     fi
     # We will continue with the fresh packages installed:
-    upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-${VERSION}-${PKGARCH}-${SRCDIRBUILD}.txz
-    # Keep MIME database current:
-    /usr/bin/update-mime-database /usr/share/mime 1>/dev/null 2>/dev/null &
+    if [ "$UPGRADE" = "yes" -o "$UPGRADE" = "YES" ]; then
+      upgradepkg --install-new --reinstall ${SLACK_KDE_BUILD_DIR}/${kde_module}/${kde_module}-${VERSION}-${PKGARCH}-${SRCDIRBUILD}.txz
+      # Keep MIME database current:
+      /usr/bin/update-mime-database /usr/share/mime 1>/dev/null 2>/dev/null &
+    fi
   )
 }
 
