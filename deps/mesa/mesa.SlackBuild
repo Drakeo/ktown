@@ -21,7 +21,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=mesa
-VERSION=${VERSION:-17.2.3}
+VERSION=${VERSION:-17.2.5}
 DEMOVERS=${DEMOVERS:-8.3.0}
 BUILD=${BUILD:-1}
 
@@ -80,8 +80,8 @@ find . \
 
 # Apply patches from git (and maybe elsewhere):
 # Patches obtained by:
-#   git checkout origin/13.0
-#   git format-patch 6bfc352f5a35ab21f012d6d501821ffbf767aab3 # 13.0.4 release
+#   git checkout origin/17.2
+#   git format-patch 96ad27f8fcf3979c577c052f725e2a80035295aa # 17.2.5 release
 if /bin/ls $CWD/patches/*.patch 1> /dev/null 2> /dev/null ; then
   for patch in $CWD/patches/*.patch ; do
     patch -p1 < $patch || exit 1 ;
