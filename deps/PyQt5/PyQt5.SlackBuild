@@ -27,7 +27,7 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.9}
+VERSION=${VERSION:-5.9.1}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -61,6 +61,9 @@ else
   SLKCFLAGS="-O2"
 fi
 
+PYTHONLIB=$( python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
@@ -82,6 +85,25 @@ export QT5DIR=/usr/lib${LIBDIRSUFFIX}/qt5
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 
+if [ -n "${PYTHON3LIB}" ]; then
+  python3 configure.py \
+    --confirm-license \
+    --verbose \
+    --qsci-api \
+    -q /usr/bin/qmake-qt5 \
+    || exit 1
+
+  make $NUMJOBS || make || exit 1
+  # INSTALL_ROOT is needed to install libpyqt4.so properly:
+  make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
+  make clean
+
+  mv $PKG/usr/bin/pyrcc5 $PKG/usr/bin/pyrcc5-py3
+  mv $PKG/usr/bin/pyuic5 $PKG/usr/bin/pyuic5-py3
+  mv $PKG/usr/bin/pylupdate5 $PKG/usr/bin/pylupdate5-py3
+  rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v3/
+fi
+
 python configure.py \
   --confirm-license \
   --verbose \
@@ -92,6 +114,8 @@ python configure.py \
 make $NUMJOBS || make || exit 1
 # INSTALL_ROOT is needed to install libpyqt4.so properly:
 make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
+
+rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v2/
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
