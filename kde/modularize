@@ -464,9 +464,7 @@ libkexiv2_4
 libkcddb4
 libkcompactdisc4
 audiocd-kio4
-kaudiocreator
 kplayer
-kwebkitpart
 oxygen-gtk2
 kio-mtp
 kdeconnect4
@@ -490,5 +488,7 @@ kdiagram
 kjots
 krusader
 kile
+kaudiocreator
+kwebkitpart
 yakuake
 
