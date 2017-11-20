@@ -1,21 +1,20 @@
 KDE5
 ====
 
-Here is KDE 5_17.10 for Slackware, consisting of the KDE Frameworks 5.39.0,
-Plasma 5.11.0 and Applications 17.08.2 on top of Qt 5.9.2.
+Here is KDE 5_17.11 for Slackware, consisting of the KDE Frameworks 5.40.0,
+Plasma 5.11.3 and Applications 17.08.3 on top of Qt 5.9.2.
 
-Upgrading from the previous 5_17.09 is straight-forward.
+Upgrading from the previous 5_17.10 is straight-forward.
 
-KDE-5_17.10 is meant to be installed on top of Slackware -current.
+KDE-5_17.11 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!  Plasma 5
 has mostly gotten rid of its Qt4 legacy.  Applications 17.12 will no longer
 ship anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- A few updates in the deps section.  Most importantly, qt5 was upgraded
-  to 5.9.2.  Two packages were recompiled: ddcutil and gpgme.
-- Plasma was updated to 5.11.0, see
-  https://www.kde.org/announcements/plasma-5.11.0.php .
+- In the deps section, PyQt5 was upgraded with python3 support added.
+- Plasma received an stability update to 5.11.3, see
+  https://www.kde.org/announcements/plasma-5.11.3.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it. 
@@ -24,15 +23,14 @@ What is the NEWS in this batch of updates:
   packages for those in my regular repository however.
   Plasma 5.11 has more improvements, among others it comes with a new design
   for systemsettings.
-- Frameworks 5.39.0 contains one new framework: qqc2-desktop-style, see
-  https://www.kde.org/announcements/kde-frameworks-5.39.0.php
-- Applications 17.08.2 is a stability update for KDE Applications
-  17.08 (where the following applications are finally also KF5 based: kmag,
-  kmousetool, kgoldrunner, kigo, konquest, kreversi, ksnakeduel, kspaceduel,
-  ksudoku, kubrick, lskat, and umbrello).
-  See https://www.kde.org/announcements/announce-applications-17.08.2.php .
-- In applications-extra I updated kpmcore, partitionmanager, krita and
-  the kdevelop suite (now finally including kdev-python).
+- Frameworks 5.40.0 is an incremental stability upgrade, see
+  https://www.kde.org/announcements/kde-frameworks-5.40.0.php
+- Applications 17.08.3 is a stability update for KDE Applications 17.08.
+  See https://www.kde.org/announcements/announce-applications-17.08.3.php .
+  Next update (17.12) will be free of old KDE4 code.
+- In applications-extra I updated krita. I also added KF5 ports of
+  kaudiocreator and kwebkitpart because of the impending removal of KDE4
+  support.
 
 Further points of interest:
 - There are a couple of *runtime* dependencies that I did not add to the
@@ -41,8 +39,7 @@ Further points of interest:
   * freerdp: access RDP servers through krdc.
   * openconnect: support for Cisco's SSL VPN.
   All of these can be found in my regular package repository.
-- The following kde/kde4-extragear packages should be taken from slackware
-  itself if you still need them: kaudiocreator, kplayer, kwebkitpart.
+- There's no more need to install KDE4 packages from Slackware 14.2.
 - Lots of packages in the 'deps' department are completely new to Slackware.
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
@@ -100,10 +97,8 @@ If you decide to install these packages on top of a fresh installation of
   Slackware 14.2 or -current and have excluded all packages in the 'KDE'
   package series during installation, you will be missing several add-on
   packages.  You can optionally install the following Slackware packages:
-    * amarok
-    * kaudiocreator
-    * kplayer
-    * kwebkitpart
+    * amarok  (KF5 port coming up)
+    * kplayer (alternatively use QMLPLayer now)
 
 NOTE:
 If you had installed KDE 4 as your default desktop previously, the removal
@@ -149,12 +144,15 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
 
 Alternatively, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
-(for instance: KDE 5_16.08) and then apply the actions shown for that KDE 5
+(for instance: KDE 5_17.08) and then apply the actions shown for that KDE 5
 release *and* all more recent releases, i.e. work your way back up to this
 paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.10 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.09 installed:
 - No further actions are needed.
@@ -341,7 +339,8 @@ If you want the sources for KDE 5, run the following command to download them
 
 There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
 install before attempting to compile KDE 5. Compiling and installing these
-dependencies on Slackware-current is as easy as:
+dependencies on Slackware-current is hopefully (have not tested the script
+'updates.SlackBuild' in a long time) as easy as this:
   # cd 5/deps
   # ./updates.SlackBuild
   # cd -
@@ -362,4 +361,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 13-oct-2017
+                     Eric Hameleers / alien at slackware dot com / 19-nov-2017
