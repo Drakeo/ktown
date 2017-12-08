@@ -13,7 +13,7 @@ kdeconnect-framework: Prominent features are: clipboard share, notifications syn
 kdeconnect-framework: multimedia remote control over secured network connections.
 kdeconnect-framework: Please note you will need to install KDE Connect on Android
 kdeconnect-framework: for this app to work:
-kdeconnect-framework: https://play.google.com/store/apps/details?id=org.kde.kdeconnect-framework_tp
+kdeconnect-framework: https://play.google.com/store/apps/details?id=org.kde.kdeconnect_tp
 kdeconnect-framework:
 kdeconnect-framework: See also:
-kdeconnect-framework:  http://albertvaka.wordpress.com/2013/08/05/introducing-framework-connect/
+kdeconnect-framework:  https://albertvaka.wordpress.com/2013/08/05/introducing-kde-connect/
