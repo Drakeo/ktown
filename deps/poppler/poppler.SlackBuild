@@ -24,7 +24,7 @@
 # Modified 2016, 2017 by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=poppler
-VERSION=${VERSION:-0.59.0}
+VERSION=${VERSION:-0.62.0}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
@@ -71,6 +71,10 @@ cd ${PKGNAM}-$VERSION || exit 1
 ## This is needed for compilation with c++11 compiler:
 #cat $CWD/patches/poppler_cpp11.patch | patch -p1 --verbose || exit 1
 
+# At least for now, we will revert this patch since we have
+# things that depend on it:
+cat $CWD/poppler.remove.qt4.frontend.diff | patch -p1 -R --verbose || exit 1
+
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -78,24 +82,32 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+mkdir build
+cd build
+
 # Adding " -std=c++11" to CXXFLAGS is needed for compiling against Qt >= 5.7:
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS -std=c++11" \
-./configure \
-  --prefix=/usr \
-  --libdir=/usr/lib${LIBDIRSUFFIX} \
-  --sysconfdir=/etc \
-  --enable-xpdf-headers \
-  --enable-poppler-qt4 \
-  --enable-poppler-qt5 \
-  --enable-cairo-output \
-  --mandir=/usr/man \
-  --disable-static \
-  --enable-zlib \
-  --build=$TARGET || exit 1
+cmake \
+  -DCMAKE_INSTALL_PREFIX=/usr \
+  -DCMAKE_INSTALL_MANDIR=/usr/man \
+  -DBUILD_SHARED_LIBS=ON \
+  -DENABLE_QT4=ON \
+  -DENABLE_QT5=ON \
+  -DENABLE_XPDF_HEADERS=ON \
+  -DENABLE_CMS=lcms2 \
+  -DENABLE_DCTDECODER=libjpeg \
+  -DENABLE_GTK_DOC=ON \
+  -DENABLE_LIBOPENJPEG=openjpeg2 \
+  -DENABLE_XPDF_HEADERS=ON \
+  -DENABLE_ZLIB=ON \
+  .. || exit 1
 
 make $NUMBOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Back to source tarball root directory:
+cd ..
 
 # Remove files that overlap with the xpdf package:
 rm -f $PKG/usr/bin/pdfdetach $PKG/usr/man/man1/pdfdetach.1

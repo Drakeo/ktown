@@ -26,7 +26,7 @@
 
 PKGNAM=phonon
 VERSION=${VERSION:-4.9.1}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:--j7}
 
@@ -68,7 +68,7 @@ PKG=$TMP/package-phonon
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -r phonon-$VERSION
+rm -rf phonon-$VERSION
 tar xvf $CWD/phonon-$VERSION.tar.?z* || exit 1
 cd phonon-$VERSION || exit 1
 
