@@ -229,6 +229,7 @@ If you have my 'ktown' set of KDE 5_16.03 installed:
 - Upgrade to KDE 5_16.04
   Remove the packages that no longer exist in KDE 5_16.04:
   * removepkg kactivities-workspace
+  * removepkg kde-workspace
 
 If you have my 'ktown' set of KDE 5_16.02 installed:
 - No further actions are needed.
