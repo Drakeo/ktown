@@ -1,31 +1,3 @@
-# Temporary cludge to fix badly ported applications:
-for APP in \
-libkexiv2 \
-libkdcraw \
-kde-baseapps \
-kde-runtime \
-okular \
-kdegraphics-thumbnailers \
-kolourpaint \
-kopete \
-ksnapshot \
-superkaramba \
-libkcddb \
-kget \
-kdeartwork \
-kajongg \
-ksirk \
-kalzium \
-; do
-  if [ "$APP" = "$PKGNAME" ]; then
-    if ! grep -q 'cmake_minimum_required' CMakeLists.txt ; then
-      # Prepend a cmake_minimum_required stanza at the top, which enables
-      # newer cmake features which the build needs:
-      sed -i -e '1icmake_minimum_required(VERSION 2.8.9)\' CMakeLists.txt
-    fi
-  fi
-done
-
 mkdir build
 cd build
   cmake \
@@ -40,8 +12,12 @@ cd build
     -DMAN_INSTALL_DIR=/usr/man \
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    -DLIB_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
-    -DLIBEXEC_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX \
-    -DKDE4_BUILD_TESTS=OFF \
+    -DLIB_INSTALL_DIR=lib$LIBDIRSUFFIX \
+    -DLIBEXEC_INSTALL_DIR=lib$LIBDIRSUFFIX \
+    -DQT_PLUGIN_INSTALL_DIR=lib$LIBDIRSUFFIX/qt5/plugins \
+    -DQML_INSTALL_DIR=lib$LIBDIRSUFFIX/qt5/qml \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DBUILD_TESTING=OFF \
+    -DQca-qt5_DIR=/usr/lib${LIBDIRSUFFIX}/cmake/Qca \
     ..
 
