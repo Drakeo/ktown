@@ -10,5 +10,5 @@
 # Qt >= 5.9.3 breaks creation of folders in kio, which affects e.g.
 # Dolphin and Plasma Folder View.
 # Fixed in KIO 5.41:
-cat $CWD/patch/kio/kio_fix_url_setpath.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kio/kio_fix_url_setpath.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
