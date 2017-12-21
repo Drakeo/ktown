@@ -21,7 +21,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=mesa
-VERSION=${VERSION:-17.2.5}
+VERSION=${VERSION:-17.2.7}
 DEMOVERS=${DEMOVERS:-8.3.0}
 BUILD=${BUILD:-1}
 
@@ -90,7 +90,7 @@ fi
 
 # Don't worry if Mako is not present:
 #sed -i "s,AX_CHECK_PYTHON_MAKO_MODULE(\$PYTHON_MAKO_REQUIRED),,g" configure.ac
-zcat $CWD/mesa.no.mako.diff.gz | patch -p1 --verbose || exit 1
+cat $CWD/mesa.no.mako.diff | patch -p1 --verbose || exit 1
 
 # This doesn't fully do the trick.  See below.  ;-)
 #./autogen.sh

@@ -23,7 +23,7 @@
 
 
 PKGNAM=libxkbcommon
-VERSION=${VERSION:-0.7.2}
+VERSION=${VERSION:-0.8.0}
 BUILD=${BUILD:-1}
 
 CWD=$(pwd)
@@ -33,7 +33,7 @@ PKG=$TMP/package-$PKGNAM
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -42,8 +42,8 @@ if [ -z "$ARCH" ]; then
 fi
 
 # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
   SLKCFLAGS="-O2"

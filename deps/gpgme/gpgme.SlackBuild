@@ -24,8 +24,8 @@
 # Modified 2017 by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=gpgme
-VERSION=${VERSION:-1.9.0}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-1.10.0}
+BUILD=${BUILD:-1}
 
 # Find out the default python version:
 if [ $( python -c 'import sys ; print sys.version_info[0]' ) -eq 3 ]; then
@@ -34,22 +34,22 @@ else
   MYPY="python2"
 fi
 
+NUMJOBS=${NUMJOBS:-" -j7 "}
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PKGNAM
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
   esac
   export ARCH
 fi
-
-NUMJOBS=${NUMJOBS:-" -j7 "}
-
-CWD=$(pwd)
-TMP=${TMP:-/tmp}
-PKG=$TMP/package-$PKGNAM
 
 if [ "$ARCH" = "i586" ]; then
   SLKCFLAGS="-O2 -march=i586 -mtune=i686"
