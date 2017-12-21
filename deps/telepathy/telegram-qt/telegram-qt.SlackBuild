@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2016  Eric Hameleers, Eindhoven, NL
+# Copyright 2016, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2016  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,15 +23,15 @@
 
 
 PKGNAM=telegram-qt
-VERSION=${VERSION:-"a0e5734_20161107git"}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-"0.1.0"}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -39,8 +39,8 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
   SLKCFLAGS="-O2"
@@ -68,9 +68,9 @@ PKG=$TMP/package-$PKGNAM
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
-cd $PKGNAM-$VERSION || exit 1
+rm -rf ${PKGNAM}*-${VERSION}
+tar xvf $CWD/${PKGNAM}*-${VERSION}.tar.?z* || exit 1
+cd ${PKGNAM}*-${VERSION} || exit 1
 
 chown -R root:root .
 find . \

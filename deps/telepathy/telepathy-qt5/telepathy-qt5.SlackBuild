@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015, 2016  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2016, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -25,14 +25,14 @@
 PKGNAM=telepathy-qt5
 SRCNAM=telepathy-qt
 VERSION=${VERSION:-0.9.7}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -40,8 +40,8 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "x86_64" ]; then
