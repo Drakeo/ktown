@@ -27,7 +27,7 @@
 #   Xnest, Xephyr, Xvfb, Xwayland.
 
 PKGNAM=xorg-server
-VERSION=${VERSION:-1.19.5}
+VERSION=${VERSION:-1.19.6}
 BUILD=${BUILD:-1}
 
 CWD=$(pwd)
