@@ -24,7 +24,7 @@
 
 PKGNAM=lmdb
 VERSION=${VERSION:-0.9.21}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -73,8 +73,9 @@ cd ${PKGNAM}-LMDB_${VERSION} || exit 1
 
 # Fix a x86_64 installation issue:
 if [ -n "${LIBDIRSUFFIX}" ]; then
-  sed -e "s,\(\$(prefix)/lib\);,\1${LIBDIRSUFFIX};," \
-      -i  libraries/liblmdb/Makefile
+  sed -i libraries/liblmdb/Makefile \
+    -e "s,\(\$(exec_prefix)/lib\),\1${LIBDIRSUFFIX}," \
+    -e "s,\$(datarootdir)/man,\$(prefix)/man,"
 fi
 
 chown -R root:root .
