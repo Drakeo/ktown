@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/17.04_Release_Notes
+# https://community.kde.org/Applications/17.12_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -7,22 +7,14 @@ libkdcraw
 libksane
 gwenview
 
-# KDE PIM: split out to modules/kdepim
-
-# KDE Telepathy: split out to modules/telepathy
-
 # kdebase:
 kio-extras
 kate
 konsole
-#kde-baseapps was split up into kdialog, keditbookmarks, kfind, konqueror:
 kdialog
 keditbookmarks
 kfind
 konqueror
-#kde-workspace
-kde-runtime
-#kde-base-artwork
 
 # kdeutils:
 ark
@@ -34,14 +26,12 @@ kdf
 kfloppy
 kgpg
 print-manager
-kremotecontrol
 ktimer
 khelpcenter
 kwalletmanager
-#superkaramba
 sweeper
 
-# kdebase-dolphin needs to pick up baloo5-widgets from old kdeutils: 
+# dolphin needs to pick up baloo5-widgets:
 dolphin
 
 # kdesdk:
@@ -55,6 +45,7 @@ kde-dev-scripts
 kde-dev-utils
 kdesdk-kioslaves
 kdesdk-thumbnailers
+kross-interpreters
 libkomparediff2
 kompare
 lokalize
@@ -69,16 +60,10 @@ kamera
 kcolorchooser
 kolourpaint
 kruler
-ksaneplugin
-#ksnapshot
 spectacle
 svgpart
-# needs opencv:
-libkface
 
 # kdeaccessibility:
-#jovie
-kaccessible
 kmouth
 kmousetool
 kmag
@@ -90,29 +75,20 @@ audiocd-kio
 dragon
 juk
 kmix
-#kscd
 ffmpegthumbs
 kwave
 k3b
-
-# The oxygen icon set:
-#oxygen-icons
 
 # kdenetwork:
 kdenetwork-filesharing
 zeroconf-ioslave
 kget
-kopete
-kppp
 krdc
 krfb
 
 # kdeadmin:
 kcron
 ksystemlog
-
-# kdeartwork:
-#kdeartwork
 
 # kdegames:
 libkdegames
@@ -158,9 +134,7 @@ kmahjongg
 kspaceduel
 
 # kdetoys:
-#amor
 kteatime
-#ktux
 
 # kdeedu:
 kdeedu-data
@@ -180,13 +154,11 @@ kgeography
 kiten
 klettres
 kmplot
-kstars
 kqtquickcharts
 ktouch
 kturtle
 kwordquiz
 marble
-#pairs
 rocs
 step
 # Needs http://drumstick.sourceforge.net/
@@ -198,9 +170,6 @@ libkgeomap
 # Needs ffmpeg and dvdauthor to be really useful:
 kdenlive
 
-# kdewebdev is split into kfilereplace, kimagemapeditor, klinkstatus, kommander:
-kfilereplace
+# kdewebdev remnant:
 kimagemapeditor
-klinkstatus
-#kommander
 

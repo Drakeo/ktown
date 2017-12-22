@@ -1,3 +1,4 @@
+# applications-extra
 calligra
 digikam
 krita
@@ -12,11 +13,13 @@ kdevelop
 kdev-php
 kdiagram
 kjots
+kstars
 kuser
 krusader
 kile
 kaudiocreator
 kwebkitpart
-# Requires python3:
+oxygen-gtk2
+# kdev-python requires python3:
 kdev-python
 yakuake

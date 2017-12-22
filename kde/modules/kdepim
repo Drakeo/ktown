@@ -1,4 +1,4 @@
-#gpgmepp
+# kdepim
 kcalcore
 akonadi
 kholidays
@@ -10,6 +10,7 @@ kblog
 kcontacts
 libkgapi
 kmime
+ksmtp
 kimap
 kmbox
 kldap
@@ -28,7 +29,6 @@ libkdepim
 pimcommon
 libgravatar
 libksieve
-#kdgantt2
 mailimporter
 kdepim-apps-libs
 calendarsupport
@@ -40,12 +40,10 @@ kleopatra
 kdav
 kdepim-addons
 kdepim-runtime
-#kdepim is split up:
 akonadi-calendar-tools
 akonadiconsole
 akonadi-import-wizard
 akregator
-blogilo
 grantlee-editor
 kaddressbook
 kalarm
@@ -57,5 +55,4 @@ korganizer
 mbox-importer
 pim-data-exporter
 pim-sieve-editor
-#pim-storage-service-manager
 

@@ -1,4 +1,4 @@
-# plasma:
+# plasma
 kgamma5
 kdecoration
 breeze
@@ -33,7 +33,6 @@ sddm-kcm
 kde-gtk-config
 ksshaskpass
 plasma-sdk
-#plasma-mediacenter
 plasma-pa
 #plasma-tests
 kactivitymanagerd
@@ -42,7 +41,6 @@ xdg-desktop-portal-kde
 drkonqi
 plasma-vault
 #plymouth-kcm
-#muon
 #kwallet-pam
 #discover
 
