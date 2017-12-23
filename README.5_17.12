@@ -40,7 +40,8 @@ What is the NEWS in this batch of updates:
   because it no longer follows the regular release schedule.
   See https://www.kde.org/announcements/announce-applications-17.12.0.php .
 - In applications-extra I have added kstars and rebuilt calligra and krita.
-  Upgraded are kile, kpmcore and partitionmanager.
+  Upgraded are kile, kpmcore and partitionmanager.  Removed is kuser because
+  that was still KDE4 based and no longer works now.
 - I have emptied the kde/kde4 and kde/kde4-extragear subdirectories except
   for the 'kdelibs' package.  The 'oxygen-gtk2' package has been moved to
   'applications-extra' because it is still needed for Mozilla-based browsers.
