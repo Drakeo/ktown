@@ -6,7 +6,7 @@
 # customary to leave one space after the ':'.
 
                 |-----handy-ruler------------------------------------------------|
-partitionmanager: partitionmanager (Graphical partition manager for KDE4)
+partitionmanager: partitionmanager (Graphical partition manager for KDE)
 partitionmanager:
 partitionmanager: Easily manage disks, partitions and filesystems on your KDE
 partitionmanager: desktop.  Create, resize, move, copy, back up, restore or
