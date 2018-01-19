@@ -7,14 +7,14 @@ ktorrent
 kpmcore
 partitionmanager
 skanlite
-kdevplatform
+#kdevplatform
 kdevelop-pg-qt
 kdevelop
 kdev-php
 kdiagram
 kjots
 kstars
-kuser
+#kuser
 krusader
 kile
 kaudiocreator
