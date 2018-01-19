@@ -1,60 +1,38 @@
 KDE5
 ====
 
-Good-bye KDE 4!
-Here is KDE 5_17.12 for Slackware, consisting of the KDE Frameworks 5.41.0,
-Plasma 5.11.4 and Applications 17.12.0 on top of Qt 5.9.3.
+Here is KDE 5_18.01 for Slackware, consisting of the KDE Frameworks 5.42.0,
+Plasma 5.11.5 and Applications 17.12.1 on top of Qt 5.9.3.
 
-Upgrading from the previous 5_17.11 is not completely trivial so read on.
+Upgrading from the previous 5_17.12 is relatively straight-forward.
 
-KDE-5_17.12 is meant to be installed on top of Slackware -current.
+KDE-5_18.01 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Applications 17.12
 no longer ships anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- Several recompiled/upgraded 'deps': OpenAL, PyQt5, cfitsio, ddcutil, gpgme,
-  json-glib, libburn, libpwquality, libxkbcommon,lmdb and poppler.
-- The telepathy section of the 'deps' also saw several upgrades:
-  libaccounts-glib, libaccounts-qt5, libnice, libsignon-glib, signon,
-  signon-plugin-oauth2, signon-ui, telegram-qt, telepathy-gabble,
-  telepathy-glib, telepathy-logger-qt5, telepathy-mission-control,
-  telepathy-morse and telepathy-qt5.
+Compared to last month when we said good-bye to the KDE4 legacy, there's
+nothing really exciting to report this time.
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.41.0.php .
+  https://www.kde.org/announcements/kde-frameworks-5.42.0.php .
 - Plasma also is a stability update, see
-  https://www.kde.org/announcements/plasma-5.11.4.php .
+  https://www.kde.org/announcements/plasma-5.11.5.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it. 
-- Applications 17.12.0 is where the hammer hits. KDE Applications 17.12 is
-  the first release that sheds its KDE4 legacy.  Any program which had not
-  yet been ported to KDE Frameworks 5 has been removed.  This means that we
-  say goodbye to the following packages:
-  libkface (unmaintained), blogilo (unmaintained and broken), jovie (replaced
-  by Qt Speech), kaccessible (superseded by Qt5 functionality), ksaneplugin
-  (no one used it), kde-runtime (split up), kremotecontrol, kppp, kfilereplace,
-  klinkstatus, kopete and kscd (I did not have a package for kscd anyway).
-  New is 'ksmtp' which belongs to the KDEPIM suite (also part of Applications).
-  And 'kstars' has moved out of Applications and into applications-extra 
-  because it no longer follows the regular release schedule.
-  See https://www.kde.org/announcements/announce-applications-17.12.0.php .
-- In applications-extra I have added kstars and rebuilt calligra and krita.
-  Upgraded are kile, kpmcore and partitionmanager.  Removed is kuser because
-  that was still KDE4 based and no longer works now.
-- I have emptied the kde/kde4 and kde/kde4-extragear subdirectories except
-  for the 'kdelibs' package.  The 'oxygen-gtk2' package has been moved to
-  'applications-extra' because it is still needed for Mozilla-based browsers.
-  If you have a KDE4-based application that needs library support on this
-  Plasma 5 desktop, let me know which of the removed packages needs to return
-  in 'kde/kde4'!
-- The 'kdei' subdirectory which used to contain the localization packages,
-  is gone.  The Plasma 5 localizations are contained in the packages
-  themselves now.  This means that you can no longer selectively install
-  just one language, or even none at all.  It will increase the disk space
-  requirements a bit.
+- Applications 17.12.1 is the first incremental update for the 17.12 series
+  and fixes some bugs.
+  See https://www.kde.org/announcements/announce-applications-17.12.1.php .
+- In applications-extra I have recompiled kjots.  Upgraded are digikam, krita,
+  partitionmanager, kstars, kdevelop,kdev-php and kdev-python.
+  The kdevplatform package has been removed as it is no longer part
+  of the KDEvelop suite.
 
 Further points of interest:
+- If you have a KDE4-based application that needs library support on this
+  Plasma 5 desktop, let me know which of the removed packages needs to return
+  in 'kde/kde4'!
 - There are a couple of *runtime* dependencies that I did not add to the
   ktown repository, but you may want to consider installing them yourself:
   * vlc - will give phonon another backend to select from.
@@ -90,14 +68,6 @@ Further points of interest:
   telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
-- The kde/kde4 directory contains packages that are still required to
-  support 3rd party kdelibs4-based programs.
-- Also worth mentioning: the KF5 ports of calligra, digikam, kaudiocreator,
-  kile, krita, ktorrent, kwebkitpart, partitionmanager, skanlite
-  and the KDE Development Suite can be found in kde/applications-extra . 
-  Finally, kjots (previously contained in KDEPIM), kuser (abandoned by its
-  developer) and kstars (does not align with the Application release schedule
-  any longer) have been moved into kde/applications-extra as well.
 
 NOTE:
 If you install a 32bit program on a 64bit Slackware computer with multilib
@@ -162,6 +132,11 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_17.12 installed:
+- Upgrade to KDE 5_18.01
+  Remove the packages that no longer exist in KDE 5_18.01:
+  # removepkg kdevplatform
 
 If you have my 'ktown' set of KDE 5_17.11 installed:
 - Upgrade to KDE 5_17.12
@@ -272,7 +247,7 @@ Then proceed with installing/upgrading KDE 5 as outlined below.
 
 NOTE:
 The example commands below are for Slackware -current but you can use
-these commands for Slackware 14.2 as well by replacing the /current/
+these commands for Slackware 14.2 as well; by replacing the /current/
 string with /14.2/ (provided there is a suitable 'ktown' release available
 for Slackware 14.2 of course):
 
@@ -355,8 +330,8 @@ If you want the sources for KDE 5, run the following command to download them
 
 There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
 install before attempting to compile KDE 5. Compiling and installing these
-dependencies on Slackware-current is hopefully (have not tested the script
-'updates.SlackBuild' in a long time) as easy as this:
+dependencies on Slackware-current is hopefully (have not tested the scripts
+'updates.SlackBuild' and 'alldeps.SlackBuild' in a long time) as easy as this:
   # cd 5/deps
   # ./updates.SlackBuild
   # cd -
@@ -377,4 +352,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 21-dec-2017
+                     Eric Hameleers / alien at slackware dot com / 18-jan-2018
