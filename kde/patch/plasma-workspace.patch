@@ -11,3 +11,6 @@
 # Fixed in 5.9.0
 #cat $CWD/patch/plasma-workspace/plasma-workspace.systray_cpubug.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix vulnerability (CVE-2018-6791 - KDEBUG_389815):
+cat $CWD/patch/plasma-workspace/plasma-workspace_kdebug389815.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
