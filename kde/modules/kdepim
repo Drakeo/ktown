@@ -1,7 +1,8 @@
 # kdepim
 kcalcore
 akonadi
-kholidays
+# Moved to Frameworks:
+#kholidays
 kpimtextedit
 kidentitymanagement
 kcalutils

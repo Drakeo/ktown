@@ -28,6 +28,7 @@ kwayland
 prison
 kirigami2
 syntax-highlighting
+kholidays
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 breeze-icons
 kapidox
@@ -73,6 +74,7 @@ kpeople
 kxmlrpcclient
 baloo5
 qqc2-desktop-style
+purpose
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
 kjs
 kjsembed
