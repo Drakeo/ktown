@@ -1,14 +1,14 @@
 KDE5
 ====
 
-Here is KDE 5_18.01_testing for Slackware, consisting of the
-KDE Frameworks 5.42.0, Plasma 5.11.5 and Applications 17.12.1
-on top of Qt 5.9.3.
+Here is KDE 5_18.02_testing for Slackware, consisting of the
+KDE Frameworks 5.43.0, Plasma 5.12.0 and Applications 17.12.2
+on top of Qt 5.9.4.
 
-Upgrading from 5_17.12_testing is straight-forward.
+Upgrading from 5_18.01_testing is straight-forward.
 
-KDE-5_18.01_testing is meant to be installed on top of slackware -current.
-It is different from the 'regular' KDE_5.18.01 release in the sense that this
+KDE-5_18.02_testing is meant to be installed on top of slackware -current.
+It is different from the 'regular' KDE_5.18.02 release in the sense that this
 'testing' release has a working Wayland support for Plasma5 on Slackware.
 To this purpose, the original Slackware packages 'mesa' and xorg-server'
 were recompiled to add Wayland support.  Having to provide altered packages
@@ -44,7 +44,7 @@ the KWin developers then added CK2 as an alternative in case systemd-logind
 is not present on the system.
 Which means, we do not need PAM nor systemd to make Wayland work on Slackware.
 
-The differences between 'KDE-5_18.01' and 'KDE-5_18.01_testing':
+The differences between 'KDE-5_18.02' and 'KDE-5_18.02_testing':
 
 Added packages:
   Deps:
@@ -84,4 +84,4 @@ Wayland working on Slackware.  Otherwise, the 'latest' release is what
 you need.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 18-jan-2018
+                     Eric Hameleers / alien at slackware dot com / 10-feb-2018

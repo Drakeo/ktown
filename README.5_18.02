@@ -1,33 +1,35 @@
 KDE5
 ====
 
-Here is KDE 5_18.01 for Slackware, consisting of the KDE Frameworks 5.42.0,
-Plasma 5.11.5 and Applications 17.12.1 on top of Qt 5.9.3.
+Here is KDE 5_18.02 for Slackware, consisting of the KDE Frameworks 5.43.0,
+Plasma 5.12.0 and Applications 17.12.2 on top of Qt 5.9.4.
 
-Upgrading from the previous 5_17.12 is relatively straight-forward.
+Upgrading from the previous 5_18.01 is relatively straight-forward.
 
-KDE-5_18.01 is meant to be installed on top of Slackware -current.
+KDE-5_18.02 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Applications 17.12
 no longer ships anything based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-Compared to last month when we said good-bye to the KDE4 legacy, there's
-nothing really exciting to report this time.
+- The 'deps' section has been graced with an updated qt5 package. I opted
+  for 5.9.4 which is the last one in the 5.9 series in the hope that Pat
+  updates to qt5-5.10 when adding Plasma5 to Slackware.
+  Also, I added two new packages here: cryptopp and cryfs. The Plasma Vault
+  requires en encryption backend and cryfs seems to be the best choice
+  (alternative backends would be encfs or tomb).
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.42.0.php .
-- Plasma also is a stability update, see
-  https://www.kde.org/announcements/plasma-5.11.5.php .
+  https://www.kde.org/announcements/kde-frameworks-5.43.0.php .
+- Plasma is the highlight of the month. Version 5.12 is a Long Term Support
+  (LTS) release, which replaces the previous LTS version 5.8.
+  https://www.kde.org/announcements/plasma-5.12.0.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
-  to install it separately if you need it. 
-- Applications 17.12.1 is the first incremental update for the 17.12 series
+  to install it separately if you need it.
+- Applications 17.12.2 is an incremental update for the 17.12 series
   and fixes some bugs.
-  See https://www.kde.org/announcements/announce-applications-17.12.1.php .
-- In applications-extra I have recompiled kjots.  Upgraded are digikam, krita,
-  partitionmanager, kstars, kdevelop,kdev-php and kdev-python.
-  The kdevplatform package has been removed as it is no longer part
-  of the KDEvelop suite.
+  See https://www.kde.org/announcements/announce-applications-17.12.2.php .
+- In applications-extra I have upgraded calligra and added calligraplan.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -46,14 +48,14 @@ Further points of interest:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, ddcutil, dvdauthor,
-  frei0r-plugins, grantlee-qt4, hack-font-ttf, id3lib, json-glib, lensfun,
-  libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5, libdmtx,
+  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, cryptopp, cryfs, ddcutil,
+  dvdauthor, frei0r-plugins, grantlee-qt4, hack-font-ttf, id3lib, json-glib,
+  lensfun, libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5, libdmtx,
   libindicator, libinput, libpwquality, libwacom, libxkbcommon, lmdb, mlt,
   ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5,
-  qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab
-  and wayland.
-  As a side note, libinput and libwacom have become part of Slackware-current.
+  qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  As a side note, libinput libwacom and ninja have become part
+  of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
   compile Plasma5 packages for Slackware 14.2 so I left them in.
   The phonon and poppler packages were extended so that they now support
@@ -68,6 +70,9 @@ Further points of interest:
   telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
   telepathy-mission-control and telepathy-accounts-signon.
 - Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
+- KDEI is gone. The localizations are now embedded in each package and
+  no longer available as separate 'kdei' packages. This is a by design.
+  You will get all languages installed by default.
 
 NOTE:
 If you install a 32bit program on a 64bit Slackware computer with multilib
@@ -98,9 +103,12 @@ Install pre-compiled packages:
 
 In order to install or upgrade KDE 5, follow these steps:
 
-Make sure you are not running KDE or even X !  If you are running an X session,
-log out first, and if you are in runlevel 4 (graphical login) you first have to
-go back to runlevel 3 (console) by typing "init 3".
+Make sure you are not running KDE or even X !
+If you are running an X session, log out first to return to the console.
+If your computer boots to runlevel 4 (graphical login) you first have to go
+back to runlevel 3 (console) after logging out.  Press <Ctrl><Alt><F1> to
+switch to a console, logon there, and execute the command "init 3" to
+switch from runlevel 4 to 3, thereby effectively stopping X.
 
 If you still have a KDE 4 installed, it must be removed first. No clean
 upgrade path can be provided!  Do as follows:
@@ -132,6 +140,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.01 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.12 installed:
 - Upgrade to KDE 5_18.01
@@ -352,4 +363,4 @@ Note that these packages will already have been installed by KDE.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 18-jan-2018
+                     Eric Hameleers / alien at slackware dot com / 09-feb-2018
