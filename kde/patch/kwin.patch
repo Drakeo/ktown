@@ -6,6 +6,6 @@
 # Fixed in kwin 5.10.3.
 #cat $CWD/patch/kwin/kwin_qt59_rootwindow_events.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
-# Fix compilation with cmake 3.10:
-cat $CWD/patch/kwin/kwin_cmake310.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Fix compilation with cmake 3.10 (fixed in 5.12.0):
+#cat $CWD/patch/kwin/kwin_cmake310.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
