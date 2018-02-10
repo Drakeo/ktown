@@ -63,6 +63,8 @@ ALLDEPS=" \
   qtav \
   ddcutil \
   id3lib \
+  cryptopp \
+  cryfs \
   "
   # Only needed when adding support for Wayland:
   #elogind \
