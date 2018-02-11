@@ -1,4 +1,4 @@
-prefix/usr
+prefix=/usr
 exec_prefix=/usr
 libdir=/usr/lib@LIBDIRSUFFIX@
 includedir=${prefix}/include/cryptopp
