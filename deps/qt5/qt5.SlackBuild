@@ -144,6 +144,11 @@ cd qtbase
   cat $CWD/patches/qt5.qtbug-66103.patch | patch -p1 --verbose || exit 1
 cd -
 
+# Extend the MariaDB define check to cover the later versions too:
+cd qtbase
+  cat $CWD/patches/qt5.cr206850.patch | patch -p1 --verbose || exit 1
+cd -
+
 # Fix missing private includes: QTBUG-37417
 sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' \
   -i qtbase/mkspecs/features/create_cmake.prf
