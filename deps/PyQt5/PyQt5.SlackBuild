@@ -101,7 +101,7 @@ if [ -n "${PYTHON3LIB}" ]; then
   mv $PKG/usr/bin/pyrcc5 $PKG/usr/bin/pyrcc5-py3
   mv $PKG/usr/bin/pyuic5 $PKG/usr/bin/pyuic5-py3
   mv $PKG/usr/bin/pylupdate5 $PKG/usr/bin/pylupdate5-py3
-  rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v3/
+  rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v2/
 fi
 
 python configure.py \
@@ -115,7 +115,7 @@ make $NUMJOBS || make || exit 1
 # INSTALL_ROOT is needed to install libpyqt4.so properly:
 make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
 
-rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v2/
+rm -rf $PKG/$PYTHONLIB/${PKGNAM}/uic/port_v3/
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
