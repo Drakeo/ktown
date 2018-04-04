@@ -57,7 +57,7 @@
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.9.4}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
