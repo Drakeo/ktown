@@ -7,6 +7,7 @@ libktorrent
 ktorrent
 kpmcore
 partitionmanager
+falkon
 skanlite
 #kdevplatform
 kdevelop-pg-qt
@@ -24,3 +25,5 @@ oxygen-gtk2
 # kdev-python requires python3:
 kdev-python
 yakuake
+alkimia
+kmymoney
