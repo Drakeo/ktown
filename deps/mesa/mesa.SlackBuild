@@ -21,8 +21,8 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=mesa
-VERSION=${VERSION:-17.3.3}
-DEMOVERS=${DEMOVERS:-8.3.0}
+VERSION=${VERSION:-17.3.6}
+DEMOVERS=${DEMOVERS:-8.4.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
@@ -138,7 +138,7 @@ make install DESTDIR=$PKG || exit 1
 # Install /etc/drirc as a .new file:
 mv $PKG/etc/drirc $PKG/etc/drirc.new
 
-# Now build/install the demos:
+# Now build/install a small subset of the demos:
 export CWD SLKCFLAGS NUMJOBS PKG
 ( cd $TMP
   rm -rf mesa-demos-$DEMOVERS
