@@ -1,4 +1,5 @@
 # Set TERM to 'konsole' instead of the default 'xterm-256color'
 # to prevent garbled text under certain conditions:
-cat $CWD/patch/konsole/konsole.term.is.konsole.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Reverted to default behaviour in 18.04.0 after Slackware did the same:
+#cat $CWD/patch/konsole/konsole.term.is.konsole.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
