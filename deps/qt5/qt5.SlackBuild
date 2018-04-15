@@ -54,10 +54,11 @@
 # Modifications for qt 5.9.2 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.3 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.4 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.5 2018 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.9.4}
-BUILD=${BUILD:-3}
+VERSION=${VERSION:-5.9.5}
+BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
@@ -139,16 +140,6 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Fix a bug, evident in Plasma5 where drag'n'drop makes wrong icon hover:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-66103.patch | patch -p1 --verbose || exit 1
-cd -
-
-# Extend the MariaDB define check to cover the later versions too:
-cd qtbase
-  cat $CWD/patches/qt5.cr206850.patch | patch -p1 --verbose || exit 1
-cd -
-
 # Fix missing private includes: QTBUG-37417
 sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' \
   -i qtbase/mkspecs/features/create_cmake.prf
@@ -162,8 +153,10 @@ else
   PACONF=" "
 fi
 
-sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
+# Use our custom compiler and linker flags:
+#sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
+sed -i -e "s/-O3/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
 sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-base.conf || exit 1
 
 # Enable h.264 codec support:

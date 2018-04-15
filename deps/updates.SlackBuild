@@ -32,6 +32,7 @@ ALLDEPS=" \
   sip \
   PyQt \
   PyQt5 \
+  QScintilla \
   polkit-qt5-1 \
   grantlee \
   grantlee-qt4 \

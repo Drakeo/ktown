@@ -31,6 +31,7 @@ ALLDEPS=" \
   sip \
   PyQt \
   PyQt5 \
+  QScintilla \
   qca-qt5 \
   libdbusmenu-qt5 \
   polkit-qt-1 \
