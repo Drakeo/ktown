@@ -26,6 +26,7 @@ kdf
 kfloppy
 kgpg
 print-manager
+kbackup
 ktimer
 khelpcenter
 kwalletmanager
@@ -37,7 +38,6 @@ dolphin
 # kdesdk:
 kdebugsettings
 kapptemplate
-okteta
 cervisia
 dolphin-plugins
 kcachegrind
@@ -78,11 +78,13 @@ kmix
 ffmpegthumbs
 kwave
 k3b
+kamoso
 
 # kdenetwork:
 kdenetwork-filesharing
 zeroconf-ioslave
 kget
+#kopete
 krdc
 krfb
 
