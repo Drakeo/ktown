@@ -65,7 +65,7 @@ pkgbase() {
 }
 
 # Set initial variables:
-CWD=$(pwd)
+cd $(dirname $0) ; CWD=$(pwd)
 TMP=${TMP:-/tmp}
 
 # Set up a few useful functions:
@@ -108,6 +108,12 @@ strip_binaries() {
   find $target_dir | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
   find $target_dir | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
   find $target_dir | xargs file | grep "current ar archive" | grep ELF | cut -f 1 -d : | xargs strip -g 2> /dev/null
+  # Also strip rpaths:
+  for file in $(find $target_dir | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+    if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+      patchelf --remove-rpath $file
+    fi
+  done
 }
 
 process_man_pages() {
@@ -238,7 +244,9 @@ build_mod_pkg () {
   mkdir -p $PKG
   ( for PKGNAME in $(cat $kde_module |grep -v "^$" |grep -v "^ *#") ; do
       if grep -wq "^${PKGNAME}$" ${CWD}/package-blacklist ; then
-        echo "** '${PKGNAME}' is on the package blacklist."
+        if [ -z "$PRINT_PACKAGE_NAME" ]; then
+          echo "** '${PKGNAME}' is on the package blacklist."
+        fi
         continue
       fi
       # Find the full source filename - yeah ugly, but I had two goals:
@@ -253,7 +261,9 @@ build_mod_pkg () {
       fi
       kde_src=$(basename $(find $CWD/src/$PKGLOC -name "$PKGSRC-*.tar.?z*" |grep -vE ".asc$|.sig$" |grep -E "$PKGSRC-[^-]+.tar.*$|$PKGSRC-[0-9].+.tar.*$") 2>/dev/null)
       if [ "x$kde_src" = "x" ]; then
-        echo "** Did not find '$PKGSRC' in src"
+        if [ -z "$PRINT_PACKAGE_NAME" ]; then
+          echo "** Did not find '$PKGSRC' in src"
+        fi
         continue
       fi
       # Reset $PKGARCH to its initial value:
@@ -274,9 +284,11 @@ build_mod_pkg () {
           continue
         fi
       else
-        echo
-        echo "Building from source ${kde_src}"
-        echo
+        if [ -z "$PRINT_PACKAGE_NAME" ]; then
+          echo
+          echo "Building from source ${kde_src}"
+          echo
+        fi
       fi
 
       # Set $PKG to a private dir for the modular package build:
@@ -286,6 +298,18 @@ build_mod_pkg () {
 
       # Let's figure out the version number on the modular package:
       MODULAR_PACKAGE_VERSION=$(echo $kde_src | rev | cut -f 3- -d . | cut -f 1 -d - | rev)
+
+      # If this variable is passed to the script, nothing will be built.
+      # Instead, a list of packages to be built will be output.
+      if [ ! -z "$PRINT_PACKAGE_NAME" ]; then
+        if [ -r $CWD/build/${PKGNAME} ]; then
+          MODBUILD=$(cat $CWD/build/${PKGNAME})
+        else
+          MODBUILD=$BUILD
+        fi
+        echo "${PKGNAME}-${MODULAR_PACKAGE_VERSION}-${PKGARCH}-${MODBUILD}.txz"
+        continue
+      fi
 
       rm -rf $(pkgbase $kde_src)
       extract_archive $kde_src || exit 1
@@ -413,7 +437,9 @@ deterministic_build() {
     KDE_MOD=$(echo "$ENTRY": | cut -f1 -d:)
     KDE_PKGS=$(echo "$ENTRY": | cut -f2 -d:)
     if [ -z "$KDE_PKGS" ]; then
-      echo "** SlackBuild building '$KDE_MOD'"
+      if [ -z "$PRINT_PACKAGE_NAME" ]; then
+        echo "** SlackBuild building '$KDE_MOD'"
+      fi
       build_mod_pkg $KDE_MOD
       let RET=$RET+$?
     else
@@ -422,10 +448,14 @@ deterministic_build() {
         START_PKG=$(echo $KDE_PKGS |rev |cut -d, -f2 |rev)
         MOD_LIST=$(cat modules/$KDE_MOD |grep -v "^ *#" |grep -v "^$" |tr '\n' ',')
         KDE_PKGS="${KDE_PKGS}${MOD_LIST/#?*,${START_PKG},/}"
-        echo "** SlackBuild expanding '$ENTRY' to '$KDE_MOD:$KDE_PKGS'"
+        if [ -z "$PRINT_PACKAGE_NAME" ]; then
+          echo "** SlackBuild expanding '$ENTRY' to '$KDE_MOD:$KDE_PKGS'"
+        fi
       fi
       for KDE_PKG in $(echo $KDE_PKGS |tr ',' ' ') ; do
-        echo "** SlackBuild building '$KDE_MOD:$KDE_PKG'"
+        if [ -z "$PRINT_PACKAGE_NAME" ]; then
+          echo "** SlackBuild building '$KDE_MOD:$KDE_PKG'"
+        fi
         build_mod_pkg $KDE_MOD $KDE_PKG
         let RET=$RET+$?
       done
@@ -482,20 +512,24 @@ fi
 for module in \
   $MODQUEUE ;
 do
-  echo "SlackBuild processing module '$module'"
+  if [ -z "$PRINT_PACKAGE_NAME" ]; then
+    echo "SlackBuild processing module '$module'"
+  fi
   deterministic_build $module
   if [ $? = 0 ]; then
     # Move the created packages up into the KDE build directory:
-    mv ${SLACK_KDE_BUILD_DIR}/$(echo $module |cut -f1 -d:)/*.t?z ${SLACK_KDE_BUILD_DIR}/
+    mv ${SLACK_KDE_BUILD_DIR}/$(echo $module |cut -f1 -d:)/*.t?z ${SLACK_KDE_BUILD_DIR}/ 2> /dev/null
     if [ "$CLEANUP" = "yes" -o "$CLEANUP" = "YES" ]; then
       # Clean out package and build directories:
       rm -rf ${SLACK_KDE_BUILD_DIR}/$(echo $module |cut -f1 -d:)
     fi
   else
-    echo "${module} failed to build."
+    if [ -z "$PRINT_PACKAGE_NAME" ]; then
+      echo "${module} failed to build."
+    fi
     exit 1
   fi
-  cd - ;
+  cd - > /dev/null
 done
 
 exit 0
