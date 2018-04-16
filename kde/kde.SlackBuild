@@ -22,15 +22,15 @@
 # Adapted by Eric Hameleers <alien@slackware.com> from the modular x.org build.
 
 # To build only a single package group, specify it as $1, like:
-#   ./KDE.SlackBuild frameworks
+#   ./kde.SlackBuild frameworks
 # To build only a single package, specify both the group name
 # and the name of the package, like:
-#   ./KDE.SlackBuild applications:dolphin
+#   ./kde.SlackBuild applications:dolphin
 # To build multiple packages in a module, separate the package names with comma:
-#   ./KDE.SlackBuild plasma:powerdevil,bluedevil
+#   ./kde.SlackBuild plasma:powerdevil,bluedevil
 # To build a package *and* all the remaining packages following it
 # in the modules file, end the package name with a comma:
-#   ./KDE.SlackBuild plasma:breeze,kwin,
+#   ./kde.SlackBuild plasma:breeze,kwin,
 
 # ----------------------------------------------------------------------------
 
@@ -438,7 +438,7 @@ deterministic_build() {
 # MAIN PART #
 
 # Import the build configuration options for as far as they are not already set:
-[ -r ./KDE.options ] && . ./KDE.options
+[ -r ./kde.options ] && . ./kde.options
 
 # This avoids compiling a version number into KDE's .la files:
 QTDIR=/usr/lib${LIBDIRSUFFIX}/qt5 ; export QTDIR
