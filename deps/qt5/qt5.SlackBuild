@@ -75,6 +75,14 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-${PKGVER}-${ARCH}-${BUILD}.txz"
+  exit 0
+fi
+
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
   SLKLDFLAGS=""
@@ -219,6 +227,16 @@ make install INSTALL_ROOT=$PKG || exit 1
 # Strip binaries the Slackware way:
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Remove rpaths:
+for file in $(find . | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+  if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+    patchelf --remove-rpath $file
+  fi
+done
+
+# Don't ship .la files:
+rm -f usr/lib${LIBDIRSUFFIX}/*.la
 
 # Fix internal linking for Qt5WebEngineCore.pc ,
 # thanks to Larry Hajali's SBo script:
