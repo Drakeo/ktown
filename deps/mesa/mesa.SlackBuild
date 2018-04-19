@@ -20,8 +20,11 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
+cd $(dirname $0) ; CWD=$(pwd)
+
 PKGNAM=mesa
-VERSION=${VERSION:-17.3.6}
+VERSION=${VERSION:-18.0.1}
 DEMOVERS=${DEMOVERS:-8.4.0}
 BUILD=${BUILD:-1}
 
@@ -40,7 +43,14 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-CWD=$(pwd)
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-mesa
 
@@ -65,7 +75,7 @@ cd $TMP
 rm -rf ${PKGNAM}-${VERSION}
 
 tar xvf $CWD/${PKGNAM}-${VERSION}.tar.xz || exit 1
-cd ${PKGNAM}-$VERSION
+cd ${PKGNAM}-$VERSION || exit 1
 
 # Let's kill the warning about operating on a dangling symlink:
 rm -f src/gallium/state_trackers/d3d1x/w32api
@@ -135,6 +145,9 @@ CFLAGS="$SLKCFLAGS" \
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
 
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+
 # Install /etc/drirc as a .new file:
 mv $PKG/etc/drirc $PKG/etc/drirc.new
 
@@ -157,7 +170,7 @@ export CWD SLKCFLAGS NUMJOBS PKG
   make $NUMJOBS || exit 1
   # Install all the demos (including the pointless ones) at first, in a
   # temporary location:
-  make install DESTDIR=$PKG/cruft
+  make install DESTDIR=$PKG/cruft || exit 1
   # Install gears and glinfo, as well as a few other demos:
   mkdir -p $PKG/usr/bin
   for demo in gears glinfo glthreads glxcontexts glxdemo glxgears \

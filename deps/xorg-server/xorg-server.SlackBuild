@@ -30,45 +30,47 @@ PKGNAM=xorg-server
 VERSION=${VERSION:-1.19.6}
 BUILD=${BUILD:-2}
 
-CWD=$(pwd)
+cd $(dirname $0) ; CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
-if [ -e $CWD/machine.conf ]; then
-  . $CWD/machine.conf ]
-elif [ -e /etc/slackbuild/machine.conf ]; then
-  . /etc/slackbuild/machine.conf ]
+# Automatically determine the architecture we're building on:
+MARCH=$( uname -m )
+if [ -z "$ARCH" ]; then
+  case "$MARCH" in
+    i?86)    export ARCH=i586 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *)       export ARCH=$MARCH ;;
+  esac
+fi
+
+# If this variable is passed to the script, nothing will be built.
+# Instead, a list of packages to be built will be output.
+if [ ! -z "$PRINT_PACKAGE_NAME" ]; then
+  echo "${PKGNAME}-${VERSION}-${ARCH}-${BUILD}.txz"
+  exit 0
+fi
+
+# Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "s390" ]; then
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "armv7hl" ]; then
+  SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "arm" ]; then
+  SLKCFLAGS="-O2 -march=armv5te"
+  LIBDIRSUFFIX=""
 else
-  # Automatically determine the architecture we're building on:
-  MARCH=$( uname -m )
-  if [ -z "$ARCH" ]; then
-    case "$MARCH" in
-      i?86)    export ARCH=i486 ;;
-      arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
-      # Unless $ARCH is already set, use uname -m for all other archs:
-      *)       export ARCH=$MARCH ;;
-    esac
-  fi
-  # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
-  if [ "$ARCH" = "i486" ]; then
-    SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-    LIBDIRSUFFIX=""
-  elif [ "$ARCH" = "s390" ]; then
-    SLKCFLAGS="-O2"
-    LIBDIRSUFFIX=""
-  elif [ "$ARCH" = "x86_64" ]; then
-    SLKCFLAGS="-O2 -fPIC"
-    LIBDIRSUFFIX="64"
-  elif [ "$ARCH" = "armv7hl" ]; then
-    SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
-    LIBDIRSUFFIX=""
-  elif [ "$ARCH" = "arm" ]; then
-    SLKCFLAGS="-O2 -march=armv5te"
-    LIBDIRSUFFIX=""
-  else
-    SLKCFLAGS="-O2"
-    LIBDIRSUFFIX=""
-  fi
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
 fi
 
 case "$ARCH" in
@@ -234,6 +236,9 @@ rmdir $PKG/var 2>/dev/null
 # Strip binaries:
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | \
   grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
 # Compress and link manpages, if any:
 if [ -d $PKG/usr/man ]; then
