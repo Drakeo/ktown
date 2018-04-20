@@ -236,7 +236,7 @@ for file in $(find . | xargs file | grep -e "executable" -e "shared object" | gr
 done
 
 # Don't ship .la files:
-rm -f usr/lib${LIBDIRSUFFIX}/*.la
+rm -f $PKG/usr/lib${LIBDIRSUFFIX}/*.la
 
 # Fix internal linking for Qt5WebEngineCore.pc ,
 # thanks to Larry Hajali's SBo script:
