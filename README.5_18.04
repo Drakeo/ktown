@@ -1,36 +1,41 @@
 KDE5
 ====
 
-Here is KDE 5_18.02 for Slackware, consisting of the KDE Frameworks 5.43.0,
-Plasma 5.12.0 and Applications 17.12.2 on top of Qt 5.9.4.
+Here is KDE 5_18.04 for Slackware, consisting of the KDE Frameworks 5.45.0,
+Plasma 5.12.4 and Applications 18.04.0 on top of Qt 5.9.5.
 
-Upgrading from the previous 5_18.01 is relatively straight-forward.
+Upgrading from the previous 5_18.03 is relatively straight-forward.
 
-KDE-5_18.02 is meant to be installed on top of Slackware -current.
+KDE-5_18.04 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
-The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Applications 17.12
-no longer ships anything based on kdelibs4.
+The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
+Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- The 'deps' section has been graced with an updated qt5 package. I opted
-  for 5.9.4 which is the last one in the 5.9 series in the hope that Pat
-  updates to qt5-5.10 when adding Plasma5 to Slackware.
-  Also, I added two new packages here: cryptopp and cryfs. The Plasma Vault
-  requires en encryption backend and cryfs seems to be the best choice
-  (alternative backends would be encfs or tomb).
+- The mass-rebuild of slackware-current made it necessary to act on some
+  packages in the 'deps' section.  I upgraded gpgme, mlt, poppler and qt5
+  to a newer version; and I added QScintilla to extend the package available
+  in Slackware with support for Qt5.
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.43.0.php .
-- Plasma is the highlight of the month. Version 5.12 is a Long Term Support
-  (LTS) release, which replaces the previous LTS version 5.8.
-  https://www.kde.org/announcements/plasma-5.12.0.php .
+  https://www.kde.org/announcements/kde-frameworks-5.45.0.php .
+- Plasma is a stability update as well.  See:
+  https://www.kde.org/announcements/plasma-5.12.4.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it.
-- Applications 17.12.2 is an incremental update for the 17.12 series
-  and fixes some bugs.
-  See https://www.kde.org/announcements/announce-applications-17.12.2.php .
-- In applications-extra I have upgraded calligra and added calligraplan.
+- In plasma-extra the 'kdeconnect-framework' package was updated.
+- Applications 18.04.0 is the start of a new round of improvements.
+  Two new packages are available starting with 18.04: 'kamoso' which is a
+  webcam recorder, and a backup program 'kbackup'.  The instant messenger
+  client Kopete was ported to KF5 and is contained in the source distribution,
+  but I was unable to compile it.  Perhaps more luck next month.  Finally,
+  the hex editor 'okteta' moved to the 'applications-extra' section because
+  its developer no longer wants to be tied to Application release windows.
+  See https://www.kde.org/announcements/announce-applications-18.04.0.php .
+- In applications-extra I have upgraded 'kdiagram' and 'krita'.
 
+Same old same old:
+------------------
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
   Plasma 5 desktop, let me know which of the removed packages needs to return
@@ -75,16 +80,6 @@ Further points of interest:
   You will get all languages installed by default.
 
 NOTE:
-If you install a 32bit program on a 64bit Slackware computer with multilib
-and that program needs legacy system tray support (think of Steam for
-instance), you will have to grab the 32-bit version of Slackware's
-'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
-'convertpkg-compat32 -i' command on them to create 'compat32' versions
-of these packages.  Then install both 'libdbusmenu-qt-compat32' and
-'sni-qt-compat32'.  Those two are mandatory addons for displaying
-system tray icons of 32bit binaries in 64bit multilib Plasma5.
-
-NOTE:
 Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
 You will have to remove old KDE 4 packages manually.
 
@@ -94,6 +89,16 @@ of KDE 4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
 An attempt to run 'startx' in a console will fail with a black screen.
 After installing Plasma 5 for the first time, you need to run 'xwmconfig'
 and select 'xinitrc.plasma' as your desktop session.
+
+NOTE:
+If you install a 32bit program on a 64bit Slackware computer with multilib
+and that program needs legacy system tray support (think of Steam for
+instance), you will have to grab the 32-bit version of Slackware's
+'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
+'convertpkg-compat32 -i' command on them to create 'compat32' versions
+of these packages.  Then install both 'libdbusmenu-qt-compat32' and
+'sni-qt-compat32'.  Those two are mandatory addons for displaying
+system tray icons of 32bit binaries in 64bit multilib Plasma5.
 
 
 -------------------------------------------------------------------------------
@@ -115,22 +120,24 @@ upgrade path can be provided!  Do as follows:
 
 If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
   # removepkg /var/log/packages/*-4.14.3-*
-  # removepkg libkscreen
+  # removepkg amarok
   # removepkg kscreen
   # removepkg kactivities
   # removepkg kde-workspace
-  # removepkg libmm-qt
-  # removepkg libnm-qt
-  # removepkg plasma-nm
-  # removepkg polkit-kde-agent-1
-  # removepkg polkit-kde-kcmodules-1
   # removepkg kdeconnect-kde
   # removepkg kdepim
   # removepkg kdepimlibs
   # removepkg kdev-python
   # removepkg kdevelop-php
   # removepkg kdevelop-php-docs
-  ..or instead of the above, simply '# slackpkg remove kde'.
+  # removepkg libkscreen
+  # removepkg libmm-qt
+  # removepkg libnm-qt
+  # removepkg plasma-nm
+  # removepkg polkit-kde-agent-1
+  # removepkg polkit-kde-kcmodules-1
+  # removepkg wicd-kde
+  ... or instead of the above, simply run 'slackpkg remove kde'.
 
 Alternatively, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
@@ -140,6 +147,12 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.03 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.02 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.01 installed:
 - No further actions are needed.
@@ -356,11 +369,11 @@ have been installed/upgraded automatically.
 
 Then if you want to compile the KDE packages on your computer, run:
   # cd 5/kde
-  # ./KDE.SlackBuild
+  # ./kde.SlackBuild
 
 Wait a long time, and you will find the new packages in /tmp/kde_build .
-Note that these packages will already have been installed by KDE.SlackBuild !
+Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 09-feb-2018
+                     Eric Hameleers / alien at slackware dot com / 20-apr-2018
