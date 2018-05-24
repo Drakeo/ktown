@@ -1,4 +1,4 @@
 # PowerDevil fails to setup power settings on a fresh install.
 # Fixed in 5.12.5.
-cat $CWD/patch/powerdevil/powerdevil-5.12.4_firstrun.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/powerdevil/powerdevil-5.12.4_firstrun.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 

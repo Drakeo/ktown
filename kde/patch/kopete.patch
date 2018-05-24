@@ -5,5 +5,5 @@
 
 # Make 18.04.0 compile.
 # Fixed in 18.04.1.
-cat $CWD/patch/kopete/kopete_kdebug393372.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kopete/kopete_kdebug393372.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
