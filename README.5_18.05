@@ -1,41 +1,32 @@
 KDE5
 ====
 
-Here is KDE 5_18.04 for Slackware, consisting of the KDE Frameworks 5.45.0,
-Plasma 5.12.4 and Applications 18.04.0 on top of Qt 5.9.5.
+Here is KDE 5_18.05 for Slackware, consisting of the KDE Frameworks 5.46.0,
+Plasma 5.12.5 and Applications 18.04.1 on top of Qt 5.9.5.
 
-Upgrading from the previous 5_18.03 is relatively straight-forward.
+Upgrading from the previous 5_18.04 is relatively straight-forward.
 
-KDE-5_18.04 is meant to be installed on top of Slackware -current.
+KDE-5_18.05 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- The mass-rebuild of slackware-current made it necessary to act on some
-  packages in the 'deps' section.  I upgraded gpgme, mlt, poppler and qt5
-  to a newer version; and I added QScintilla to extend the package available
-  in Slackware with support for Qt5.
+- In the 'deps' section, cryfs was rebuilt and poppler updated to match the
+  version in Slackware.
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.45.0.php .
+  https://www.kde.org/announcements/kde-frameworks-5.46.0.php .
 - Plasma is a stability update as well.  See:
-  https://www.kde.org/announcements/plasma-5.12.4.php .
+  https://www.kde.org/announcements/plasma-5.12.5.php .
   I compiled plasma5-nm against openconnect so that it picks up support for
   it.  However I did not add openconnect to the 'deps' section, you need
   to install it separately if you need it.
-- In plasma-extra the 'kdeconnect-framework' package was updated.
-- Applications 18.04.0 is the start of a new round of improvements.
-  Two new packages are available starting with 18.04: 'kamoso' which is a
-  webcam recorder, and a backup program 'kbackup'.  The instant messenger
-  client Kopete was ported to KF5 and is contained in the source distribution,
-  but I was unable to compile it.  Perhaps more luck next month.  Finally,
-  the hex editor 'okteta' moved to the 'applications-extra' section because
-  its developer no longer wants to be tied to Application release windows.
-  See https://www.kde.org/announcements/announce-applications-18.04.0.php .
-- In applications-extra I have upgraded 'kdiagram' and 'krita'.
+- Applications 18.04.1 is a stability and bugfix release.
+  See https://www.kde.org/announcements/announce-applications-18.04.1.php .
+- In applications-extra I have rebuilt calligra and upgraded alkimia, falkon,
+  kdevelop, kdev-php, kdev-python, krita and krusader.  I also added one new
+  package: krename.
 
-Same old same old:
-------------------
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
   Plasma 5 desktop, let me know which of the removed packages needs to return
@@ -141,12 +132,15 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
 
 Alternatively, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
-(for instance: KDE 5_17.10) and then apply the actions shown for that KDE 5
+(for instance: KDE 5_18.02) and then apply the actions shown for that KDE 5
 release *and* all more recent releases, i.e. work your way back up to this
 paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.04 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.03 installed:
 - No further actions are needed.
@@ -376,4 +370,4 @@ Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 20-apr-2018
+                     Eric Hameleers / alien at slackware dot com / 23-may-2018
