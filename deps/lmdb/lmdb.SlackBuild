@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,8 +23,8 @@
 
 
 PKGNAM=lmdb
-VERSION=${VERSION:-0.9.17}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-0.9.21}
+BUILD=${BUILD:-2}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -68,13 +68,14 @@ rm -rf $PKG
 mkdir -p $PKG $TMP
 cd $TMP
 rm -rf ${PKGNAM}-LMDB_${VERSION}
-tar xvf $CWD/${PKGNAM}-LMDB_${VERSION}.tar.xz || exit 1
+tar xvf $CWD/${PKGNAM}-LMDB_${VERSION}.tar.?z* || exit 1
 cd ${PKGNAM}-LMDB_${VERSION} || exit 1
 
 # Fix a x86_64 installation issue:
 if [ -n "${LIBDIRSUFFIX}" ]; then
-  sed -e "s,\(\$(prefix)/lib\);,\1${LIBDIRSUFFIX};," \
-      -i  libraries/liblmdb/Makefile
+  sed -i libraries/liblmdb/Makefile \
+    -e "s,\(\$(exec_prefix)/lib\),\1${LIBDIRSUFFIX}," \
+    -e "s,\$(datarootdir)/man,\$(prefix)/man,"
 fi
 
 chown -R root:root .

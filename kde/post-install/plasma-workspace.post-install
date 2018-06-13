@@ -6,9 +6,15 @@ cat $CWD/post-install/plasma-workspace/xinit/xinitrc.plasma \
   | sed -e "s/@LIBDIRSUFFIX@/$LIBDIRSUFFIX/g" \
   > $PKG/etc/X11/xinit/xinitrc.plasma
 chmod 0755 $PKG/etc/X11/xinit/xinitrc.plasma
-cat $CWD/post-install/plasma-workspace/xinit/xinitrc.kwayland \
+mkdir -p $PKG/usr/bin
+cat $CWD/post-install/plasma-workspace/scripts/startkwayland \
   | sed -e "s/@LIBDIRSUFFIX@/$LIBDIRSUFFIX/g" \
-  > $PKG/etc/X11/xinit/xinitrc.kwayland
+  > $PKG/usr/bin/startkwayland
+chmod 0755 $PKG/usr/bin/startkwayland
+
+# ck-launch-session is needed for a Wayland session, since we do not have PAM:
+sed -e 's/^Exec=dbus-launch/Exec=ck-launch-session dbus-launch --sh-syntax/' \
+  -i $PKG/usr/share/wayland-sessions/plasmawayland.desktop
 
 # Add a "fail-safe" version of KDE Plasma desktop session.
 # Prefix the name with "z_" because SDDM is braindead:

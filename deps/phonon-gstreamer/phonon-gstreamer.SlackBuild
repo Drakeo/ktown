@@ -28,7 +28,7 @@ SRCNAM=phonon-backend-gstreamer
 VERSION=${VERSION:-4.9.0}
 BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:" -j7 "}
+NUMJOBS=${NUMJOBS:-" -j7 "}
 
 # Automatically determine the architecture we're building on:
 MARCH=$( uname -m )

@@ -1,14 +1,17 @@
-gpgmepp
+# kdepim
 kcalcore
 akonadi
-kholidays
+# Moved to Frameworks:
+#kholidays
 kpimtextedit
 kidentitymanagement
 kcalutils
 syndication
 kblog
 kcontacts
+libkgapi
 kmime
+ksmtp
 kimap
 kmbox
 kldap
@@ -27,7 +30,6 @@ libkdepim
 pimcommon
 libgravatar
 libksieve
-kdgantt2
 mailimporter
 kdepim-apps-libs
 calendarsupport
@@ -36,6 +38,22 @@ incidenceeditor
 messagelib
 mailcommon
 kleopatra
+kdav
 kdepim-addons
 kdepim-runtime
-kdepim
+akonadi-calendar-tools
+akonadiconsole
+akonadi-import-wizard
+akregator
+grantlee-editor
+kaddressbook
+kalarm
+kmail
+kmail-account-wizard
+knotes
+kontact
+korganizer
+mbox-importer
+pim-data-exporter
+pim-sieve-editor
+

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                 |-----handy-ruler------------------------------------------------------|
+wayland-protocols: wayland-protocols (specs of extended wayland protocols)
+wayland-protocols:
+wayland-protocols: wayland-protocols contains Wayland protocols that add functionality
+wayland-protocols: not available in the Wayland core protocol.
+wayland-protocols: Such protocols either add completely new functionality, or extend the
+wayland-protocols: functionality of some other protocol either in Wayland core, or
+wayland-protocols: some other protocol in wayland-protocols.
+wayland-protocols: Protocols may be 'stable', 'unstable' or 'deprecated'.
+wayland-protocols:
+wayland-protocols: Homepage: http://wayland.freedesktop.org/
+wayland-protocols:

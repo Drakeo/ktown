@@ -28,7 +28,7 @@ SRCNAM=libdbusmenu
 VERSION=${VERSION:-12.10.2}
 BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j4 "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

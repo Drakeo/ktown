@@ -1,5 +1,5 @@
 # Create a symlink in /usr/bin to the kdesu binary
-( cd $PKG/usr/bin ; ln -s /usr/lib${LIBDIRSUFFIX}/kde4/libexec/kdesu . )
+( cd $PKG/usr/bin ; ln -s /usr/lib${LIBDIRSUFFIX}/kde4/libexec/kdesu kdesu4 )
 
 # Remove the hicolor icon theme index.theme so it doesn't clobber the real one
 rm -f $PKG/usr/share/icons/hicolor/index.theme

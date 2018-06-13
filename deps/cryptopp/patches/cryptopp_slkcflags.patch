@@ -1,0 +1,11 @@
+--- cryptopp-5.6.2/GNUmakefile.orig	2014-03-16 23:04:04.185871759 +0100
++++ cryptopp-5.6.2/GNUmakefile	2014-03-16 23:30:49.726841806 +0100
+@@ -38,8 +38,6 @@
+ ifneq ($(GCC42_OR_LATER),0)
+ ifeq ($(UNAME),Darwin)
+ CXXFLAGS += -arch x86_64 -arch i386
+-else
+-CXXFLAGS += -march=native
+ endif
+ endif
+ 

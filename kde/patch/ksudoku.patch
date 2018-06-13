@@ -1,0 +1,4 @@
+# Qt5 apps accept qwindowtitle, not caption. KDEBUG 381087,
+# however ksudoku-17.04.x is still kdelibs4 based:
+#cat $CWD/patch/ksudoku/ksudoku_qwindowtitle.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

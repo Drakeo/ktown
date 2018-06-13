@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -22,13 +22,13 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=cfitsio
-VERSION=${VERSION:-3.370}
+VERSION=${VERSION:-3.420}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -40,8 +40,8 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "x86_64" ]; then
@@ -92,8 +92,12 @@ LDFLAGS="$SLKLDFLAGS" \
   --build=$TARGET
 
 # Build and install:
-make || exit 1
+make shared || exit 1
+make utils || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Remove the static library:
+rm -f $PKG/usr/lib${LIBDIRSUFFIX}/libcfitsio.a
 
 # Strip binaries (if any):
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \

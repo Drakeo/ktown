@@ -22,18 +22,18 @@
 
 # Derived from the qt5.SlackBuild
 
-# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0, 5.7.1, 5.9.0, 5.9.1 2016,2017 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5-webkit
-VERSION=${VERSION:-5.7.0}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-5.9.1}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -43,6 +43,10 @@ fi
 
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
@@ -84,8 +88,15 @@ echo "Extracting qtwebkit-opensource-src-$VERSION.tar.xz"
 tar xf $CWD/qtwebkit-opensource-src-$VERSION.tar.xz || exit 1
 cd qtwebkit-opensource-src-$VERSION || exit 1
 
-## Fix linking to pthread:
-#cat $CWD/patches/qt5-webkit.pthread.patch | patch -p1 --verbose || exit 1
+# Prevent crashes when compiled with gcc7:
+cat $CWD/patches/qt5-webkit.gcc7.patch | patch -p1 --verbose || exit 1
+
+## Prevent compile error against icu-59:
+#cat $CWD/patches/qt5-webkit.icu59.patch | patch -p1 --verbose || exit 1
+
+# Avoid literally thousands of unneeded warning messages (thanks BLFS):
+sed -e '/CONFIG/a QMAKE_CXXFLAGS += -Wno-expansion-to-defined' \
+    -i Tools/qmake/mkspecs/features/unix/default_pre.prf
 
 chown -R root:root .
 find . \
@@ -110,7 +121,7 @@ export LD_LIBRARY_PATH="${QTDIR}/qtbase/lib:${QTDIR}/qttools/lib:${LD_LIBRARY_PA
   
 mkdir build
 cd build
-  qmake-qt5 ..
+  qmake-qt5 ../WebKit.pro
   make || exit 1
   make install INSTALL_ROOT=$PKG || exit 1
 cd ..
@@ -134,9 +145,9 @@ sed -i \
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
 
-# Fix the qmake path in pri file:
-sed -i "s,${QTDIR}/qtbase,/usr/lib${LIBDIRSUFFIX}/qt5," \
-  $PKG/usr/lib${LIBDIRSUFFIX}/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
+## Fix the qmake path in pri file:
+#sed -i "s,${QTDIR}/qtbase,/usr/lib${LIBDIRSUFFIX}/qt5," \
+#  $PKG/usr/lib${LIBDIRSUFFIX}/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri
 
 # Add a documentation directory:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION

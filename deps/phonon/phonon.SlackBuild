@@ -21,19 +21,19 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2010, 2011, 2012, 2014, 2015, 2016  Eric Hameleers, Eindhoven, NL
+# Modified 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018  Eric Hameleers, Eindhoven, NL
 
 
 PKGNAM=phonon
-VERSION=${VERSION:-4.9.0}
-BUILD=${BUILD:-4}
+VERSION=${VERSION:-4.10.0}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -43,6 +43,9 @@ fi
 
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "i686" ]; then
   SLKCFLAGS="-O2 -march=i686 -mtune=i686"
@@ -65,8 +68,8 @@ PKG=$TMP/package-phonon
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -r phonon-$VERSION
-tar xvf $CWD/phonon-$VERSION.tar.?z* || exit 1
+rm -rf phonon-$VERSION
+tar xvf $CWD/phonon-$VERSION.tar.?z || exit 1
 cd phonon-$VERSION || exit 1
 
 chown -R root:root .
@@ -142,7 +145,7 @@ if [ -d $PKG/usr/man ]; then
 fi
 
 mkdir -p $PKG/usr/doc/phonon-$VERSION
-cp -a phonon/{BUGS,IDEAS,TODO} $PKG/usr/doc/phonon-$VERSION
+cp -a doc/{BUGS,IDEAS,TODO} $PKG/usr/doc/phonon-$VERSION
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null

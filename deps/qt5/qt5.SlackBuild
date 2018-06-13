@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -36,7 +36,7 @@
 # Alternate method (we don't use this):
 # wget http://qt.gitorious.org/qt/kde-qt/archive-tarball/4.6.2-patched
 #
-# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016  Eric Hameleers, Eindhoven, NL
+# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017  Eric Hameleers, Eindhoven, NL
 # qt 4.7.3, 4.7.4, 4.8.0, 4.8.1, 4.8.2, 4.8.4, are built from original nokia sources.
 #
 # Modifications for qt 5.2.0 2013 by Michael James, AU
@@ -48,19 +48,27 @@
 # Modifications for qt 5.6.0 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.6.1 2016 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.7.0 2016 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.7.1 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.0 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.1 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.2 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.3 2017 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.4 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.5 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.6 2018 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.7.0}
+VERSION=${VERSION:-5.9.6}
+BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
-BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -68,8 +76,20 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-${PKGVER}-${ARCH}-${BUILD}.txz"
+  exit 0
+fi
+
 if [ "$ARCH" = "i486" ]; then
   SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  SLKLDFLAGS=""
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
@@ -118,12 +138,6 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-# Fix dangling symlinks, thanks Larry Hajali:
-rm -f qtwebengine/src/3rdparty/chromium/third_party/mesa/src/src/gallium/state_trackers/d3d1x/w32api
-rm -f qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/audio/perf
-ln -s ../../../../../tools/perf \
-  qtwebengine/src/3rdparty/chromium/third_party/webrtc/tools/e2e_quality/audio/
-
 # Use -reduce-relocations only on i?86 and x86_64 architextures.
 # https://bugreports.qt-project.org/browse/QTBUG-36129
 if echo $ARCH | grep -q '\(i.86\|x86_64\)' 2>/dev/null; then
@@ -135,15 +149,9 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Fix UNSIGNED values in QMYSQL:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-53237.patch | patch -p1 --verbose || exit 1
-cd -
-
-# Fix freetype engine performance:
-cd qtbase
-  cat $CWD/patches/qt5.qtbug-49452.patch | patch -p1 --verbose || exit 1
-cd -
+# Fix missing private includes: QTBUG-37417
+sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' \
+  -i qtbase/mkspecs/features/create_cmake.prf
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
@@ -154,9 +162,17 @@ else
   PACONF=" "
 fi
 
-sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
+# Use our custom compiler and linker flags:
+#sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
 sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
+sed -i -e "s/-O3/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
 sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-base.conf || exit 1
+
+# Enable h.264 codec support:
+echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
+
+# Enable all languages in the virtual keyboard (required by Plasma 5.11):
+echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
 
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
@@ -178,7 +194,6 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -examplesdir /usr/doc/qt5-$PKGVER/examples \
   -system-libpng \
   -system-libjpeg \
-  -system-pcre \
   -system-sqlite \
   -system-zlib \
   -plugin-sql-mysql \
@@ -188,6 +203,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -dbus \
   -glib \
   -icu \
+  -opengl \
   -openssl \
   -optimized-qmake \
   -qpa xcb \
@@ -202,6 +218,8 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   ${PACONF} \
   ${RELOCATIONS} \
   -no-pch \
+  OPENSSL_INCDIR="/usr/include/openssl-1.0" \
+  OPENSSL_LIBDIR="/usr/lib${LIBDIRSUFFIX}/openssl-1.0" \
   # No-precompiled-headers is ccache-friendly.
   
 # Sometimes a failure happens when parallelizing make.  Try again if make fails,
@@ -213,16 +231,22 @@ make install INSTALL_ROOT=$PKG || exit 1
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
-# Fix internal linking for Qt5WebKit.pc , thanks to Larry Hajali's SBo script:
+# Remove rpaths:
+for file in $(find . | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+  if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+    patchelf --remove-rpath $file
+  fi
+done
+
+# Don't ship .la files:
+rm -f $PKG/usr/lib${LIBDIRSUFFIX}/*.la
+
+# Fix internal linking for Qt5WebEngineCore.pc ,
+# thanks to Larry Hajali's SBo script:
 sed -i \
-  -e "s|-Wl,-whole-archive -lWebKit1 -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebKit[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lWebKit2 -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebKit2[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lWebCore -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WebCore[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lANGLE -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/ThirdParty/ANGLE[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lJavaScriptCore -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/JavaScriptCore[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lWTF -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/WTF[^ ]* ||" \
-  -e "s|-Wl,-whole-archive -lleveldb -Wl,-no-whole-archive -L${PWD}/qtwebkit/Source/ThirdParty/leveldb[^ ]* ||" \
-  $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKit.pc
+  -e 's|-Wl,--start-group.* -Wl,--end-group||' \
+  -e "s|-L${PWD}/qtwebengine/src/core/api/Release||" \
+  $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebEngineCore.pc
 
 # Fix the path in prl files:
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
@@ -271,7 +295,7 @@ cat <<EOF > $PKG/usr/share/applications/qt5-designer.desktop
 Name=Qt5 Designer
 GenericName=Interface Designer
 Comment=Design GUIs for Qt5 applications
-Exec=designer-qt5 -qt=5
+Exec=designer-qt5
 Icon=qt5-designer
 MimeType=application/x-designer;
 Terminal=false
@@ -283,7 +307,7 @@ cat <<EOF > $PKG/usr/share/applications/qt5-assistant.desktop
 [Desktop Entry]
 Name=Qt5 Assistant 
 Comment=Shows Qt5 documentation and examples
-Exec=assistant-qt5 -qt=5
+Exec=assistant-qt5
 Icon=qt5-assistant
 Terminal=false
 Encoding=UTF-8
@@ -294,7 +318,7 @@ cat <<EOF > $PKG/usr/share/applications/qt5-linguist.desktop
 [Desktop Entry]
 Name=Qt5 Linguist 
 Comment=Add translations to Qt5 applications
-Exec=linguist-qt5 -qt=5
+Exec=linguist-qt5
 Icon=qt5-linguist
 MimeType=text/vnd.trolltech.linguist;application/x-linguist;
 Terminal=false

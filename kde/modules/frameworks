@@ -1,6 +1,6 @@
 # KDE Frameworks.
 #
-# http://api.kde.org/frameworks-api/frameworks5-apidocs/
+# https://api.kde.org/frameworks/index.html
 #
 # Tier 1, depends on Qt5, system libraries:
 extra-cmake-modules
@@ -20,28 +20,35 @@ solid
 karchive
 kdbusaddons
 kcoreaddons
-kimageformats
 ki18n
 networkmanager-qt
 modemmanager-qt
 bluez-qt
 kwayland
+prison
+kirigami2
+syntax-highlighting
+kholidays
 # Tier 2, depends on Tier 1, Qt5, system libraries:
+breeze-icons
+kapidox
+kdnssd
+oxygen-icons5
 kauth
 kcrash
-kglobalaccel
 kjobwidgets
 kcompletion
 kdoctools
 kpackage
-kdnssd
 knotifications
 kunitconversion
 kpty
+kimageformats
 kfilemetadata5
 # Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
 kconfigwidgets
 kservice
+kglobalaccel
 kiconthemes
 kwallet
 kemoticons
@@ -66,15 +73,14 @@ plasma-framework
 kpeople
 kxmlrpcclient
 baloo5
+qqc2-desktop-style
+purpose
 # Tier 4, depends on Tier 1, 2 and 3, Qt5, system libraries:
 kjs
 kjsembed
 kross
 kmediaplayer
 krunner
-kapidox
 frameworkintegration
 kdelibs4support
 khtml
-breeze-icons
-oxygen-icons5

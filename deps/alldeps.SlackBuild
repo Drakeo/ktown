@@ -17,6 +17,7 @@ ALLDEPS=" \
   extra-cmake-modules \
   ninja \
   sni-qt \
+  libwacom \
   libinput \
   libxkbcommon \
   wayland \
@@ -30,6 +31,7 @@ ALLDEPS=" \
   sip \
   PyQt \
   PyQt5 \
+  QScintilla \
   qca-qt5 \
   libdbusmenu-qt5 \
   polkit-qt-1 \
@@ -43,13 +45,32 @@ ALLDEPS=" \
   libappindicator \
   cfitsio \
   lmdb \
+  libdmtx \
+  qrencode \
   libproxy \
   telepathy \
   hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
-  elogind \
+  gpgme \
+  lensfun \
+  opencv \
+  dvdauthor \
+  vid.stab \
+  frei0r-plugins \
+  mlt \
+  cracklib \
+  libpwquality \
+  accountsservice \
+  libburn \
+  qtav \
+  ddcutil \
+  id3lib \
+  cryptopp \
+  cryfs \
   "
+  # Only needed when adding support for Wayland:
+  #elogind \
   # Not needed, conflicts with qt-gstreamer files
   #qt-gstreamer0 \
 

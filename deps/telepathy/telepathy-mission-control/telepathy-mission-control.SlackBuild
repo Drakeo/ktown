@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015, 2016  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2016, 2017, 2018  Eric Hameleers, Eindhoven, NL
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -23,25 +23,25 @@
 
 
 PKGNAM=telepathy-mission-control
-VERSION=${VERSION:-"5.16.3"}
-BUILD=${BUILD:-3}
+VERSION=${VERSION:-"5.16.4"}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:--j7}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i586 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || AR
+CH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
 fi
 
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
   SLKCFLAGS="-O2"

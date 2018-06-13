@@ -1,4 +1,4 @@
-# https://community.kde.org/Applications/15.12_Release_Notes
+# https://community.kde.org/Applications/17.12_Release_Notes
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
@@ -7,27 +7,37 @@ libkdcraw
 libksane
 gwenview
 
-# KDE PIM: split out to modules/kdepim
-
-# Used to be part of PIM in KDE4:
-kjots
-
-# KDE Telepathy: split out to modules/telepathy
-
 # kdebase:
 kio-extras
 kate
 konsole
-kde-baseapps
-#kde-workspace
-kde-runtime
-#kde-base-artwork
+kdialog
+keditbookmarks
+kfind
+konqueror
+
+# kdeutils:
+ark
+baloo5-widgets
+filelight
+kcalc
+kcharselect
+kdf
+kfloppy
+kgpg
+print-manager
+kbackup
+ktimer
+khelpcenter
+kwalletmanager
+sweeper
+
+# dolphin needs to pick up baloo5-widgets:
 dolphin
 
 # kdesdk:
 kdebugsettings
 kapptemplate
-okteta
 cervisia
 dolphin-plugins
 kcachegrind
@@ -35,6 +45,7 @@ kde-dev-scripts
 kde-dev-utils
 kdesdk-kioslaves
 kdesdk-thumbnailers
+kross-interpreters
 libkomparediff2
 kompare
 lokalize
@@ -49,36 +60,13 @@ kamera
 kcolorchooser
 kolourpaint
 kruler
-ksaneplugin
-#ksnapshot
 spectacle
 svgpart
-# needs opencv:
-#libkface
 
 # kdeaccessibility:
-#jovie
-kaccessible
 kmouth
 kmousetool
 kmag
-
-# kdeutils:
-ark
-baloo5-widgets
-filelight
-kcalc
-kcharselect
-kdf
-kfloppy
-kgpg
-print-manager
-kremotecontrol
-ktimer
-khelpcenter
-kwalletmanager
-#superkaramba
-sweeper
 
 # kdemultimedia:
 libkcddb
@@ -87,27 +75,22 @@ audiocd-kio
 dragon
 juk
 kmix
-#kscd
-
-# The oxygen icon set:
-#oxygen-icons
+ffmpegthumbs
+kwave
+k3b
+kamoso
 
 # kdenetwork:
 kdenetwork-filesharing
 zeroconf-ioslave
 kget
 kopete
-kppp
 krdc
 krfb
 
 # kdeadmin:
 kcron
 ksystemlog
-kuser
-
-# kdeartwork:
-#kdeartwork
 
 # kdegames:
 libkdegames
@@ -124,7 +107,7 @@ kblocks
 lskat
 kreversi
 bovo
-kajongg
+#kajongg
 granatier
 kmines
 kiriki
@@ -153,9 +136,7 @@ kmahjongg
 kspaceduel
 
 # kdetoys:
-#amor
 kteatime
-#ktux
 
 # kdeedu:
 kdeedu-data
@@ -175,13 +156,11 @@ kgeography
 kiten
 klettres
 kmplot
-kstars
 kqtquickcharts
 ktouch
 kturtle
 kwordquiz
 marble
-#pairs
 rocs
 step
 # Needs http://drumstick.sourceforge.net/
@@ -191,8 +170,8 @@ step
 libkgeomap
 
 # Needs ffmpeg and dvdauthor to be really useful:
-#kdenlive
+kdenlive
 
-# kdewebdev:
-kdewebdev
+# kdewebdev remnant:
+kimagemapeditor
 

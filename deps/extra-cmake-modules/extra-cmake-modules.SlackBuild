@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2014, 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2014, 2015, 2016, 2017  Eric Hameleers, Eindhoven, NL
 # Copyright 2014  Patrick J. Volkerding, Sebeka, Minnesota, USA
 # All rights reserved.
 #
@@ -22,7 +22,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PKGNAM=extra-cmake-modules
-VERSION=${VERSION:-5.10.0}
+VERSION=${VERSION:-5.32.0}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j7 "}

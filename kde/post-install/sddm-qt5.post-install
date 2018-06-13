@@ -1,3 +1,22 @@
 # Remove PAM related stuff:
 rm -rf $PKG/etc/pam.d
 
+# Remove the sddm.conf file because we will generate our own in doinst.sh:
+rm -f $PKG/etc/sddm.conf
+
+# Add a wrapper for the sddm binary, to enable a custom environment:
+mv $PKG/usr/bin/sddm $PKG/usr/bin/sddm.bin
+cat <<"EOT" > $PKG/usr/bin/sddm
+#!/bin/sh
+# Customized environment (LANG definition):
+if [ -f /etc/default/sddm ]; then
+  . /etc/default/sddm
+fi
+/usr/bin/sddm.bin "$*"
+EOT
+chmod 0755 $PKG/usr/bin/sddm
+
+# Let's also add an example customization (localization of the UI):
+mkdir -p  $PKG/etc/default
+echo ". /etc/profile.d/lang.sh" >  $PKG/etc/default/sddm.new
+

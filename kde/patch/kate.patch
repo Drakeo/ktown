@@ -2,3 +2,7 @@
 # Should be fixed after 15.12.0.
 #cat $CWD/patch/kate/kate-15.12.0.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Allow Kate to be started by the root user; disallowing this is not
+# a decision that a developer should make for the user, it is patronizing:
+cat $CWD/patch/kate/kate_runasroot.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

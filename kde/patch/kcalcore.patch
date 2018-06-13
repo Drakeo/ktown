@@ -1,0 +1,4 @@
+# Fix compile error against new libical 3:
+# Fixed in Applications 17.12.0:
+#cat $CWD/patch/kcalcore/kcalcore_libical3.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

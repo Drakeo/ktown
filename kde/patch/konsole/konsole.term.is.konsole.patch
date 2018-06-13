@@ -1,0 +1,24 @@
+diff -uar konsole-17.12.3.orig/src/Profile.cpp konsole-17.12.3/src/Profile.cpp
+--- konsole-17.12.3.orig/src/Profile.cpp	2018-03-01 23:54:01.000000000 +0100
++++ konsole-17.12.3/src/Profile.cpp	2018-04-03 21:17:11.897873304 +0200
+@@ -157,7 +157,7 @@
+     // See Pty.cpp on why Arguments is populated
+     setProperty(Arguments, QStringList() << QString::fromUtf8(qgetenv("SHELL")));
+     setProperty(Icon, QStringLiteral("utilities-terminal"));
+-    setProperty(Environment, QStringList() << QStringLiteral("TERM=xterm-256color") << QStringLiteral("COLORTERM=truecolor"));
++    setProperty(Environment, QStringList() << QStringLiteral("TERM=konsole") << QStringLiteral("COLORTERM=truecolor"));
+     setProperty(LocalTabTitleFormat, QStringLiteral("%d : %n"));
+     setProperty(RemoteTabTitleFormat, QStringLiteral("(%u) %H"));
+     setProperty(ShowTerminalSizeHint, true);
+diff -uar konsole-17.12.3.orig/src/Pty.cpp konsole-17.12.3/src/Pty.cpp
+--- konsole-17.12.3.orig/src/Pty.cpp	2018-03-01 23:54:01.000000000 +0100
++++ konsole-17.12.3/src/Pty.cpp	2018-04-03 21:18:18.898007801 +0200
+@@ -229,7 +229,7 @@
+ 
+     // extra safeguard to make sure $TERM is always set
+     if (!isTermEnvAdded) {
+-        setEnv(QStringLiteral("TERM"), QStringLiteral("xterm-256color"));
++        setEnv(QStringLiteral("TERM"), QStringLiteral("konsole"));
+     }
+ }
+ 

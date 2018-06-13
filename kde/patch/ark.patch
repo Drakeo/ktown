@@ -2,3 +2,6 @@
 # KDEBUG #357057 is fixed in 15.12.1; still needs unrar.
 #cat $CWD/patch/ark/ark_kdebug357057.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix a compilation issue in 18.04.0:
+cat $CWD/patch/ark/ark_include_memory.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

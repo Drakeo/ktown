@@ -1,0 +1,3 @@
+# Fix a compilation issue with new libical:
+cat $CWD/patch/kdepimlibs4/kdepimlibs.libical3.diff | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

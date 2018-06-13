@@ -13,5 +13,7 @@ cd build
     -DSYSCONF_INSTALL_DIR=/etc/kde \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DIHAVEPATCHEDQT:BOOL=ON \
+    -DOPENJPEG_INCLUDE_DIR=/usr/include/openmj2-2.1 \
+    -DOPENJPEG_NAMES=openmj2 \
     ..
 
