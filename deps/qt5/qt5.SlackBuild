@@ -55,14 +55,16 @@
 # Modifications for qt 5.9.3 2017 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.4 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.5 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.9.6 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.11.0 2018 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.9.5}
+VERSION=${VERSION:-5.11.0}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -125,10 +127,10 @@ PKG=$TMP/package-${PKGNAM}
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf qt-everywhere-opensource-src-$VERSION
-echo "Extracting qt-everywhere-opensource-src-$VERSION.tar.xz"
-tar xf $CWD/qt-everywhere-opensource-src-$VERSION.tar.xz || exit 1
-cd qt-everywhere-opensource-src-$PKGSRC || exit 1
+rm -rf qt-everywhere-src-$VERSION
+echo "Extracting qt-everywhere-src-$VERSION.tar.xz"
+tar xf $CWD/qt-everywhere-src-$VERSION.tar.xz || exit 1
+cd qt-everywhere-src-$PKGSRC || exit 1
 
 chown -R root:root .
 find . \
@@ -149,8 +151,7 @@ fi
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
 # Fix missing private includes: QTBUG-37417
-sed -e '/CMAKE_NO_PRIVATE_INCLUDES\ \=\ true/d' \
-  -i qtbase/mkspecs/features/create_cmake.prf
+cat $CWD/patches/qt5.private-includes.patch | patch -p1 --verbose || exit 1
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
@@ -162,10 +163,8 @@ else
 fi
 
 # Use our custom compiler and linker flags:
-#sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/g++-base.conf || exit 1
-sed -i -e "s/-O2/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
-sed -i -e "s/-O3/$SLKCFLAGS/" qtbase/mkspecs/common/gcc-base.conf || exit 1
-sed -i -e "/^QMAKE_LFLAGS\s/s,+=,+= $SLKLDFLAGS,g" qtbase/mkspecs/common/gcc-base.conf || exit 1
+sed -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${SLKCFLAGS}|" -i mkspecs/common/gcc-base.conf || exit 1
+sed -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${SLKLDFLAGS}|" -i mkspecs/common/g++-unix.conf || exit 1
 
 # Enable h.264 codec support:
 echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
@@ -176,10 +175,10 @@ echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 export OPENSOURCE_CXXFLAGS="$SLKCFLAGS"
-export QTDIR="${TMP}/qt-everywhere-opensource-src-${PKGSRC}"
+export QTDIR="${TMP}/qt-everywhere-src-${PKGSRC}"
 export LD_LIBRARY_PATH="${QTDIR}/qtbase/lib:${QTDIR}/qttools/lib:${LD_LIBRARY_PATH}"
 export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
-./configure \
+./configure -v \
   -confirm-license \
   -opensource \
   -prefix /usr \

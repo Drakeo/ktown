@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2017, 2018  Eric Hameleers, Eindhoven, NL
 # Copyright 2017  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -26,8 +26,8 @@
 
 PKGNAM=dvdauthor
 VERSION=${VERSION:-0.7.2}
-BUILD=${BUILD:-3}
-NUMJOBS=${NUMJOBS:-" -j4 "}
+BUILD=${BUILD:-4}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
@@ -36,7 +36,7 @@ PKG=$TMP/package-$PKGNAM
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
-    i?86) ARCH=i486 ;;
+    i?86) ARCH=i586 ;;
     arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
     *) ARCH=$(uname -m) ;;
@@ -45,7 +45,7 @@ if [ -z "$ARCH" ]; then
 fi
 
 case "$ARCH" in
-  i486)      SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  i?86)      SLKCFLAGS="-O2 -march=${ARCH} -mtune=i686"
              SLKLDFLAGS=""; LIBDIRSUFFIX=""
              ;;
   x86_64)    SLKCFLAGS="-O2 -fPIC"
