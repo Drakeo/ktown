@@ -1,0 +1,383 @@
+KDE5
+====
+
+Here is KDE 5_18.06_testing for Slackware, consisting of the KDE
+Frameworks 5.47.0, Plasma 5.13.0 and Applications 18.04.2 on top of Qt 5.11.0.
+
+Upgrading from the previous 5_18.05 or from 5_18.06 is relatively
+straight-forward.
+
+KDE-5_18.06_testing is meant to be installed on top of Slackware -current.
+It will *replace* any version of KDE 4 you might have installed!
+The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
+Applications 17.12 there's nothing left which is based on kdelibs4.
+
+What is the NEWS in this batch of updates:
+- In the 'deps' section, I updated 'qt5' to 5.11.0 and 'PyQt5' to 5.10.1.
+  I have also added 'OpenAL' as an additional dependency for the 'qt5' package
+  (besides 'libxkbcommon').
+- Frameworks update is a stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.47.0.php .
+- Plasma has a new major release: 5.13.0 is the follow-up for the LTS version
+  5.12.  Lots of improvements and the minimal version requirement for Qt is
+  5.10.  The move away from the Long Term Support (LTS) releases of Qt5 and
+  Plasma to short-lived releases made me decide to put the new Qt and Plasma
+  in my 'testing' repository instead of the 'latest' repository, to minimize
+  the impact for users and to give Slackware the option to stick with LTS
+  releases if it adopts Plasma5.
+  See https://www.kde.org/announcements/plasma-5.13.0.php
+- In plasma-extra I updated the 'kdeconnect-framework' package.
+- Applications 18.04.2 is a stability and bugfix release.
+  See https://www.kde.org/announcements/announce-applications-18.04.2.php .
+- In applications-extra I have upgraded 'okteta' 'krita' and 'kstars'.
+
+Further points of interest:
+- If you have a KDE4-based application that needs library support on this
+  Plasma 5 desktop, let me know which of the removed packages needs to return
+  in 'kde/kde4'!
+- There are a couple of *runtime* dependencies that I did not add to the
+  ktown repository, but you may want to consider installing them yourself:
+  * vlc - will give phonon another backend to select from.
+  * freerdp: access RDP servers through krdc.
+  * openconnect: support for Cisco's SSL VPN.
+  All of these can be found in my regular package repository.
+- There's no more need to install any KDE4 package from Slackware 14.2.
+- Lots of packages in the 'deps' department are completely new to Slackware.
+  Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
+  you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
+  applications to dock into the Plasma 5 system tray, more dependencies were
+  needed.  So, apart from updates to regular Slackware packages and the
+  new telepathy support packages (see below), these are the new ones:
+  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, cryptopp, cryfs, ddcutil,
+  dvdauthor, frei0r-plugins, grantlee-qt4, hack-font-ttf, id3lib, json-glib,
+  lensfun, libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5, libdmtx,
+  libindicator, libinput, libpwquality, libwacom, libxkbcommon, lmdb, mlt,
+  ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5,
+  qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  As a side note, libinput libwacom and ninja have become part
+  of Slackware-current.
+  Technically that makes them redundant in the above listing, however I still
+  compile Plasma5 packages for Slackware 14.2 so I left them in.
+  The phonon and poppler packages were extended so that they now support
+  Qt5 as well as Qt4.
+  Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
+  If you have that SBo package installed, remove it.
+- A completely new subset of "deps" packages, contained in their own
+  "telepathy" subdirectory, needed for KDE Telepathy:
+  libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
+  signon, signon-plugin-oauth2, signon-ui, libsignon-glib, telegram-qt,
+  telepathy-glib, telepathy-farstream, telepathy-haze, telepathy-gabble,
+  telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
+  telepathy-mission-control and telepathy-accounts-signon.
+- Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
+- KDEI is gone. The localizations are now embedded in each package and
+  no longer available as separate 'kdei' packages. This is a by design.
+  You will get all languages installed by default.
+
+NOTE:
+Also explained in more detail below, upgrading to this KDE 5 is non-trivial.
+You will have to remove old KDE 4 packages manually.
+
+NOTE:
+If you had installed KDE 4 as your default desktop previously, the removal
+of KDE 4 packages will break the symbolic link '/etc/X11/xinit/xinitrc'.
+An attempt to run 'startx' in a console will fail with a black screen.
+After installing Plasma 5 for the first time, you need to run 'xwmconfig'
+and select 'xinitrc.plasma' as your desktop session.
+
+NOTE:
+If you install a 32bit program on a 64bit Slackware computer with multilib
+and that program needs legacy system tray support (think of Steam for
+instance), you will have to grab the 32-bit version of Slackware's
+'libdbusmenu-qt' and my ktown-deps package 'sni-qt', and run the
+'convertpkg-compat32 -i' command on them to create 'compat32' versions
+of these packages.  Then install both 'libdbusmenu-qt-compat32' and
+'sni-qt-compat32'.  Those two are mandatory addons for displaying
+system tray icons of 32bit binaries in 64bit multilib Plasma5.
+
+
+-------------------------------------------------------------------------------
+Install pre-compiled packages:
+-------------------------------------------------------------------------------
+
+
+In order to install or upgrade KDE 5, follow these steps:
+
+Make sure you are not running KDE or even X !
+If you are running an X session, log out first to return to the console.
+If your computer boots to runlevel 4 (graphical login) you first have to go
+back to runlevel 3 (console) after logging out.  Press <Ctrl><Alt><F1> to
+switch to a console, logon there, and execute the command "init 3" to
+switch from runlevel 4 to 3, thereby effectively stopping X.
+
+If you still have a KDE 4 installed, it must be removed first. No clean
+upgrade path can be provided!  Do as follows:
+
+If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
+  # removepkg /var/log/packages/*-4.14.3-*
+  # removepkg amarok
+  # removepkg kscreen
+  # removepkg kactivities
+  # removepkg kde-workspace
+  # removepkg kdeconnect-kde
+  # removepkg kdepim
+  # removepkg kdepimlibs
+  # removepkg kdev-python
+  # removepkg kdevelop-php
+  # removepkg kdevelop-php-docs
+  # removepkg libkscreen
+  # removepkg libmm-qt
+  # removepkg libnm-qt
+  # removepkg plasma-nm
+  # removepkg polkit-kde-agent-1
+  # removepkg polkit-kde-kcmodules-1
+  # removepkg wicd-kde
+  ... or instead of the above, simply run 'slackpkg remove kde'.
+
+Alternatively, in case you are already using an older release of my KDE 5
+packages, you need to look up that particular release in the list right below
+(for instance: KDE 5_18.02) and then apply the actions shown for that KDE 5
+release *and* all more recent releases, i.e. work your way back up to this
+paragraph.  Note that some of the old KDE package names were obsoleted along
+the way, they were split up, renamed or integrated and that is the reason
+for some of the 'removepkg' lines you'll see below.
+Here we go:
+
+If you have my 'ktown' set of KDE 5_18.06 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.05 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.04 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.03 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.02 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_18.01 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.12 installed:
+- Upgrade to KDE 5_18.01
+  Remove the packages that no longer exist in KDE 5_18.01:
+  # removepkg kdevplatform
+
+If you have my 'ktown' set of KDE 5_17.11 installed:
+- Upgrade to KDE 5_17.12
+  Remove the packages that no longer exist in KDE 5_17.12:
+  [applications]
+  # removepkg libkface blogilo jovie kaccessible ksaneplugin kde-runtime
+  # removepkg  kremotecontrol kppp kfilereplace klinkstatus kopete
+  [kde4]
+  # removepkg akonadi4 katepart4 kdepimlibs4 kfilemetadata konsolepart4
+  # removepkg korundum kross-interpreters libkdegames4 libkexiv2_4
+  # removepkg libkmahjongg4 libksane4 oktetapart4 perlkde perlqt pykde4
+  # removepkg qtruby smokegen smokekde smokeqt
+  [kde4-extragear]
+  # removepkg audiocd-kio4 kio-mtp libkcddb4 libkcompactdisc4
+  [kdei]
+  # removepkg /var/log/packages/kde-l10n-*
+
+If you have my 'ktown' set of KDE 5_17.10 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.09 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.07 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.06 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.05_02 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.05 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.04 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.03 installed:
+- Upgrade to KDE 5_17.04
+  Remove the packages that no longer exist in KDE 5_17.04:
+  # removepkg kajongg
+  # removepkg kommander
+  # removepkg pim-storage-service-manager
+
+If you have my 'ktown' set of KDE 5_17.02 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_17.01 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_16.12 installed:
+- Upgrade to KDE 5_17.01
+  If you are running Slackware-current, manually install or upgrade libinput
+  and libwacom to the Slackware versions.
+  Remove the packages that no longer exist in KDE 5_17.01:
+  # removepkg kactivities
+  # removepkg nepomuk
+  # removepkg nepomuk-widgets
+  # removepkg gpgmepp
+  # removepkg kdgantt2
+  # removepkg kde-baseapps kdepim kdewebdev
+
+If you have my 'ktown' set of KDE 5_16.11 installed:
+- Upgrade to KDE 5_16.12
+  Remove the packages that no longer exist in KDE 5_16.12:
+  # removepkg baloo
+  # removepkg baloo-widgets
+
+If you have my 'ktown' set of KDE 5_16.08 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_16.07 installed:
+- Upgrade to KDE 5_16.08
+  Remove the packages that no longer exist in KDE 5_16.07:
+  # removepkg kdegraphics-strigi-analyzer
+  # removepkg kdenetwork-strigi-analyzers
+  # rempovepkg kdesdk-strigi-analyzers
+  # removepkg kdepimlibs libkdeedu mplayerthumbs
+
+If you have my 'ktown' set of KDE 5_16.06 installed:
+- Upgrade to KDE 5_16.07
+  Remove the packages that no longer exist in KDE 5_16.07:
+  # removepkg /var/log/packages/noto-font-ttf-2015-09-29-noarch-1alien
+
+If you have my 'ktown' set of KDE 5_16.05 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_16.04 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_16.03 installed:
+- Upgrade to KDE 5_16.04
+  Remove the packages that no longer exist in KDE 5_16.04:
+  # removepkg kactivities-workspace
+  # removepkg kde-workspace
+
+If you have my 'ktown' set of KDE 5_16.02 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set of KDE 5_16.01 installed:
+- No further actions are needed.
+
+If you have my 'ktown' set older than KDE 5_16.01 installed:
+- Really?
+
+Then proceed with installing/upgrading KDE 5 as outlined below.
+
+NOTE:
+The example commands below are for Slackware -current but you can use
+these commands for Slackware 14.2 as well; by replacing the /current/
+string with /14.2/ (provided there is a suitable 'ktown' release available
+for Slackware 14.2 of course):
+
+NOTE:
+Instead of using the mirror host http://slackware.nl/alien-kde/ (its rsync URI
+is rsync://slackware.nl/mirrors/alien-kde/), you could choose the alternative
+mirror http://slackware.uk/people/alien-kde/ (its rsync URI is
+rsync://slackware.uk/people/alien-kde/)
+
+NOTE:
+If you use 'slackpkg' to automate your upgrades, be sure to blacklist my
+custom packages or else slackpkg will always try to replace my packages
+with the stock Slackware versions if the package names are identical.
+As an example, you can add the following lines to the file
+"/etc/slackpkg/blacklist" to prevent this unintentional downgrading to KDE4:
+  # These three lines will blacklist all SBo, alien and multilib packages:
+  [0-9]+_SBo
+  [0-9]+alien
+  [0-9]+compat32
+If on the other hand you are using the 'slackpkg+' extension for slackpkg
+then your "/etc/slackpkg/blacklist" file should *not* contain the above
+lines!  The slackpkg+ extension enables the use of 3rd-party repositories
+with slackpkg and then Plasma5 package upgrades will be handled properly.
+
+
+To make it easy for you, here is a one-line command that downloads the whole
+'5' directory (excluding the sources), with 32-bit and 64-bit packages.
+
+  # rsync -Hav rsync://slackware.nl/mirrors/alien-kde/current/testing/ testing/
+
+Or else, if you want to download packages for just one of the two supported
+architectures, you would run one of the following commands instead.
+
+If you want only the 64-bit packages:
+  # rsync -Hav --exclude=x86 rsync://slackware.nl/mirrors/alien-kde/current/testing/ testing/
+If you want only the 32-bit packages:
+  # rsync -Hav --exclude=x86_64 rsync://slackware.nl/mirrors/alien-kde/current/testing/ testing/
+
+Assuming you just downloaded the bits you want from the directory tree "testing"
+you must now change your current directory to where you found this README
+(which is the directory called 'testing').  If you used one of the above "rsync"
+commands then you can simply do:
+
+  # cd testing
+
+From within this directory, you run the following commands as root:
+
+  On Slackware 32-bit:
+  # upgradepkg --reinstall --install-new x86/deps/*.t?z
+  # upgradepkg --reinstall --install-new x86/deps/telepathy/*.t?z
+  # upgradepkg --reinstall --install-new x86/kde/*/*.t?z
+
+  On Slackware 64-bit:
+  # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
+  # upgradepkg --reinstall --install-new x86_64/deps/telepathy/*.t?z
+  # upgradepkg --reinstall --install-new x86_64/kde/*/*.t?z
+
+  Check if any ".new" configuration files have been left behind by
+  the upgradepkg commands.  Compare them to their originals and decide
+  if you need to use them.
+  # find /etc/ -name "*.new"
+  A graphical (ncurses) tool for processing these "*.new" files is slackpkg:
+  # slackpkg new-config
+
+Then reboot your system.
+
+If all you want is to install the packages I created, then you can skip the
+remainder of the README which details how to (re)compile the packages from
+their sources; it is not required reading material.
+
+-------------------------------------------------------------------------------
+Building it all from source:
+-------------------------------------------------------------------------------
+
+Sources and scripts are separated from the packages in my 'ktown' repository.
+If you want the sources for KDE 5, run the following command to download them
+(downloading from a mirror will usually be much faster):
+
+  # rsync -Hav rsync://slackware.nl/mirrors/alien-kde/source/testing/ testing/
+
+There are a lot of 'dependencies' for KDE 5 which you'll have to compile and
+install before attempting to compile KDE 5. Compiling and installing these
+dependencies on Slackware-current is hopefully (have not tested the scripts
+'updates.SlackBuild' and 'alldeps.SlackBuild' in a long time) as easy as this:
+  # cd testing/deps
+  # ./updates.SlackBuild
+  # cd -
+  # cd testing/deps/telepathy
+  # ./telepathy.SlackBuild
+  # cd -
+
+Be prepared to wait a *long* time since this will compile a new Qt5 package
+among others.  The finished packages will be stored in /tmp and will already
+have been installed/upgraded automatically.
+
+Then if you want to compile the KDE packages on your computer, run:
+  # cd testing/kde
+  # ./kde.SlackBuild
+
+Wait a long time, and you will find the new packages in /tmp/kde_build .
+Note that these packages will already have been installed by kde.SlackBuild !
+Reboot your computer and login to a Plasma session.
+
+==============================================================================
+                     Eric Hameleers / alien at slackware dot com / 16-jun-2018
