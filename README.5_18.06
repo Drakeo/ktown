@@ -1,31 +1,29 @@
 KDE5
 ====
 
-Here is KDE 5_18.05 for Slackware, consisting of the KDE Frameworks 5.46.0,
-Plasma 5.12.5 and Applications 18.04.1 on top of Qt 5.9.5.
+Here is KDE 5_18.06 for Slackware, consisting of the KDE Frameworks 5.47.0,
+Plasma 5.12.5 and Applications 18.04.2 on top of Qt 5.9.6.
 
-Upgrading from the previous 5_18.04 is relatively straight-forward.
+Upgrading from the previous 5_18.05 is relatively straight-forward.
 
-KDE-5_18.05 is meant to be installed on top of Slackware -current.
+KDE-5_18.06 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- In the 'deps' section, cryfs was rebuilt and poppler updated to match the
-  version in Slackware.
+- In the 'deps' section, I updated 'qt5' to 5.9.6. I have also added 'OpenAL'
+  as an additional dependency for the 'qt5' package (besides 'libxkbcommon').
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.46.0.php .
-- Plasma is a stability update as well.  See:
-  https://www.kde.org/announcements/plasma-5.12.5.php .
-  I compiled plasma5-nm against openconnect so that it picks up support for
-  it.  However I did not add openconnect to the 'deps' section, you need
-  to install it separately if you need it.
-- Applications 18.04.1 is a stability and bugfix release.
-  See https://www.kde.org/announcements/announce-applications-18.04.1.php .
-- In applications-extra I have rebuilt calligra and upgraded alkimia, falkon,
-  kdevelop, kdev-php, kdev-python, krita and krusader.  I also added one new
-  package: krename.
+  https://www.kde.org/announcements/kde-frameworks-5.47.0.php .
+- Plasma has not been updated this month. The new major release 5.13.0 depends
+  on Qt 5.10 or higher and I am not prepared yet to switch from Long Term
+  Support (LTS) releases of Qt5 and Plasma to a short-lived branch.
+  The newer Qt 5.11 and Plasma 5.13 have been added to my 'testing' repository.
+- In plasma-extra I updated the 'kdeconnect-framework' package.
+- Applications 18.04.2 is a stability and bugfix release.
+  See https://www.kde.org/announcements/announce-applications-18.04.2.php .
+- In applications-extra I have upgraded 'okteta' 'krita' and 'kstars'.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -138,6 +136,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.05 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.04 installed:
 - No further actions are needed.
@@ -370,4 +371,4 @@ Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 23-may-2018
+                     Eric Hameleers / alien at slackware dot com / 15-jun-2018
