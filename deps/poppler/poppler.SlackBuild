@@ -26,7 +26,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=poppler
-VERSION=${VERSION:-0.65.0}
+VERSION=${VERSION:-0.66.0}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
@@ -82,10 +82,10 @@ cd ${PKGNAM}-$VERSION || exit 1
 
 # At least for now, we will revert this patch since we have
 # things that depend on it:
-cat $CWD/poppler.remove.qt4.frontend.diff | patch -p1 -R --verbose || exit 1
+cat $CWD/patches/poppler.remove.qt4.frontend.diff | patch -p1 -R --verbose || exit 1
 
 # Revert a change to SplashPath.h (in 0.63.0) that breaks compiling the qt4 frontend:
-cat $CWD/poppler.splashpath.h.revert.diff | patch -p1 --verbose || exit 1
+cat $CWD/patches/poppler.splashpath.h.revert.diff | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \
