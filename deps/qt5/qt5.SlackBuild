@@ -59,7 +59,7 @@
 # Modifications for qt 5.11.0 2018 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.11.0}
+VERSION=${VERSION:-5.11.1}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
@@ -150,10 +150,10 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Fix missing private includes: QTBUG-37417
-cd qtbase
-  cat $CWD/patches/qt5.private-includes.patch | patch -p1 --verbose || exit 1
-cd - 1>/dev/null
+## Fix missing private includes: QTBUG-37417
+#cd qtbase
+#  cat $CWD/patches/qt5.private-includes.patch | patch -p1 --verbose || exit 1
+#cd - 1>/dev/null
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
