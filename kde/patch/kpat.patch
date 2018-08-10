@@ -1,0 +1,5 @@
+# Commit https://cgit.kde.org/kpat.git/patch/?id=fc1d54ced6a727382599d767e55879b6843c3456
+# Introduces a hard dependency on fc-solver which in turn has new dependencies
+# So, we revert this commit to avoid dropping kpat altogether in 18.08.0.
+#cat $CWD/patch/kpat/kpat_no_freecell_solver_dep.patch | patch -p1 --reverse --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

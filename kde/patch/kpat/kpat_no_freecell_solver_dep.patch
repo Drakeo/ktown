@@ -1,0 +1,1475 @@
+Commit https://cgit.kde.org/kpat.git/patch/?id=fc1d54ced6a727382599d767e55879b6843c3456
+Introduces a hard dependency on fc-solver which in turn has new dependencies
+So, we revert this commit to avoid dropping kpat altogether
+
+From ed0e53e0888da7123f4a0d2097f8da7fb105ca18 Mon Sep 17 00:00:00 2001
+From: Fabian Kosmale <0inkane@googlemail.com>
+Date: Sun, 13 May 2018 15:14:53 +0200
+Subject: Use Freecell Solver for FreeCell and Simple Simon
+
+Summary: This uses http://fc-solve.shlomifish.org/ and prevents the looping in the existing solvers.
+
+Test Plan: Test that the solvers are working.
+
+Reviewers: #kde_games, fabiank
+
+Subscribers: kde-games-devel, aacid, #kde_games
+
+Tags: #kde_games
+
+Differential Revision: https://phabricator.kde.org/D12415
+---
+ CMakeLists.txt                        |   6 +-
+ dealer.cpp                            |   4 +
+ freecell.cpp                          |  35 ++++
+ freecell.h                            |   1 +
+ patsolve/abstract_fc_solve_solver.cpp | 239 ++++++++++++++++++++++++++
+ patsolve/abstract_fc_solve_solver.h   |  52 ++++++
+ patsolve/freecellsolver.cpp           | 310 +++++++++++++++++-----------------
+ patsolve/freecellsolver.h             |  23 ++-
+ patsolve/patsolve.h                   |  12 +-
+ patsolve/simonsolver.cpp              | 129 +++++++++++++-
+ patsolve/simonsolver.h                |  20 ++-
+ patsolve/solverinterface.h            |   2 +
+ pileutils.cpp                         |  61 +++++++
+ pileutils.h                           |   4 +
+ simon.cpp                             |  56 +++++-
+ simon.h                               |   1 +
+ 16 files changed, 779 insertions(+), 176 deletions(-)
+ create mode 100644 patsolve/abstract_fc_solve_solver.cpp
+ create mode 100644 patsolve/abstract_fc_solve_solver.h
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8f738bf..c043c45 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,6 +4,8 @@ cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
+ set (QT_MIN_VERSION "5.7.0")
+ set (KF5_MIN_VERSION "5.30.0")
+ 
++include(FindPkgConfig)
++pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
+ find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+ 
+@@ -45,7 +47,7 @@ add_subdirectory(sounds)
+ add_subdirectory(themes)
+ add_subdirectory(doc)
+ 
+-set(kpat_SRCS
++set(kpat_SRCS ${libfcs_SRCS}
+     main.cpp
+     dealer.cpp
+     dealerinfo.cpp
+@@ -59,6 +61,7 @@ set(kpat_SRCS
+     soundengine.cpp
+     statisticsdialog.cpp
+     view.cpp
++    patsolve/abstract_fc_solve_solver.cpp
+     patsolve/memory.cpp
+     patsolve/patsolve.cpp
+ 
+@@ -101,6 +104,7 @@ target_link_libraries(kpat
+     KF5::KIOCore
+     KF5KDEGames
+     kcardgame
++    ${FC_SOLVE_LIBRARIES}
+ )
+ 
+ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/dealer.cpp b/dealer.cpp
+index 7c03ebf..a2558fc 100644
+--- a/dealer.cpp
++++ b/dealer.cpp
+@@ -1724,6 +1724,10 @@ void DealerScene::startSolver()
+ 
+ bool DealerScene::isGameLost() const
+ {
++    if (! m_winningMoves.isEmpty())
++    {
++        return false;
++    }
+     if ( solver() )
+     {
+         if ( m_solverThread && m_solverThread->isRunning() )
+diff --git a/freecell.cpp b/freecell.cpp
+index f870cdb..9a7c278 100644
+--- a/freecell.cpp
++++ b/freecell.cpp
+@@ -111,6 +111,41 @@ void Freecell::restart( const QList<KCard*> & cards )
+ }
+ 
+ 
++QString Freecell::solverFormat() const
++{
++    QString output;
++    QString tmp;
++    for (int i = 0; i < 4 ; i++) {
++        if (target[i]->isEmpty())
++            continue;
++        tmp += suitToString(target[i]->topCard()->suit()) + '-' + rankToString(target[i]->topCard()->rank()) + ' ';
++    }
++    if (!tmp.isEmpty())
++        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
++
++    tmp.truncate(0);
++    for (int i = 0; i < 4 ; i++) {
++        if (freecell[i]->isEmpty())
++            tmp += "- ";
++        else
++            tmp += rankToString(freecell[i]->topCard()->rank()) + suitToString(freecell[i]->topCard()->suit()) + ' ';
++    }
++    if (!tmp.isEmpty())
++    {
++        QString a = QString::fromLatin1("Freecells: %1\n");
++        output += a.arg(tmp);
++    }
++
++    for (int i = 0; i < 8 ; i++)
++    {
++        QList<KCard*> cards = store[i]->cards();
++        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
++            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
++        output += '\n';
++    }
++    return output;
++}
++
+ void Freecell::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
+ {
+     if ( cards.size() <= 1 )
+diff --git a/freecell.h b/freecell.h
+index 7b0b2cb..9f7d84b 100644
+--- a/freecell.h
++++ b/freecell.h
+@@ -62,6 +62,7 @@ protected slots:
+ private:
+     bool canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const;
+ 
++    virtual QString solverFormat() const;
+     PatPile* store[8];
+     PatPile* freecell[4];
+     PatPile* target[4];
+diff --git a/patsolve/abstract_fc_solve_solver.cpp b/patsolve/abstract_fc_solve_solver.cpp
+new file mode 100644
+index 0000000..11e5baa
+--- /dev/null
++++ b/patsolve/abstract_fc_solve_solver.cpp
+@@ -0,0 +1,239 @@
++/*
++ * Copyright (C) 2006-2009 Stephan Kulow <coolo@kde.org>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <stdlib.h>
++#include <string.h>
++
++#include "freecell-solver/fcs_user.h"
++#include "freecell-solver/fcs_cl.h"
++
++#include "abstract_fc_solve_solver.h"
++
++const int CHUNKSIZE = 100;
++const long int MAX_ITERS_LIMIT = 200000;
++
++#define PRINT 0
++
++/* These two routines make and unmake moves. */
++
++void FcSolveSolver::make_move(MOVE *)
++{
++    return;
++}
++
++void FcSolveSolver::undo_move(MOVE *)
++{
++    return;
++}
++
++/* Get the possible moves from a position, and store them in Possible[]. */
++SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
++{
++    int current_iters_count;
++    max_positions = (_max_positions < 0) ? MAX_ITERS_LIMIT : _max_positions;
++
++    init();
++
++    if (!solver_instance)
++    {
++        {
++            solver_instance = freecell_solver_user_alloc();
++
++            solver_ret = FCS_STATE_NOT_BEGAN_YET;
++
++            char * error_string;
++            int error_arg;
++            const char * known_parameters[1] = {NULL};
++            /*  A "char *" copy instead of "const char *". */
++
++            int parse_args_ret_code = freecell_solver_user_cmd_line_parse_args(
++                solver_instance,
++                get_cmd_line_arg_count() ,
++                get_cmd_line_args(),
++                0,
++                known_parameters,
++                NULL,
++                NULL,
++                &error_string,
++                &error_arg
++            );
++
++            Q_ASSERT(!parse_args_ret_code);
++        }
++
++        /*  Not needed for Simple Simon because it's already specified in
++         *  freecell_solver_cmd_line_args. TODO : abstract .
++         *
++         *      Shlomi Fish
++         *  */
++        setFcSolverGameParams();
++
++        current_iters_count = CHUNKSIZE;
++        freecell_solver_user_limit_iterations(solver_instance, current_iters_count);
++    }
++
++    if (solver_instance)
++    {
++        bool continue_loop = true;
++        while (continue_loop &&
++                (   (solver_ret == FCS_STATE_NOT_BEGAN_YET)
++                 || (solver_ret == FCS_STATE_SUSPEND_PROCESS))
++                    &&
++                 (current_iters_count < MAX_ITERS_LIMIT)
++              )
++        {
++            current_iters_count += CHUNKSIZE;
++            freecell_solver_user_limit_iterations(solver_instance, current_iters_count);
++
++            if (solver_ret == FCS_STATE_NOT_BEGAN_YET)
++            {
++                solver_ret =
++                    freecell_solver_user_solve_board(
++                        solver_instance,
++                        board_as_string
++                    );
++            }
++            else
++            {
++                solver_ret = freecell_solver_user_resume_solution(solver_instance);
++            }
++            {
++                // QMutexLocker lock( &endMutex );
++                if ( m_shouldEnd )
++                {
++                    continue_loop = false;
++                }
++            }
++        }
++    }
++
++    switch (solver_ret)
++    {
++        case FCS_STATE_IS_NOT_SOLVEABLE:
++            if (solver_instance)
++            {
++                freecell_solver_user_free(solver_instance);
++                solver_instance = NULL;
++            }
++            return Solver::NoSolutionExists;
++
++        case FCS_STATE_WAS_SOLVED:
++            {
++                if (solver_instance)
++                {
++                    m_winMoves.clear();
++                    while (freecell_solver_user_get_moves_left(solver_instance))
++                    {
++                        fcs_move_t move;
++                        MOVE new_move;
++                        const int verdict = !freecell_solver_user_get_next_move(
++                                                                solver_instance, &move)
++                            ;
++
++                        Q_ASSERT (verdict);
++
++                        new_move.fcs = move;
++
++                        m_winMoves.append( new_move );
++                    }
++
++                    freecell_solver_user_free(solver_instance);
++                    solver_instance = NULL;
++                }
++                return Solver::SolutionExists;
++            }
++
++        case FCS_STATE_SUSPEND_PROCESS:
++            return Solver::UnableToDetermineSolvability;
++
++        default:
++            if (solver_instance)
++            {
++                freecell_solver_user_free(solver_instance);
++                solver_instance = NULL;
++            }
++            return Solver::NoSolutionExists;
++    }
++}
++
++/* Get the possible moves from a position, and store them in Possible[]. */
++
++int FcSolveSolver::get_possible_moves(int *, int *)
++{
++    return 0;
++}
++
++bool FcSolveSolver::isWon()
++{
++    return true;
++}
++
++int FcSolveSolver::getOuts()
++{
++    return 0;
++}
++
++FcSolveSolver::FcSolveSolver()
++    : Solver()
++    , solver_instance(NULL)
++    , solver_ret(FCS_STATE_NOT_BEGAN_YET)
++    , board_as_string("")
++{
++}
++
++unsigned int FcSolveSolver::getClusterNumber()
++{
++    return 0;
++}
++
++void FcSolveSolver::print_layout()
++{
++#if 0
++    int i, w, o;
++
++    fprintf(stderr, "print-layout-begin\n");
++    for (w = 0; w < 10; ++w) {
++        Q_ASSERT( Wp[w] == &W[w][Wlen[w]-1] );
++        fprintf( stderr, "Play%d: ", w );
++        for (i = 0; i < Wlen[w]; ++i) {
++            printcard(W[w][i], stderr);
++        }
++        fputc('\n', stderr);
++    }
++    fprintf( stderr, "Off: " );
++    for (o = 0; o < 4; ++o) {
++        if ( O[o] != -1 )
++            printcard( O[o] + PS_KING, stderr);
++    }
++    fprintf(stderr, "\nprint-layout-end\n");
++#endif
++}
++
++void FcSolveSolver::unpack_cluster( unsigned int)
++{
++    return;
++}
++
++FcSolveSolver::~FcSolveSolver()
++{
++    if (solver_instance)
++    {
++        freecell_solver_user_free(solver_instance);
++        solver_instance = NULL;
++    }
++}
++
+diff --git a/patsolve/abstract_fc_solve_solver.h b/patsolve/abstract_fc_solve_solver.h
+new file mode 100644
+index 0000000..d2d072d
+--- /dev/null
++++ b/patsolve/abstract_fc_solve_solver.h
+@@ -0,0 +1,52 @@
++/*
++ * Copyright (C) 2006-2009 Stephan Kulow <coolo@kde.org>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of 
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef ABSTRACT_FC_SOLVE_SOLVER_H
++#define ABSTRACT_FC_SOLVE_SOLVER_H
++
++#include "patsolve.h"
++
++struct FcSolveSolver : public Solver<10>
++{
++public:
++    FcSolveSolver();
++    virtual ~FcSolveSolver();
++    virtual int get_possible_moves(int *a, int *numout);
++    virtual bool isWon();
++    virtual void make_move(MOVE *m);
++    virtual void undo_move(MOVE *m);
++    virtual int getOuts();
++    virtual unsigned int getClusterNumber();
++    virtual void translate_layout() = 0;
++    virtual void unpack_cluster( unsigned int k );
++    virtual MoveHint translateMove(const MOVE &m) = 0;
++    virtual SolverInterface::ExitStatus patsolve( int _max_positions = -1);
++    virtual void setFcSolverGameParams() = 0;
++
++    virtual void print_layout();
++
++    virtual int get_cmd_line_arg_count() = 0;
++    virtual const char * * get_cmd_line_args() = 0;
++/* Names of the cards.  The ordering is defined in pat.h. */
++
++    void * solver_instance;
++    int solver_ret;
++    // More than enough space for two decks.
++    char board_as_string[4 * 13 * 2 * 4 * 3];
++};
++
++#endif // ABSTRACT_FC_SOLVE_SOLVER_H
+diff --git a/patsolve/freecellsolver.cpp b/patsolve/freecellsolver.cpp
+index 39eff50..e92000f 100644
+--- a/patsolve/freecellsolver.cpp
++++ b/patsolve/freecellsolver.cpp
+@@ -16,12 +16,18 @@
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#include <stdlib.h>
++#include <string.h>
++
++#include "freecell-solver/fcs_user.h"
++#include "freecell-solver/fcs_cl.h"
++
+ #include "freecellsolver.h"
+ 
+ #include "../freecell.h"
+ 
+-
+-/* Some macros used in get_possible_moves(). */
++const int CHUNKSIZE = 100;
++const long int MAX_ITERS_LIMIT = 200000;
+ 
+ /* The following function implements
+ 	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
+@@ -32,10 +38,13 @@ namespace {
+ 
+ /* Statistics. */
+ 
++#if 0
+ int FreecellSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
++#endif
+ 
+ /* These two routines make and unmake moves. */
+ 
++#if 0
+ void FreecellSolver::make_move(MOVE *m)
+ {
+ 	int from, to;
+@@ -85,7 +94,9 @@ void FreecellSolver::undo_move(MOVE *m)
+         Wlen[from]++;
+         hashpile(from);
+ }
++#endif
+ 
++#if 0
+ /* Move prioritization.  Given legal, pruned moves, there are still some
+ that are a waste of time, especially in the endgame where there are lots of
+ possible moves, but few productive ones.  Note that we also prioritize
+@@ -178,9 +189,11 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
+ 		}
+ 	}
+ }
++#endif
+ 
+ /* Automove logic.  Freecell games must avoid certain types of automoves. */
+ 
++#if 0
+ int FreecellSolver::good_automove(int o, int r)
+ {
+ 	int i;
+@@ -220,148 +233,43 @@ int FreecellSolver::good_automove(int o, int r)
+ 
+ 	return true;
+ }
++#endif
+ 
+-/* Get the possible moves from a position, and store them in Possible[]. */
++#define CMD_LINE_ARGS_NUM 2
+ 
+-int FreecellSolver::get_possible_moves(int *a, int *numout)
++static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
+ {
+-	int i, n, t, w, o, empty, emptyw;
+-	card_t card;
+-	MOVE *mp;
+-
+-	/* Check for moves from W to O. */
+-
+-	n = 0;
+-	mp = Possible;
+-	for (w = 0; w < Nwpiles + Ntpiles; ++w) {
+-		if (Wlen[w] > 0) {
+-			card = *Wp[w];
+-			o = SUIT(card);
+-			empty = (O[o] == NONE);
+-			if ((empty && (RANK(card) == PS_ACE)) ||
+-			    (!empty && (RANK(card) == O[o] + 1))) {
+-				mp->card_index = 0;
+-				mp->from = w;
+-				mp->to = o;
+-				mp->totype = O_Type;
+-                                mp->turn_index = -1;
+-				mp->pri = 0;    /* unused */
+-				n++;
+-				mp++;
+-
+-				/* If it's an automove, just do it. */
+-
+-				if (good_automove(o, RANK(card))) {
+-					*a = true;
+-                                        mp[-1].pri = 127;
+-					if (n != 1) {
+-						Possible[0] = mp[-1];
+-						return 1;
+-					}
+-					return n;
+-				}
+-			}
+-		}
+-	}
+-
+-	/* No more automoves, but remember if there were any moves out. */
+-
+-	*a = false;
+-	*numout = n;
+-
+-	/* Check for moves from non-singleton W cells to one of any
+-	empty W cells. */
++    "--load-config", "video-editing"
++};
+ 
+-	emptyw = -1;
+-	for (w = 0; w < Nwpiles; ++w) {
+-		if (Wlen[w] == 0) {
+-			emptyw = w;
+-			break;
+-		}
+-	}
+-	if (emptyw >= 0) {
+-		for (i = 0; i < Nwpiles + Ntpiles; ++i) {
+-			if (i == emptyw || Wlen[i] == 0) {
+-				continue;
+-			}
+-                        bool allowed = false;
+-                        if ( i < Nwpiles)
+-                            allowed = true;
+-                        if ( i >= Nwpiles )
+-                            allowed = true;
+-                        if ( allowed ) {
+-				card = *Wp[i];
+-				mp->card_index = 0;
+-				mp->from = i;
+-				mp->to = emptyw;
+-				mp->totype = W_Type;
+-                                mp->turn_index = -1;
+-                                if ( i >= Nwpiles )
+-                                    mp->pri = Xparam[6];
+-                                else
+-                                    mp->pri = Xparam[3];
+-				n++;
+-				mp++;
+-			}
+-		}
+-	}
+-
+-	/* Check for moves from W to non-empty W cells. */
+-
+-	for (i = 0; i < Nwpiles + Ntpiles; ++i) {
+-		if (Wlen[i] > 0) {
+-			card = *Wp[i];
+-			for (w = 0; w < Nwpiles; ++w) {
+-				if (i == w) {
+-					continue;
+-				}
+-				if (Wlen[w] > 0 &&
+-				    (RANK(card) == RANK(*Wp[w]) - 1 &&
+-				     suitable(card, *Wp[w]))) {
+-					mp->card_index = 0;
+-					mp->from = i;
+-					mp->to = w;
+-					mp->totype = W_Type;
+-                                        mp->turn_index = -1;
+-                                        if ( i >= Nwpiles )
+-                                            mp->pri = Xparam[5];
+-                                        else
+-                                            mp->pri = Xparam[4];
+-					n++;
+-					mp++;
+-				}
+-			}
+-		}
+-	}
+-
+-        /* Check for moves from W to one of any empty T cells. */
+-
+-        for (t = 0; t < Ntpiles; ++t) {
+-               if (!Wlen[t+Nwpiles]) {
+-                       break;
+-               }
+-        }
++int FreecellSolver::get_cmd_line_arg_count()
++{
++    return CMD_LINE_ARGS_NUM;
++}
+ 
+-        if (t < Ntpiles) {
+-               for (w = 0; w < Nwpiles; ++w) {
+-                       if (Wlen[w] > 0) {
+-                               card = *Wp[w];
+-                               mp->card_index = 0;
+-                               mp->from = w;
+-                               mp->turn_index = -1;
+-                               mp->to = t+Nwpiles;
+-                               mp->totype = W_Type;
+-                               mp->pri = Xparam[7];
+-                               n++;
+-                               mp++;
+-                       }
+-               }
+-       }
++const char * * FreecellSolver::get_cmd_line_args()
++{
++    return freecell_solver_cmd_line_args;
++}
+ 
+ 
+-	return n;
++void FreecellSolver::setFcSolverGameParams()
++{
++    /*
++     * I'm using the more standard interface instead of the depracated
++     * user_set_game one. I'd like that each function will have its
++     * own dedicated purpose.
++     *
++     *     Shlomi Fish
++     * */
++    freecell_solver_user_set_num_freecells(solver_instance,4);
++    freecell_solver_user_set_num_stacks(solver_instance,8);
++    freecell_solver_user_set_num_decks(solver_instance,1);
++    freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR);
++    freecell_solver_user_set_sequence_move(solver_instance, 0);
++    freecell_solver_user_set_empty_stacks_filled_by(solver_instance, FCS_ES_FILLED_BY_ANY_CARD);
+ }
+-
++#if 0
+ void FreecellSolver::unpack_cluster( unsigned int k )
+ {
+     /* Get the Out cells from the cluster number. */
+@@ -373,27 +281,13 @@ void FreecellSolver::unpack_cluster( unsigned int k )
+     k >>= 4;
+     O[3] = k & 0xF;
+ }
++#endif
+ 
+-bool FreecellSolver::isWon()
+-{
+-    // maybe won?
+-    for (int o = 0; o < 4; ++o) {
+-        if (O[o] != PS_KING) {
+-            return false;
+-        }
+-    }
+-
+-    return true;
+-}
+-
+-int FreecellSolver::getOuts()
+-{
+-    return O[0] + O[1] + O[2] + O[3];
+-}
+ 
+ FreecellSolver::FreecellSolver(const Freecell *dealer)
+-    : Solver()
++    : FcSolveSolver()
+ {
++#if 0
+     Osuit[0] = PS_DIAMOND;
+     Osuit[1] = PS_CLUB;
+     Osuit[2] = PS_HEART;
+@@ -402,12 +296,15 @@ FreecellSolver::FreecellSolver(const Freecell *dealer)
+     Nwpiles = 8;
+     Ntpiles = 4;
+ 
++#endif
++
+     deal = dealer;
+ }
+ 
+ /* Read a layout file.  Format is one pile per line, bottom to top (visible
+ card).  Temp cells and Out on the last two lines, if any. */
+ 
++#if 0
+ void FreecellSolver::translate_layout()
+ {
+ 	/* Read the workspace. */
+@@ -447,9 +344,78 @@ void FreecellSolver::translate_layout()
+             }
+ 	}
+ }
++#endif
+ 
+ MoveHint FreecellSolver::translateMove( const MOVE &m )
+ {
++    fcs_move_t move = m.fcs;
++    int cards = fcs_move_get_num_cards_in_seq(move);
++    PatPile *from = 0;
++    PatPile *to = 0;
++
++    switch(fcs_move_get_type(move))
++    {
++        case FCS_MOVE_TYPE_STACK_TO_STACK:
++            from = deal->store[fcs_move_get_src_stack(move)];
++            to = deal->store[fcs_move_get_dest_stack(move)];
++            break;
++
++        case FCS_MOVE_TYPE_FREECELL_TO_STACK:
++            from = deal->freecell[fcs_move_get_src_freecell(move)];
++            to = deal->store[fcs_move_get_dest_stack(move)];
++            cards = 1;
++            break;
++
++        case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
++            from = deal->freecell[fcs_move_get_src_freecell(move)];
++            to = deal->freecell[fcs_move_get_dest_freecell(move)];
++            cards = 1;
++            break;
++
++        case FCS_MOVE_TYPE_STACK_TO_FREECELL:
++            from = deal->store[fcs_move_get_src_stack(move)];
++            to = deal->freecell[fcs_move_get_dest_freecell(move)];
++            cards = 1;
++            break;
++
++        case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
++            from = deal->store[fcs_move_get_src_stack(move)];
++            cards = 1;
++            to = 0;
++            break;
++
++        case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
++            from = deal->freecell[fcs_move_get_src_freecell(move)];
++            cards = 1;
++            to = 0;
++    }
++    Q_ASSERT(from);
++    Q_ASSERT(cards <= from->cards().count());
++    Q_ASSERT(to || cards == 1);
++    KCard *card = from->cards()[from->cards().count() - cards];
++
++    if (!to)
++    {
++        PatPile *target = 0;
++        PatPile *empty = 0;
++        for (int i = 0; i < 4; ++i) {
++            KCard *c = deal->target[i]->topCard();
++            if (c) {
++                if ( c->suit() == card->suit() )
++                {
++                    target = deal->target[i];
++                    break;
++                }
++            } else if ( !empty )
++                empty = deal->target[i];
++        }
++        to = target ? target : empty;
++    }
++    Q_ASSERT(to);
++
++    return MoveHint(card, to, 0);
++
++#if 0
+     // this is tricky as we need to want to build the "meta moves"
+ 
+     PatPile *frompile = nullptr;
+@@ -486,8 +452,43 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
+ 
+         return MoveHint( card, target, m.pri );
+     }
++#endif
+ }
+ 
++void FreecellSolver::translate_layout()
++{
++    strcpy(board_as_string, deal->solverFormat().toLatin1());
++
++    if (solver_instance)
++    {
++        freecell_solver_user_recycle(solver_instance);
++        solver_ret = FCS_STATE_NOT_BEGAN_YET;
++    }
++#if 0
++    /* Read the workspace. */
++    int total = 0;
++
++    for ( int w = 0; w < 10; ++w ) {
++        int i = translate_pile(deal->store[w], W[w], 52);
++        Wp[w] = &W[w][i - 1];
++        Wlen[w] = i;
++        total += i;
++    }
++
++    for (int i = 0; i < 4; ++i) {
++        O[i] = -1;
++        KCard *c = deal->target[i]->top();
++        if (c) {
++            total += 13;
++            O[i] = translateSuit( c->suit() );
++        }
++    }
++#endif
++}
++
++
++
++#if 0
+ unsigned int FreecellSolver::getClusterNumber()
+ {
+     int i = O[0] + (O[1] << 4);
+@@ -496,7 +497,9 @@ unsigned int FreecellSolver::getClusterNumber()
+     k |= i << 8;
+     return k;
+ }
++#endif
+ 
++#if 0
+ void FreecellSolver::print_layout()
+ {
+        int i, t, w, o;
+@@ -519,3 +522,4 @@ void FreecellSolver::print_layout()
+        }
+        fprintf(stderr, "\nprint-layout-end\n");
+ }
++#endif
+diff --git a/patsolve/freecellsolver.h b/patsolve/freecellsolver.h
+index 45ca063..99d1dbb 100644
+--- a/patsolve/freecellsolver.h
++++ b/patsolve/freecellsolver.h
+@@ -19,16 +19,17 @@
+ #ifndef FREECELLSOLVER_H
+ #define FREECELLSOLVER_H
+ 
+-class Freecell;
+-#include "patsolve.h"
++#include "abstract_fc_solve_solver.h"
+ 
+ constexpr auto Nwpiles = 8;
+ constexpr auto Ntpiles = 4;
++class Freecell;
+ 
+-class FreecellSolver : public Solver<Nwpiles + Ntpiles>
++class FreecellSolver : public FcSolveSolver
+ {
+ public:
+     explicit FreecellSolver(const Freecell *dealer);
++#if 0
+     int good_automove(int o, int r);
+     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+     bool isWon() Q_DECL_OVERRIDE;
+@@ -40,8 +41,17 @@ public:
+     void translate_layout() Q_DECL_OVERRIDE;
+     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+     MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+-
+-    void print_layout() Q_DECL_OVERRIDE;
++#endif
++    virtual void translate_layout();
++#if 0
++    virtual void unpack_cluster( unsigned int k );
++#endif
++    virtual MoveHint translateMove(const MOVE &m);
++    virtual void setFcSolverGameParams();
++    virtual int get_cmd_line_arg_count();
++    virtual const char * * get_cmd_line_args();
++#if 0
++    virtual void print_layout();
+ 
+     int Nwpiles; /* the numbers we're actually using */
+     int Ntpiles;
+@@ -51,10 +61,11 @@ public:
+     card_t O[4]; /* output piles store only the rank or NONE */
+     card_t Osuit[4];
+ 
+-    const Freecell *deal;
+ 
+     static int Xparam[];
++#endif
+ 
++    const Freecell *deal;
+ };
+ 
+ #endif // FREECELLSOLVER_H
+diff --git a/patsolve/patsolve.h b/patsolve/patsolve.h
+index 03285d4..1c3a7c6 100644
+--- a/patsolve/patsolve.h
++++ b/patsolve/patsolve.h
+@@ -33,6 +33,10 @@
+ 
+ #include <cstdio>
+ 
++/* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
++
++typedef quint8 card_t;
++
+ struct POSITION {
+         POSITION *queue;      /* next position in the queue */
+ 	POSITION *parent;     /* point back up the move stack */
+@@ -48,14 +52,15 @@ class MemoryManager;
+ template<size_t NumberPiles>
+ class Solver : public SolverInterface
+ {
++
+ public:
+ 
+     Solver();
+     virtual ~Solver();
+-    ExitStatus patsolve( int max_positions = -1) final;
++    virtual ExitStatus patsolve( int max_positions = -1);
++    bool recursive(POSITION *pos = nullptr);
+     virtual void translate_layout() = 0;
+     virtual MoveHint translateMove(const MOVE &m ) = 0;
+-
+     void stopExecution() final;
+     QList<MOVE> firstMoves() const final;
+     QList<MOVE> winMoves() const final;
+@@ -126,8 +131,7 @@ protected:
+     POSITION *Stack = nullptr;
+     QMap<qint32,bool> recu_pos;
+     int max_positions;
+-
+-private:
++protected:
+     QList<MOVE> m_firstMoves;
+     QList<MOVE> m_winMoves;
+     std::atomic_bool m_shouldEnd;
+diff --git a/patsolve/simonsolver.cpp b/patsolve/simonsolver.cpp
+index a9d640c..e75dcaa 100644
+--- a/patsolve/simonsolver.cpp
++++ b/patsolve/simonsolver.cpp
+@@ -15,17 +15,26 @@
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#include <stdlib.h>
++#include <string.h>
++
++#include "freecell-solver/fcs_user.h"
++#include "freecell-solver/fcs_cl.h"
++
+ #include "simonsolver.h"
+ 
+ #include "../simon.h"
+ 
+ #include <QDebug>
+ 
++const int CHUNKSIZE = 100;
++const long int MAX_ITERS_LIMIT = 200000;
+ 
+ #define PRINT 0
+ 
+ /* These two routines make and unmake moves. */
+ 
++#if 0
+ void SimonSolver::make_move(MOVE *m)
+ {
+ #if PRINT
+@@ -136,13 +145,62 @@ void SimonSolver::undo_move(MOVE *m)
+         print_layout();
+ #endif
+ }
++#endif
++
++#define CMD_LINE_ARGS_NUM 4
++static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
++{
++    "-g", "simple_simon", "--load-config", "the-last-mohican"
++};
++
++int SimonSolver::get_cmd_line_arg_count()
++{
++    return CMD_LINE_ARGS_NUM;
++}
++
++const char * * SimonSolver::get_cmd_line_args()
++{
++    return freecell_solver_cmd_line_args;
++}
++
++void SimonSolver::setFcSolverGameParams()
++{
++    freecell_solver_user_apply_preset(solver_instance, "simple_simon");
++}
+ 
++#if 0
+ /* Get the possible moves from a position, and store them in Possible[]. */
+ 
+ int SimonSolver::get_possible_moves(int *a, int *numout)
+ {
+     MOVE *mp;
++    int n;
++
++    mp = Possible;
++    n = 0;
++    *a = 1;
++
++    while (freecell_solver_user_get_moves_left(solver_instance))
++    {
++        fcs_move_t move;
++        fcs_move_t * move_ptr;
++        if (!freecell_solver_user_get_next_move(solver_instance, &move)) {
++            move_ptr = new fcs_move_t;
++            *move_ptr = move;
++            mp->ptr = (void *)move_ptr;
++            mp++;
++            n++;
++        }
++        else
++        {
++            Q_ASSERT(0);
++        }
++    }
++
++    *numout = n;
++    return n;
+ 
++#if 0
+     /* Check for moves from W to O. */
+ 
+     int n = 0;
+@@ -301,8 +359,11 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
+     }
+ 
+     return n;
++#endif
+ }
++#endif
+ 
++#if 0
+ void SimonSolver::unpack_cluster( unsigned int k )
+ {
+     // TODO: this only works for easy
+@@ -314,7 +375,9 @@ void SimonSolver::unpack_cluster( unsigned int k )
+             O[i] = -1;
+     }
+ }
++#endif
+ 
++#if 0
+ bool SimonSolver::isWon()
+ {
+     // maybe won?
+@@ -324,7 +387,9 @@ bool SimonSolver::isWon()
+ 
+     return true;
+ }
++#endif
+ 
++#if 0
+ int SimonSolver::getOuts()
+ {
+     int k = 0;
+@@ -334,9 +399,10 @@ int SimonSolver::getOuts()
+ 
+     return k;
+ }
++#endif
+ 
+ SimonSolver::SimonSolver(const Simon *dealer)
+-    : Solver()
++    : FcSolveSolver()
+ {
+     deal = dealer;
+ }
+@@ -346,6 +412,14 @@ card).  Temp cells and Out on the last two lines, if any. */
+ 
+ void SimonSolver::translate_layout()
+ {
++    strcpy(board_as_string, deal->solverFormat().toLatin1());
++
++    if (solver_instance)
++    {
++        freecell_solver_user_recycle(solver_instance);
++        solver_ret = FCS_STATE_NOT_BEGAN_YET;
++    }
++#if 0
+     /* Read the workspace. */
+     int total = 0;
+ 
+@@ -364,8 +438,10 @@ void SimonSolver::translate_layout()
+             O[i] = translateSuit( c->suit() );
+         }
+     }
++#endif
+ }
+ 
++#if 0
+ unsigned int SimonSolver::getClusterNumber()
+ {
+     unsigned int k = 0;
+@@ -376,7 +452,9 @@ unsigned int SimonSolver::getClusterNumber()
+     }
+     return k;
+ }
++#endif
+ 
++#if 0
+ void SimonSolver::print_layout()
+ {
+     int i, w, o;
+@@ -397,9 +475,57 @@ void SimonSolver::print_layout()
+     }
+     fprintf(stderr, "\nprint-layout-end\n");
+ }
++#endif
+ 
+ MoveHint SimonSolver::translateMove( const MOVE &m )
+ {
++    fcs_move_t move = m.fcs;
++    int cards = fcs_move_get_num_cards_in_seq(move);
++    PatPile *from = 0;
++    PatPile *to = 0;
++
++    switch(fcs_move_get_type(move))
++    {
++        case FCS_MOVE_TYPE_STACK_TO_STACK:
++            from = deal->store[fcs_move_get_src_stack(move)];
++            to = deal->store[fcs_move_get_dest_stack(move)];
++            break;
++
++        case FCS_MOVE_TYPE_SEQ_TO_FOUNDATION:
++            from = deal->store[fcs_move_get_src_stack(move)];
++            cards = 13;
++            to = deal->target[fcs_move_get_foundation(move)];
++            break;
++
++    }
++    Q_ASSERT(from);
++    Q_ASSERT(cards <= from->cards().count());
++    Q_ASSERT(to || cards == 1);
++    KCard *card = from->cards()[from->cards().count() - cards];
++
++    if (!to)
++    {
++        PatPile *target = 0;
++        PatPile *empty = 0;
++        for (int i = 0; i < 4; ++i) {
++            KCard *c = deal->target[i]->topCard();
++            if (c) {
++                if ( c->suit() == card->suit() )
++                {
++                    target = deal->target[i];
++                    break;
++                }
++            } else if ( !empty )
++                empty = deal->target[i];
++        }
++        to = target ? target : empty;
++    }
++
++    Q_ASSERT(to);
++
++    return MoveHint(card, to, 0);
++
++#if 0
+     Q_ASSERT( m.from < 10 && m.to < 10 );
+ 
+     PatPile *frompile = deal->store[m.from];
+@@ -414,4 +540,5 @@ MoveHint SimonSolver::translateMove( const MOVE &m )
+ 
+     Q_ASSERT( m.to < 10 );
+     return MoveHint( card, deal->store[m.to], m.pri );
++#endif
+ }
+diff --git a/patsolve/simonsolver.h b/patsolve/simonsolver.h
+index 2d57dda..4a417b1 100644
+--- a/patsolve/simonsolver.h
++++ b/patsolve/simonsolver.h
+@@ -18,29 +18,37 @@
+ #ifndef SIMONSOLVER_H
+ #define SIMONSOLVER_H
+ 
+-#include "patsolve.h"
++#include "abstract_fc_solve_solver.h"
++#include "simon.h"
+ class Simon;
+ 
+ 
+-class SimonSolver : public Solver<10>
++class SimonSolver : public FcSolveSolver
+ {
+ public:
+     explicit SimonSolver(const Simon *dealer);
++#if 0
+     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+     bool isWon() Q_DECL_OVERRIDE;
+     void make_move(MOVE *m) Q_DECL_OVERRIDE;
+     void undo_move(MOVE *m) Q_DECL_OVERRIDE;
+     int getOuts() Q_DECL_OVERRIDE;
+     unsigned int getClusterNumber() Q_DECL_OVERRIDE;
+-    void translate_layout() Q_DECL_OVERRIDE;
++#endif
++    virtual void translate_layout() Q_DECL_OVERRIDE;
++    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
++#if 0
+     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+-
+     void print_layout() Q_DECL_OVERRIDE;
++#endif
++    virtual void setFcSolverGameParams();
+ 
++    virtual int get_cmd_line_arg_count();
++    virtual const char * * get_cmd_line_args();
++#if 0
+ /* Names of the cards.  The ordering is defined in pat.h. */
+-
+     int O[4];
++#endif
+     const Simon *deal;
+ };
+ 
+diff --git a/patsolve/solverinterface.h b/patsolve/solverinterface.h
+index d99d3b8..77fd410 100644
+--- a/patsolve/solverinterface.h
++++ b/patsolve/solverinterface.h
+@@ -4,6 +4,7 @@
+ #include <QList>
+ 
+ #include "../hint.h"
++#include "freecell-solver/fcs_user.h"
+ 
+ 
+ /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
+@@ -22,6 +23,7 @@ public:
+     PileType totype;
+     signed char pri;        /* move priority (low priority == low value) */
+     int turn_index;         /* turn the card index */
++    fcs_move_t fcs;         /* A Freecell Solver move. */
+ 
+     bool operator<( const MOVE &m) const
+     {
+diff --git a/pileutils.cpp b/pileutils.cpp
+index 1e3da3e..609c716 100644
+--- a/pileutils.cpp
++++ b/pileutils.cpp
+@@ -48,6 +48,33 @@ bool isSameSuitAscending( const QList<KCard*> & cards )
+     return true;
+ }
+ 
++int countSameSuitDescendingSequences( const QList<KCard*> & cards )
++{
++    if ( cards.size() <= 1 )
++        return 0;
++
++    int suit = cards.first()->suit();
++    int lastRank = cards.first()->rank();
++
++    int count = 1;
++
++    for( int i = 1; i < cards.size(); ++i )
++    {
++        --lastRank;
++
++        if ( cards[i]->rank() != lastRank )
++            return -1;
++
++        if ( cards[i]->suit() != suit )
++        {
++            count++;
++            suit = cards[i]->suit();
++        }
++    }
++    return count;
++}
++
++
+ 
+ bool isSameSuitDescending( const QList<KCard*> & cards )
+ {
+@@ -121,3 +148,37 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
+             && newCards.first()->rank() == oldCards.last()->rank() - 1;
+ }
+ 
++QString suitToString(int s) {
++    switch (s) {
++        case KCardDeck::Clubs:
++            return "C";
++        case KCardDeck::Hearts:
++            return "H";
++        case KCardDeck::Diamonds:
++            return "D";
++        case KCardDeck::Spades:
++            return "S";
++        default:
++            exit(-1);
++    }
++    return QString();
++}
++
++QString rankToString(int r)
++{
++    switch (r) {
++        case KCardDeck::King:
++            return "K";
++        case KCardDeck::Ace:
++            return "A";
++        case KCardDeck::Jack:
++            return "J";
++        case KCardDeck::Queen:
++            return "Q";
++        case KCardDeck::Ten:
++            return "T";
++        default:
++            return QString::number(r);
++    }
++}
++
+diff --git a/pileutils.h b/pileutils.h
+index 2fa1657..faa8c40 100644
+--- a/pileutils.h
++++ b/pileutils.h
+@@ -26,9 +26,13 @@ class KCard;
+ bool isSameSuitAscending( const QList<KCard*> & cards );
+ bool isSameSuitDescending( const QList<KCard*> & cards );
+ bool isAlternateColorDescending( const QList<KCard*> & cards );
++int countSameSuitDescendingSequences( const QList<KCard*> & cards );
+ 
+ bool checkAddSameSuitAscendingFromAce( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
+ bool checkAddAlternateColorDescending( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
+ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
+ 
++extern QString suitToString(int s);
++extern QString rankToString(int r);
++
+ #endif
+diff --git a/simon.cpp b/simon.cpp
+index 8e3ef10..834dd55 100644
+--- a/simon.cpp
++++ b/simon.cpp
+@@ -111,24 +111,70 @@ bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
+ {
+     if (pile->pileRole() == PatPile::Tableau)
+     {
+-        return oldCards.isEmpty()
+-               || oldCards.last()->rank() == newCards.first()->rank() + 1;
++        if (! (oldCards.isEmpty()
++               || oldCards.last()->rank() == newCards.first()->rank() + 1 ))
++        {
++            return false;
++        }
++
++        int seqs_count = countSameSuitDescendingSequences(newCards);
++
++        if (seqs_count < 0)
++            return false;
++
++        // This is similar to the supermoves of Freecell - we can use empty
++        // columns to temporarily hold intermediate sub-sequences which are
++        // not the same suit - only a "false" parent.
++        //      Shlomi Fish
++
++        int empty_piles_count = 0;
++
++        for (int i = 0; i < 10; ++i )
++            if (store[i]->isEmpty() && ( store[i]->index() != pile->index() ))
++                empty_piles_count++;
++
++        return (seqs_count <= (1 << empty_piles_count));
+     }
+     else
+     {
+         return oldCards.isEmpty()
+                && newCards.first()->rank() == KCardDeck::King
+-               && newCards.last()->rank() == KCardDeck::Ace;
++               && newCards.last()->rank() == KCardDeck::Ace
++               && isSameSuitDescending(newCards);
+     }
+ }
+ 
+ bool Simon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+ {
+-    return pile->pileRole() == PatPile::Tableau
+-           && isSameSuitDescending(cards);
++    if (pile->pileRole() != PatPile::Tableau)
++        return false;
++
++    int seqs_count = countSameSuitDescendingSequences(cards);
++
++    return (seqs_count >= 0);
+ }
+ 
++QString Simon::solverFormat() const
++{
++    QString output;
++    QString tmp;
++    for (int i = 0; i < 4 ; i++) {
++        if (target[i]->isEmpty())
++            continue;
++        tmp += suitToString(target[i]->topCard()->suit()) + "-K ";
++    }
++    if (!tmp.isEmpty())
++        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
+ 
++    for (int i = 0; i < 10 ; i++)
++    {
++        QList<KCard*> cards = store[i]->cards();
++        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
++            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
++        output += '\n';
++    }
++    return output;
++}
+ 
+ static class SimonDealerInfo : public DealerInfo
+ {
+diff --git a/simon.h b/simon.h
+index 83d10ab..d816f27 100644
+--- a/simon.h
++++ b/simon.h
+@@ -57,6 +57,7 @@ private:
+     PatPile* store[10];
+     PatPile* target[4];
+ 
++    virtual QString solverFormat() const;
+     friend class SimonSolver;
+ };
+ 
+-- 
+cgit v0.11.2
+
