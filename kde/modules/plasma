@@ -5,7 +5,6 @@ breeze
 breeze-gtk
 breeze-grub
 #breeze-plymouth
-kde-cli-tools
 kwayland-integration
 plasma-integration
 kinfocenter
@@ -17,8 +16,11 @@ kwrited
 libkscreen2
 milou
 oxygen
-systemsettings
 plasma-workspace
+kde-cli-tools
+# Circular dependenvy between plasma-workspace and kde-cli-tools
+plasma-workspace
+systemsettings
 plasma-desktop
 kdeplasma-addons
 plasma-workspace-wallpapers
@@ -40,6 +42,7 @@ user-manager
 xdg-desktop-portal-kde
 drkonqi
 plasma-vault
+plasma-browser-integration
 #plymouth-kcm
 #kwallet-pam
 #discover
