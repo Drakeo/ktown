@@ -1,0 +1,156 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 369699a..00e1413 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,15 +1,18 @@
+ cmake_minimum_required(VERSION 2.8.12)
+ 
+ find_package(ECM 5.14 REQUIRED NO_MODULE)
+ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+ 
+ include(FeatureSummary)
+ include(ECMInstallIcons)
+ include(KDEInstallDirs)
+ include(KDECMakeSettings)
+ include(KDECompilerSettings NO_POLICY_SCOPE)
+ include(ECMQtDeclareLoggingCategory)
+ 
++# Required for ki18n_install(po) added on tarball generation
++find_package(KF5 REQUIRED COMPONENTS I18n)
++
+ add_subdirectory(kpartloader)
+ add_subdirectory(kuiviewer)
+ ki18n_install(po)
+diff --git a/kpartloader/CMakeLists.txt b/kpartloader/CMakeLists.txt
+index 4e54d94..1fe4136 100644
+--- a/kpartloader/CMakeLists.txt
++++ b/kpartloader/CMakeLists.txt
+@@ -1,27 +1,26 @@
+ project(kpartloader)
+ ########### kpartloader ###############
+ 
+ set(QT_MIN_VERSION "5.5.0")
+ 
+ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE
+     COMPONENTS
+     Core
+ )
+ 
+ find_package(KF5 REQUIRED
+     COMPONENTS
+     CoreAddons
+-    I18n
+     Parts
+     WidgetsAddons
+ )
+ 
+ set(kpartloader_SRCS
+     kpartloader.cpp
+ )
+ 
+ add_executable(kpartloader ${kpartloader_SRCS})
+ target_link_libraries(kpartloader KF5::Parts)
+ install(TARGETS kpartloader ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+ install(FILES kpartloaderui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kpartloader)
+ 
+diff --git a/kuiviewer/CMakeLists.txt b/kuiviewer/CMakeLists.txt
+index fa72c59..3fe987e 100644
+--- a/kuiviewer/CMakeLists.txt
++++ b/kuiviewer/CMakeLists.txt
+@@ -1,96 +1,95 @@
+ project(kuiviewer)
+ 
+ set(QT_MIN_VERSION "5.5.0")
+ 
+ include(ECMAddAppIcon)
+ 
+ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE
+     COMPONENTS
+     Core
+     Designer
+     UiTools
+ )
+ 
+ find_package(KF5 REQUIRED
+     COMPONENTS
+     CoreAddons
+     KIO
+-    I18n
+     Parts
+ )
+ 
+ add_definitions(
+     -DQT_DEPRECATED_WARNINGS
+     -DQT_DISABLE_DEPRECATED_BEFORE=0x050500
+     -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+     -DQT_STRICT_ITERATORS
+     -DQT_USE_QSTRINGBUILDER
+     -DQT_NO_CAST_TO_ASCII
+     -DQT_NO_CAST_FROM_ASCII
+     -DQT_NO_CAST_FROM_BYTEARRAY
+     -DQT_NO_URL_CAST_FROM_STRING
+ )
+ 
+ ########### next target ###############
+ 
+ set(kuiviewer_SRCS main.cpp kuiviewer.cpp )
+ 
+ file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*-apps-kuiviewer.png")
+ ecm_add_app_icon(kuiviewer_SRCS ICONS ${ICONS_SRCS})
+ 
+ add_executable(kuiviewer ${kuiviewer_SRCS})
+ 
+ target_link_libraries(kuiviewer  KF5::Parts  )
+ 
+ install(TARGETS kuiviewer  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
+ 
+ 
+ ########### next target ###############
+ 
+ set(kuiviewerpart_PART_SRCS kuiviewer_part.cpp )
+ 
+ ecm_qt_declare_logging_category(kuiviewerpart_PART_SRCS
+     HEADER kuiviewer_part_debug.h
+     IDENTIFIER KUIVIEWERPART
+     CATEGORY_NAME "kuiviewerpart"
+ )
+ 
+ add_library(kuiviewerpart MODULE ${kuiviewerpart_PART_SRCS})
+ 
+ target_link_libraries(kuiviewerpart  KF5::Parts Qt5::Designer Qt5::UiTools)
+ 
+ install(TARGETS kuiviewerpart  DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+ 
+ 
+ ########### next target ###############
+ 
+ set(quithumbnail_PART_SRCS quicreator.cpp )
+ 
+ add_library(quithumbnail MODULE ${quithumbnail_PART_SRCS})
+ 
+ target_link_libraries(quithumbnail
+     KF5::KIOWidgets
+     Qt5::Designer
+     Qt5::UiTools
+ )
+ 
+ install(TARGETS quithumbnail  DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+ 
+ 
+ ########### install files ###############
+ 
+ install( PROGRAMS org.kde.kuiviewer.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+ install( FILES designerthumbnail.desktop kuiviewer_part.desktop  DESTINATION  ${KDE_INSTALL_KSERVICES5DIR} )
+ install( FILES kuiviewer_part.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kuiviewerpart )
+ install( FILES kuiviewerui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kuiviewer )
+ 
+ ecm_install_icons(ICONS
+     16-apps-kuiviewer.png
+     32-apps-kuiviewer.png
+     48-apps-kuiviewer.png
+     64-apps-kuiviewer.png
+     128-apps-kuiviewer.png
+     sc-apps-kuiviewer.svg
+     DESTINATION ${KDE_INSTALL_ICONDIR}
+     THEME hicolor
+ )
