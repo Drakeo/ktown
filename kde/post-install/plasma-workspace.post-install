@@ -24,8 +24,8 @@ cat $CWD/post-install/plasma-workspace/xsession/plasma-safe.desktop \
   >  $PKG/usr/share/xsessions/z_plasma-safe.desktop
 
 # What is "plugins/plugins"?
-mv $PKG/usr/lib64/qt5/plugins/{plugins,}/phonon_platform
-rmdir $PKG/usr/lib64/qt5/plugins/plugins
+mv $PKG/usr/lib$LIBDIRSUFFIX/qt5/plugins/{plugins,}/phonon_platform
+rmdir $PKG/usr/lib$LIBDIRSUFFIX/qt5/plugins/plugins
 
 # Move the polkit dbus configuration files to the proper place:
 mkdir -p $PKG/etc
