@@ -1,0 +1,3 @@
+# Fix build against Qt 5.11:
+cat $CWD/patch/calligra/calligra3_qt511.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
