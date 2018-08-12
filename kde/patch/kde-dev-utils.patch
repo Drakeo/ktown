@@ -1,3 +1,3 @@
 # Fix build against KF 5.48.0 (only relevant for 18.04.3):
-cat $CWD/patch/kde-dev-utils/build_with_kf548.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kde-dev-utils/build_with_kf548.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
