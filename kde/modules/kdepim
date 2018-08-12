@@ -39,6 +39,8 @@ messagelib
 mailcommon
 kleopatra
 kdav
+kpkpass
+kitinerary
 kdepim-addons
 kdepim-runtime
 akonadi-calendar-tools
@@ -56,4 +58,3 @@ korganizer
 mbox-importer
 pim-data-exporter
 pim-sieve-editor
-
