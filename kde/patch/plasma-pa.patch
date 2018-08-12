@@ -1,0 +1,5 @@
+# Port from gconf to gsettings (wait until post 5.13.4)
+# because PA 12 dropped support for gconf and this broke the advanced settings
+# in the PA audio configuration:
+#cat $CWD/patch/plasma-pa/plasma-pa_enable_gsettings.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
