@@ -73,7 +73,7 @@ index 8f738bf..c043c45 100644
      KF5::KIOCore
      KF5KDEGames
      kcardgame
-+    ${FC_SOLVE_LIBRARIES}
++    ${FC_SOLVE_LDFLAGS}
  )
  
  install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
