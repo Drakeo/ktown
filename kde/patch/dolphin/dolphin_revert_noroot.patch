@@ -1,44 +1,23 @@
-Taken from openSUSE:
-https://build.opensuse.org/package/view_file/KDE:Applications/dolphin/0001-Revert-Disallow-executing-Dolphin-as-root-on-Linux.patch?expand=1
+# Let the user decide whether she wants to run Dolphin as root:
 
-From ba74d639178916221c748b0d5d89f7ac4f5ed669 Mon Sep 17 00:00:00 2001
-From: Fabian Vogt <fabian@ritter-vogt.de>
-Date: Sat, 22 Apr 2017 14:00:33 +0200
-Subject: [PATCH] Revert "Disallow executing Dolphin as root on Linux"
-
-This reverts commit 0bdd8e0b0516555c6233fdc7901e9b417cf89791.
-We ship a desktop file to open dolphin as root and we allow YaST on the
-desktop. So this patch is absolutely pointless for us.
----
- src/main.cpp | 13 -------------
- 1 file changed, 13 deletions(-)
-
-diff --git a/src/main.cpp b/src/main.cpp
-index 789a52996..acba8daed 100644
---- a/src/main.cpp
-+++ b/src/main.cpp
-@@ -35,21 +35,8 @@
- #include <KLocalizedString>
- #include <Kdelibs4ConfigMigrator>
- 
--#ifndef Q_OS_WIN
--#include <unistd.h>
--#endif
--#include <iostream>
--
+diff -uar dolphin-18.08.0.orig/src/main.cpp dolphin-18.08.0/src/main.cpp
+--- dolphin-18.08.0.orig/src/main.cpp	2018-08-06 22:41:40.000000000 +0200
++++ dolphin-18.08.0/src/main.cpp	2018-08-11 00:32:48.073913157 +0200
+@@ -43,14 +43,12 @@
  extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
  {
--#ifndef Q_OS_WIN
--    // Check whether we are running as root
--    if (getuid() == 0) {
--        std::cout << "Executing Dolphin as root is not possible." << std::endl;
--        return EXIT_FAILURE;
--    }
--#endif
--
-     QApplication app(argc, argv);
-     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
--- 
-2.12.0
-
+ #ifndef Q_OS_WIN
+-    // Prohibit using sudo or kdesu (but allow using the root user directly)
++    // Warn using sudo or kdesu (but allow using the root user directly)
+     if (getuid() == 0) {
+         if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
+-            std::cout << "Executing Dolphin with sudo is not possible due to unfixable security vulnerabilities." << std::endl;
+-            return EXIT_FAILURE;
++            std::cout << "Executing Dolphin with sudo is UNSAFE due to unfixable security vulnerabilities." << std::endl;
+         } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
+-            std::cout << "Executing Dolphin with kdesu is not possible due to unfixable security vulnerabilities." << std::endl;
+-            return EXIT_FAILURE;
++            std::cout << "Executing Dolphin with kdesu is UNSAFE due to unfixable security vulnerabilities." << std::endl;
+         }
+     }
+ #endif
