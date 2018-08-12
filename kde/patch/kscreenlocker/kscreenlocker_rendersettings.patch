@@ -1,0 +1,49 @@
+From 3f104cbb0a34024dc1aa45538d2ef2403a7a45f0 Mon Sep 17 00:00:00 2001
+From: David Edmundson <kde@davidedmundson.co.uk>
+Date: Fri, 10 Aug 2018 01:18:42 +0200
+Subject: Load QtQuickSettings for software rendering
+
+We had support for falling back on errors yet somehow
+the initial basic loading was missing.
+
+Summary: BUG: 347772
+
+Test Plan: Compiles
+
+Reviewers: #plasma, broulik
+
+Reviewed By: #plasma, broulik
+
+Subscribers: plasma-devel
+
+Tags: #plasma
+
+Differential Revision: https://phabricator.kde.org/D14708
+---
+ greeter/main.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/greeter/main.cpp b/greeter/main.cpp
+index ff64a55..6db87e1 100644
+--- a/greeter/main.cpp
++++ b/greeter/main.cpp
+@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *********************************************************************/
+ #include <KLocalizedString>
++#include <KQuickAddons/QtQuickSettings>
+ 
+ #include <QDateTime>
+ #include <QCommandLineParser>
+@@ -85,6 +86,8 @@ int main(int argc, char* argv[])
+     QCoreApplication::setApplicationVersion(QStringLiteral("0.1"));
+     QCoreApplication::setOrganizationDomain(QStringLiteral("kde.org"));
+ 
++    KQuickAddons::QtQuickSettings::init();
++
+     // disable session management for the greeter
+     auto disableSessionManagement = [](QSessionManager &sm) {
+         sm.setRestartHint(QSessionManager::RestartNever);
+-- 
+cgit v0.11.2
+

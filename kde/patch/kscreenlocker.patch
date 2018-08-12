@@ -2,3 +2,11 @@
 # Dont quit the Greeter when last window closes.
 #cat $CWD/patch/kscreenlocker/kscreenlocker_CVE-2016-2312.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Backport two important stability fixes from 5.14 -
+# Force software rendering when greeter crashed:
+cat $CWD/patch/kscreenlocker/kscreenlocker_crash_force_softrender.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Load QtQuickSettings for software rendering (KDEBUG #347772):
+cat $CWD/patch/kscreenlocker/kscreenlocker_rendersettings.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+
+

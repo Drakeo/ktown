@@ -1,0 +1,112 @@
+From 875e44f56d4597ba3b65f5bf4ff2b315376c05a4 Mon Sep 17 00:00:00 2001
+From: Kai Uwe Broulik <kde@privat.broulik.de>
+Date: Wed, 11 Jul 2018 18:01:41 +0200
+Subject: Force software rendering when greeter crashed
+
+We have a fallback QML theme for when the look and feel package is broken but when the
+graphics driver is broken (e.g. proprietary graphics driver update) the lock screen would
+stop working. When the greeter crashed, better play safe and force software rendering
+
+Reviewed-By: d_ed
+---
+ ksldapp.cpp | 13 +++++++++++--
+ ksldapp.h   |  9 +++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/ksldapp.cpp b/ksldapp.cpp
+index 892826f..5fe28ea 100644
+--- a/ksldapp.cpp
++++ b/ksldapp.cpp
+@@ -66,6 +66,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ namespace ScreenLocker
+ {
+ 
++static const QString s_qtQuickBackend = QStringLiteral("QT_QUICK_BACKEND");
++
+ static KSldApp * s_instance = nullptr;
+ 
+ KSldApp* KSldApp::self()
+@@ -226,6 +228,8 @@ void KSldApp::initialize()
+             // failure, restart lock process
+             m_greeterCrashedCounter++;
+             if (m_greeterCrashedCounter < 4) {
++                // Perhaps it crashed due to a graphics driver issue, force software rendering now
++                setForceSoftwareRendering(true);
+                 startLockProcess(EstablishLock::Immediate);
+             } else if (m_lockWindow) {
+                 m_lockWindow->emergencyShow();
+@@ -385,6 +389,7 @@ void KSldApp::lock(EstablishLock establishLock)
+ 
+     m_lockState = AcquiringLock;
+ 
++    setForceSoftwareRendering(false);
+     // start unlock screen process
+     startLockProcess(establishLock);
+     emit lockStateChanged();
+@@ -546,6 +551,8 @@ bool KSldApp::isFdoPowerInhibited() const
+ 
+ void KSldApp::startLockProcess(EstablishLock establishLock)
+ {
++    QProcessEnvironment env = m_greeterEnv;
++
+     if (m_isWayland && m_waylandDisplay) {
+         int sx[2];
+         if (socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, sx) < 0) {
+@@ -566,9 +573,7 @@ void KSldApp::startLockProcess(EstablishLock establishLock)
+         emit greeterClientConnectionChanged();
+         int socket = dup(sx[1]);
+         if (socket >= 0) {
+-            QProcessEnvironment env = m_greeterEnv;
+             env.insert("WAYLAND_SOCKET", QByteArray::number(socket));
+-            m_lockProcess->setProcessEnvironment(env);
+         }
+     }
+     QStringList args;
+@@ -587,6 +592,9 @@ void KSldApp::startLockProcess(EstablishLock establishLock)
+     if (m_lockGrace == -1) {
+         args << QStringLiteral("--nolock");
+     }
++    if (m_forceSoftwareRendering) {
++        env.insert(s_qtQuickBackend, QStringLiteral("software"));
++    }
+ 
+     // start the Wayland server
+     int fd = m_waylandServer->start();
+@@ -598,6 +606,7 @@ void KSldApp::startLockProcess(EstablishLock establishLock)
+     args << QStringLiteral("--ksldfd");
+     args << QString::number(fd);
+ 
++    m_lockProcess->setProcessEnvironment(env);
+     m_lockProcess->start(QStringLiteral(KSCREENLOCKER_GREET_BIN), args);
+     close(fd);
+ }
+diff --git a/ksldapp.h b/ksldapp.h
+index 4849588..b6d6703 100644
+--- a/ksldapp.h
++++ b/ksldapp.h
+@@ -127,6 +127,14 @@ public:
+         m_lockGrace = msec;
+     }
+ 
++    bool forceSoftwareRendering() const {
++        return m_forceSoftwareRendering;
++    }
++
++    void setForceSoftwareRendering(bool force) {
++        m_forceSoftwareRendering = force;
++    }
++
+ Q_SIGNALS:
+     void locked();
+     void unlocked();
+@@ -179,6 +187,7 @@ private:
+     LogindIntegration *m_logind;
+     GlobalAccel *m_globalAccel = nullptr;
+     bool m_hasXInput2 = false;
++    bool m_forceSoftwareRendering = false;
+ 
+     bool m_isX11;
+     bool m_isWayland;
+-- 
+cgit v0.11.2
+
