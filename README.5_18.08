@@ -1,33 +1,33 @@
 KDE5
 ====
 
-Here is KDE 5_18.07 for Slackware, consisting of the KDE
-Frameworks 5.48.0, Plasma 5.13.3 and Applications 18.04.3 on top of Qt 5.11.1.
+Here is KDE 5_18.08 for Slackware, consisting of the KDE
+Frameworks 5.49.0, Plasma 5.13.4 and Applications 18.08.0 on top of Qt 5.11.1.
 
-Upgrading from the previous 5_18.06 or from 5_18.06_testing is relatively
-straight-forward.
+Upgrading from the previous 5_18.07 is relatively straight-forward.
 
-KDE-5_18.07 is meant to be installed on top of Slackware -current.
+KDE-5_18.08 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- In the 'deps' section, I updated 'poppler' to 0.67.0 to get back in sync
-  with the Slackware version.  Compared to KDE-5_18.06, the 'qt5' package
-  has been updated to 5.11.1 (the KDE-5_18.06_testing already contained
-  this version of Qt5).
+- In 'deps', I updated 'mlt' to 6.10.0 because KDEnlive requires it.
+  Also, a fontconfig file was added to the 'noto-cjk-font-ttf' package in
+  the hope that it helps people.
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.48.0.php .
-- Plasma 5.13.3 is the third increment in the Plasma Desktop 5.13 development
-  cycle.  See https://www.kde.org/announcements/plasma-5.13.3.php
-  If you are upgrading from KDE-5_18.06 you may want to read about all the
-  new features in Plasma 5.13 here:
+  https://www.kde.org/announcements/kde-frameworks-5.49.0.php .
+- Plasma 5.13.4 is an incremental upgrade in the Plasma Desktop 5.13
+  release cycle, bringing important stability and performance fixes.
+  See https://www.kde.org/announcements/plasma-5.13.4.php
+  You may want to read about all the new features in Plasma 5.13 here:
   https://www.kde.org/announcements/plasma-5.13.0.php
-- Applications 18.04.3 is a stability and bugfix release.
-  See https://www.kde.org/announcements/announce-applications-18.04.3.php .
-- In applications-extra I have upgraded 'okteta' and 'krita' and rebuilt
-  'calligra' and 'kile' against the newer poppler.
+- Applications 18.08.0 is the highlight of this month.  It marks a new
+  quarterly refresh, adding two new packages to the KDEPIM collection:
+  'kpkpass' and 'kitinerary'.
+  See https://www.kde.org/announcements/announce-applications-18.08.0.php .
+- In applications-extra I have upgraded 'okteta' and 'kstars' and rebuilt
+  'calligra' 'digikam' and 'krita' against the new boost libraries.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -140,6 +140,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.07 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.06 or KDE 5_18.06_testing installed:
 - No further actions are needed.
@@ -378,4 +381,4 @@ Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 29-jul-2018
+                     Eric Hameleers / alien at slackware dot com / 14-aug-2018
