@@ -98,7 +98,8 @@ libkmahjongg
 klickety
 ksudoku
 ksquares
-kpat
+# Needs fc-solver library:
+#kpat
 klines
 ksnakeduel
 kollision
