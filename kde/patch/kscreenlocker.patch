@@ -6,7 +6,8 @@
 # Force software rendering when greeter crashed:
 cat $CWD/patch/kscreenlocker/kscreenlocker_crash_force_softrender.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 # Load QtQuickSettings for software rendering (KDEBUG #347772):
-cat $CWD/patch/kscreenlocker/kscreenlocker_rendersettings.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+# Applied in Plasma 5.13.5:
+#cat $CWD/patch/kscreenlocker/kscreenlocker_rendersettings.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 
 
