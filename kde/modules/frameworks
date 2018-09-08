@@ -45,6 +45,7 @@ kunitconversion
 kpty
 kimageformats
 kfilemetadata5
+syndication
 # Tier 3, depends on Tier 1 and 2, Qt5, system libraries:
 kconfigwidgets
 kservice
