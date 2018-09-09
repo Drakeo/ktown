@@ -24,6 +24,8 @@ What is the NEWS in this batch of updates:
 - Applications 18.08.1 is the first stability update for this quarter's
   applications set.
   See https://www.kde.org/announcements/announce-applications-18.08.1.php .
+  The 'kpat' package is no longer present because it requires new
+  dependencies (fc-solver and its deps) that Slackware cannnot provide.
 - In applications-extra I have upgraded 'okteta', 'ktorrent', 'kstars',
   'krusader' and the KDE Development packages 'kdevelop', 'kdev-python'
   and 'kdev-php'.
