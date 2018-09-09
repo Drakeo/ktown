@@ -141,7 +141,9 @@ for some of the 'removepkg' lines you'll see below.
 Here we go:
 
 If you have my 'ktown' set of KDE 5_18.08 installed:
-- No further actions are needed.
+- Upgrade to KDE 5_18.09
+  Remove the packages that no longer exist in KDE 5_18.09:
+  # removepkg kpat
 
 If you have my 'ktown' set of KDE 5_18.07 installed:
 - No further actions are needed.
