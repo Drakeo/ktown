@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2014  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2012, 2013, 2014, 2015, 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2012, 2013, 2014, 2015, 2017, 2018  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -23,13 +23,14 @@
 # -----------------------------------------------------------------------------
 
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PKGNAM=OpenAL
 SRCNAM=openal-soft
-VERSION=${VERSION:-1.18.2}
+VERSION=${VERSION:-1.19.0}
 BUILD=${BUILD:-1}
-NUMJOBS=${NUMJOBS:-" -j4 "}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
@@ -68,6 +69,14 @@ else
   LIBDIRSUFFIX=""
 fi
 
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz"
+  exit 0
+fi
+
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
@@ -90,9 +99,10 @@ cd build
     -DMAN_INSTALL_DIR=/usr/man \
     -DSYSCONF_INSTALL_DIR=/etc \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -G Ninja \
     ..
-  make $NUMJOBS || make || exit 1
-  make install DESTDIR=$PKG || exit 1
+  ninja || exit 1
+  DESTDIR=$PKG ninja install || exit 1
 cd -
 
 # Add an example configuration file:

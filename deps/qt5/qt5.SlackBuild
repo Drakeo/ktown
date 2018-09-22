@@ -57,9 +57,13 @@
 # Modifications for qt 5.9.5 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.9.6 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.0 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.11.1 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.11.2 2018 by Eric  Hameleers, Eindhoven, NL
+
+cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.11.1}
+VERSION=${VERSION:-5.11.2}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
@@ -120,7 +124,6 @@ case "$ARCH" in
     *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-${PKGNAM}
 
@@ -154,6 +157,11 @@ cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 #cd qtbase
 #  cat $CWD/patches/qt5.private-includes.patch | patch -p1 --verbose || exit 1
 #cd - 1>/dev/null
+
+# Fix compilation error in chromium caused by gcc8:
+cd qtwebengine
+  cat $CWD/patches/qt5.webengine_gcc8.patch | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
