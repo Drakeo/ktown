@@ -3,7 +3,7 @@
 # Slackware build script for PyQt
 
 # Copyright 2008  Aleksandar Samardzic <asamardzic@gmail.com>
-# Copyright 2008, 2009, 2010, 2011  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2008, 2009, 2010, 2011, 2017, 2018  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -26,15 +26,11 @@
 # Modified by Robby Workman <rworkman@slackware.com>
 # Modified by Eric Hameleers <alien@slackware.com>
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PKGNAM=PyQt
 VERSION=${VERSION:-4.12.1}
-BUILD=${BUILD:-1}
-
-NUMJOBS=${NUMJOBS:--j7}
-
-CWD=$(pwd)
-TMP=${TMP:-/tmp}
-PKG=$TMP/package-$PKGNAM
+BUILD=${BUILD:-2}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -59,7 +55,20 @@ else
   SLKCFLAGS="-O2"
 fi
 
-PYTHONLIB=$( python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$(echo $VERSION |tr - _)-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PKGNAM
+
+PYTHON2LIB=$( python2 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
 PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
 
 rm -rf $PKG
@@ -86,25 +95,30 @@ export QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 
-if [ -n "${PYTHON3LIB}" ]; then
-  python3 configure.py --confirm-license --verbose
-  make $NUMJOBS || make || exit 1
-  make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
-  make clean
+python3 configure.py --confirm-license --verbose
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
+make clean
 
-  mv $PKG/usr/bin/pyuic4 $PKG/usr/bin/pyuic4-py3
-  rm -rf $PKG/$PYTHON3LIB/${PKGNAM}4/uic/port_v2/
-fi
+mv $PKG/usr/bin/pyuic4 $PKG/usr/bin/pyuic4-py3
+rm -rf $PKG/$PYTHON3LIB/${PKGNAM}4/uic/port_v2/
 
-python configure.py --confirm-license --verbose
+python2 configure.py --confirm-license --verbose
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
 
-rm -rf $PKG/$PYTHONLIB/${PKGNAM}4/uic/port_v3/
+rm -rf $PKG/$PYTHON2LIB/${PKGNAM}4/uic/port_v3/
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Remove rpaths:
+for file in $(find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+  if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+    patchelf --remove-rpath $file
+  fi
+done
 
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \

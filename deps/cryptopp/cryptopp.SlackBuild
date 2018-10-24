@@ -30,7 +30,7 @@ PKGNAM=cryptopp
 VERSION=${VERSION:-7.0.0}
 SRCVER=$(echo $VERSION | tr -d '.')
 BUILD=${BUILD:-1}
-NUMJOBS=${NUMJOBS:-$(nproc)}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM

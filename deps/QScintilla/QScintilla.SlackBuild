@@ -28,10 +28,10 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=QScintilla
-VERSION=${VERSION:-2.10.4}
+VERSION=${VERSION:-2.10.8}
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -91,18 +91,21 @@ export QMAKEFEATURES=${PWD}/Qt4Qt5/features/
 
 # Conditional build of Qt5 support:
 if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
+  echo "-- Compiling Qt5 support --"
   # QT5 support first:
   cd Qt4Qt5
+    echo "-- >> Qt4Qt5 --"
     qmake-qt5 \
       -o Makefile \
       QMAKE_CFLAGS+="$SLKCFLAGS" \
       QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
       qscintilla.pro || exit 1
     make $NUMJOBS || exit 1
-    make install INSTALL_ROOT=$PKG || exit 1
+    make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
   cd -
 
   cd designer-Qt4Qt5
+    echo "-- >> designer-Qt4Qt5 --"
     qmake-qt5 \
       -o Makefile \
       INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
@@ -110,27 +113,30 @@ if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
       QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
       designer.pro || exit 1
     make $NUMJOBS || exit 1
-    make install INSTALL_ROOT=$PKG || exit 1
+    make install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
   cd -
 
   cd Python
+    echo "-- >> Python --"
     python3 configure.py \
+      --verbose \
       --qmake /usr/bin/qmake-qt5 \
       --pyqt=PyQt5 \
       -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
       || exit 1
-    make $NUMJOBS || exit 1
-    make install INSTALL_ROOT=$PKG || exit 1
+    make  || exit 1
+    make -j1 install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
 
     make clean || exit 1
 
-    python configure.py \
+    python2 configure.py \
+      --verbose \
       --qmake /usr/bin/qmake-qt5 \
       --pyqt=PyQt5 \
       -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
       || exit 1
-    make $NUMJOBS || exit 1
-    make install INSTALL_ROOT=$PKG || exit 1
+    make  || exit 1
+    make -j1 install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
   cd -
 
   # In order to compile Qt4 support next, clean up first:
@@ -140,7 +146,9 @@ if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
 fi
 
 # QT4 support:
+echo "-- Compiling Qt4 support --"
 cd Qt4Qt5
+  echo "-- >> Qt4Qt5 --"
   qmake \
     -o Makefile \
     QMAKE_CFLAGS+="$SLKCFLAGS" \
@@ -151,6 +159,7 @@ cd Qt4Qt5
 cd -
 
 cd designer-Qt4Qt5
+  echo "-- >> designer-Qt4Qt5 --"
   qmake \
     -o Makefile \
     INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
@@ -161,23 +170,26 @@ cd designer-Qt4Qt5
   make install INSTALL_ROOT=$PKG || exit 1
 cd -
 
-cd Python
-  python3 configure.py \
-      --qmake /usr/bin/qmake \
-      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-      || exit 1
-  make $NUMJOBS || exit 1
-  make install INSTALL_ROOT=$PKG || exit 1
-
-  make clean || exit 1
-
-  python configure.py \
-      --qmake /usr/bin/qmake \
-      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-      || exit 1
-  make $NUMJOBS || exit 1
-  make install INSTALL_ROOT=$PKG || exit 1
-cd -
+#cd Python
+#  echo "-- >> Python --"
+#  python3 configure.py \
+#      --verbose \
+#      --qmake /usr/bin/qmake \
+#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+#      || exit 1
+#  make -j1 || exit 1
+#  make -j1 install INSTALL_ROOT=$PKG || exit 1
+#
+#  make clean || exit 1
+#
+#  python2 configure.py \
+#      --verbose \
+#      --qmake /usr/bin/qmake \
+#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+#      || exit 1
+#  make -j1 || exit 1
+#  make -j1 install INSTALL_ROOT=$PKG || exit 1
+#cd -
 
 # Link the shared libraries into /usr/lib${LIBDIRSUFFIX}:
 ( cd $PKG/usr/lib${LIBDIRSUFFIX}

@@ -64,7 +64,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.11.2}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
@@ -178,7 +178,7 @@ sed -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${SLKCFLAGS}|" \
 sed -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${SLKLDFLAGS}|" \
   -i qtbase/mkspecs/common/g++-unix.conf || exit 1
 
-# Enable h.264 codec support:
+# Enable h.264 codec support (no longer works with Qt 5.11)):
 echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
 
 # Enable all languages in the virtual keyboard (required by Plasma 5.11):
@@ -202,6 +202,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -archdatadir /usr/lib${LIBDIRSUFFIX}/qt5 \
   -docdir /usr/doc/qt5-$PKGVER \
   -examplesdir /usr/doc/qt5-$PKGVER/examples \
+  -proprietary-codecs \
   -system-libpng \
   -system-libjpeg \
   -system-sqlite \
@@ -214,7 +215,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -glib \
   -icu \
   -opengl \
-  -openssl \
+  -openssl-linked \
   -optimized-qmake \
   -qpa xcb \
   -qt-harfbuzz \

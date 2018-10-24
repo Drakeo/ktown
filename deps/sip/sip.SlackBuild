@@ -26,10 +26,10 @@
 
 
 PKGNAM=sip
-VERSION=${VERSION:-4.19.6}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-4.19.13}
+BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -54,8 +54,8 @@ else
   SLKCFLAGS="-O2"
 fi
 
-PYTHONVER=$(python -V 2>&1 | cut -f 2 -d' ' | cut -f 1-2 -d. 2>/dev/null)
-PYTHONLIB=$( python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib()' 2>/dev/null )
+PYTHON2VER=$(python2 -V 2>&1 | cut -f 2 -d' ' | cut -f 1-2 -d. 2>/dev/null)
+PYTHON2LIB=$( python2 -c 'from distutils.sysconfig import get_python_lib; print get_python_lib()' 2>/dev/null )
 
 PYTHON3VER=$(python3 -V 2>&1 | cut -f 2 -d' ' | cut -f 1-2 -d. 2>/dev/null)
 PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
@@ -77,27 +77,34 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-if [ -n "${PYTHON3LIB}" ]; then
-  python3 configure.py \
-    -b "/usr/bin" \
-    -d "$PYTHON3LIB" \
-    CFLAGS="$SLKCFLAGS" \
-    CXXFLAGS="$SLKCFLAGS" || exit 1
-  make $NUMJOBS || make || exit 1
-  make install DESTDIR=$PKG || exit 1
-
-  mv $PKG/usr/bin/sip $PKG/usr/bin/sip3
-fi
-
-python configure.py \
+python2 configure.py \
+  --sip-module PyQt5.sip \
   -b "/usr/bin" \
-  -d "$PYTHONLIB" \
+  -d "$PYTHON2LIB" \
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   || exit 1
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+# Rename to avoid a clash:
+mv $PKG/usr/bin/sip $PKG/usr/bin/sip2
+
+make clean
+
+python3 configure.py \
+  --sip-module PyQt5.sip \
+  -b "/usr/bin" \
+  -d "$PYTHON3LIB" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" || exit 1
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG || exit 1
+# Rename to avoid a clash:
+mv $PKG/usr/bin/sip $PKG/usr/bin/sip3
+
+# Create a symbolic link 'sip' pointing to the sip3 binary:
+ln -s sip3 $PKG/usr/bin/sip
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
