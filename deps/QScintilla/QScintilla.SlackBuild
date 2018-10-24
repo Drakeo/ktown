@@ -29,7 +29,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=QScintilla
 VERSION=${VERSION:-2.10.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -170,26 +170,26 @@ cd designer-Qt4Qt5
   make install INSTALL_ROOT=$PKG || exit 1
 cd -
 
-#cd Python
-#  echo "-- >> Python --"
-#  python3 configure.py \
-#      --verbose \
-#      --qmake /usr/bin/qmake \
-#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-#      || exit 1
-#  make -j1 || exit 1
-#  make -j1 install INSTALL_ROOT=$PKG || exit 1
-#
-#  make clean || exit 1
-#
-#  python2 configure.py \
-#      --verbose \
-#      --qmake /usr/bin/qmake \
-#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-#      || exit 1
-#  make -j1 || exit 1
-#  make -j1 install INSTALL_ROOT=$PKG || exit 1
-#cd -
+cd Python
+  echo "-- >> Python --"
+  python3 configure.py \
+      --verbose \
+      --qmake /usr/bin/qmake \
+      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+      || exit 1
+  make -j1 || exit 1
+  make -j1 install INSTALL_ROOT=$PKG || exit 1
+
+  make clean || exit 1
+
+  python2 configure.py \
+      --verbose \
+      --qmake /usr/bin/qmake \
+      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+      || exit 1
+  make -j1 || exit 1
+  make -j1 install INSTALL_ROOT=$PKG || exit 1
+cd -
 
 # Link the shared libraries into /usr/lib${LIBDIRSUFFIX}:
 ( cd $PKG/usr/lib${LIBDIRSUFFIX}

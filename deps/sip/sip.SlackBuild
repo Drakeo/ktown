@@ -27,7 +27,7 @@
 
 PKGNAM=sip
 VERSION=${VERSION:-4.19.13}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -78,28 +78,50 @@ find . \
  -exec chmod 644 {} \;
 
 python2 configure.py \
-  --sip-module PyQt5.sip \
   -b "/usr/bin" \
   -d "$PYTHON2LIB" \
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" \
   || exit 1
-
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Add the PyQt5 private sip module:
+make clean
+python2 configure.py \
+  --sip-module PyQt5.sip --no-tools \
+  -b "/usr/bin" \
+  -d "$PYTHON2LIB" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  || exit 1
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG || exit 1
+
 # Rename to avoid a clash:
 mv $PKG/usr/bin/sip $PKG/usr/bin/sip2
 
 make clean
 
 python3 configure.py \
-  --sip-module PyQt5.sip \
   -b "/usr/bin" \
   -d "$PYTHON3LIB" \
   CFLAGS="$SLKCFLAGS" \
   CXXFLAGS="$SLKCFLAGS" || exit 1
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Add the PyQt5 private sip module:
+make clean
+python3 configure.py \
+  --sip-module PyQt5.sip --no-tools \
+  -b "/usr/bin" \
+  -d "$PYTHON3LIB" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" || exit 1
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG || exit 1
+
 # Rename to avoid a clash:
 mv $PKG/usr/bin/sip $PKG/usr/bin/sip3
 
