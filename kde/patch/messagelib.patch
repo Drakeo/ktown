@@ -1,0 +1,4 @@
+# CVE-2018-19516: HTML email can open browser window automatically.
+# Fixed in messagelib of KDE Applications 18.12.0.
+cat $CWD/patch/messagelib/messagelib_CVE-2018-19516.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
