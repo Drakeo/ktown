@@ -22,6 +22,7 @@ ALLDEPS=" \
   libinput \
   libxkbcommon \
   wayland \
+  hyphen \
   qt5 \
   qt5-webkit \
   qca-qt5 \
@@ -29,6 +30,7 @@ ALLDEPS=" \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
+  python-enum34 \
   sip \
   PyQt \
   PyQt5 \

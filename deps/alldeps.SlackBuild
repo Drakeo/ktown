@@ -21,6 +21,7 @@ ALLDEPS=" \
   libinput \
   libxkbcommon \
   wayland \
+  hyphen \
   qt5 \
   qt5-webkit \
   OpenAL \
@@ -28,6 +29,7 @@ ALLDEPS=" \
   qjson \
   phonon \
   phonon-gstreamer \
+  python-enum34 \
   sip \
   PyQt \
   PyQt5 \
