@@ -10,6 +10,8 @@ kitemviews
 kplotting
 threadweaver
 kcodecs
+kdbusaddons
+kcoreaddons
 kguiaddons
 kidletime
 kwidgetsaddons
@@ -18,8 +20,6 @@ kconfig
 kwindowsystem
 solid
 karchive
-kdbusaddons
-kcoreaddons
 ki18n
 networkmanager-qt
 modemmanager-qt
