@@ -47,7 +47,7 @@ fi
 
 # Use this to set the number of parallel make jobs:
 if [ -z "$NUMJOBS" ]; then
-  export NUMJOBS="-j7"
+  export NUMJOBS="-j$(nproc)"
 fi
 
 # Additional cmake flags that are spanned across the KDE modules
