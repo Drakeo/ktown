@@ -14,5 +14,5 @@
 
 # Fix crash when accessing help://
 # Fixed in KIO 5.52:
-cat $CWD/patch/kio/kio_KDEBUG_399709.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/kio/kio_KDEBUG_399709.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
