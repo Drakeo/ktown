@@ -21,14 +21,14 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2015, 2016, 2017 by Eric Hameleers <alien@slackware.com>
+# Modified 2015, 2016, 2017, 2018 by Eric Hameleers <alien@slackware.com>
 
 
 PKGNAM=telepathy-logger
 VERSION=${VERSION:-0.8.2}
-BUILD=${BUILD:-5}
+BUILD=${BUILD:-6}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -92,6 +92,9 @@ CXXFLAGS="$SLKCFLAGS" \
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null

@@ -21,28 +21,27 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2015 by Eric Hameleers <alien@slackware.com>
+# Modified 2015, 2018 by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=farstream
 VERSION=${VERSION:-0.2.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i586 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
 fi
 
 case "$ARCH" in
-  i486)      SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  i?86)      SLKCFLAGS="-O2 -march=$ARCH -mtune=i686"
              SLKLDFLAGS=""; LIBDIRSUFFIX=""
              ;;
   x86_64)    SLKCFLAGS="-O2 -fPIC"
@@ -94,6 +93,9 @@ CXXFLAGS="$SLKCFLAGS" \
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
+
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
