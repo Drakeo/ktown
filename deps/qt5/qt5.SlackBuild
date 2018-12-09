@@ -36,7 +36,7 @@
 # Alternate method (we don't use this):
 # wget http://qt.gitorious.org/qt/kde-qt/archive-tarball/4.6.2-patched
 #
-# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017  Eric Hameleers, Eindhoven, NL
+# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018  Eric Hameleers, Eindhoven, NL
 # qt 4.7.3, 4.7.4, 4.8.0, 4.8.1, 4.8.2, 4.8.4, are built from original nokia sources.
 #
 # Modifications for qt 5.2.0 2013 by Michael James, AU
@@ -59,12 +59,13 @@
 # Modifications for qt 5.11.0 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.1 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.2 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.11.3 2018 by Eric  Hameleers, Eindhoven, NL
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.11.2}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-5.11.3}
+BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 

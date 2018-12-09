@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2015  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2015  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2018  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -23,49 +23,41 @@
 # -----------------------------------------------------------------------------
 
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PKGNAM=libdbusmenu-gtk
 SRCNAM=libdbusmenu
-VERSION=${VERSION:-12.10.2}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-16.04.0}
+BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-" -j4 "}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
-if [ -e $CWD/machine.conf ]; then
-  . $CWD/machine.conf ]
-elif [ -e /etc/slackbuild/machine.conf ]; then
-  . /etc/slackbuild/machine.conf ]
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$(uname -m)" in
+    i?86) ARCH=i586 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *) ARCH=$(uname -m) ;;
+  esac
+  export ARCH
+fi
+# Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "arm" ]; then
+  SLKCFLAGS="-O2 -march=armv5te"
+  LIBDIRSUFFIX=""
 else
-  # Automatically determine the architecture we're building on:
-  MARCH=$( uname -m )
-  if [ -z "$ARCH" ]; then
-    case "$MARCH" in
-      i?86)    export ARCH=i486 ;;
-      arm*)    export ARCH=arm ;;
-      # Unless $ARCH is already set, use uname -m for all other archs:
-      *)       export ARCH=$MARCH ;;
-    esac
-  fi
-  # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
-  if [ "$ARCH" = "i486" ]; then
-    SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-    LIBDIRSUFFIX=""
-  elif [ "$ARCH" = "s390" ]; then
-    SLKCFLAGS="-O2"
-    LIBDIRSUFFIX=""
-  elif [ "$ARCH" = "x86_64" ]; then
-    SLKCFLAGS="-O2 -fPIC"
-    LIBDIRSUFFIX="64"
-  elif [ "$ARCH" = "arm" ]; then
-    SLKCFLAGS="-O2 -march=armv5te"
-    LIBDIRSUFFIX=""
-  else
-    SLKCFLAGS="-O2"
-    LIBDIRSUFFIX=""
-  fi
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
 fi
 
 case "$ARCH" in
@@ -73,12 +65,23 @@ case "$ARCH" in
     *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $SRCNAM-$VERSION
 tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
 cd $SRCNAM-$VERSION || exit 1
+
+# Trivial patch:
+cat $CWD/patches/libdbusmenu_configure_valgrind.patch | patch -p1 --verbose || exit 1
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
@@ -101,7 +104,7 @@ CXXFLAGS="$SLKCFLAGS -Wno-error=deprecated-declarations" \
   --mandir=/usr/man \
   --docdir=/usr/doc/$PKGNAM-$VERSION \
   --enable-static=no \
-  --disable-scrollkeeper \
+  --disable-tests \
   --build=$TARGET \
   $* \
   || return 1
@@ -111,8 +114,8 @@ make $NUMJOBS || make || return 1
 make install DESTDIR=$PKG || return 1
 }
 
-# configure may be missing:
-[ ! -x configure ] && autoreconf -vif
+# We patched configure.ac:
+autoreconf -vif
 
 # GTK+-2 support:
 mkdir -p build-gtk2
