@@ -3,3 +3,8 @@
 # http://quickgit.kde.org/?p=umbrello.git&a=commit&h=5f9f6a68716a8aced2c5f962247d9b05b326fcf5
 #cat $CWD/patch/umbrello/umbrello-4.11.4_listitem.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix compilation error "specialization of template<class T> struct QMetaTypeId in different namespace [-fpermissive]".
+# Fixed in Applications 18.12.0
+# https://cgit.kde.org/umbrello.git/patch/?id=62a9e5e6afdd920779f1211afb0381857659e578
+cat $CWD/patch/umbrello/umbrello_qt510_kaboutdata_h.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
