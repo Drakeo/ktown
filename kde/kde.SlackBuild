@@ -492,6 +492,7 @@ KDEMODS=" \
   applications-extra:libktorrent \
   applications \
   applications-extra \
+  applications:umbrello \
   telepathy \
   "
 
