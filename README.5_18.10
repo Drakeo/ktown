@@ -1,34 +1,33 @@
 KDE5
 ====
 
-Here is KDE 5_18.09 for Slackware, consisting of the KDE
-Frameworks 5.50.0, Plasma 5.13.5 and Applications 18.08.1 on top of Qt 5.11.1.
+Here is KDE 5_18.10 for Slackware, consisting of the KDE
+Frameworks 5.51.0, Plasma 5.14.1 and Applications 18.08.2 on top of Qt 5.11.2.
 
-Upgrading from the previous 5_18.08 is relatively straight-forward.
+Upgrading from the previous 5_18.09 is relatively straight-forward.
 
-KDE-5_18.09 is meant to be installed on top of Slackware -current.
+KDE-5_18.10 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
+- A new package 'python-enum34' is the stdlib enum module available in
+  Python 3.4 backported for previous versions of Python. This is needed by
+  the updated 'PyQt5' package. I also added a 'sip' package that is newer
+  than the original Slackware package , both sip and PyQt5 updates were needed
+  to support Qt 5.11.2 better and make the KItemModels Framework compile.
 - Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.50.0.php .
-  One framework was added, 'syndication' which used to be part of KDEPIM
-  so effectively no package was added to the set.
-- Plasma 5.13.5 is an incremental upgrade in the Plasma Desktop 5.13
-  release cycle, bringing important stability and performance fixes.
-  See https://www.kde.org/announcements/plasma-5.13.5.php
-  You may want to read about all the new features in Plasma 5.13 here:
-  https://www.kde.org/announcements/plasma-5.13.0.php
-- Applications 18.08.1 is the first stability update for this quarter's
-  applications set.
-  See https://www.kde.org/announcements/announce-applications-18.08.1.php .
-  The 'kpat' package is no longer present because it requires new
-  dependencies (fc-solver and its deps) that Slackware cannnot provide.
-- In applications-extra I have upgraded 'okteta', 'ktorrent', 'kstars',
-  'krusader' and the KDE Development packages 'kdevelop', 'kdev-python'
-  and 'kdev-php'.
+  https://www.kde.org/announcements/kde-frameworks-5.51.0.php .
+- Plasma 5.14.1 is the first incremental upgrade in the Plasma Desktop 5.14
+  release cycle (note that I did not release packages for 5.14.0),
+  bringing stability and performance fixes.
+  See https://www.kde.org/announcements/plasma-5.14.1.php
+  You may want to read about all the new features in Plasma 5.14 here:
+  https://www.kde.org/announcements/plasma-5.14.0.php
+- Applications 18.08.2 is a stability and bugfix update.
+  See https://www.kde.org/announcements/announce-applications-18.08.2.php .
+- In applications-extra I have upgraded 'krita' and 'okteta'.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -50,13 +49,14 @@ Further points of interest:
   OpenAL, PyQT5, accountsservice, cfitsio, cracklib, cryptopp, cryfs, ddcutil,
   dvdauthor, frei0r-plugins, grantlee-qt4, hack-font-ttf, id3lib, json-glib,
   lensfun, libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5, libdmtx,
-  libindicator, libinput, libpwquality, libwacom, libxkbcommon, lmdb, mlt,
-  ninja, noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1, qca-qt5,
-  qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  libindicator, libinput, libpwquality, libwacom, libxkbcommon, mlt, ninja,
+  noto-font-ttf, noto-cjk-font-ttf, opencv, polkit-qt5-1, python-enum34,
+  qca-qt5, qrencode, qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab
+  and wayland.
   As a side note, libinput libwacom and ninja have become part
   of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
-  provide Plasma5 packages for Slackware 14.2 so I left them in.
+  provide older Plasma5 packages for Slackware 14.2 so I left them in.
   The phonon and poppler packages were extended so that they now support
   Qt5 as well as Qt4.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
@@ -135,12 +135,15 @@ If you have Slackware 14.2 or -current's default KDE 4.14.3 installed:
 
 Alternatively, in case you are already using an older release of my KDE 5
 packages, you need to look up that particular release in the list right below
-(for instance: KDE 5_18.02) and then apply the actions shown for that KDE 5
+(for instance: KDE 5_18.07) and then apply the actions shown for that KDE 5
 release *and* all more recent releases, i.e. work your way back up to this
 paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.09 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.08 installed:
 - Upgrade to KDE 5_18.09
@@ -284,7 +287,7 @@ NOTE:
 The example commands below are for Slackware -current but you can use
 these commands for Slackware 14.2 as well; by replacing the /current/
 string with /14.2/ (provided there is a suitable 'ktown' release available
-for Slackware 14.2 of course):
+for Slackware 14.2 of course).
 
 NOTE:
 Instead of using the mirror host http://slackware.nl/alien-kde/ (its rsync URI
@@ -387,4 +390,4 @@ Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 08-sep-2018
+                     Eric Hameleers / alien at slackware dot com / 16-oct-2018
