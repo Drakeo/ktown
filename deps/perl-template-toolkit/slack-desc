@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                     |-----handy-ruler------------------------------------------------------|
+perl-template-toolkit: perl-template-toolkit (template processing system)
+perl-template-toolkit:
+perl-template-toolkit: The Template Toolkit is a collection of Perl modules that implement
+perl-template-toolkit: a fast, flexible, powerful and extensible template processing system.
+perl-template-toolkit:
+perl-template-toolkit: It is "input-agnostic" and can be used equally well for processing
+perl-template-toolkit: any kind of text documents: HTML, XML, CSS, Javascript, Perl code,
+perl-template-toolkit: plain text, and so on.
+perl-template-toolkit:
+perl-template-toolkit: See: http://search.cpan.org/dist/Template-Toolkit/
+perl-template-toolkit:

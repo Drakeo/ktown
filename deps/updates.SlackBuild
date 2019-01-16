@@ -17,6 +17,7 @@ ALLDEPS=" \
   extra-cmake-modules \
   ninja \
   sni-qt \
+  SDL_sound \
   OpenAL \
   libwacom \
   libinput \
@@ -68,6 +69,11 @@ ALLDEPS=" \
   id3lib \
   cryptopp \
   cryfs \
+  python3-random2 \
+  perl-path-tiny \
+  perl-template-toolkit \
+  freecell-solver \
+  drumstick \
   "
   # Only needed when adding support for Wayland:
   #elogind \

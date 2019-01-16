@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2014  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2012, 2013, 2014, 2015, 2017, 2018  Eric Hameleers, Eindhoven, NL
+# Copyright 2012, 2013, 2014, 2015, 2017, 2018, 2019  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -27,7 +27,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=OpenAL
 SRCNAM=openal-soft
-VERSION=${VERSION:-1.19.0}
+VERSION=${VERSION:-1.19.1}
 BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -95,6 +95,9 @@ cd build
   cmake \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DMAN_INSTALL_DIR=/usr/man \
     -DSYSCONF_INSTALL_DIR=/etc \

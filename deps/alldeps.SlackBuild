@@ -24,6 +24,7 @@ ALLDEPS=" \
   hyphen \
   qt5 \
   qt5-webkit \
+  SDL_sound \
   OpenAL \
   qt-gstreamer \
   qjson \
@@ -70,6 +71,11 @@ ALLDEPS=" \
   id3lib \
   cryptopp \
   cryfs \
+  python3-random2 \
+  perl-path-tiny \
+  perl-template-toolkit \
+  freecell-solver \
+  drumstick \
   "
   # Only needed when adding support for Wayland:
   #elogind \

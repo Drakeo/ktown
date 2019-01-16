@@ -26,9 +26,9 @@
 
 cd $(dirname $0) ; CWD=$(pwd)
 
-PKGNAM=cryfs
-VERSION=${VERSION:-0.9.9}
-BUILD=${BUILD:-6}
+PKGNAM=freecell-solver
+VERSION=${VERSION:-5.0.0}
+BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -79,9 +79,8 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-mkdir $PKGNAM-$VERSION
-cd $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+cd $PKGNAM-$VERSION || exit 1
 
 # Fix bogus permissions:
 chown -R root:root .
@@ -103,9 +102,8 @@ cd build
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_MANDIR=/usr/man \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    -DBUILD_TESTING=OFF \
-    -DBoost_USE_STATIC_LIBS=off \
-    -DCRYFS_UPDATE_CHECKS=OFF \
+    -DFCS_WITH_TEST_SUITE=OFF \
+    -DBUILD_STATIC_LIBRARY=OFF \
     ..
   make
   make install DESTDIR=$PKG
@@ -114,7 +112,7 @@ cd ..
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \
-  LICENSE README* \
+  *.asciidoc \
   $PKG/usr/doc/$PKGNAM-$VERSION
 
 # Strip binaries:
