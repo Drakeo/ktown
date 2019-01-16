@@ -1,43 +1,45 @@
 KDE5
 ====
 
-Here is KDE 5_18.12 for Slackware, consisting of the KDE
-Frameworks 5.53.0, Plasma 5.14.4 and Applications 18.08.3 on top of Qt 5.11.3.
+Here is KDE 5_19.01 for Slackware, consisting of the KDE
+Frameworks 5.54.0, Plasma 5.14.5 and Applications 18.12.1 on top of Qt 5.11.3.
 
-Upgrading from the previous 5_18.10 is relatively straight-forward.
+Upgrading from the previous 5_18.12 is relatively straight-forward.
 
-KDE-5_18.12 is meant to be installed on top of Slackware -current.
+KDE-5_19.01 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- Some note-worthy changes in the 'deps' section: the 'qt5' package was
-  updated to 5.11.3, the 'qt5-webkit' package was recompiled against this
-  new Qt5, and 'libdbusmenu-gtk' was updated to being it in sync with the
-  package in my regular repository.
-  Note that I did not update Qt5 to the latest 5.13.0 release. I want to
-  wait with that and first test it with the upcoming Applications 18.12.0.
-  Note that I forgot to mention the new 'hyphen' package last time. It is
-  a new dependency for the 'qt5-webkit' package which received a big version
-  bump last time.
-- I recompiled all of the 'deps/telepathy' packages to remedy library
-  linking issues.
-- Frameworks update is a stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.53.0.php .
-- Plasma 5.14.4 is an incremental upgrade in the Plasma Desktop 5.14
+- Some note-worthy changes in the 'deps' section: there's a new dependency
+  to 'OpenAL': 'SDL_sound'. And I finally decided to add freecell-solver
+  in order to be able to compile the KDE 'kpat' package.
+  The 'freecell-solver' package needs 'python3-random2', 'perl-path-tiny'
+  and 'perl-template-toolkit' to compile so these were also added as packages.
+  I added 'drumstick' so that I could compile the KDE 'minuet' package.
+  And finally, I upgraded 'phonon' and 'phonon-vlc' and rebuilt
+  'phonon-gstreamer'.
+- Frameworks 5.54.0 is an incremental stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.54.0.php .
+- Plasma 5.14.5 is an incremental upgrade in the Plasma Desktop 5.14
   release cycle,  bringing stability and performance fixes.
-  See https://www.kde.org/announcements/plasma-5.14.4.php
+  See https://www.kde.org/announcements/plasma-5.14.5.php
   You may want to read about all the new features in Plasma 5.14 here:
   https://www.kde.org/announcements/plasma-5.14.0.php
-- Applications 18.08.3 is a stability and bugfix update.
-  See https://www.kde.org/announcements/announce-applications-18.08.3.php .
-- In plasma-extra I have upgraded 'kdeconnect-framework' and 'wacomtablet'.
-  I also removed the old 'kde-wallpapers' package, it is a left-over
-  from the KDE4 era and Plasma5 has its own wallpapers in
-  'plasma-workspace-wallpapers' now.
+- Applications 18.12.1 is the first stability and bugfix update for the 18.12
+  cycle. I did not package 18.12.0 so this is actually the first opportunity
+  to test the latest KDE Applications on Slackware.
+  See https://www.kde.org/announcements/announce-applications-18.12.1.php and
+  if you want more detail about the 18.12 cycle you should also read
+  https://www.kde.org/announcements/announce-applications-18.12.0.php .
+  And since I added the required dependencies, I could now compile two packages
+  in Applications: 'kpat' and 'minuet'.
+  Added to Applications 18.12 are: 'knights' (chess game) and
+  'kirigami-gallery' (example application programmed in kirigami).
+- In plasma-extra I have upgraded 'wacomtablet'.
 - In applications-extra I have upgraded 'kdevelop', 'kdev-php', 'kdev-python'
-  and 'kmymoney'.
+  'kstars' and 'okteta'.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -56,13 +58,14 @@ Further points of interest:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, accountsservice, cfitsio, cracklib, cryptopp, cryfs, ddcutil,
-  dvdauthor, frei0r-plugins, grantlee-qt4, hack-font-ttf, hyphen, id3lib,
-  json-glib, lensfun, libappindicator, libburn, libdbusmenu-gtk,
-  libdbusmenu-qt5, libdmtx, libindicator, libinput, libpwquality, libwacom,
-  libxkbcommon, mlt, ninja, noto-font-ttf, noto-cjk-font-ttf, opencv,
-  polkit-qt5-1, python-enum34, qca-qt5, qrencode, qt-gstreamer, qt5,
-  qt5-webkit, qtav, sni-qt, vid.stab and wayland.
+  OpenAL, PyQT5, SDL_sound, accountsservice, cfitsio, cracklib, cryptopp,
+  cryfs, ddcutil, dvdauthor, freecell-solver, frei0r-plugins, grantlee-qt4,
+  hack-font-ttf, hyphen, id3lib, lensfun, libappindicator, libburn,
+  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput,
+  libpwquality, libwacom, libxkbcommon, mlt, ninja, noto-font-ttf,
+  noto-cjk-font-ttf, opencv, perl-path-tiny, perl-template-toolkit,
+  polkit-qt5-1, python-enum34, python3-random2, qca-qt5, qrencode,
+  qt-gstreamer, qt5, qt5-webkit, qtav, sni-qt, vid.stab and wayland.
   As a side note, libinput libwacom and ninja have become part
   of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
@@ -151,6 +154,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_18.12 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_18.10 installed:
 - Upgrade to KDE 5_18.12
@@ -404,5 +410,10 @@ Wait a long time, and you will find the new packages in /tmp/kde_build .
 Note that these packages will already have been installed by kde.SlackBuild !
 Reboot your computer and login to a Plasma session.
 
+NOTE:
+To compile ktouch 18.12 I had to create the following symlink:
+  # ln -s /usr/lib64/qt5/bin/qmlcachegen /usr/bin/qmlcachegen
+
+
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 10-dec-2018
+                     Eric Hameleers / alien at slackware dot com / 16-jan-2019
