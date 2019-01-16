@@ -6,3 +6,7 @@
 
 # Fix for Plasma 5.5.0 (KDEBUG #356398):
 #cat $CWD/patch/plasma-desktop//plasma-desktop_kickoff_kdebug_356398.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix for Plasma 5.14.4 (KDEBUG #401508):
+#cat $CWD/patch/plasma-desktop/plasma-desktop_kdebug_401508.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

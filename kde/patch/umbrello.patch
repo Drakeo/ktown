@@ -6,5 +6,5 @@
 # Fix compilation error "specialization of template<class T> struct QMetaTypeId in different namespace [-fpermissive]".
 # Fixed in Applications 18.12.0
 # https://cgit.kde.org/umbrello.git/patch/?id=62a9e5e6afdd920779f1211afb0381857659e578
-cat $CWD/patch/umbrello/umbrello_qt510_kaboutdata_h.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/umbrello/umbrello_qt510_kaboutdata_h.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
