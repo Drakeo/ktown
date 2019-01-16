@@ -62,6 +62,7 @@ kolourpaint
 kruler
 spectacle
 svgpart
+kirigami-gallery
 
 # kdeaccessibility:
 kmouth
@@ -99,7 +100,7 @@ klickety
 ksudoku
 ksquares
 # Needs fc-solver library:
-#kpat
+kpat
 klines
 ksnakeduel
 kollision
@@ -135,6 +136,7 @@ ktuberling
 kjumpingcube
 kmahjongg
 kspaceduel
+knights
 
 # kdetoys:
 kteatime
@@ -165,7 +167,7 @@ marble
 rocs
 step
 # Needs http://drumstick.sourceforge.net/
-#minuet
+minuet
 
 # Needs to come after marble:
 libkgeomap
