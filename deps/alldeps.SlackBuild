@@ -31,6 +31,13 @@ ALLDEPS=" \
   phonon \
   phonon-gstreamer \
   python-enum34 \
+  pyxdg \
+  pcaudiolib \
+  espeak-ng \
+  dotconf \
+  flite \
+  speech-dispatcher \
+  qt5-speech \
   sip \
   PyQt \
   PyQt5 \
@@ -76,6 +83,8 @@ ALLDEPS=" \
   perl-template-toolkit \
   freecell-solver \
   drumstick \
+  libsass \
+  sassc \
   "
   # Only needed when adding support for Wayland:
   #elogind \
