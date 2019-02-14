@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+       |-----handy-ruler------------------------------------------------------|
+libsass: libsass (C/C++ implementation of a Sass compiler)
+libsass:
+libsass: LibSass is just a library. If you want to use LibSass to compile Sass,
+libsass: you need an implementer. Some implementations are only bindings into
+libsass: other programming languages. But most also ship with a command line
+libsass: interface (CLI) you can use directly.
+libsass: There is also SassC, which is the official lightweight CLI tool
+libsass: built by the same people as LibSass.
+libsass:
+libsass: Homepage: https://libsass.org/
+libsass:
