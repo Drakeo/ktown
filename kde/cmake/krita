@@ -20,5 +20,6 @@ cd build
     -DBUILD_TESTING=OFF \
     -DQca-qt5_DIR=/usr/lib${LIBDIRSUFFIX}/cmake/Qca \
     -DPACKAGERS_BUILD=ON \
+    -DUSE_QT_XCB=ON \
     ..
 
