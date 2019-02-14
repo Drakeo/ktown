@@ -26,10 +26,10 @@
 
 
 PKGNAM=sip
-VERSION=${VERSION:-4.19.13}
-BUILD=${BUILD:-3}
+VERSION=${VERSION:-4.19.14}
+BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -86,10 +86,24 @@ python2 configure.py \
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
 
+# Add the PyQt4 private sip module:
+make clean
+python2 configure.py \
+  --sip-module PyQt4.sip \
+  --no-tools \
+  -b "/usr/bin" \
+  -d "$PYTHON2LIB" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  || exit 1
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG || exit 1
+
 # Add the PyQt5 private sip module:
 make clean
 python2 configure.py \
-  --sip-module PyQt5.sip --no-tools \
+  --sip-module PyQt5.sip \
+  --no-tools \
   -b "/usr/bin" \
   -d "$PYTHON2LIB" \
   CFLAGS="$SLKCFLAGS" \
@@ -111,10 +125,23 @@ python3 configure.py \
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
 
+# Add the PyQt4 private sip module:
+make clean
+python3 configure.py \
+  --sip-module PyQt4.sip \
+  --no-tools \
+  -b "/usr/bin" \
+  -d "$PYTHON3LIB" \
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" || exit 1
+make $NUMJOBS || make || exit 1
+make install DESTDIR=$PKG || exit 1
+
 # Add the PyQt5 private sip module:
 make clean
 python3 configure.py \
-  --sip-module PyQt5.sip --no-tools \
+  --sip-module PyQt5.sip \
+  --no-tools \
   -b "/usr/bin" \
   -d "$PYTHON3LIB" \
   CFLAGS="$SLKCFLAGS" \

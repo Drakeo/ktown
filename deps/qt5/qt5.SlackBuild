@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -36,7 +36,7 @@
 # Alternate method (we don't use this):
 # wget http://qt.gitorious.org/qt/kde-qt/archive-tarball/4.6.2-patched
 #
-# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018  Eric Hameleers, Eindhoven, NL
+# Modifications 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,2019  Eric Hameleers, Eindhoven, NL
 # qt 4.7.3, 4.7.4, 4.8.0, 4.8.1, 4.8.2, 4.8.4, are built from original nokia sources.
 #
 # Modifications for qt 5.2.0 2013 by Michael James, AU
@@ -60,11 +60,12 @@
 # Modifications for qt 5.11.1 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.2 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.3 2018 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.12.1 2019 by Eric  Hameleers, Eindhoven, NL
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.11.3}
+VERSION=${VERSION:-5.12.1}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
@@ -154,14 +155,19 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-## Fix missing private includes: QTBUG-37417
-#cd qtbase
-#  cat $CWD/patches/qt5.private-includes.patch | patch -p1 --verbose || exit 1
+## Fix compilation error in chromium caused by gcc8:
+#cd qtwebengine
+#  cat $CWD/patches/qt5.webengine_gcc8.patch | patch -p1 --verbose || exit 1
 #cd - 1>/dev/null
 
-# Fix compilation error in chromium caused by gcc8:
-cd qtwebengine
-  cat $CWD/patches/qt5.webengine_gcc8.patch | patch -p1 --verbose || exit 1
+# QSyntaxHighlighter: cancel delayed highlight if done manually:
+cd qtbase
+  cat $CWD/patches/qt5.delayed_highlight.patch | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
+
+# Fix regression in QPlainTextEdit updating (QTBUG-69310):
+cd qtbase
+  cat $CWD/patches/qt5.qtbug-69310.patch | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
@@ -179,11 +185,9 @@ sed -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${SLKCFLAGS}|" \
 sed -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${SLKLDFLAGS}|" \
   -i qtbase/mkspecs/common/g++-unix.conf || exit 1
 
-# Enable h.264 codec support (no longer works with Qt 5.11)):
-echo "WEBENGINE_CONFIG += use_proprietary_codecs" >> qtwebengine/.qmake.conf
-
-# Enable all languages in the virtual keyboard (required by Plasma 5.11):
-echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
+# All languages are now enabled by default in the virtual keyboard
+# (required by Plasma 5.11):
+#echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
 
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
@@ -227,6 +231,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -no-separate-debug-info \
   -no-strip \
   -no-use-gold-linker \
+  -webengine-proprietary-codecs \
   ${PACONF} \
   ${RELOCATIONS} \
   -no-pch \

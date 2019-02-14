@@ -27,10 +27,10 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.11.3}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-5.12}
+BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}

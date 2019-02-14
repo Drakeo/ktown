@@ -23,15 +23,15 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2018 by Eric Hameleers <alien@slackware.com> (add Qt5 support)
+# Modified 2018, 2019 by Eric Hameleers <alien@slackware.com> (add Qt5 support)
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=QScintilla
-VERSION=${VERSION:-2.10.8}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-2.11}
+BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -145,58 +145,60 @@ if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
   make clean -C Python || exit 1
 fi
 
-# QT4 support:
-echo "-- Compiling Qt4 support --"
-cd Qt4Qt5
-  echo "-- >> Qt4Qt5 --"
-  qmake \
-    -o Makefile \
-    QMAKE_CFLAGS+="$SLKCFLAGS" \
-    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
-    qscintilla.pro || exit 1
-  make $NUMJOBS || exit 1
-  make install INSTALL_ROOT=$PKG || exit 1
-cd -
-
-cd designer-Qt4Qt5
-  echo "-- >> designer-Qt4Qt5 --"
-  qmake \
-    -o Makefile \
-    INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
-    QMAKE_CFLAGS+="$SLKCFLAGS" \
-    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
-    designer.pro || exit 1
-  make $NUMJOBS || exit 1
-  make install INSTALL_ROOT=$PKG || exit 1
-cd -
-
-cd Python
-  echo "-- >> Python --"
-  python3 configure.py \
-      --verbose \
-      --qmake /usr/bin/qmake \
-      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-      || exit 1
-  make -j1 || exit 1
-  make -j1 install INSTALL_ROOT=$PKG || exit 1
-
-  make clean || exit 1
-
-  python2 configure.py \
-      --verbose \
-      --qmake /usr/bin/qmake \
-      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-      || exit 1
-  make -j1 || exit 1
-  make -j1 install INSTALL_ROOT=$PKG || exit 1
-cd -
-
-# Link the shared libraries into /usr/lib${LIBDIRSUFFIX}:
-( cd $PKG/usr/lib${LIBDIRSUFFIX}
-  for file in qt/lib/*.so* ; do
-    ln -sf $file .
-  done
-)
+# QT4 SUPPORT CURRENTLY DOES NOT COMPILE...
+# /usr/lib64/qt/include/QtCore/qglobal.h:2242:20: error: invalid application of 'sizeof' to incomplete type 'QUrl'
+## QT4 support:
+#echo "-- Compiling Qt4 support --"
+#cd Qt4Qt5
+#  echo "-- >> Qt4Qt5 --"
+#  qmake \
+#    -o Makefile \
+#    QMAKE_CFLAGS+="$SLKCFLAGS" \
+#    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
+#    qscintilla.pro || exit 1
+#  make $NUMJOBS || exit 1
+#  make install INSTALL_ROOT=$PKG || exit 1
+#cd -
+#
+#cd designer-Qt4Qt5
+#  echo "-- >> designer-Qt4Qt5 --"
+#  qmake \
+#    -o Makefile \
+#    INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
+#    QMAKE_CFLAGS+="$SLKCFLAGS" \
+#    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
+#    designer.pro || exit 1
+#  make $NUMJOBS || exit 1
+#  make install INSTALL_ROOT=$PKG || exit 1
+#cd -
+#
+#cd Python
+#  echo "-- >> Python --"
+#  python3 configure.py \
+#      --verbose \
+#      --qmake /usr/bin/qmake \
+#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+#      || exit 1
+#  make -j1 || exit 1
+#  make -j1 install INSTALL_ROOT=$PKG || exit 1
+#
+#  make clean || exit 1
+#
+#  python2 configure.py \
+#      --verbose \
+#      --qmake /usr/bin/qmake \
+#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+#      || exit 1
+#  make -j1 || exit 1
+#  make -j1 install INSTALL_ROOT=$PKG || exit 1
+#cd -
+#
+## Link the shared qt4 libraries into /usr/lib${LIBDIRSUFFIX}:
+#( cd $PKG/usr/lib${LIBDIRSUFFIX}
+#  for file in $(ls -1 qt/lib/*.so* 2>/dev/null) ; do
+#    ln -sf $file .
+#  done
+#)
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
