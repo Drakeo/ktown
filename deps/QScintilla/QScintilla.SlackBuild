@@ -28,8 +28,8 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=QScintilla
-VERSION=${VERSION:-2.11}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-2.11.1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
@@ -78,6 +78,10 @@ cd $TMP
 rm -rf ${PKGNAM}_gpl-$VERSION
 tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z || exit 1
 cd ${PKGNAM}_gpl-$VERSION || exit 1
+
+# Fix compilation:
+cat $CWD/patches/QScintilla_qsciscintillabase_qurl.diff | patch -p1 --verbose || exit 1
+
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -147,58 +151,58 @@ fi
 
 # QT4 SUPPORT CURRENTLY DOES NOT COMPILE...
 # /usr/lib64/qt/include/QtCore/qglobal.h:2242:20: error: invalid application of 'sizeof' to incomplete type 'QUrl'
-## QT4 support:
-#echo "-- Compiling Qt4 support --"
-#cd Qt4Qt5
-#  echo "-- >> Qt4Qt5 --"
-#  qmake \
-#    -o Makefile \
-#    QMAKE_CFLAGS+="$SLKCFLAGS" \
-#    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
-#    qscintilla.pro || exit 1
-#  make $NUMJOBS || exit 1
-#  make install INSTALL_ROOT=$PKG || exit 1
-#cd -
-#
-#cd designer-Qt4Qt5
-#  echo "-- >> designer-Qt4Qt5 --"
-#  qmake \
-#    -o Makefile \
-#    INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
-#    QMAKE_CFLAGS+="$SLKCFLAGS" \
-#    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
-#    designer.pro || exit 1
-#  make $NUMJOBS || exit 1
-#  make install INSTALL_ROOT=$PKG || exit 1
-#cd -
-#
-#cd Python
-#  echo "-- >> Python --"
-#  python3 configure.py \
-#      --verbose \
-#      --qmake /usr/bin/qmake \
-#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-#      || exit 1
-#  make -j1 || exit 1
-#  make -j1 install INSTALL_ROOT=$PKG || exit 1
-#
-#  make clean || exit 1
-#
-#  python2 configure.py \
-#      --verbose \
-#      --qmake /usr/bin/qmake \
-#      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
-#      || exit 1
-#  make -j1 || exit 1
-#  make -j1 install INSTALL_ROOT=$PKG || exit 1
-#cd -
-#
-## Link the shared qt4 libraries into /usr/lib${LIBDIRSUFFIX}:
-#( cd $PKG/usr/lib${LIBDIRSUFFIX}
-#  for file in $(ls -1 qt/lib/*.so* 2>/dev/null) ; do
-#    ln -sf $file .
-#  done
-#)
+# QT4 support:
+echo "-- Compiling Qt4 support --"
+cd Qt4Qt5
+  echo "-- >> Qt4Qt5 --"
+  qmake \
+    -o Makefile \
+    QMAKE_CFLAGS+="$SLKCFLAGS" \
+    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
+    qscintilla.pro || exit 1
+  make $NUMJOBS || exit 1
+  make install INSTALL_ROOT=$PKG || exit 1
+cd -
+
+cd designer-Qt4Qt5
+  echo "-- >> designer-Qt4Qt5 --"
+  qmake \
+    -o Makefile \
+    INCLUDEPATH+=../Qt4Qt5 QMAKE_LIBDIR+=../Qt4Qt5 \
+    QMAKE_CFLAGS+="$SLKCFLAGS" \
+    QMAKE_CXXFLAGS+="$SLKCFLAGS -std=c++11" \
+    designer.pro || exit 1
+  make $NUMJOBS || exit 1
+  make install INSTALL_ROOT=$PKG || exit 1
+cd -
+
+cd Python
+  echo "-- >> Python --"
+  python3 configure.py \
+      --verbose \
+      --qmake /usr/bin/qmake \
+      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+      || exit 1
+  make -j1 || exit 1
+  make -j1 install INSTALL_ROOT=$PKG || exit 1
+
+  make clean || exit 1
+
+  python2 configure.py \
+      --verbose \
+      --qmake /usr/bin/qmake \
+      -n ../Qt4Qt5/ -o ../Qt4Qt5/ -c \
+      || exit 1
+  make -j1 || exit 1
+  make -j1 install INSTALL_ROOT=$PKG || exit 1
+cd -
+
+# Link the shared qt4 libraries into /usr/lib${LIBDIRSUFFIX}:
+( cd $PKG/usr/lib${LIBDIRSUFFIX}
+  for file in $(ls -1 qt/lib/*.so* 2>/dev/null) ; do
+    ln -sf $file .
+  done
+)
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
