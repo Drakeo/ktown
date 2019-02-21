@@ -102,6 +102,9 @@ CXXFLAGS="$SLKCFLAGS" \
 make || exit 1
 make install DESTDIR=$PKG || exit 1
 
+# Don't ship .la files:
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \
