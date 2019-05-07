@@ -25,12 +25,25 @@
 
 
 PKGNAM=ddcutil
-VERSION=${VERSION:-0.8.5}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-0.9.0}
+BUILD=${BUILD:-1}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/rockowitz/ddcutil.git
+	cd $CWD/$PKGNAM
+	git checkout $VERSION
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
