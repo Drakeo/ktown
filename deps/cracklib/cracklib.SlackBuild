@@ -34,6 +34,19 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/cracklib/cracklib
+	cd $CWD/$PKGNAM
+	git checkout v$VERSION
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
@@ -72,12 +85,13 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.gz || exit 1
-cd $PKGNAM-$VERSION || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
+cd $PKGNAM-$VERSION/src || exit 1
 
 # CVE-2016-6318 - avoid overflows in GECOS handling and mangling password:
 cat $CWD/patches/cracklib-2.9.6-cve-2016-6318.patch \
   | patch -p2 --verbose || exit 1
+
 
 chown -R root:root .
 find -L . \
