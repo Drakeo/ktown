@@ -44,7 +44,7 @@ else
 	cp -rf $PKGNAM $PKGNAM-$VERSION
 	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
 	rm -rf $PKGNAM-$VERSION
-#	rm -rf $PKGNAM
+	rm -rf $PKGNAM
 fi
 
 # Automatically determine the architecture we're building on:
