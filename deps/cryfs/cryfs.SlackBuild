@@ -27,11 +27,25 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryfs
-VERSION=${VERSION:-0.9.9}
-BUILD=${BUILD:-6}
+VERSION=${VERSION:-0.10.1}
+BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/cryfs/cryfs.git
+	cd $CWD/$PKGNAM
+	git checkout $VERSION
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+#	rm -rf $PKGNAM
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -79,9 +93,9 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-mkdir $PKGNAM-$VERSION
-cd $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+cd $PKGNAM-$VERSION
+
 
 # Fix bogus permissions:
 chown -R root:root .
@@ -103,6 +117,10 @@ cd build
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_MANDIR=/usr/man \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DBOOST_INCLUDEDIR=/usr/boost \
+    -Boost_USE_STATIC_LIBS=OFF \
+    -DBUILD_STATIC_LIBS=OFF  \
+    -DBOOST_LIBRARYDIR=/usr/lib${LIBDIRSUFFIX} \
     -DBUILD_TESTING=OFF \
     -DBoost_USE_STATIC_LIBS=off \
     -DCRYFS_UPDATE_CHECKS=OFF \
