@@ -34,6 +34,19 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/ConsoleKit2/ConsoleKit2
+	cd $CWD/$PKGNAM
+	git checkout $VERSION
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
