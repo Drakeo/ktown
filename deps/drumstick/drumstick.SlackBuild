@@ -31,6 +31,18 @@ BUILD=${BUILD:-1}
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	#r360 = RELEASE_1_1_2
+	svn checkout -r 360 https://svn.code.sf.net/p/drumstick/code/trunk $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
+
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -98,7 +110,7 @@ cd build
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DBUILD_TESTS=OFF \
     ..
-  make
+  make $NUMJOBS 
   make install DESTDIR=$PKG
 cd ..
 
