@@ -31,9 +31,23 @@ VERSION=${VERSION:-7.0.0}
 SRCVER=$(echo $VERSION | tr -d '.')
 BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+GITREV=CRYPTOPP_7_0_0
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/weidai11/cryptopp.git
+	cd $CWD/$PKGNAM
+	git checkout $GITREV
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -81,10 +95,9 @@ esac
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf ${PKGNAM}-${VERSION}
-mkdir -p ${PKGNAM}-${VERSION}
-unzip -a ${CWD}/${PKGNAM}${SRCVER}.zip -d ${PKGNAM}-${VERSION} || exit 1
-cd ${PKGNAM}-${VERSION} || exit 1
+rm -rf $PKGNAM-$VERSION
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+cd $PKGNAM-$VERSION
 
 ## Do not mess up the CXXFLAGS:
 #cat $CWD/patches/cryptopp_slkcflags.patch | patch -p1 --verbose || exit 1
