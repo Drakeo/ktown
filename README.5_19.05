@@ -1,45 +1,42 @@
 KDE5
 ====
 
-Here is KDE 5_19.02 for Slackware, consisting of the KDE
-Frameworks 5.55.0, Plasma 5.15.0 and Applications 18.12.2 on top of Qt 5.12.1.
+Here is KDE 5_19.05 for Slackware, consisting of the KDE
+Frameworks 5.58.0, Plasma 5.15.5 and Applications 19.04.1 on top of Qt 5.12.3.
 
-Upgrading from the previous 5_19.01 is relatively straight-forward.
+Upgrading from the previous 5_19.02 is relatively straight-forward.
 
-KDE-5_19.02 is meant to be installed on top of Slackware -current.
+KDE-5_19.05 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- This month, Qt 5.12.1 landed in the "deps" section of my ktown repository.
-  It is accompanied by the latest 'libxkbcommon', 'sip' and 'PyQt5' releases.
-  The 'qt5' update also mandated a recompile of the 'qt5-webkit' package.
-  Unfortunately I am not able to compile the latest (and final) PyQt 4.x
-  release, and the same goes for the Qt4 support in QScintilla.
-  So I stuck with Slackware's 'PyQt' and dropped Qt4 support from 'QScintilla'.
-  Other news? I added a base for speech support in KDE Plasma (and Slackware)
-  with the "deps" packages 'pcaudiolib', 'espeak-ng', 'pyxdg', 'dotconf',
-  'flite', 'speech-dispatcher' and 'qt5-speech' (that's the compile order).
-  The packages that will pick up speech support are 'kanagram', 'kmouth',
-  'knights' (applications) 'kpimtextedit', 'kdepim-runtime' (kdepim)
-  'ktp-text-ui' (telepathy) and 'knotifications', 'ktextwidgets' (frameworks).
-  And finally, I added 'libsass' and 'sassc' packages as new dependencies for
-  'breeze-gtk'.
-- Frameworks 5.55.0 is an incremental stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.55.0.php .
-- Plasma 5.15.0 is the first installment in the Plasma Desktop 5.15 release
-  cycle, with a focus on User Interface and User Experience improvements.
-  Also, integration with 3rd party graphics toolkits - think of GTK but also
-  Firefox - has improved significantly.
-  See https://www.kde.org/announcements/plasma-5.15.0.php
-- Applications 18.12.2 is another stability and bugfix update for the 18.12
-  cycle.
-  See https://www.kde.org/announcements/announce-applications-18.12.2.php and
-  if you want more detail about the 18.12 cycle you should also read
-  https://www.kde.org/announcements/announce-applications-18.12.0.php .
-- In applications-extra I have upgraded 'kmymoney' and recompiled 'krita'
-  for better compatibility wih Qt 5.12.
+- Because of the three-month hiatus between releases, there are quite some
+  updates to be reported. First, the deps department:
+  Qt went up to  5.12.3 and with it come the latest versions of 'libxkbcommon',
+  'qt5-speech', 'qca-qt5', gpgme', 'sip' and 'PyQt5'. The 'qt5-webkit'
+  package was recompiled against the new 'qt5'.
+  The 'cryfs' package and its dependency 'cryptopp' were updated to their
+  most recent releases.
+  To support the latest version of kdenlive, a new package 'rttr' was added
+  and the 'mlt' package was updated.
+- Frameworks 5.58.0 is an incremental stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.58.0.php .
+- Plasma 5.15.5 is the final iteration before we move on to 5.16.
+  See https://www.kde.org/announcements/plasma-5.15.5.php
+- In plasma-extra I updated kdeconnect-framework.
+- Applications 19.04.1 is a stability and bugfix update for the 19.04 cycle,
+  but since I never packaged the .0 release, this is actually the first
+  'ktown for Slackware' release with the new Applications in which we find a
+  KDEnlive with 60% of its code re-written from scratch.
+  See https://www.kde.org/announcements/announce-applications-19.04.1.php and
+  if you want more detail about the 19.04 cycle you should also read
+  https://www.kde.org/announcements/announce-applications-19.04.0.php .
+- In applications-extra I applied many upgrades:
+  New versions are now available for 'alkimia', 'digikam', 'falkon',
+ 'kdevelop', 'kdev-php', 'kdev-python', 'kmymoney', 'kpmcore', 'krita',
+ 'kstars', 'okteta' and 'partitionmanager'.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -66,14 +63,14 @@ Further points of interest:
   libxkbcommon, mlt, ninja, noto-font-ttf, noto-cjk-font-ttf, opencv,
   pcaudiolib, perl-path-tiny, perl-template-toolkit, polkit-qt5-1,
   python-enum34, python3-random2, qca-qt5, qrencode, qt-gstreamer,
-  qt5, qt5-speech, qt5-webkit, qtav, sassc, sni-qt, speech-dispatcher,
+  qt5, qt5-speech, qt5-webkit, qtav, rttr, sassc, sni-qt, speech-dispatcher,
   vid.stab and wayland.
   As a side note, id3lib libinput libwacom and ninja have become part
   of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
   provide older Plasma5 packages for Slackware 14.2 so I left them in.
   The phonon and poppler packages were extended so that they now support
-  Qt5 as well as Qt4.
+  Qt5 as well as Qt4. The gpgme package picked up Qt5 support.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
   If you have that SBo package installed, remove it.
 - A completely new subset of "deps" packages, contained in their own
@@ -156,6 +153,9 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_19.02 installed:
+- No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_19.01 installed:
 - No further actions are needed.
@@ -421,4 +421,4 @@ To compile ktouch 18.12 I had to create the following symlink:
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 14-feb-2019
+                     Eric Hameleers / alien at slackware dot com / 09-may-2019
