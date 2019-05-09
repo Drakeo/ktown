@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2018  Eric Hameleers, Eindhoven, NL
+# Copyright 2018, 2019  Eric Hameleers, Eindhoven, NL
 # Copyright 2018  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -27,8 +27,8 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryfs
-VERSION=${VERSION:-0.9.9}
-BUILD=${BUILD:-6}
+VERSION=${VERSION:-0.10.1}
+BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -92,6 +92,8 @@ find . \
   -exec chmod 644 {} \;
 
 # Configure and compile:
+export LDFLAGS="$SLKLDFLAGS -lboost_thread -lboost_program_options -lboost_filesystem -lboost_chrono -lcryptopp -lfuse"
+
 mkdir -p build
 cd build
   cmake \
@@ -102,8 +104,11 @@ cd build
     -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_MANDIR=/usr/man \
-    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DBUILD_TESTING=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TESTING=OFF \
+    -DBoost_INCLUDE_DIRS=/usr/include/boost \
+    -DBoost_USE_STATIC_LIBS=OFF \
     -DBoost_USE_STATIC_LIBS=off \
     -DCRYFS_UPDATE_CHECKS=OFF \
     ..

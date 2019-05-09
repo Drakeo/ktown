@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2014, 2018  Eric Hameleers, Eindhoven, NL
+# Copyright 2014, 2018, 2019  Eric Hameleers, Eindhoven, NL
 # Copyright 2018  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -27,7 +27,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryptopp
-VERSION=${VERSION:-7.0.0}
+VERSION=${VERSION:-8.2.0}
 SRCVER=$(echo $VERSION | tr -d '.')
 BUILD=${BUILD:-1}
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
@@ -86,9 +86,6 @@ mkdir -p ${PKGNAM}-${VERSION}
 unzip -a ${CWD}/${PKGNAM}${SRCVER}.zip -d ${PKGNAM}-${VERSION} || exit 1
 cd ${PKGNAM}-${VERSION} || exit 1
 
-## Do not mess up the CXXFLAGS:
-#cat $CWD/patches/cryptopp_slkcflags.patch | patch -p1 --verbose || exit 1
-
 # Fix bogus permissions:
 chown -R root:root .
 find . \
@@ -101,16 +98,14 @@ find . \
 sed -i -e "s,(PREFIX)/lib,(PREFIX)/lib${LIBDIRSUFFIX},g" GNUmakefile
 
 # Compile and install:
-make dynamic $NUMJOBS \
+make all dynamic libcryptopp.pc $NUMJOBS \
   CXXFLAGS="${SLKCFLAGS} -DNDEBUG" LDFLAGS="${LDFLAGS}"
-make install PREFIX=$PKG/usr
+make install-lib PREFIX=$PKG/usr
 
-# Install a pkg-config file:
-mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig
-cat $CWD/${PKGNAM}.pc | sed \
-  -e "s,@LIBDIRSUFFIX@,${LIBDIRSUFFIX},g" \
-  -e "s,@VERSION@,${VERSION},g" \
-  >  $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/cryptopp.pc
+# Fix the installed pkg-config file:
+sed \
+  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/libcryptopp.pc \
+  -e "s,/usr/local,/usr,g"
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
