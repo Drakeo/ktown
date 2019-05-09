@@ -28,7 +28,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryfs
 VERSION=${VERSION:-0.10.1}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -109,11 +109,16 @@ cd build
     -DBUILD_TESTING=OFF \
     -DBoost_INCLUDE_DIRS=/usr/include/boost \
     -DBoost_USE_STATIC_LIBS=OFF \
-    -DBoost_USE_STATIC_LIBS=off \
     -DCRYFS_UPDATE_CHECKS=OFF \
     ..
   make
   make install DESTDIR=$PKG
+
+  # Since we don't have static boost libraries, compile & install goes south
+  # and we end up with a set of dynamically linked binaries.
+  mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}
+  install -m0755 ./src/cryfs-cli/libcryfs-cli.so $PKG/usr/lib${LIBDIRSUFFIX}/libcryfs-cli.so
+  install -m0755 ./src/cryfs-unmount/libcryfs-unmount.so $PKG/usr/lib${LIBDIRSUFFIX}/libcryfs-unmount.so
 cd ..
 
 # Add documentation:
