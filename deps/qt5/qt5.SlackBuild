@@ -61,11 +61,12 @@
 # Modifications for qt 5.11.2 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.11.3 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.12.1 2019 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.12.3 2019 by Eric  Hameleers, Eindhoven, NL
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.12.1}
+VERSION=${VERSION:-5.12.3}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
@@ -160,14 +161,23 @@ cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 #  cat $CWD/patches/qt5.webengine_gcc8.patch | patch -p1 --verbose || exit 1
 #cd - 1>/dev/null
 
-# QSyntaxHighlighter: cancel delayed highlight if done manually:
-cd qtbase
-  cat $CWD/patches/qt5.delayed_highlight.patch | patch -p1 --verbose || exit 1
-cd - 1>/dev/null
+## QSyntaxHighlighter: cancel delayed highlight if done manually:
+#cd qtbase
+#  cat $CWD/patches/qt5.delayed_highlight.patch | patch -p1 --verbose || exit 1
+#cd - 1>/dev/null
 
-# Fix regression in QPlainTextEdit updating (QTBUG-69310):
+## Fix regression in QPlainTextEdit updating (QTBUG-69310):
+#cd qtbase
+#  cat $CWD/patches/qt5.qtbug-69310.patch | patch -p1 --verbose || exit 1
+#cd - 1>/dev/null
+
+# CMake generates wrong -isystem /usr/include compilations flags with Qt5::Gui
+# and for it breaks KWin compilation with:
+# /usr/include/c++/9.1.0/cstdlib:75:15: fatal error: stdlib.h: No such file or directory
+# See also https://bugzilla.redhat.com/1704474
 cd qtbase
-  cat $CWD/patches/qt5.qtbug-69310.patch | patch -p1 --verbose || exit 1
+  cat $CWD/patches/qt5.qtbase_cmake_isystem_includes.patch \
+    | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then

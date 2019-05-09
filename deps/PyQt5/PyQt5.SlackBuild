@@ -27,8 +27,8 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.12}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-5.12.1}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 

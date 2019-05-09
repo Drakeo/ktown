@@ -21,20 +21,13 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2017 by Eric Hameleers <alien@slackware.com>
+# Modified 2017, 2018, 2019 by Eric Hameleers <alien@slackware.com>
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=gpgme
-VERSION=${VERSION:-1.12.0}
+VERSION=${VERSION:-1.13.0}
 BUILD=${BUILD:-1}
-
-# Find out the default python version:
-if [ $( python -c 'import sys ; print sys.version_info[0]' ) -eq 3 ]; then
-  MYPY="python"
-else
-  MYPY="python2"
-fi
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -100,11 +93,12 @@ CXXFLAGS="$SLKCFLAGS" \
   --sysconfdir=/etc \
   --infodir=/usr/info \
   --docdir=/usr/doc/gpgme-$VERSION \
-  --enable-languages="cl cpp $MYPY qt" \
   --disable-gpgsm-test \
   --build=$TARGET \
   --host=$TARGET \
   || exit 1
+  # Leave this out, then it will enable all bindings (also python 2 and 3):
+  #--enable-languages="cl cpp $MYPY qt" \
 
 make $NUMJOBS || make || exit 1
 make install DESTDIR=$PKG || exit 1
