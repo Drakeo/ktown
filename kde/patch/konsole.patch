@@ -3,3 +3,7 @@
 # Reverted to default behaviour in 18.04.0 after Slackware did the same:
 #cat $CWD/patch/konsole/konsole.term.is.konsole.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix rendering of cursor if non-default theme is selected
+# (fixed post 18.12.3):
+#cat $CWD/patch/konsole/konsole.cursor.antialias.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
