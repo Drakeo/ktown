@@ -1,3 +1,7 @@
 # Fix compilation of Krita against Qt 5.9:
 #cat $CWD/patch/krita/krita_qt59.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Hack around tablet issues with un-patched Qt 5.12:
+cat $CWD/patch/krita/krita_qtabletevents.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+

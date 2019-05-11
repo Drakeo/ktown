@@ -26,8 +26,8 @@
 
 
 PKGNAM=sip
-VERSION=${VERSION:-4.19.14}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-4.19.16}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
@@ -71,8 +71,8 @@ rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
 cd $PKGNAM-$VERSION || exit 1
 
-# Get PyQt4 to compile:
-cat $CWD/patches/PyQt4_sip_regression.patch | patch -p1 --verbose || exit 1
+## Get PyQt4 to compile:
+#cat $CWD/patches/PyQt4_sip_regression.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \

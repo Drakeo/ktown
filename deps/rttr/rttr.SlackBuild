@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Copyright 2014, 2018, 2019  Eric Hameleers, Eindhoven, NL
-# Copyright 2018  Patrick J. Volkerding, Sebeka, MN, USA
+# Copyright 2019  Eric Hameleers, Eindhoven, NL
+# Copyright 2019  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -24,30 +24,13 @@
 # -----------------------------------------------------------------------------
 
 
-cd $(dirname $0) ; CWD=$(pwd)
+PKGNAM=rttr
+VERSION=${VERSION:-0.9.6}
+BUILD=${BUILD:-2}
 
-PKGNAM=cryptopp
-VERSION=${VERSION:-8.2.0}
-SRCVER=$(echo $VERSION | tr -d '.')
-BUILD=${BUILD:-1}
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
-GITREV=CRYPTOPP_8_2_0
-
+CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
-
-if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
- echo $PKGNAM-$VERSION.tar.gz built
-else
-	git clone https://github.com/weidai11/cryptopp.git
-	cd $CWD/$PKGNAM
-	git checkout $GITREV
-	cd $CWD
-	cp -rf $PKGNAM $PKGNAM-$VERSION
-	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
-	rm -rf $PKGNAM-$VERSION
-	rm -rf $PKGNAM
-fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -60,16 +43,8 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
-# the name of the created package would be, and then exit. This information
-# could be useful to other scripts.
-if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
-  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
-  exit 0
-fi
-
 if [ "$ARCH" = "i586" ]; then
-  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  SLKCFLAGS="-O2 -march=${ARCH} -mtune=i686"
   SLKLDFLAGS=""
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "x86_64" ]; then
@@ -91,13 +66,17 @@ case "$ARCH" in
     *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
-# Extract the sources:
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
-cd $PKGNAM-$VERSION
+tar xvf $CWD/$PKGNAM-$VERSION-src.tar.?z* || exit 1
+cd $PKGNAM-$VERSION || exit 1
+
+# Fix incorrect file permissions after install,
+# see https://github.com/rttrorg/rttr/pull/228:
+sed -e 's/PERMISSIONS OWNER_READ//' \
+  -i CMake/*.cmake doc/CMakeLists.txt
 
 # Fix bogus permissions:
 chown -R root:root .
@@ -107,26 +86,36 @@ find . \
   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
   -exec chmod 644 {} \;
 
-# Cater to 64-bit Slackware:
-sed -i -e "s,(PREFIX)/lib,(PREFIX)/lib${LIBDIRSUFFIX},g" GNUmakefile
-
-# Compile and install:
-make all dynamic libcryptopp.pc $NUMJOBS \
-  CXXFLAGS="${SLKCFLAGS} -DNDEBUG" LDFLAGS="${LDFLAGS}"
-make install-lib PREFIX=$PKG/usr
-
-# Fix the installed pkg-config file:
-sed \
-  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/libcryptopp.pc \
-  -e "s,/usr/local,/usr,g"
+# Configure and compile:
+mkdir -p build
+cd build
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib${LIBDIRSUFFIX} \
+    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_UNIT_TESTS=OFF \
+    -DBUILD_PACKAGE=OFF \
+    ..
+  make
+  make install DESTDIR=$PKG
+cd ..
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
-cp -a *.txt $PKG/usr/doc/$PKGNAM-$VERSION
+cp -a \
+  ChangeLog.md LICENSE.txt README.md \
+  $PKG/usr/doc/$PKGNAM-$VERSION
 
-# Strip binaries (if any):
-find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
+# Strip binaries:
+find $PKG | xargs file | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
 # Add a package description:
 mkdir -p $PKG/install
@@ -134,5 +123,5 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 
 # Build the package:
 cd $PKG
-/sbin/makepkg -l y -c n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
+makepkg -l y -c n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
 

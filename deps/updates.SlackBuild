@@ -83,6 +83,7 @@ ALLDEPS=" \
   drumstick \
   libsass \
   sassc \
+  rttr \
   "
   # Only needed when adding support for Wayland:
   #elogind \

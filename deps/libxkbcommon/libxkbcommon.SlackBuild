@@ -25,7 +25,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=libxkbcommon
-VERSION=${VERSION:-0.8.3}
+VERSION=${VERSION:-0.8.4}
 BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
