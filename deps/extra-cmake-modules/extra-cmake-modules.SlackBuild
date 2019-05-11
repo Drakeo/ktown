@@ -55,9 +55,9 @@ PKG=$TMP/package-$PKGNAM
 if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
  echo $PKGNAM-$VERSION.tar.xz built
 else
-	git clone https://github.com/KDE/extra-cmake-modules.git
+	git clone https://github.com/KDE/extra-cmake-modules.git || exit 1
 	cd $CWD/$PKGNAM
-	git checkout v$VERSION
+	git checkout v$VERSION || exit 1
 	cd $CWD
 	mv $PKGNAM $PKGNAM-$VERSION || exit 1
 	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
