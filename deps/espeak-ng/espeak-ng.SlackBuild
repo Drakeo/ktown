@@ -31,6 +31,19 @@ BUILD=${BUILD:-1}
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/espeak-ng/espeak-ng.git
+	cd $CWD/$PKGNAM
+	git checkout $VERSION
+	cd $CWD
+	mv $PKGNAM $PKGNAM-$VERSION || exit 1
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
+	rm -rf $PKGNAM-$VERSION || exit 1
+fi
+
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
@@ -74,7 +87,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.gz || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
 cd $PKGNAM-$VERSION || exit 1
 chown -R root:root .
 find -L . \

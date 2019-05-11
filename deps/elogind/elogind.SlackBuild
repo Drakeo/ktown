@@ -24,12 +24,25 @@
 
 
 PKGNAM=elogind
-VERSION=${VERSION:-219.14}
+VERSION=${VERSION:-241.3}
 BUILD=${BUILD:-2}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/elogind/elogind.git
+	cd $CWD/$PKGNAM
+	git checkout $VERSION
+	cd $CWD
+	cp -rf $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+	rm -rf $PKGNAM
+fi
 
 # We do not use PAM by default:
 USE_PAM=${USE_PAM:-"NO"}
@@ -91,9 +104,9 @@ sed -i src/login/org.freedesktop.login1.service \
 
 # Apply Gentoo patches:
 #cat $CWD/patches/elogind-219.12-session.patch | patch -p1 --verbose || exit 1
-cat $CWD/patches/elogind-219.12-runtime.patch | patch -p1 --verbose || exit 1
-cat $CWD/patches/elogind-lrt.patch | patch -p1 --verbose || exit 1
-cat $CWD/patches/elogind-docs.patch | patch -p1 --verbose || exit 1
+#cat $CWD/patches/elogind-219.12-runtime.patch | patch -p1 --verbose || exit 1
+#cat $CWD/patches/elogind-lrt.patch | patch -p1 --verbose || exit 1
+#cat $CWD/patches/elogind-docs.patch | patch -p1 --verbose || exit 1
 # Merge a pull request for an upstream fix:
 cat $CWD/patches/elogind-polkit.patch | patch -p1 --verbose || exit 1
 
@@ -128,7 +141,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --build=$TARGET
 
 # Build and install:
-make || exit 1
+meson build || exit 1
 make install DESTDIR=$PKG || exit 1
 
 # Strip binaries:
