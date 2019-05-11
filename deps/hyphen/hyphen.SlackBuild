@@ -33,6 +33,16 @@ BUILD=${BUILD:-1}
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/hunspell/hyphen.git || exit 1
+# gir -r 73dd2967c8e1e4f6d7334ee9e539a323d6e66cbd
+	mv $PKGNAM $PKGNAM-$VERSION || exit 1
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
+	rm -rf $PKGNAM-$VERSION || exit 1
+fi
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
@@ -89,7 +99,7 @@ find . \
   -exec chmod 755 {} \; -o \
   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
   -exec chmod 644 {} \;
-
+autoreconf -f -i
 # Configure and compile:
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
