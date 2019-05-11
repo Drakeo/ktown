@@ -31,6 +31,16 @@ BUILD=${BUILD:-1}
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION-release.tar.xz ]; then
+ echo $PKGNAM-$VERSION-release.tar.xz built
+else
+	git clone https://github.com/festvox/flite.git || exit 1
+# gir -r e98804740dd0d36ee04d710dc0859d31aa0126a5
+	mv $PKGNAM $PKGNAM-$VERSION-release || exit 1
+	tar cJvf  $PKGNAM-$VERSION-release.tar.xz $PKGNAM-$VERSION-release || exit 1
+	rm -rf $PKGNAM-$VERSION-release || exit 1
+fi
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
