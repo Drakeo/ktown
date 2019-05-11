@@ -62,6 +62,18 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$SRCNAM-$VERSION.tar.xz ]; then
+ echo $SRCNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/steveire/$PKGNAM.git|| exit 1
+	cd $CWD/$SRCNAM
+	git checkout v$VERSION || exit 1
+	cd $CWD
+	mv $SRCNAM $SRCNAM-$VERSION || exit 1
+	tar cJvf  $SRCNAM-$VERSION.tar.xz $SRCNAM-$VERSION || exit 1
+	rm -rf $SRCNAM-$VERSION || exit 1
+fi
+
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
