@@ -23,7 +23,7 @@
 #   SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 
-
+PRGNAM=frei0r
 PKGNAM=frei0r-plugins
 VERSION=${VERSION:-1.6.1}
 BUILD=${BUILD:-1}
@@ -31,6 +31,18 @@ BUILD=${BUILD:-1}
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/dyne/frei0r.git || exit 1
+	cd $CWD/$PRGNAM
+	git checkout v$VERSION || exit 1
+	cd $CWD
+	mv $PRGNAM $PKGNAM-$VERSION || exit 1
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
+	rm -rf $PKGNAM-$VERSION || exit 1
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
