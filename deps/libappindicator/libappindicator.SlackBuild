@@ -25,6 +25,7 @@
 
 PKGNAM=libappindicator
 VERSION=${VERSION:-12.10.0}
+BRANCH=$(echo $VERSION |  cut -b 1-5)
 BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-" -j4 "}
@@ -32,6 +33,13 @@ NUMJOBS=${NUMJOBS:-" -j4 "}
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+wget -c https://launchpad.net/libappindicator/$BRANCH/$VERSION/+download/libappindicator-12.10.0.tar.gz
+fi
+
 
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
@@ -76,8 +84,17 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 cd $PKGNAM-$VERSION || exit 1
+
+cat $CWD/patches/improved-plasma.patch \
+  | patch -p1 --verbose || exit 1
+  
+cat $CWD/patches/incompatible_pointer_build_fix.patch \
+  | patch -p1 --verbose || exit 1
+  
+cat $CWD/patches/no-python.patch \
+  | patch -p1 --verbose || exit 1
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
