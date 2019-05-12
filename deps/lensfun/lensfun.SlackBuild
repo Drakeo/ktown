@@ -32,6 +32,18 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://github.com/lensfun/lensfun.git || exit 1
+	cd $CWD/$PKGNAM
+	git checkout v$VERSION || exit 1
+	cd $CWD
+	mv $PKGNAM $PKGNAM-$VERSION || exit 1
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
+	rm -rf $PKGNAM-$VERSION || exit 1
+fi
+
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
