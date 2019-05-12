@@ -26,11 +26,36 @@
 
 PKGNAM=libburn
 VERSION=${VERSION:-1.4.8}
+BRANCH=$(echo $VERSION |  cut -b 1-5)
 BUILD=${BUILD:-1}
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+#1.4.8="260fc2983d7822bc6ff90fd2d33e7e531490885a"
+#1.5.0="c2bcf78c81fcda1af9bc8a7fd048e8aeeb92127a"
+#master=1.5.2
+if [ "$BRANCH" = "1.4.8" ]; then
+	TAG="260fc2983d7822bc6ff90fd2d33e7e531490885a" 
+elif [ "$BRANCH" = "1.5.0" ]; then
+	TAG="c2bcf78c81fcda1af9bc8a7fd048e8aeeb92127a"
+else
+	TAG="master"
+fi
+
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.xz ]; then
+ echo $PKGNAM-$VERSION.tar.xz built
+else
+	git clone https://dev.lovelyhq.com/libburnia/libburn.git || exit 1
+	cd $CWD/$PKGNAM
+	git checkout $TAG|| exit 1
+	cd $CWD
+	mv $PKGNAM $PKGNAM-$VERSION || exit 1
+	tar cJvf  $PKGNAM-$VERSION.tar.xz $PKGNAM-$VERSION || exit 1
+	rm -rf $PKGNAM-$VERSION || exit 1
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -81,6 +106,7 @@ find . \
   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
   -exec chmod 644 {} \;
 
+./bootstrap
 # Configure:
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
