@@ -28,12 +28,19 @@ cd $(dirname $0) ; CWD=$(pwd)
 PKGNAM=libdbusmenu-gtk
 SRCNAM=libdbusmenu
 VERSION=${VERSION:-16.04.0}
+BRANCH=$(echo $VERSION |  cut -b 1-5)
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+wget -c https://launchpad.net/$SRCNAM/$BRANCH/$VERSION/+download/$SRCNAM-$VERSION.tar.gz
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
