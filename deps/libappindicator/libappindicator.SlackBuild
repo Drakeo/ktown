@@ -37,7 +37,7 @@ PKG=$TMP/package-$PKGNAM
 if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
  echo $PKGNAM-$VERSION.tar.gz built
 else
-wget -c https://launchpad.net/libappindicator/$BRANCH/$VERSION/+download/libappindicator-12.10.0.tar.gz
+wget -c https://launchpad.net/libappindicator/$BRANCH/$VERSION/+download/libappindicator-$VERSION.tar.gz
 fi
 
 
