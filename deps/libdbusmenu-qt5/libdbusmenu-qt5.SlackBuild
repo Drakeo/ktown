@@ -68,12 +68,23 @@ fi
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+#Branched 271 = 0.9.3+16.04.20160218
+
+if [ -f $CWD/$SRCNAM-$VERSION.tar.xz ]; then
+	echo $SRCNAM-$VERSION.tar.gz built
+else
+	bzr branch -r 271 lp:libdbusmenu-qt
+	mv $SRCNAM  $SRCNAM-$VERSION
+	tar cJvf $SRCNAM-$VERSION.tar.xz  $SRCNAM-$VERSION
+	rm -rf $SRCNAM-$VERSION
+fi
+
 
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $SRCNAM-$VERSION
-tar xvf $CWD/${SRCNAM}_${VERSION}.orig.tar.?z* || exit 1
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
 cd $SRCNAM-$VERSION || exit 1
 
 chown -R root:root .
