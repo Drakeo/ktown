@@ -36,6 +36,8 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
+wget -c https://www.freedesktop.org/software/libinput/libinput-$VERSION.tar.xz
+
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
 elif [ -e /etc/slackbuild/machine.conf ]; then
