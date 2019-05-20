@@ -24,7 +24,7 @@
 
 
 PKGNAM=libdmtx
-VERSION=${VERSION:-0.7.4}
+VERSION=${VERSION:-0.7.5}
 BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-" -j4 "}
@@ -32,6 +32,18 @@ NUMJOBS=${NUMJOBS:-" -j4 "}
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/dmtx/libdmtx.git
+	cd $CWD/$PKGNAM
+	git checkout v$VERSION
+	cd $CWD
+	mv  $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+fi
 
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
@@ -87,6 +99,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+./autogen.sh
 # Configure:
 ./configure \
   --prefix=/usr \

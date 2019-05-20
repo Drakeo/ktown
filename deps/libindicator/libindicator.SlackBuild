@@ -25,13 +25,17 @@
 
 PKGNAM=libindicator
 VERSION=${VERSION:-12.10.1}
+BRANCH=$(echo $VERSION |  cut -b 1-5)
 BUILD=${BUILD:-2}
 
-NUMJOBS=${NUMJOBS:-" -j4 "}
+NUMJOBS=$(nproc)
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+wget https://launchpad.net/libindicator/$BRANCH/$VERSION/+download/libindicator-$VERSION.tar.gz
+
 
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
@@ -76,8 +80,16 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 cd $PKGNAM-$VERSION || exit 1
+
+    sed '/-Werror/s/$/ -Wno-deprecated-declarations/' -i ${pkgbase}/Makefile.{am,in}
+    sed 's/LIBINDICATOR_LIBS+="$LIBM"/LIBINDICATOR_LIBS+=" $LIBM"/g' -i configure
+    sed 's/LIBM="-lmw"/LIBM=" -lmw"/g' -i configure
+    sed 's/LIBM="-lm"/LIBM=" -lm"/g' -i configure
+    sed 's/LIBS="-lm  $LIBS"/LIBS=" -lm  $LIBS"/g' -i configure
+    sed 's/LIBS="-lmw  $LIBS"/LIBS=" -lmw  $LIBS"/g' -i configure
+    sed 's/LIBM="-lm"/LIBM=" -lm"/g' -i m4/libtool.m4
 
 # Make sure ownerships and permissions are sane:
 chown -R root:root .
@@ -96,6 +108,7 @@ CXXFLAGS="$SLKCFLAGS -Wno-error=deprecated-declarations" \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --sysconfdir=/etc \
+  --with-gtk=3 \
   --localstatedir=/var \
   --mandir=/usr/man \
   --docdir=/usr/doc/$PKGNAM-$VERSION \
