@@ -15,5 +15,5 @@ libsass: interface (CLI) you can use directly.
 libsass: There is also SassC, which is the official lightweight CLI tool
 libsass: built by the same people as LibSass.
 libsass:
-libsass: Homepage: https://libsass.org/
+libsass: Homepage: https://sass-lang.com/libsass
 libsass:

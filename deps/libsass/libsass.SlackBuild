@@ -28,8 +28,22 @@ PKGNAM=libsass
 VERSION=${VERSION:-3.5.5}
 BUILD=${BUILD:-1}
 
+NUMJOBS=$(nproc)
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/sass/libsass.git
+	cd $CWD/$PKGNAM
+	git checkout $VERSION || exit 1
+	cd $CWD
+	mv  $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -95,7 +109,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --docdir=/usr/doc/$PRGNAM-$VERSION \
   --build=$TARGET || exit 1
 
-make || exit 1
+make -j$NUMJOBS || exit 1
 make install DESTDIR=$PKG || exit 1
 
 # Add documentation:
