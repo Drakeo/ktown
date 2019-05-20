@@ -27,11 +27,23 @@ PKGNAM=libwacom
 VERSION=${VERSION:-0.22}
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-" -j4 "}
+NUMJOBS=$(nproc)
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/linuxwacom/libwacom.git
+	cd $CWD/$PKGNAM
+	git checkout $PKGNAM-$VERSION || exit 1
+	cd $CWD
+	mv  $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+fi
 
 if [ -e $CWD/machine.conf ]; then
   . $CWD/machine.conf ]
@@ -76,7 +88,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.bz2 || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 cd $PKGNAM-$VERSION || exit 1
 
 # Make sure ownerships and permissions are sane:
@@ -87,6 +99,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+./autogen.sh
 # Configure:
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
