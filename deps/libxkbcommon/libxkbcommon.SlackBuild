@@ -25,11 +25,24 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=libxkbcommon
+BRANCH=$(echo $PKGNAM |  tail -c -10) 
 VERSION=${VERSION:-0.8.4}
 BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/xkbcommon/libxkbcommon.git 
+	cd $CWD/$PKGNAM
+	git checkout $BRANCH-$VERSION || exit 1
+	cd $CWD
+	mv  $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+fi
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -77,7 +90,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
+tar xf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 cd $PKGNAM-$VERSION || exit 1
 chown -R root:root .
 find -L . \
@@ -86,6 +99,7 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+./autogen.sh
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 ./configure \
