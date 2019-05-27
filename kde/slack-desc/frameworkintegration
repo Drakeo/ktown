@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
                     |-----handy-ruler------------------------------------------------------|
-frameworkintegration: frameworkintegration (frameworkintegration)
+frameworkintegration: frameworkintegration (applications integration with KDE Workspaces)
 frameworkintegration:
-frameworkintegration: 
-frameworkintegration:
-frameworkintegration:
-frameworkintegration:
+frameworkintegration: Framework providing components to allow applications to integrate
+frameworkintegration: with a KDE Workspace.
 frameworkintegration:
 frameworkintegration:
 frameworkintegration:
 frameworkintegration:
-frameworkintegration: Homepage: http://kde.org/
+frameworkintegration:
+frameworkintegration: Homepage: https://community.kde.org/Frameworks
+frameworkintegration:
