@@ -40,7 +40,7 @@ if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
 else
 	git clone https://github.com/mltframework/mlt.git
 	cd $CWD/$PKGNAM
-	git checkout $VERSION || exit 1
+	git checkout v$VERSION || exit 1
 	cd $CWD
 	mv  $PKGNAM $PKGNAM-$VERSION
 	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
