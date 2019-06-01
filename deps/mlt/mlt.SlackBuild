@@ -111,6 +111,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --prefix=/usr \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --avformat-swscale \
+  --enable-shared \
   --disable-debug \
   --enable-gpl \
   --enable-gpl3 \

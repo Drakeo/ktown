@@ -23,10 +23,10 @@
 
 
 PKGNAM=ninja
-VERSION=${VERSION:-1.8.2}
+VERSION=${VERSION:-1.9.0}
 BUILD=${BUILD:-1}
-
-NUMJOBS=${NUMJOBS:--j7}
+CWD=$(pwd)
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -39,9 +39,28 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-CWD=$(pwd)
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
+
+if [ -f $CWD/$PKGNAM-$VERSION.tar.gz ]; then
+ echo $PKGNAM-$VERSION.tar.gz built
+else
+	git clone https://github.com/ninja-build/ninja.git
+	cd $CWD/$PKGNAM
+	git checkout v$VERSION || exit 1
+	cd $CWD
+	mv  $PKGNAM $PKGNAM-$VERSION
+	tar cvf  $PKGNAM-$VERSION.tar.gz $PKGNAM-$VERSION
+	rm -rf $PKGNAM-$VERSION
+fi
 
 if [ "$ARCH" = "i586" ]; then
   SLKCFLAGS="-O2 -march=i586 -mtune=i686"
@@ -70,7 +89,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 cd $PKGNAM-$VERSION || exit 1
 
 # Fix bogus permissions:
@@ -85,13 +104,18 @@ find . \
 LDFLAGS="$SLKLDFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 CFLAGS="$SLKCFLAGS" \
-  python bootstrap.py \
-  2>&1 | tee $OUTPUT/make-${PRGNAM}.log
+  python3 configure.py --bootstrap || exit 1
 
 # Manually install stuff:
-install -D -m0755 ninja $PKG/usr/bin/ninja
-install -D -m0644 misc/bash-completion $PKG/etc/bash_completion.d/ninja
-install -D -m0644 misc/ninja.vim $PKG/usr/share/vim/vimfiles/after/syntax//ninja.vim
+install -D -m0755 ninja $PKG/usr/bin/ninja || exit 1
+install -D -m0644 misc/bash-completion $PKG/usr/share/bash-completion/completions/ninja || exit 1
+install -D -m0644 misc/zsh-completion $PKG/usr/share/zsh/site-functions/_ninja || exit 1
+install -D -m0644 misc/ninja.vim $PKG/usr/share/vim/vimfiles/syntax/ninja.vim || exit 1
+install -D -m0644 misc/ninja-mode.el $PKG/usr/share/emacs/site-lisp/ninja-mode.el || exit 1
+
+# Compiling the .el should be optional...
+#emacs -Q --batch -f batch-byte-compile misc/ninja-mode.el || exit 1
+#install -D -m0644 misc/ninja-mode.elc $PKG/usr/share/emacs/site-lisp/ninja-mode.elc || exit 1
 
 # Compress the man page(s):
 if [ -d $PKG/usr/man ]; then
@@ -106,7 +130,7 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" \
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \
-  COPYING HACKING.md README RELEASING \
+  COPYING* HACKING* README* RELEASING \
   $PKG/usr/doc/$PKGNAM-$VERSION
 
 # Add a package description:
@@ -116,4 +140,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 # Build the package:
 cd $PKG
 /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
-
