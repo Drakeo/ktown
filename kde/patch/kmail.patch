@@ -1,0 +1,4 @@
+# Fix kontact crash on logout (KDEBUG 404881).
+# Fixed post 19.04.2.
+cat $CWD/patch/kmail/kmail_kontact_kdebug_404881.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
