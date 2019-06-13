@@ -84,6 +84,7 @@ ALLDEPS=" \
   libsass \
   sassc \
   rttr \
+  quazip \
   "
   # Only needed when adding support for Wayland:
   #elogind \
