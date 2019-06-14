@@ -27,7 +27,7 @@
 PKGNAM=qt5-webkit
 SRCVER=${SRCVER:-"5.212.0-alpha2"}
 VERSION=$(echo $SRCVER | tr - _)
-BUILD=${BUILD:-4}
+BUILD=${BUILD:-5}
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -123,6 +123,16 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 # Fix the path in prl files:
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
+
+# Fix pkgconfig files:
+sed \
+  -e 's|qt5/Qt5WebKit|qt5/QtWebKit|' \
+  -e '/Name/a Description: Qt WebKit module' \
+  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKit.pc
+sed \
+  -e 's|qt5/Qt5WebKitWidgets|qt5/QtWebKitWidgets|' \
+  -e '/Name/a Description: Qt WebKitWidgets module' \
+  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKitWidgets.pc
 
 # Add a documentation directory:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
