@@ -7,7 +7,7 @@
 
            |-----handy-ruler-------------------------------------------------------|
 grantlee-qt4: grantlee-qt4 (string template engine for Qt4)
-grantlee-qt4: 
+grantlee-qt4:
 grantlee-qt4: Grantlee is a plugin based String Template system written using the
 grantlee-qt4: Qt4 framework.  The goals of the project are to make it easier for
 grantlee-qt4: application developers to separate the structure of documents from
