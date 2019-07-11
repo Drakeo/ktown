@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Define variables:
+PKGNAM=woff2
+MYDATE=$(date +%Y%m%d)
+GITURI="https://github.com/google/${PKGNAM}.git"
+
+# Checkout source and create tarball:
+rm -rf ${PKGNAM}temp
+git clone ${GITURI} ${PKGNAM}temp
+cd ${PKGNAM}temp
+  MYHASH=$(git rev-parse --short=7 HEAD)
+cd - 1>/dev/null
+mv ${PKGNAM}temp ${PKGNAM}-${MYHASH}_${MYDATE}
+tar -Jcf ${PKGNAM}-${MYHASH}_${MYDATE}.tar.xz ${PKGNAM}-${MYHASH}_${MYDATE}
+rm -rf ${PKGNAM}-${MYHASH}_${MYDATE}

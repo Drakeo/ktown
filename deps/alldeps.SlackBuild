@@ -22,6 +22,8 @@ ALLDEPS=" \
   libxkbcommon \
   wayland \
   hyphen \
+  brotli \
+  woff2 \
   qt5 \
   qt5-webkit \
   SDL_sound \
