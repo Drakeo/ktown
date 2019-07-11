@@ -62,11 +62,12 @@
 # Modifications for qt 5.11.3 2018 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.12.1 2019 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.12.3 2019 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.13.0 2019 by Eric  Hameleers, Eindhoven, NL
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.12.3}
+VERSION=${VERSION:-5.13.0}
 BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
@@ -156,20 +157,16 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-## Fix compilation error in chromium caused by gcc8:
-#cd qtwebengine
-#  cat $CWD/patches/qt5.webengine_gcc8.patch | patch -p1 --verbose || exit 1
-#cd - 1>/dev/null
+# Fix freezes in KWin on hybrid NVIDIA systems (also solved in KWin 5.16.2):
+cd qtbase
+  cat $CWD/patches/qtbase-qxcbwindow.patch | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
 
-## QSyntaxHighlighter: cancel delayed highlight if done manually:
-#cd qtbase
-#  cat $CWD/patches/qt5.delayed_highlight.patch | patch -p1 --verbose || exit 1
-#cd - 1>/dev/null
-
-## Fix regression in QPlainTextEdit updating (QTBUG-69310):
-#cd qtbase
-#  cat $CWD/patches/qt5.qtbug-69310.patch | patch -p1 --verbose || exit 1
-#cd - 1>/dev/null
+# Change the default compression back to zlib for backwards compatibility,
+# QTBUG-76521:
+cd qtbase
+  cat $CWD/patches/qtbase-zlib-compression.patch | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
 
 # CMake generates wrong -isystem /usr/include compilations flags with Qt5::Gui
 # and for it breaks KWin compilation with:
@@ -179,6 +176,10 @@ cd qtbase
   cat $CWD/patches/qt5.qtbase_cmake_isystem_includes.patch \
     | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
+
+# More quoting is needed (QTBUG-76244) to fix the error in kjsembed (at least):
+# "Error:string sub-command REGEX, mode REPLACE needs at least 6 arguments total to command."
+cat $CWD/patches/qt5.qt5uitoolsconfig.patch | patch -p1 --verbose || exit 1
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:
@@ -194,10 +195,6 @@ sed -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${SLKCFLAGS}|" \
   -i qtbase/mkspecs/common/gcc-base.conf || exit 1
 sed -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${SLKLDFLAGS}|" \
   -i qtbase/mkspecs/common/g++-unix.conf || exit 1
-
-# All languages are now enabled by default in the virtual keyboard
-# (required by Plasma 5.11):
-#echo "CONFIG += lang-all" >> qtvirtualkeyboard/.qmake.conf
 
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
@@ -238,6 +235,7 @@ export QT_PLUGIN_PATH="${QTDIR}/qtbase/plugins"
   -xcb \
   -nomake examples \
   -nomake tests \
+  -no-mimetype-database \
   -no-separate-debug-info \
   -no-strip \
   -no-use-gold-linker \
