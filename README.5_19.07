@@ -1,36 +1,37 @@
 KDE5
 ====
 
-Here is KDE 5_19.06 for Slackware, consisting of the KDE
-Frameworks 5.59.0, Plasma 5.16.0 and Applications 19.04.2 on top of Qt 5.12.3.
+Here is KDE 5_19.07 for Slackware, consisting of the KDE
+Frameworks 5.60.0, Plasma 5.16.3 and Applications 19.04.3 on top of Qt 5.13.0.
 
-Upgrading from the previous 5_19.05 is relatively straight-forward.
+Upgrading from the previous 5_19.06 is relatively straight-forward.
 
-KDE-5_19.06 is meant to be installed on top of Slackware -current.
+KDE-5_19.07 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- In the 'deps' section, we have one new package:
-  In order to support the latest version of krita, I had to add 'quazip'.
-- Frameworks 5.59.0 is an incremental stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.59.0.php .
-- Plasma 5.16.0 is the the start of a new development cycle for the Deskop
-  part of KDE. For this release, the focus has been to make Plasma smoother,
-  as well as more intuitive and consistent to use.
-  A few highlights: the Networks widget is now faster and more reliable
-  to refresh Wi-Fi networks; the Desktop notification system has been
-  completely rewritten; and there's initial support for using Wayland
-  with proprietary Nvidia drivers.
-  Once I upgrade the Qt5 package to 5.13 (not released yet) I want to
-  create a new 'testing' repository focusing on Wayland support.
-  See https://www.kde.org/announcements/plasma-5.16.0.php
-- Applications 19.04.2 is a stability and bugfix update for the 19.04 cycle,
-  see https://www.kde.org/announcements/announce-applications-19.04.2.php and
-  if you want more detail about the 19.04 cycle you should also read
-  https://www.kde.org/announcements/announce-applications-19.04.0.php .
-- In applications-extra I updated 'krita' and 'kstars'.
+- In the 'deps' section there's lots of movement.
+  The qt5 package has been updated to 5.13.0 which meant several updates
+  to packages that depend on it: PyQt5, gpgme, sip, qt5-speech, qt5-webkit.
+  And in order to compile the new release of qt5-webkit I had to add two
+  new dependency packages: brotli and woff2.
+  The update of opencv to 4.1.0 is meant to make it match the version that
+  is available at slackbuilds.org (SBo). Unfortunately the face detection
+  code in the '4' series of opencv is incompatible with frei0r, so I had to
+  disable opencv support in the rebuilt frei0r package. This in turn may
+  affect functionality in digikam.
+  The mlt package was upgraded as well.
+- Frameworks 5.60.0 is an incremental stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.60.0.php
+- Plasma 5.16.3 is the the third increment in the 5.16 cycle of the desktop
+  part of KDE. It focuses on fixing bugs.
+  See https://www.kde.org/announcements/plasma-5.16.3.php
+- Applications 19.04.3 is a stability and bugfix update for the 19.04 cycle,
+  see https://www.kde.org/announcements/announce-applications-19.04.3.php
+- In applications-extra I updated krita and rebuilt digikam against the new
+  opencv.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -49,16 +50,16 @@ Further points of interest:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  So, apart from updates to regular Slackware packages and the
   new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, SDL_sound, QScintilla, accountsservice, cfitsio, cracklib,
-  cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor, espeak-ng, flite,
-  freecell-solver, frei0r-plugins, grantlee-qt4, hack-font-ttf, hyphen,
-  id3lib, lensfun, libappindicator, libburn, libdbusmenu-gtk, libdbusmenu-qt5,
-  libdmtx, libindicator, libinput, libpwquality, libsass, libwacom,
-  libxkbcommon, mlt, ninja, noto-font-ttf, noto-cjk-font-ttf, opencv,
-  pcaudiolib, perl-path-tiny, perl-template-toolkit, polkit-qt5-1,
-  python-enum34, python3-random2, quazip, qca-qt5, qrencode, qt-gstreamer,
-  qt5, qt5-speech, qt5-webkit, qtav, rttr, sassc, sni-qt, speech-dispatcher,
-  vid.stab and wayland.
+  OpenAL, PyQT5, SDL_sound, QScintilla, accountsservice, brotli, cfitsio,
+  cracklib, cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor,
+  espeak-ng, flite, freecell-solver, frei0r-plugins, grantlee-qt4,
+  hack-font-ttf, hyphen, id3lib, lensfun, libappindicator, libburn,
+  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput,
+  libpwquality, libsass, libwacom, libxkbcommon, mlt, ninja, noto-font-ttf,
+  noto-cjk-font-ttf, opencv, pcaudiolib, perl-path-tiny, perl-template-toolkit,
+  polkit-qt5-1, python-enum34, python3-random2, quazip, qca-qt5, qrencode,
+  qt-gstreamer, qt5, qt5-speech, qt5-webkit, qtav, rttr, sassc, sni-qt,
+  speech-dispatcher, vid.stab, wayland and woff2.
   As a side note, id3lib libinput libwacom and ninja have become part
   of Slackware-current.
   Technically that makes them redundant in the above listing, however I still
@@ -148,6 +149,9 @@ the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
 
+If you have my 'ktown' set of KDE 5_19.06 installed:
+- No further actions are needed.
+
 If you have my 'ktown' set of KDE 5_19.05 installed:
 - No further actions are needed.
 
@@ -225,83 +229,6 @@ If you have my 'ktown' set of KDE 5_17.07 installed:
 - No further actions are needed.
 
 If you have my 'ktown' set of KDE 5_17.06 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.05_02 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.05 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.04 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.03 installed:
-- Upgrade to KDE 5_17.04
-  Remove the packages that no longer exist in KDE 5_17.04:
-  # removepkg kajongg
-  # removepkg kommander
-  # removepkg pim-storage-service-manager
-
-If you have my 'ktown' set of KDE 5_17.02 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.01 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_16.12 installed:
-- Upgrade to KDE 5_17.01
-  If you are running Slackware-current, manually install or upgrade libinput
-  and libwacom to the Slackware versions.
-  Remove the packages that no longer exist in KDE 5_17.01:
-  # removepkg kactivities
-  # removepkg nepomuk
-  # removepkg nepomuk-widgets
-  # removepkg gpgmepp
-  # removepkg kdgantt2
-  # removepkg kde-baseapps kdepim kdewebdev
-
-If you have my 'ktown' set of KDE 5_16.11 installed:
-- Upgrade to KDE 5_16.12
-  Remove the packages that no longer exist in KDE 5_16.12:
-  # removepkg baloo
-  # removepkg baloo-widgets
-
-If you have my 'ktown' set of KDE 5_16.08 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_16.07 installed:
-- Upgrade to KDE 5_16.08
-  Remove the packages that no longer exist in KDE 5_16.07:
-  # removepkg kdegraphics-strigi-analyzer
-  # removepkg kdenetwork-strigi-analyzers
-  # rempovepkg kdesdk-strigi-analyzers
-  # removepkg kdepimlibs libkdeedu mplayerthumbs
-
-If you have my 'ktown' set of KDE 5_16.06 installed:
-- Upgrade to KDE 5_16.07
-  Remove the packages that no longer exist in KDE 5_16.07:
-  # removepkg /var/log/packages/noto-font-ttf-2015-09-29-noarch-1alien
-
-If you have my 'ktown' set of KDE 5_16.05 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_16.04 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_16.03 installed:
-- Upgrade to KDE 5_16.04
-  Remove the packages that no longer exist in KDE 5_16.04:
-  # removepkg kactivities-workspace
-  # removepkg kde-workspace
-
-If you have my 'ktown' set of KDE 5_16.02 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_16.01 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set older than KDE 5_16.01 installed:
 - Really?
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
@@ -386,6 +313,10 @@ A graphical (ncurses) tool for processing these "*.new" files is slackpkg:
   # slackpkg new-config
 
 Then reboot your system.
+IF this is the first time you run Plasma5, be aware that Baloo will
+tax your CPU fairly heavily for a while as it indexes the content of
+the files on your hard disk. After this initial indexing operation finishes,
+Ballo will get out of your way and stay there.
 
 If all you want is to install the packages I created, then you can skip the
 remainder of the README which details how to (re)compile the packages from
@@ -426,4 +357,4 @@ Reboot your computer and login to a Plasma session.
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 13-jun-2019
+                     Eric Hameleers / alien at slackware dot com / 13-jul-2019
