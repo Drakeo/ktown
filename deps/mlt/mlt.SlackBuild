@@ -27,7 +27,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=mlt
-VERSION=${VERSION:-6.14.0}
+VERSION=${VERSION:-6.16.0}
 BUILD=${BUILD:-1}
 
 PYTHONSITEPKG=$(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
@@ -103,6 +103,7 @@ CXXFLAGS="$SLKCFLAGS" \
   --enable-gpl \
   --enable-gpl3 \
   --enable-motion-est \
+  --enable-opencv \
   --enable-qt \
   --qt-libdir=$(pkg-config Qt5Core --variable=libdir) \
   --qt-includedir=$(pkg-config Qt5Core --variable=includedir) \
