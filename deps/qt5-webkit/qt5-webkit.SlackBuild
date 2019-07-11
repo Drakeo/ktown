@@ -25,9 +25,9 @@
 # Modifications for qt5-webkit 5.6.0, 5.6.1, 5.7.0, 5.7.1, 5.9.0, 5.9.1, 5.212 2016, 2017, 2018, 2019 by Eric  Hameleers, Eindhoven, NL
 
 PKGNAM=qt5-webkit
-SRCVER=${SRCVER:-"5.212.0-alpha2"}
+SRCVER=${SRCVER:-"5.212.0-alpha3"}
 VERSION=$(echo $SRCVER | tr - _)
-BUILD=${BUILD:-5}
+BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -82,9 +82,6 @@ echo "Extracting qtwebkit-$SRCVER.tar.xz"
 tar xf $CWD/qtwebkit-$SRCVER.tar.xz || exit 1
 cd qtwebkit-$SRCVER || exit 1
 
-# Prevent crashes when compiled with gcc7:
-cat $CWD/patches/qt5-webkit.gcc7.patch | patch -p1 --verbose || exit 1
-
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -111,7 +108,7 @@ cd build
   cmake .. \
     -DPORT=Qt \
     -DQt5_DIR=$QTDIR \
-    -DCMAKE_BUILD_TYPE=Release
+  || exit 1
   make ${NUMJOBS} || make || exit 1
   make install DESTDIR=$PKG || exit 1
 cd ..
@@ -123,16 +120,6 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 # Fix the path in prl files:
 find "$PKG/usr/lib${LIBDIRSUFFIX}" -type f -name '*.prl' \
   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d;s/\(QMAKE_PRL_LIBS =\).*/\1/' {} \;
-
-# Fix pkgconfig files:
-sed \
-  -e 's|qt5/Qt5WebKit|qt5/QtWebKit|' \
-  -e '/Name/a Description: Qt WebKit module' \
-  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKit.pc
-sed \
-  -e 's|qt5/Qt5WebKitWidgets|qt5/QtWebKitWidgets|' \
-  -e '/Name/a Description: Qt WebKitWidgets module' \
-  -i $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/Qt5WebKitWidgets.pc
 
 # Add a documentation directory:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
