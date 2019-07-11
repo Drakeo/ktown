@@ -27,7 +27,7 @@
 # Modified by Eric Hameleers <alien@slackware.com>
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.12.1}
+VERSION=${VERSION:-5.12.3}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
@@ -70,6 +70,10 @@ cd $TMP
 rm -rf ${PKGNAM}_gpl-$VERSION
 tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z* || exit 1
 cd ${PKGNAM}_gpl-$VERSION || exit 1
+
+# Remove code that is unneeded if Qt is not bundled and crashes on python2
+# https://www.riverbankcomputing.com/pipermail/pyqt/2019-July/041896.html
+cat $CWD/patches/pyqt5-python2-crash.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \
