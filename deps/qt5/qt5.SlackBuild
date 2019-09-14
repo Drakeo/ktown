@@ -63,16 +63,15 @@
 # Modifications for qt 5.12.1 2019 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.12.3 2019 by Eric  Hameleers, Eindhoven, NL
 # Modifications for qt 5.13.0 2019 by Eric  Hameleers, Eindhoven, NL
+# Modifications for qt 5.13.1 2019 by Eric  Hameleers, Eindhoven, NL
 
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
-VERSION=${VERSION:-5.13.0}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-5.13.1}
+BUILD=${BUILD:-1}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
-
-NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -128,6 +127,8 @@ case "$ARCH" in
     *)    TARGET=$ARCH-slackware-linux ;;
 esac
 
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-${PKGNAM}
 
@@ -157,15 +158,14 @@ fi
 # Fix path to mysql header:
 cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 
-# Fix freezes in KWin on hybrid NVIDIA systems (also solved in KWin 5.16.2):
+# Fix keyboard input in webengine:
 cd qtbase
-  cat $CWD/patches/qtbase-qxcbwindow.patch | patch -p1 --verbose || exit 1
+  cat $CWD/patches/qt5.qtbug-77364.patch | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 
-# Change the default compression back to zlib for backwards compatibility,
-# QTBUG-76521:
+# Fix hardcoded lib/ dir on x86_64:
 cd qtbase
-  cat $CWD/patches/qtbase-zlib-compression.patch | patch -p1 --verbose || exit 1
+  cat $CWD/patches/qt5.qtbug-76255.patch | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 
 # CMake generates wrong -isystem /usr/include compilations flags with Qt5::Gui
@@ -176,10 +176,6 @@ cd qtbase
   cat $CWD/patches/qt5.qtbase_cmake_isystem_includes.patch \
     | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
-
-# More quoting is needed (QTBUG-76244) to fix the error in kjsembed (at least):
-# "Error:string sub-command REGEX, mode REPLACE needs at least 6 arguments total to command."
-cat $CWD/patches/qt5.qt5uitoolsconfig.patch | patch -p1 --verbose || exit 1
 
 if ! pkg-config --exists libpulse 2>/dev/null ; then
   # Forcibly disable pulseaudio in qtwebengine:

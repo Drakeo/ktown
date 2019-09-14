@@ -25,11 +25,11 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5-speech
-SRCVER=${SRCVER:-"5.13.0"}
+SRCVER=${SRCVER:-"5.13.1"}
 VERSION=$(echo $SRCVER | tr - _)
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then

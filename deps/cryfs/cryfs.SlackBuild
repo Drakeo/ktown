@@ -27,8 +27,8 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryfs
-VERSION=${VERSION:-0.10.1}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-0.10.2}
+BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -81,7 +81,7 @@ cd $TMP
 rm -rf $PKGNAM-$VERSION
 mkdir $PKGNAM-$VERSION
 cd $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
 
 # Fix bogus permissions:
 chown -R root:root .

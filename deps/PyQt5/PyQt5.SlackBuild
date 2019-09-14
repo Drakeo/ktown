@@ -26,15 +26,11 @@
 # Modified by Robby Workman <rworkman@slackware.com>
 # Modified by Eric Hameleers <alien@slackware.com>
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.12.3}
+VERSION=${VERSION:-5.13.0}
 BUILD=${BUILD:-1}
-
-NUMJOBS=${NUMJOBS:-" -j$(nproc) "}
-
-CWD=$(pwd)
-TMP=${TMP:-/tmp}
-PKG=$TMP/package-$PKGNAM
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -61,7 +57,20 @@ else
   SLKCFLAGS="-O2"
 fi
 
-PYTHONLIB=$( python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$(echo $VERSION |tr - _)-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PKGNAM
+
+PYTHON2LIB=$( python2 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
 PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
 
 rm -rf $PKG
@@ -89,7 +98,7 @@ export QT5DIR=/usr/lib${LIBDIRSUFFIX}/qt5
 export CFLAGS="$SLKCFLAGS"
 export CXXFLAGS="$SLKCFLAGS"
 
-python configure.py \
+python2 configure.py \
   --confirm-license \
   --verbose \
   --qsci-api \
@@ -103,7 +112,7 @@ make -j1 install DESTDIR=$PKG INSTALL_ROOT=$PKG || exit 1
 mv $PKG/usr/bin/pyrcc5 $PKG/usr/bin/pyrcc5-py2
 mv $PKG/usr/bin/pyuic5 $PKG/usr/bin/pyuic5-py2
 mv $PKG/usr/bin/pylupdate5 $PKG/usr/bin/pylupdate5-py2
-rm -rf $PKG/$PYTHONLIB/${PKGNAM}/uic/port_v3/
+rm -rf $PKG/$PYTHON2LIB/${PKGNAM}/uic/port_v3/
 
 python3 configure.py \
   --confirm-license \
@@ -121,6 +130,13 @@ rm -rf $PKG/$PYTHON3LIB/${PKGNAM}/uic/port_v2/
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Remove rpaths:
+for file in $(find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+  if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+    patchelf --remove-rpath $file
+  fi
+done
 
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a \

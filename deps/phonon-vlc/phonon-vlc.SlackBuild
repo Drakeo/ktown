@@ -27,10 +27,8 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=phonon-vlc
 SRCNAM=phonon-backend-vlc
-VERSION=${VERSION:-0.10.2}
+VERSION=${VERSION:-0.11.0}
 BUILD=${BUILD:-1}
-
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -68,6 +66,8 @@ if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
   exit 0
 fi
 
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
@@ -75,7 +75,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $SRCNAM-$VERSION
-tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z || exit 1
 cd $SRCNAM-$VERSION || exit 1
 
 chown -R root:root .
@@ -86,8 +86,10 @@ find . \
  -exec chmod 644 {} \;
 
 echo Building ...
-mkdir -p build
-cd build
+
+# Qt5 is the only supported Qt as if 0.11.0:
+mkdir -p build-qt5
+cd build-qt5
   cmake \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
@@ -102,27 +104,6 @@ cd build
   make $NUMJOBS
   make DESTDIR=$PKG install
 cd -
-
-# Conditional build of Qt5 support:
-if qtpaths-qt5 --qt-version 1>/dev/null 2>/dev/null ; then
-  mkdir -p build-qt5
-  cd build-qt5
-    cmake \
-      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
-      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DMAN_INSTALL_DIR=/usr/man \
-      -DSYSCONF_INSTALL_DIR=/etc \
-      -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-      -DPHONON_BUILD_PHONON4QT5=ON \
-      ..
-    make $NUMJOBS
-    make DESTDIR=$PKG install
-  cd -
-fi
 
 # Add documentation:
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION

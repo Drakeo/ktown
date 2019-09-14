@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2017  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2017, 2019  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -22,14 +22,14 @@
 #   SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 
+cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=wayland-protocols
-VERSION=${VERSION:-1.12}
+VERSION=${VERSION:-1.18}
 BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:-" -j7 "}
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
@@ -44,12 +44,17 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
 # Set CFLAGS/CXXFLAGS and LIBDIRSUFFIX:
 if [ "$ARCH" = "i586" ]; then
-  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "i586" ]; then
-  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  SLKCFLAGS="-O2 -march=${ARCH} -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "s390" ]; then
   SLKCFLAGS="-O2"

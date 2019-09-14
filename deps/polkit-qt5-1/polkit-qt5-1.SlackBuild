@@ -20,14 +20,20 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Modified 2014, 2015, 2016, 2017 by Eric Hameleers <alien@slackware.com>
+# Modified 2014, 2015, 2016, 2017, 2019 by Eric Hameleers <alien@slackware.com>
 
+
+cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=polkit-qt5-1
-VERSION=${VERSION:-50624e0_20160719git}
-BUILD=${BUILD:-3}
+SRCNAM=polkit-qt-1
+VERSION=${VERSION:-0.113.0}
+BUILD=${BUILD:-1}
 
-NUMJOBS=${NUMJOBS:--j7}
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PKGNAM
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -40,14 +46,19 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-if [ "$ARCH" = "i486" ]; then
-  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "i586" ]; then
-  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=$ARCH -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "i686" ]; then
-  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  SLKCFLAGS="-O2 -march=$ARCH -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
@@ -61,20 +72,16 @@ else
 fi
 
 # Avoid a version number in .la files:
-if [ -d /usr/lib${LIBDIRSUFFIX}/qt ]; then
-  QTDIR=/usr/lib${LIBDIRSUFFIX}/qt
+if [ -d /usr/lib${LIBDIRSUFFIX}/qt5 ]; then
+  QTDIR=/usr/lib${LIBDIRSUFFIX}/qt5
 fi
-
-CWD=$(pwd)
-TMP=${TMP:-/tmp}
-PKG=$TMP/package-$PKGNAM
 
 rm -rf $PKG
 mkdir -p $TMP $PKG/usr
 cd $TMP
-rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
-cd $PKGNAM-$VERSION || exit 1
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z* || exit 1
+cd $SRCNAM-$VERSION || exit 1
 
 chown -R root:root .
 find . \
@@ -83,9 +90,7 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-# Autodetects the Qt version to use, preferring Qt 5 over Qt 4.
-# You can force a Qt 4 build passing -DUSE_QT4:bool=ON to CMake.
-
+# Support for Qt4 was removed in 0.113.0:
 mkdir -p build
 cd build
   cmake \
