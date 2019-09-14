@@ -1,7 +1,0 @@
-# How did this happen?
-sed -i \
-  -e 's,^Exec=.*,Exec=kdeconnectd,' \
-  $PKG/etc/kde/xdg/autostart/kdeconnectd.desktop
-
-
-
