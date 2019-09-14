@@ -1,37 +1,37 @@
 KDE5
 ====
 
-Here is KDE 5_19.07 for Slackware, consisting of the KDE
-Frameworks 5.60.0, Plasma 5.16.3 and Applications 19.04.3 on top of Qt 5.13.0.
+Here is KDE 5_19.09 for Slackware, consisting of the KDE
+Frameworks 5.62.0, Plasma 5.16.5 and Applications 19.08.1 on top of Qt 5.13.1.
 
-Upgrading from the previous 5_19.06 is relatively straight-forward.
+Upgrading from the previous 5_19.07 is relatively straight-forward.
 
-KDE-5_19.07 is meant to be installed on top of Slackware -current.
+KDE-5_19.09 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- In the 'deps' section there's lots of movement.
-  The qt5 package has been updated to 5.13.0 which meant several updates
-  to packages that depend on it: PyQt5, gpgme, sip, qt5-speech, qt5-webkit.
-  And in order to compile the new release of qt5-webkit I had to add two
-  new dependency packages: brotli and woff2.
-  The update of opencv to 4.1.0 is meant to make it match the version that
-  is available at slackbuilds.org (SBo). Unfortunately the face detection
-  code in the '4' series of opencv is incompatible with frei0r, so I had to
-  disable opencv support in the rebuilt frei0r package. This in turn may
-  affect functionality in digikam.
-  The mlt package was upgraded as well.
-- Frameworks 5.60.0 is an incremental stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.60.0.php
-- Plasma 5.16.3 is the the third increment in the 5.16 cycle of the desktop
-  part of KDE. It focuses on fixing bugs.
-  See https://www.kde.org/announcements/plasma-5.16.3.php
-- Applications 19.04.3 is a stability and bugfix update for the 19.04 cycle,
-  see https://www.kde.org/announcements/announce-applications-19.04.3.php
-- In applications-extra I updated krita and rebuilt digikam against the new
-  opencv.
+- Updates in the 'deps' section are as follows:
+  The qt5 and qt5-speech packages have been updated to 5.13.1,
+  PyQt5 was updated to 5.13.0 and there's a new official polkit-qt5-1 version
+  too: 0.113.0. The cryfs package was updated to 0.10.2 and the phonon layer
+  is now Qt5-only: phonon 4.11.0, phonon-gstreamer 4.10.0, phonon-vlc 0.11.0.
+  The telepathy deps have two updates: libsignon-glib and
+  telepathy-acccounts-signon.
+  Tell me if you actually use KDE Telepathy! I think it is a heroic but doomed
+  effort to create a voice & video capable IM framework for KDE. I am thinking
+  of completely removing it from my 'ktown' package set.
+- Frameworks 5.62.0 is an incremental stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.62.0.php
+- Plasma 5.16.5 is an incremental bugfix release in the 5.16 cycle of the
+  desktop part of KDE. See https://www.kde.org/announcements/plasma-5.16.5.php
+- In plasma-extra I updated kdeconnect-framework, latte-dock and wacomtablet.
+- Applications 19.08.1 is a stability and bugfix update for the 19.08 cycle,
+  see https://www.kde.org/announcements/announce-applications-19.08.1.php
+  Note that I never shipped the 19.08.0 release but its announcement contains
+  a lot of relevant info: https://kde.org/announcements/announce-applications-19.08.0.php
+- In applications-extra I updated krita, krusader and kstars.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -149,6 +149,9 @@ the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
 
+If you have my 'ktown' set of KDE 5_19.07 installed:
+- No further actions are needed.
+
 If you have my 'ktown' set of KDE 5_19.06 installed:
 - No further actions are needed.
 
@@ -170,65 +173,6 @@ If you have my 'ktown' set of KDE 5_18.10 installed:
   # removepkg kde-wallpapers
 
 If you have my 'ktown' set of KDE 5_18.09 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.08 installed:
-- Upgrade to KDE 5_18.09
-  Remove the packages that no longer exist in KDE 5_18.09:
-  # removepkg kpat
-
-If you have my 'ktown' set of KDE 5_18.07 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.06 or KDE 5_18.06_testing installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.05 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.04 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.03 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.02 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_18.01 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.12 installed:
-- Upgrade to KDE 5_18.01
-  Remove the packages that no longer exist in KDE 5_18.01:
-  # removepkg kdevplatform
-
-If you have my 'ktown' set of KDE 5_17.11 installed:
-- Upgrade to KDE 5_17.12
-  Remove the packages that no longer exist in KDE 5_17.12:
-  [applications]
-  # removepkg libkface blogilo jovie kaccessible ksaneplugin kde-runtime
-  # removepkg  kremotecontrol kppp kfilereplace klinkstatus kopete
-  [kde4]
-  # removepkg akonadi4 katepart4 kdepimlibs4 kfilemetadata konsolepart4
-  # removepkg korundum kross-interpreters libkdegames4 libkexiv2_4
-  # removepkg libkmahjongg4 libksane4 oktetapart4 perlkde perlqt pykde4
-  # removepkg qtruby smokegen smokekde smokeqt
-  [kde4-extragear]
-  # removepkg audiocd-kio4 kio-mtp libkcddb4 libkcompactdisc4
-  [kdei]
-  # removepkg /var/log/packages/kde-l10n-*
-
-If you have my 'ktown' set of KDE 5_17.10 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.09 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.07 installed:
-- No further actions are needed.
-
-If you have my 'ktown' set of KDE 5_17.06 installed:
 - Really?
 
 Then proceed with installing/upgrading KDE 5 as outlined below.
@@ -357,4 +301,4 @@ Reboot your computer and login to a Plasma session.
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 13-jul-2019
+                     Eric Hameleers / alien at slackware dot com / 13-sep-2019
