@@ -22,13 +22,17 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Modified 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019  Eric Hameleers, Eindhoven, NL
+# Renamed to phonon-qt4, 2019  Eric Hameleers, Eindhoven, NL
 
 
 cd $(dirname $0) ; CWD=$(pwd)
 
-PKGNAM=phonon
-VERSION=${VERSION:-4.11.0}
+PKGNAM=phonon-qt4
+SRCNAM=phonon
+VERSION=${VERSION:-4.10.2}
 BUILD=${BUILD:-1}
+
+NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -41,7 +45,10 @@ if [ -z "$ARCH" ]; then
   export ARCH
 fi
 
-if [ "$ARCH" = "i586" ]; then
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
   SLKCFLAGS="-O2 -march=i586 -mtune=i686"
   LIBDIRSUFFIX=""
 elif [ "$ARCH" = "i686" ]; then
@@ -66,17 +73,15 @@ if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
   exit 0
 fi
 
-NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
-
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
-cd $PKGNAM-$VERSION || exit 1
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z || exit 1
+cd $SRCNAM-$VERSION || exit 1
 
 chown -R root:root .
 find . \
@@ -92,9 +97,8 @@ else
   DOPULSE="OFF"
 fi
 
-# Qt5 is the only supported version as of 4.11.0:
-mkdir build-qt5
-cd build-qt5
+mkdir build
+cd build
   cmake \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
@@ -105,26 +109,16 @@ cd build-qt5
     -DPHONON_QT_PLUGIN_INSTALL_DIR=/usr/lib$LIBDIRSUFFIX/qt/plugins/designer \
     -DWITH_QZeitgeist=BOOL:OFF \
     -DWITH_PulseAudio=BOOL:${DOPULSE} \
-    -DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt5 \
     ..
   make $NUMJOBS || make || exit 1
   make install DESTDIR=$PKG || exit 1
 cd -
 
-# Compress and link manpages, if any:
-if [ -d $PKG/usr/man ]; then
-  ( cd $PKG/usr/man
-    for manpagedir in $(find . -type d -name "man*") ; do
-      ( cd $manpagedir
-        for eachpage in $( find . -type l -maxdepth 1) ; do
-          ln -s $( readlink $eachpage ).gz $eachpage.gz
-          rm $eachpage
-        done
-        gzip -9 *.*
-      )
-    done
-  )
-fi
+# Conflicts with Qt5 based newer phonon:
+rm -rf $PKG/usr/share/icons
+
+# PyQT won't find the header files otherwise:
+sed -i -e 's#{includedir}$#& -I\${includedir}/phonon#' $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/phonon.pc
 
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a doc/{BUGS,IDEAS,TODO} $PKG/usr/doc/$PKGNAM-$VERSION

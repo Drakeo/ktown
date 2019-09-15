@@ -33,6 +33,8 @@ ALLDEPS=" \
   qt-gstreamer \
   phonon \
   phonon-gstreamer \
+  phonon-qt4 \
+  phonon-qt4-gstreamer \
   python-enum34 \
   pyxdg \
   pcaudiolib \
