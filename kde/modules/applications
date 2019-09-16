@@ -2,6 +2,7 @@
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
+kipi-plugins
 libkexiv2
 libkdcraw
 libksane
