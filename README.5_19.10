@@ -1,37 +1,38 @@
 KDE5
 ====
 
-Here is KDE 5_19.09 for Slackware, consisting of the KDE
-Frameworks 5.62.0, Plasma 5.16.5 and Applications 19.08.1 on top of Qt 5.13.1.
+Here is KDE 5_19.10 for Slackware, consisting of the KDE
+Frameworks 5.63.0, Plasma 5.17.0 and Applications 19.08.2 on top of Qt 5.13.1.
 
-Upgrading from the previous 5_19.07 is relatively straight-forward.
+Upgrading from the previous 5_19.09 is relatively straight-forward.
 
-KDE-5_19.09 is meant to be installed on top of Slackware -current.
+KDE-5_19.10 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- Updates in the 'deps' section are as follows:
-  The qt5 and qt5-speech packages have been updated to 5.13.1,
-  PyQt5 was updated to 5.13.0 and there's a new official polkit-qt5-1 version
-  too: 0.113.0. The cryfs package was updated to 0.10.2 and the phonon layer
-  is now Qt5-only: phonon 4.11.0, phonon-gstreamer 4.10.0, phonon-vlc 0.11.0.
-  The telepathy deps have two updates: libsignon-glib and
-  telepathy-acccounts-signon.
-  Tell me if you actually use KDE Telepathy! I think it is a heroic but doomed
-  effort to create a voice & video capable IM framework for KDE. I am thinking
-  of completely removing it from my 'ktown' package set.
-- Frameworks 5.62.0 is an incremental stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.62.0.php
-- Plasma 5.16.5 is an incremental bugfix release in the 5.16 cycle of the
-  desktop part of KDE. See https://www.kde.org/announcements/plasma-5.16.5.php
-- In plasma-extra I updated kdeconnect-framework, latte-dock and wacomtablet.
-- Applications 19.08.1 is a stability and bugfix update for the 19.08 cycle,
-  see https://www.kde.org/announcements/announce-applications-19.08.1.php
-  Note that I never shipped the 19.08.0 release but its announcement contains
-  a lot of relevant info: https://kde.org/announcements/announce-applications-19.08.0.php
-- In applications-extra I updated krita, krusader and kstars.
+- A few updates in the 'deps' section - the cracklib package got a version
+  bump, and the latest phonon and phonon-vlc releases have been packaged.
+  The telepathy dependencies have been removed completely,
+  Indeed, the feedback on my question in the README for last month's 'ktown'
+  release made clear that no one uses KDE Telepathy.  For me it never worked,
+  so this month we say good-bye to KDE Telepathy and its dependencies.
+- Frameworks 5.63.0 is an incremental stability release, see:
+  https://www.kde.org/announcements/kde-frameworks-5.63.0.php - but also adds
+  two new packages. Kcalcore and kcontacts have moved from KDEPIM to the
+  KDE Frameworks. Also, kcalcore was renamed to kcalendarcore.
+- Plasma 5.17.0 is a the first release of the 5.17 cycle of the
+  desktop part of KDE. See https://www.kde.org/announcements/plasma-5.17.0.php
+- In plasma-extra I updated latte-dock.
+- Applications 19.08.2 is a stability and bugfix update for the 19.08 cycle,
+  see https://www.kde.org/announcements/announce-applications-19.08.2.php
+- In applications-extra I updated digikam, libktorrent, ktorrent, alkimia,
+  kmymoney, kpmcore, krita, okteta, and the development suite kdevelop,
+  kdev-php, and and kdev-python.
+- The telepathy packages are no longer included as of now.  Check further
+  down in this README for the 'removepkg' commands you can use to remove
+  the now obsoleted Telepathy packages and their dependencies.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -48,9 +49,8 @@ Further points of interest:
   Since KDE 5 aka Plasma 5 is built on Qt5 (KDE 4 uses Qt4 as its base)
   you'll find many Qt5 related packages.  Also, in order for Qt4 and GTK based
   applications to dock into the Plasma 5 system tray, more dependencies were
-  needed.  So, apart from updates to regular Slackware packages and the
-  new telepathy support packages (see below), these are the new ones:
-  OpenAL, PyQT5, SDL_sound, QScintilla, accountsservice, brotli, cfitsio,
+  needed.  Apart from updates to regular Slackware packages the new ones are:
+  OpenAL, PyQt5, SDL_sound, QScintilla, accountsservice, brotli, cfitsio,
   cracklib, cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor,
   espeak-ng, flite, freecell-solver, frei0r-plugins, grantlee-qt4,
   hack-font-ttf, hyphen, id3lib, lensfun, libappindicator, libburn,
@@ -68,14 +68,6 @@ Further points of interest:
   Qt5 as well as Qt4. The gpgme package picked up Qt5 support.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
   If you have that SBo package installed, remove it.
-- A completely new subset of "deps" packages, contained in their own
-  "telepathy" subdirectory, needed for KDE Telepathy:
-  libotr, libnice, farstream, libaccounts-glib, libaccounts-qt5,
-  signon, signon-plugin-oauth2, signon-ui, libsignon-glib, telegram-qt,
-  telepathy-glib, telepathy-farstream, telepathy-haze, telepathy-gabble,
-  telepathy-morse, telepathy-qt5, telepathy-logger, telepathy-logger-qt5,
-  telepathy-mission-control and telepathy-accounts-signon.
-- Telepathy for KDE packages are found in their own subdirectory kde/telepathy .
 - KDEI is gone. The localizations are now embedded in each package and
   no longer available as separate 'kdei' packages. This is a by design.
   You will get all languages installed by default.
@@ -148,6 +140,46 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_19.09 installed:
+- Upgrade to KDE 5_19.10
+  Remove the packages that no longer exist in KDE 5_19.10:
+  # removepkg kcalcore
+  # removepkg farstream \
+              libaccounts-glib \
+              libaccounts-qt5 \
+              libnice \
+              libotr \
+              libsignon-glib \
+              signon \
+              signon-plugin-oauth2 \
+              signon-ui \
+              telegram-qt \
+              telepathy-accounts-signon \
+              telepathy-farstream \
+              telepathy-gabble \
+              telepathy-glib \
+              telepathy-haze \
+              telepathy-logger \
+              telepathy-logger-qt5 \
+              telepathy-mission-control \
+              telepathy-morse \
+              telepathy-qt5
+  # removepkg kaccounts-integration \
+              kaccounts-providers \
+              ktp-accounts-kcm \
+              ktp-approver \
+              ktp-auth-handler \
+              ktp-call-ui \
+              ktp-common-internals \
+              ktp-contact-list \
+              ktp-contact-runner \
+              ktp-desktop-applets \
+              ktp-filetransfer-handler \
+              ktp-kded-module \
+              ktp-send-file \
+              ktp-text-ui \
+              signon-kwallet-extension
 
 If you have my 'ktown' set of KDE 5_19.07 installed:
 - No further actions are needed.
@@ -229,12 +261,10 @@ From within this directory, you run the following commands as root:
 
   On Slackware 32-bit:
   # upgradepkg --reinstall --install-new x86/deps/*.t?z
-  # upgradepkg --reinstall --install-new x86/deps/telepathy/*.t?z
   # upgradepkg --reinstall --install-new x86/kde/*/*.t?z
 
   On Slackware 64-bit:
   # upgradepkg --reinstall --install-new x86_64/deps/*.t?z
-  # upgradepkg --reinstall --install-new x86_64/deps/telepathy/*.t?z
   # upgradepkg --reinstall --install-new x86_64/kde/*/*.t?z
 
 NOTE:
@@ -283,9 +313,6 @@ dependencies on Slackware-current is hopefully (have not tested the scripts
   # cd latest/deps
   # ./updates.SlackBuild
   # cd -
-  # cd latest/deps/telepathy
-  # ./telepathy.SlackBuild
-  # cd -
 
 Be prepared to wait a *long* time since this will compile a new Qt5 package
 among others.  The finished packages will be stored in /tmp and will already
@@ -301,4 +328,4 @@ Reboot your computer and login to a Plasma session.
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 13-sep-2019
+                     Eric Hameleers / alien at slackware dot com / 13-oct-2019
