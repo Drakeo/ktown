@@ -29,6 +29,8 @@ prison
 kirigami2
 syntax-highlighting
 kholidays
+kcalendarcore
+kcontacts
 # Tier 2, depends on Tier 1, Qt5, system libraries:
 breeze-icons
 kapidox
