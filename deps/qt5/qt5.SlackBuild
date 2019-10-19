@@ -69,7 +69,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.13.1}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
@@ -174,6 +174,12 @@ cd - 1>/dev/null
 # See also https://bugzilla.redhat.com/1704474
 cd qtbase
   cat $CWD/patches/qt5.qtbase_cmake_isystem_includes.patch \
+    | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
+
+# Make qtwebengine compile against pulseaudio 13,
+cd qtwebengine/src/3rdparty
+  cat $CWD/patches/qt5.qtbug-77037.patch \
     | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 

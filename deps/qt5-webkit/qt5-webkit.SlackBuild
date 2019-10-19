@@ -27,7 +27,7 @@
 PKGNAM=qt5-webkit
 SRCVER=${SRCVER:-"5.212.0-alpha3"}
 VERSION=$(echo $SRCVER | tr - _)
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 
 NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
 
@@ -82,6 +82,9 @@ echo "Extracting qtwebkit-$SRCVER.tar.xz"
 tar xf $CWD/qtwebkit-$SRCVER.tar.xz || exit 1
 cd qtwebkit-$SRCVER || exit 1
 
+# Fix compilation against icu4c 65.1:
+cat $CWD/patches/qt5-webkit.icu65.patch | patch -p0 --verbose || exit 1
+
 chown -R root:root .
 find . \
  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -98,8 +101,8 @@ else
 fi
 
 export CFLAGS="$SLKCFLAGS"
-export CXXFLAGS="$SLKCFLAGS -fpermissive"
-export OPENSOURCE_CXXFLAGS="$SLKCFLAGS -fpermissive"
+export CXXFLAGS="$SLKCFLAGS -fpermissive -fno-strict-aliasing"
+export OPENSOURCE_CXXFLAGS="$SLKCFLAGS -fpermissive -fno-strict-aliasing"
 export QTDIR="/usr/lib$LIBDIRSUFFIX/qt5"
 export LD_LIBRARY_PATH="${QTDIR}/qtbase/lib:${QTDIR}/qttools/lib:${LD_LIBRARY_PATH}"
   
