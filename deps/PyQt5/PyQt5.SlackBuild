@@ -29,7 +29,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=PyQt5
-VERSION=${VERSION:-5.13.0}
+VERSION=${VERSION:-5.13.2}
 BUILD=${BUILD:-1}
 
 # Automatically determine the architecture we're building on:
@@ -76,9 +76,9 @@ PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf ${PKGNAM}_gpl-$VERSION
-tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z* || exit 1
-cd ${PKGNAM}_gpl-$VERSION || exit 1
+rm -rf ${PKGNAM}-$VERSION
+tar xvf $CWD/${PKGNAM}-$VERSION.tar.?z* || exit 1
+cd ${PKGNAM}-$VERSION || exit 1
 
 # Remove code that is unneeded if Qt is not bundled and crashes on python2
 # https://www.riverbankcomputing.com/pipermail/pyqt/2019-July/041896.html
