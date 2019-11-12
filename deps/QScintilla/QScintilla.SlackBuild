@@ -28,7 +28,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=QScintilla
-VERSION=${VERSION:-2.11.2}
+VERSION=${VERSION:-2.11.3}
 BUILD=${BUILD:-1}
 
 NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
@@ -75,9 +75,9 @@ fi
 rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
-rm -rf ${PKGNAM}_gpl-$VERSION
-tar xvf $CWD/${PKGNAM}_gpl-$VERSION.tar.?z || exit 1
-cd ${PKGNAM}_gpl-$VERSION || exit 1
+rm -rf ${PKGNAM}-$VERSION
+tar xvf $CWD/${PKGNAM}-$VERSION.tar.?z || exit 1
+cd ${PKGNAM}-$VERSION || exit 1
 
 # Fix compilation:
 cat $CWD/patches/QScintilla_qsciscintillabase_qurl.diff | patch -p1 --verbose || exit 1
