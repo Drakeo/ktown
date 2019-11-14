@@ -1,0 +1,4 @@
+# Fix crashes in systemsettings5 when visiting the second icon.
+# Should be fixed post kirigami2 5.64.0):
+cat $CWD/patch/kirigami2/kirigami_iconview_crash.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
