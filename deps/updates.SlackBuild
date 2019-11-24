@@ -42,7 +42,6 @@ ALLDEPS=" \
   dotconf \
   flite \
   speech-dispatcher \
-  qt5-speech \
   sip \
   PyQt \
   PyQt5 \
@@ -60,7 +59,6 @@ ALLDEPS=" \
   libdmtx \
   qrencode \
   libproxy \
-  telepathy \
   hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
