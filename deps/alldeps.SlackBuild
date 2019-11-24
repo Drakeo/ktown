@@ -15,10 +15,7 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   extra-cmake-modules \
-  ninja \
   sni-qt \
-  libwacom \
-  libinput \
   libxkbcommon \
   wayland \
   hyphen \
@@ -52,15 +49,12 @@ ALLDEPS=" \
   grantlee \
   grantlee-qt4 \
   poppler \
-  json-glib \
   libdbusmenu-gtk \
   libindicator \
   libappindicator \
   cfitsio \
-  lmdb \
   libdmtx \
   qrencode \
-  libproxy \
   hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
