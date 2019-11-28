@@ -25,7 +25,6 @@ ALLDEPS=" \
   qt5-webkit \
   SDL_sound \
   OpenAL \
-  qt-gstreamer \
   qjson \
   phonon \
   phonon-gstreamer \
@@ -86,8 +85,6 @@ ALLDEPS=" \
   "
   # Only needed when adding support for Wayland:
   #elogind \
-  # Not needed, conflicts with qt-gstreamer files
-  #qt-gstreamer0 \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

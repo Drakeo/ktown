@@ -27,7 +27,6 @@ ALLDEPS=" \
   qt5-webkit \
   qca-qt5 \
   libdbusmenu-qt5 \
-  qt-gstreamer \
   phonon \
   phonon-gstreamer \
   phonon-qt4 \
@@ -84,8 +83,6 @@ ALLDEPS=" \
   "
   # Only needed when adding support for Wayland:
   #elogind \
-  # Not needed, conflicts with qt-gstreamer files
-  #qt-gstreamer0 \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then
