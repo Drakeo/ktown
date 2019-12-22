@@ -1,37 +1,36 @@
 KDE5
 ====
 
-Here is KDE 5_19.11 for Slackware, consisting of the KDE
-Frameworks 5.64.0, Plasma 5.17.2 and Applications 19.08.3 on top of Qt 5.13.2.
+Here is KDE 5_19.12 for Slackware, consisting of the KDE
+Frameworks 5.65.0, Plasma 5.17.3 and Applications 19.12.0 on top of Qt 5.13.2.
 
-Upgrading from the previous 5_19.10 is relatively straight-forward.
+Upgrading from the previous 5_19.11 is relatively straight-forward.
 
-KDE-5_19.11 is meant to be installed on top of Slackware -current.
+KDE-5_19.12 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- This month's updates to the 'deps' are: qt5 and PyQt5.
-  Fresh additions are: LibRaw and exiv2. These are stock Slackware packages
-  and the two are being upgraded ahead of Slackware, so that the Plasma5
-  packages can pick them up. Pat added the shared libs for the older
-  releases to 'aaa_elflibs' so that none of the Slackware packages will
-  break when you install this month's Plasma5 packages.
-  And I have removed qt5-speech because I overlooked that this is already
-  part of the big qt5 package.
-- I rebuilt kdelibs in the KDE4 section, just like Pat did for Slackware.
-  This removes hardcoded TLSv1 allowing TLSv1.1 and TLSv1.2.
-- Frameworks 5.64.0 is an incremental stability release, see:
-  https://www.kde.org/announcements/kde-frameworks-5.64.0.php
-- Plasma 5.17.2 is a an incremental bug-fix release in the 5.17 cycle of the
-  KDE desktop environment. See https://www.kde.org/announcements/plasma-5.17.2.php
-- In plasma-extra I updated latte-dock.
-- Applications 19.08.3 is a stability and bugfix update for the 19.08 cycle,
-  see https://www.kde.org/announcements/announce-applications-19.08.3.php
-- In applications-extra I updated digikam, kile (finally 3.0 beta 3!), kstars
-  and kdevelop-pg-qt, kdevelop, kdev-php, kdev-python. Due to the new exiv2
-  and LibRaw I rebuilt krename and krita.
+- This month's updates to the 'deps' are: I removed qt-gstreamer since there
+  is no other package which depends on it anymore (telepathy-kde-call-ui was
+  the only one, but that one got removed earlier).
+  I upgraded lensfun, mlt and sip. and I added a new package 'md4c' which is
+  a dependency for Qt 5.14. However, eventually I decided not to upgrade my
+  'qt5' package because not all software is ready for Qt 5.14 yet.
+- Frameworks 5.65.0 is an incremental stability release, and it adds one new
+  package (kquickcharts), see also:
+  https://www.kde.org/announcements/kde-frameworks-5.65.0.php
+- Plasma 5.17.3 is a an incremental bug-fix release in the 5.17 cycle of the
+  KDE desktop environment. See https://www.kde.org/announcements/plasma-5.17.3.php
+- In plasma-extra I updated latte-dock and kdeconnect-framework. The latter
+  depends on the two new packages that I have added to plasma-extra:
+  pulseaudio-qt and kpeoplevcard. 
+- Applications 19.12.0 is the start of the 19.12 cycle for what has been
+  re-branded from "Applications" to "Releases". There's a new application in
+  there: 'elisa'.
+  See https://kde.org/announcements/releases/19.12/
+- In applications-extra I updated calligraplan, krita and kstars.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -53,16 +52,12 @@ Further points of interest:
   cracklib, cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor,
   espeak-ng, flite, freecell-solver, frei0r-plugins, grantlee-qt4,
   hack-font-ttf, hyphen, id3lib, lensfun, libappindicator, libburn,
-  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator, libinput,
-  libpwquality, libsass, libwacom, libxkbcommon, mlt, ninja, noto-font-ttf,
+  libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator,
+  libpwquality, libsass, libxkbcommon, md4c, mlt, noto-font-ttf,
   noto-cjk-font-ttf, opencv, pcaudiolib, perl-path-tiny, perl-template-toolkit,
   polkit-qt5-1, python-enum34, python3-random2, quazip, qca-qt5, qrencode,
-  qt-gstreamer, qt5, qt5-webkit, qtav, rttr, sassc, sni-qt,
-  speech-dispatcher, vid.stab, wayland and woff2.
-  As a side note, id3lib libinput libwacom and ninja have become part
-  of Slackware-current.
-  Technically that makes them redundant in the above listing, however I still
-  provide older Plasma5 packages for Slackware 14.2 so I left them in.
+  qt5, qt5-webkit, qtav, rttr, sassc, sni-qt, speech-dispatcher,
+  vid.stab, wayland and woff2.
   The phonon and poppler packages were extended so that they now support
   Qt5 as well as Qt4. The gpgme package picked up Qt5 support.
   Note that the SBo version of 'frei0r-plugins' package is called 'frei0r'.
@@ -139,6 +134,11 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_19.11 installed:
+- Upgrade to KDE 5_19.12
+  Remove the packages that no longer exist in KDE 5_19.12:
+  # removepkg qt-gstreamer
 
 If you have my 'ktown' set of KDE 5_19.10 installed:
 - Upgrade to KDE 5_19.11
@@ -324,4 +324,4 @@ Reboot your computer and login to a Plasma session.
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 11-nov-2019
+                     Eric Hameleers / alien at slackware dot com / 22-dec-2019
