@@ -15,6 +15,7 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   extra-cmake-modules \
+  md4c \
   sni-qt \
   libxkbcommon \
   wayland \
