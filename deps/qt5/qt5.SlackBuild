@@ -70,7 +70,7 @@ cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=qt5
 VERSION=${VERSION:-5.13.2}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 PKGSRC=$(echo $VERSION |cut -d- -f1)
 PKGVER=$(echo $VERSION |tr - _)
 
@@ -165,6 +165,18 @@ cat $CWD/patches/qt5.mysql.h.diff | patch -p1 --verbose || exit 1
 # See also https://bugzilla.redhat.com/1704474
 cd qtbase
   cat $CWD/patches/qt5.qtbase_cmake_isystem_includes.patch \
+    | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
+
+# CVE-2020-0569 (fixed in 5.14.0):
+cd qtbase
+  cat $CWD/patches/qt5.cve-2020-0569.patch \
+    | patch -p1 --verbose || exit 1
+cd - 1>/dev/null
+
+# CVE-2020-0570 (fixed in 5.14.1):
+cd qtbase
+  cat $CWD/patches/qt5.cve-2020-0570.patch \
     | patch -p1 --verbose || exit 1
 cd - 1>/dev/null
 
