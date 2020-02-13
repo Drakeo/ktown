@@ -1,8 +1,22 @@
-# Remove PAM related stuff:
-rm -rf $PKG/etc/pam.d
+if [ "$SLACKPAM" == "no" ]; then
+  # Remove PAM related stuff:
+  rm -rf $PKG/etc/pam.d
+else
+  # Replace systemd-centric files with ours:
+  rm -f $PKG/etc/pam.d/sddm*
+  for FILE in sddm sddm-autologin sddm-greeter ; do
+    install -Dm644 $CWD/post-install/sddm-qt5/pam.d/$FILE $PKG/etc/pam.d/$FILE
+  done
+fi
 
 # Remove the sddm.conf file because we will generate our own in doinst.sh:
 rm -f $PKG/etc/sddm.conf
+
+# Ensure that user customizations to the session files are not lost:
+mv $PKG/usr/share/sddm/scripts/Xsession{,.new}
+mv $PKG/usr/share/sddm/scripts/Xsetup{,.new}
+mv $PKG/usr/share/sddm/scripts/Xstop{,.new}
+mv $PKG/usr/share/sddm/scripts/wayland-session{,.new}
 
 # Add a wrapper for the sddm binary, to enable a custom environment:
 mv $PKG/usr/bin/sddm $PKG/usr/bin/sddm.bin
