@@ -1,34 +1,44 @@
+TODO
+====
+
+Remove SDL_sound
+Install openconnect
+
+
 KDE5
 ====
 
-Welcome to 2020! Still going strong outside of Slackware core.
-Here is KDE 5_20.01 for Slackware, consisting of the KDE
-Frameworks 5.66.0, Plasma 5.17.5 and Applications 19.12.1 on top of Qt 5.13.2.
+The first Plasma5 release with PAM (in the 'testing' repo)!
+Note that the regular 'latest' ktown repository is still meant to be used
+with the regular non-pam Slackware!
 
-Upgrading from the previous 5_19.12 is relatively straight-forward.
+Here is KDE 5_20.02 for Slackware, consisting of KDE Frameworks 5.67.0,
+Plasma 5.18.0 and Applications 19.12.2 on top of Qt 5.13.2.
 
-KDE-5_20.01 is meant to be installed on top of Slackware -current.
+Upgrading from the previous 5_20.01 is relatively straight-forward.
+
+KDE-5_20.02 is meant to be installed on top of Slackware -current.
 It will *replace* any version of KDE 4 you might have installed!
 The Plasma 5 Desktop has gotten rid of its Qt4 legacy.  Since the release of
 Applications 17.12 there's nothing left which is based on kdelibs4.
 
 What is the NEWS in this batch of updates:
-- This month's updates to the 'deps': I patched the Qt5 package to address
-  two security issues. And I updated the noto-cjk-font-ttf package to fix
-  a file permission issue and to add a Serif font as well.
-- Frameworks 5.66.0 is an incremental stability release, see also:
-  https://www.kde.org/announcements/kde-frameworks-5.66.0.php
-- Plasma 5.17.5 is a an incremental bug-fix release and the last in the
-  5.17 cycle of the KDE desktop environment. Next release (5.18) will get
-  Long Term Support (aka LTS release).
-  See https://www.kde.org/announcements/plasma-5.17.5.php
-- In plasma-extra I updated sddm-qt5.
-- Applications 19.12.1 is a bug-fix increment in the 19.12 cycle of the
+- The Plasma5 in my 'testing' repository has been compiled against the
+  new PAM in Slackware-current's aptly called '/testing' area. 
+  The following packages will pick up PAM support:
+    plasma:kscreenlocker,plasma-workspace,kwallet-pam
+    plasma-extra:sddm-qt5
+- Frameworks 5.67.0 is an incremental stability release, see also:
+  https://www.kde.org/announcements/kde-frameworks-5.67.0.php
+- Plasma 5.18.0 is the first release of the new 5.18 Long Term Support cycle.
+  See https://www.kde.org/announcements/plasma-5.18.0.php
+- In plasma-extra I updated latte-dock and rebuilt sddm-qt5.
+  I also removed the obsoleted (kdelibs4 based) polkit-kde-kcmodules-framework.
+- Applications 19.12.2 is a bug-fix increment in the 19.12 cycle of the
   KDE Application Releases.
-  See https://kde.org/announcements/releases/19.12.1/
-- In applications-extra I updated alkimia, kmymoney, kstars, kdevelop,
-  kdev-php and kdev-python. I also added one new package: ktimetracker
-  which was finally ported to KF5.
+  See https://kde.org/announcements/releases/19.12.2/
+- In applications-extra I updated kdevelop-pg-qt, kdevelop, kdev-php
+  and kdev-python.
 
 Further points of interest:
 - If you have a KDE4-based application that needs library support on this
@@ -47,7 +57,7 @@ Further points of interest:
   applications to dock into the Plasma 5 system tray, more dependencies were
   needed.  Apart from updates to regular Slackware packages the new ones are:
   OpenAL, PyQt5, SDL_sound, QScintilla, accountsservice, brotli, cfitsio,
-  cracklib, cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor,
+  cryptopp, cryfs, ddcutil, dotconf, drumstick, dvdauthor,
   espeak-ng, flite, freecell-solver, frei0r-plugins, grantlee-qt4,
   hack-font-ttf, hyphen, id3lib, lensfun, libappindicator, libburn,
   libdbusmenu-gtk, libdbusmenu-qt5, libdmtx, libindicator,
@@ -132,6 +142,11 @@ paragraph.  Note that some of the old KDE package names were obsoleted along
 the way, they were split up, renamed or integrated and that is the reason
 for some of the 'removepkg' lines you'll see below.
 Here we go:
+
+If you have my 'ktown' set of KDE 5_20.01 installed:
+- Upgrade to KDE 5_20.02
+  Remove the packages that no longer exist in KDE 5_20.02:
+  # removepkg polkit-kde-kcmodules-framework
 
 If you have my 'ktown' set of KDE 5_19.12 installed:
 - No further actions are needed.
@@ -325,4 +340,4 @@ Reboot your computer and login to a Plasma session.
 
 
 ==============================================================================
-                     Eric Hameleers / alien at slackware dot com / 21-jan-2020
+                     Eric Hameleers / alien at slackware dot com / 11-feb-2020
