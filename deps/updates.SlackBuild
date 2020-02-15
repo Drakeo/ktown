@@ -77,6 +77,7 @@ ALLDEPS=" \
   sassc \
   rttr \
   quazip \
+  socat \
   "
   # Only needed when adding support for Wayland:
   #elogind \
