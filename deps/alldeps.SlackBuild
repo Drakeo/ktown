@@ -17,15 +17,11 @@ ALLDEPS=" \
   extra-cmake-modules \
   md4c \
   sni-qt \
-  libxkbcommon \
   wayland \
   hyphen \
   brotli \
   woff2 \
-  qt5 \
   qt5-webkit \
-  SDL_sound \
-  OpenAL \
   qjson \
   phonon \
   phonon-gstreamer \

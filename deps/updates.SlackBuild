@@ -17,14 +17,10 @@ ALLDEPS=" \
   extra-cmake-modules \
   md4c \
   sni-qt \
-  SDL_sound \
-  OpenAL \
-  libxkbcommon \
   wayland \
   brotli \
   woff2 \
   hyphen \
-  qt5 \
   qt5-webkit \
   qca-qt5 \
   libdbusmenu-qt5 \
