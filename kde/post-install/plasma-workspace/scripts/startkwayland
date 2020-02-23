@@ -1,4 +1,9 @@
 #!/bin/sh
 
 # Start KWin as a Plasma 5 Wayland session
-ck-launch-session dbus-launch --sh-syntax --exit-with-session /usr/bin/startplasmacompositor
+# Choose correct options depending on whether PAM is installed:
+if [ -L /lib${LIBDIRSUFFIX}/libpam.so.? ]; then
+  dbus-launch --sh-syntax --exit-with-session /usr/bin/startplasma-wayland
+else
+  ck-launch-session dbus-launch --sh-syntax --exit-with-session /usr/bin/startplasma-wayland
+fi
