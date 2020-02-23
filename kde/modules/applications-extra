@@ -24,8 +24,8 @@ kwebkitpart
 oxygen-gtk2
 # kdev-python requires python3:
 kdev-python
-yakuake
 alkimia
 kmymoney
 okteta
 krename
+ktimetracker

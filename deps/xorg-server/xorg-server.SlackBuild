@@ -139,6 +139,7 @@ CFLAGS="$SLKCFLAGS" \
   --with-module-dir=/usr/lib${LIBDIRSUFFIX}/xorg/modules \
   --with-os-name="Slackware 15.0" \
   --with-os-vendor="Slackware Linux Project" \
+  --with-shared-memory-dir=/dev/shm \
   --with-xkb-path=/etc/X11/xkb \
   --with-xkb-output=/var/lib/xkb \
   $BUILD_SERVERS \

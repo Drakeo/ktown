@@ -21,7 +21,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-# Modified 2016, 2017, 2018 by Eric Hameleers <alien@slackware.com>
+# Modified 2016, 2017, 2018, 2020 by Eric Hameleers <alien@slackware.com>
 
 cd $(dirname $0) ; CWD=$(pwd)
 

@@ -2,6 +2,7 @@
 #
 # Some of the kdegraphics needs to be compiled first:
 libkipi
+kipi-plugins
 libkexiv2
 libkdcraw
 libksane
@@ -80,6 +81,7 @@ ffmpegthumbs
 kwave
 k3b
 kamoso
+elisa
 
 # kdenetwork:
 kdenetwork-filesharing
@@ -177,4 +179,7 @@ kdenlive
 
 # kdewebdev remnant:
 kimagemapeditor
+
+# New in 19.08:
+yakuake
 

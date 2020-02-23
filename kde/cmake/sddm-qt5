@@ -1,8 +1,13 @@
-# Switch the two booleans USE_QT4 and USE_QT5 to build a Qt4 version instead.
+if [ "$SLACKPAM" == "no" ]; then
+  DO_SLACKPAM="-DENABLE_PAM:BOOL=OFF"
+else
+  DO_SLACKPAM=""
+fi
 
 mkdir -p build
 cd build
   cmake \
+    $DO_SLACKPAM \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
     -DCMAKE_C_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
@@ -13,6 +18,5 @@ cd build
     -DUSE_QT4:BOOL=FALSE \
     -DUSE_QT5:BOOL=TRUE \
     -DENABLE_JOURNALD:BOOL=OFF \
-    -DENABLE_PAM:BOOL=OFF \
     ..
 

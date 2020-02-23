@@ -9,24 +9,25 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 # merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
-    xrdb -merge $sysresources
+  xrdb -merge $sysresources
 fi
 
 if [ -f $sysmodmap ]; then
-    xmodmap $sysmodmap
+  xmodmap $sysmodmap
 fi
 
 if [ -f $userresources ]; then
-    xrdb -merge $userresources
+  xrdb -merge $userresources
 fi
 
 if [ -f $usermodmap ]; then
-    xmodmap $usermodmap
+  xmodmap $usermodmap
 fi
 
 # Start the window manager:
 if [ -z "$DESKTOP_SESSION" -a -x /usr/bin/ck-launch-session ]; then
-    ck-launch-session dbus-launch --sh-syntax --exit-with-session startkde
+  ck-launch-session dbus-launch --sh-syntax --exit-with-session startplasma-x11
 else
-    dbus-launch --sh-syntax --exit-with-session startkde
+  dbus-launch --sh-syntax --exit-with-session startplasma-x11
 fi
+

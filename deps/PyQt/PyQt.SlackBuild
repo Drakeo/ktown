@@ -63,7 +63,7 @@ if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
   exit 0
 fi
 
-NUMJOBS=${NUMJOBS:-"-j$(nproc)"}
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -76,7 +76,7 @@ mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 
 rm -rf ${PKGNAM}4_gpl_x11-$VERSION
-tar xvf $CWD/${PKGNAM}4_gpl_x11-$VERSION.tar.?z* || exit 1
+tar xvf $CWD/${PKGNAM}4_gpl_x11-$VERSION.tar.?z || exit 1
 cd ${PKGNAM}4_gpl_x11-$VERSION || exit 1
 
 # Fix phonon detection:

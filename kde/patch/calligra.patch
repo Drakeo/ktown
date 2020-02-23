@@ -1,3 +1,15 @@
 # Fix build against Qt 5.11:
 cat $CWD/patch/calligra/calligra3_qt511.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
+# Fix build against Qt 5.13:
+cat $CWD/patch/calligra/calligra3_qt513.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix build against poppler 0.71:
+#cat $CWD/patch/calligra/calligra3_poppler-0.71.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix build against poppler 0.72:
+#cat $CWD/patch/calligra/calligra3_poppler-0.72.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix build against poppler 0.73:
+#cat $CWD/patch/calligra/calligra3_poppler-0.73.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

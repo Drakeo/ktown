@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2015, 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2015, 2017, 2019  Eric Hameleers, Eindhoven, NL
 # Copyright 2015, 2017  Patrick J. Volkerding, Sebeka, MN, USA
 # All rights reserved.
 #
@@ -22,22 +22,31 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-PKGNAM=opencv
-VERSION=${VERSION:-3.2.0}
-BUILD=${BUILD:-2}
+cd $(dirname $0) ; CWD=$(pwd)
 
-NUMJOBS=${NUMJOBS:--j7}
+PKGNAM=opencv
+VERSION=${VERSION:-4.1.1}
+BUILD=${BUILD:-1}
+
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
 
 # Automatically determine the architecture we're building on:
-MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
-  case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
-    armv7hl) export ARCH=$MARCH ;;
-    arm*)    export ARCH=arm ;;
+  case "$(uname -m)" in
+    i?86) ARCH=i586 ;;
+    arm*) readelf /usr/bin/file -A | egrep -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
     # Unless $ARCH is already set, use uname -m for all other archs:
-    *)       export ARCH=$MARCH ;;
+    *) ARCH=$(uname -m) ;;
   esac
+  export ARCH
+fi
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-${VERSION}-${ARCH}-${BUILD}.txz"
+  exit 0
 fi
 
 if [ "$ARCH" = "i486" ]; then
@@ -57,7 +66,6 @@ else
   LIBDIRSUFFIX=""
 fi
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
@@ -68,6 +76,9 @@ rm -rf $PKGNAM-$VERSION
 tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
 cd $PKGNAM-$VERSION || exit 1
 unzip $CWD/${PKGNAM}_contrib-$VERSION.zip || exit 1
+
+# Remove non-existant include dir from pkgconfig file:
+cat $CWD/patches/opencv_includedir.patch | patch -p1 --verbose || exit 1
 
 chown -R root:root .
 find . \
@@ -92,27 +103,40 @@ cd build
     -DSYSCONF_INSTALL_DIR=/etc \
     -DLIB_SUFFIX=${LIBDIRSUFFIX} \
     -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} \
+    -DBUILD_CUDA_STUBS=OFF \
     -DBUILD_PACKAGE=OFF \
     -DBUILD_PERF_TESTS=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTS=OFF \
     -DBUILD_WITH_DEBUG_INFO=OFF \
     -DENABLE_PRECOMPILED_HEADERS=OFF \
-    -DOPENCV_EXTRA_MODULES_PATH=../${PKGNAM}_contrib-$VERSION/modules \
+    -DWITH_CUDA=OFF \
     -DWITH_FFMPEG=ON \
+    -DWITH_GDAL=OFF \
     -DWITH_IPP=OFF \
     -DWITH_OPENGL=ON \
+    -DWITH_OPENMP=ON \
     -DWITH_QT=ON \
+    -DWITH_XINE=ON \
+    -DOPENCV_ENABLE_NONFREE=ON \
+    -DOPENCV_EXTRA_MODULES_PATH=../${PKGNAM}_contrib-$VERSION/modules \
+    -DOPENCV_GENERATE_PKGCONFIG=ON \
+    -DOPENCV_JNI_INSTALL_PATH=lib${LIBDIRSUFFIX} \
     ..
   make $NUMJOBS VERBOSE=1 || make || exit 1
   make install DESTDIR=$PKG || exit 1
 cd -
+
+# Add a symlink to 'opencv' to make eg. mlt find it:
+ln -s opencv4.pc $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/opencv.pc
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" \
   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
 
 mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
 cp -a COPYING* README* \
+  $PKG/usr/doc/$PKGNAM-$VERSION
+mv $PKG/usr/share/licenses \
   $PKG/usr/doc/$PKGNAM-$VERSION
 
 mkdir -p $PKG/install

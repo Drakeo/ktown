@@ -12,10 +12,6 @@ cat $CWD/post-install/plasma-workspace/scripts/startkwayland \
   > $PKG/usr/bin/startkwayland
 chmod 0755 $PKG/usr/bin/startkwayland
 
-# ck-launch-session is needed for a Wayland session, since we do not have PAM:
-sed -e 's/^Exec=dbus-launch/Exec=ck-launch-session dbus-launch --sh-syntax/' \
-  -i $PKG/usr/share/wayland-sessions/plasmawayland.desktop
-
 # Add a "fail-safe" version of KDE Plasma desktop session.
 # Prefix the name with "z_" because SDDM is braindead:
 mkdir -p $PKG/usr/share/xsessions
@@ -31,8 +27,16 @@ rmdir $PKG/usr/lib$LIBDIRSUFFIX/qt5/plugins/plugins
 mkdir -p $PKG/etc
 mv $PKG//etc/kde/dbus-1 $PKG/etc/
 
-# For shadow, this file needs to be setuid root just like the KDE4 version:
-if [ -f $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass ]; then
-  chmod +s $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass
-fi
+if [ "$SLACKPAM" == "no" ]; then
+  # For shadow, this file needs to be setuid root just like the KDE4 version:
+  if [ -f $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass ]; then
+    chmod +s $PKG/usr/lib$LIBDIRSUFFIX/kcheckpass
+  fi
 
+  # ck-launch-session is needed for a Wayland session, since we do not have PAM:
+  sed -e 's/^Exec=dbus-launch/Exec=ck-launch-session dbus-launch --sh-syntax/' \
+    -i $PKG/usr/share/wayland-sessions/plasmawayland.desktop
+else
+  # Install a PAM file for Plasma5 workspace:
+  install -Dm644 $CWD/post-install/plasma-workspace/pam.d/kde $PKG/etc/pam.d/kde
+fi

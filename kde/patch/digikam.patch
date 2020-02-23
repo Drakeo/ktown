@@ -7,3 +7,6 @@
 #  cat $CWD/patch/digikam/digikam_databasemodel.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 #cd -
 
+# Fix crashes with imagemagick 7 (fixed post digikam 6.4.0):
+cat $CWD/patch/digikam/digikam_imagemagick7.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

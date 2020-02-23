@@ -52,5 +52,12 @@ fi
 
 # Additional cmake flags that are spanned across the KDE modules
 # Do not use "final build" unless we build an actual release.
-export KDE_OPT_ARGS=" -Wno-dev -DBUILD_TESTING=OFF -DKDE4_BUILD_TESTS=OFF -DSITE=\"slackware.com\" -DKDE_DISTRIBUTION_TEXT=\"volkerdi@slackware.com\" "
+export KDE_OPT_ARGS=" -Wno-dev -DBUILD_TESTING=OFF -DSITE=\"slackware.com\" -DKDE_DISTRIBUTION_TEXT=\"volkerdi@slackware.com\" "
+
+# Choose correct options depending on whether PAM is installed:
+if [ -L /lib${LIBDIRSUFFIX}/libpam.so.? ]; then
+  SLACKPAM=${SLACKPAM:-"yes"}
+else
+  SLACKPAM=${SLACKPAM:-"no"}
+fi
 

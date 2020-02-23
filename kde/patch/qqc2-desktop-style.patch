@@ -1,0 +1,5 @@
+# Use scrollbar height as bottom padding, not width.
+# Should be fixed post qqc2-desktop-style 5.67.0):
+cat $CWD/patch/qqc2-desktop-style/qqc2-desktop-style_scrollbar.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }                      
+
+

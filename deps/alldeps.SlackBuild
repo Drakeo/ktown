@@ -15,21 +15,14 @@ QTDIR=/usr/lib${LIBDIRSUFFIX}/qt ; export QTDIR
 
 ALLDEPS=" \
   extra-cmake-modules \
-  ninja \
+  md4c \
   sni-qt \
-  libwacom \
-  libinput \
-  libxkbcommon \
   wayland \
-  hyphen \
-  qt5 \
-  qt5-webkit \
-  SDL_sound \
-  OpenAL \
-  qt-gstreamer \
   qjson \
   phonon \
   phonon-gstreamer \
+  phonon-qt4 \
+  phonon-qt4-gstreamer \
   python-enum34 \
   pyxdg \
   pcaudiolib \
@@ -37,7 +30,6 @@ ALLDEPS=" \
   dotconf \
   flite \
   speech-dispatcher \
-  qt5-speech \
   sip \
   PyQt \
   PyQt5 \
@@ -49,16 +41,12 @@ ALLDEPS=" \
   grantlee \
   grantlee-qt4 \
   poppler \
-  json-glib \
   libdbusmenu-gtk \
   libindicator \
   libappindicator \
   cfitsio \
-  lmdb \
   libdmtx \
   qrencode \
-  libproxy \
-  telepathy \
   hack-font-ttf \
   noto-font-ttf \
   noto-cjk-font-ttf \
@@ -86,11 +74,10 @@ ALLDEPS=" \
   libsass \
   sassc \
   rttr \
+  quazip \
   "
   # Only needed when adding support for Wayland:
   #elogind \
-  # Not needed, conflicts with qt-gstreamer files
-  #qt-gstreamer0 \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

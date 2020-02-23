@@ -493,8 +493,8 @@ KDEMODS=" \
   applications \
   applications-extra \
   applications:umbrello \
-  telepathy \
   "
+  #telepathy \
 
 # Allow for specification of individual packages to be built:
 if [ -z "$1" ]; then

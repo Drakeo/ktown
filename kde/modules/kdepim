@@ -1,5 +1,5 @@
 # kdepim
-kcalcore
+#kcalcore
 akonadi
 # Moved to Frameworks:
 #kholidays
@@ -7,7 +7,7 @@ kpimtextedit
 kidentitymanagement
 kcalutils
 kblog
-kcontacts
+#kcontacts
 libkgapi
 kmime
 ksmtp

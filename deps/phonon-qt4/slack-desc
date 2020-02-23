@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+          |-----handy-ruler------------------------------------------------------|
+phonon-qt4: phonon-qt4 (multimedia framework for KDE4)
+phonon-qt4:
+phonon-qt4: Phonon-qt4 is the multimedia API provided by Qt4 and is the standard
+phonon-qt4: abstraction for handling multimedia streams within the KDE4 Software
+phonon-qt4: Compilation.  Phonon provides an API for multimedia using various
+phonon-qt4: backends (gstreamer, vlc) to handle the lower level I/O.
+phonon-qt4:
+phonon-qt4:
+phonon-qt4:
+phonon-qt4: Homepage:  http://phonon.kde.org
+phonon-qt4:

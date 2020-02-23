@@ -1,0 +1,11 @@
+# Fix build against Qt 5.11 (fixed in 3.2.0):
+#cat $CWD/patch/calligraplan/calligraplan.qt-511.patch | patch -p2 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix build against kcalendarcore (fixed in 3.2.0):
+#cat $CWD/patch/calligraplan/calligraplan.kcalcore.1.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/calligraplan/calligraplan.kcalcore.2.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/calligraplan/calligraplan.kcalendarcore.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+
+# Fix missing include (fixed in 3.2.0):
+#cat $CWD/patch/calligraplan/calligraplan.missingheader.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+

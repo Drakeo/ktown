@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Copyright 2017  Patrick J. Volkerding, Sebeka, MN, USA
-# Copyright 2014, 2017  Eric Hameleers, Eindhoven, NL
+# Copyright 2014, 2017, 2019  Eric Hameleers, Eindhoven, NL
 # All rights reserved.
 #
 #   Permission to use, copy, modify, and distribute this software for
@@ -24,12 +24,14 @@
 # -----------------------------------------------------------------------------
 
 
-PKGNAM=qrencode
-VERSION=${VERSION:-3.4.4}
-BUILD=${BUILD:-1}
-NUMJOBS=${NUMJOBS:-" -j4 "}
+cd $(dirname $0) ; CWD=$(pwd)
 
-CWD=$(pwd)
+PKGNAM=qrencode
+VERSION=${VERSION:-4.0.2}
+BUILD=${BUILD:-1}
+
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
 
@@ -37,7 +39,7 @@ PKG=$TMP/package-$PKGNAM
 MARCH=$( uname -m )
 if [ -z "$ARCH" ]; then
   case "$MARCH" in
-    i?86)    export ARCH=i486 ;;
+    i?86)    export ARCH=i586 ;;
     armv7hl) export ARCH=$MARCH ;;
     armv6hl) export ARCH=$MARCH ;;
     arm*)    export ARCH=arm ;;
@@ -47,7 +49,7 @@ if [ -z "$ARCH" ]; then
 fi
 
 case "$ARCH" in
-  i486)      SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  i?86)      SLKCFLAGS="-O2 -march=${ARCH} -mtune=i686"
              SLKLDFLAGS=""; LIBDIRSUFFIX=""
              ;;
   x86_64)    SLKCFLAGS="-O2 -fPIC"

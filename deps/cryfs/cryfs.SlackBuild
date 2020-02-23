@@ -27,12 +27,8 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PKGNAM=cryfs
-VERSION=${VERSION:-0.10.1}
-<<<<<<< HEAD
-BUILD=${BUILD:-1}
-=======
+VERSION=${VERSION:-0.10.2}
 BUILD=${BUILD:-2}
->>>>>>> upstream/master
 
 TMP=${TMP:-/tmp}
 PKG=$TMP/package-$PKGNAM
@@ -97,8 +93,10 @@ rm -rf $PKG
 mkdir -p $TMP $PKG
 cd $TMP
 rm -rf $PKGNAM-$VERSION
-tar xvf $CWD/$PKGNAM-$VERSION.tar.?z* || exit 1
+mkdir $PKGNAM-$VERSION
 cd $PKGNAM-$VERSION
+tar xvf $CWD/$PKGNAM-$VERSION.tar.?z || exit 1
+rm -rf $CWD/$PKGNAM-$VERSION.tar.?z 
 
 
 # Fix bogus permissions:
@@ -122,14 +120,6 @@ cd build
     -DCMAKE_CXX_FLAGS_RELEASE:STRING="$SLKCFLAGS" \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_MANDIR=/usr/man \
-<<<<<<< HEAD
-    -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-    -DBOOST_INCLUDEDIR=/usr/boost \
-    -Boost_USE_STATIC_LIBS=OFF \
-    -DBUILD_STATIC_LIBS=OFF  \
-    -DBOOST_LIBRARYDIR=/usr/lib${LIBDIRSUFFIX} \
-=======
->>>>>>> upstream/master
     -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
