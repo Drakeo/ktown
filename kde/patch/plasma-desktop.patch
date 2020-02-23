@@ -12,9 +12,9 @@
 
 # KDEBUG #401508): unlock widgets.
 # Fixed in Plasma 5.18.1:
-cat $CWD/patch/plasma-desktop/plasma-desktop_kdebug_417424.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/plasma-desktop/plasma-desktop_kdebug_417424.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
 # KDEBUG #416358): Cannot apply font changes (button remains inactive).
 # Fixed in Plasma 5.18.1:
-cat $CWD/patch/plasma-desktop/plasma-desktop_kdebug_416358.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
+#cat $CWD/patch/plasma-desktop/plasma-desktop_kdebug_416358.patch | patch -p1 --verbose || { touch ${SLACK_KDE_BUILD_DIR}/${PKGNAME}.failed ; continue ; }
 
